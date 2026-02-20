@@ -2,6 +2,14 @@
 
 @section('title', 'Jugadores')
 
+@push('styles')
+    @vite(['resources/css/modules/players.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/modules/players.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">

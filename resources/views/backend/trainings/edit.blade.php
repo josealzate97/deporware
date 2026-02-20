@@ -2,6 +2,14 @@
 
 @section('title', 'Editar Entrenamientos')
 
+@push('styles')
+    @vite(['resources/css/modules/trainings.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/modules/trainings.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">

@@ -2,6 +2,14 @@
 
 @section('title', 'Detalle Personal')
 
+@push('styles')
+    @vite(['resources/css/modules/staff.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/modules/staff.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">

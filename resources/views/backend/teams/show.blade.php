@@ -2,6 +2,14 @@
 
 @section('title', 'Detalle Plantillas')
 
+@push('styles')
+    @vite(['resources/css/modules/teams.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/modules/teams.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">

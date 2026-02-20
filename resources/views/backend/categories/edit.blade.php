@@ -2,6 +2,14 @@
 
 @section('title', 'Editar Categorias')
 
+@push('styles')
+    @vite(['resources/css/modules/categories.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/modules/categories.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">

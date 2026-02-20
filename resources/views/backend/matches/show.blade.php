@@ -2,6 +2,14 @@
 
 @section('title', 'Detalle Partidos')
 
+@push('styles')
+    @vite(['resources/css/modules/matches.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/modules/matches.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">
