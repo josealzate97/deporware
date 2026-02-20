@@ -2,7 +2,7 @@
 <div class="sidebar">
 
     <a href="{{ route('home') }}" class="sidebar-brand d-flex">
-        <span class="sidebar-title">deporware</span>
+        <span class="sidebar-title">DEPORWARE</span>
     </a>
 
     <ul class="sidebar-nav">
@@ -17,38 +17,47 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
+            <a href="#" class="sidebar-link" url="categories">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-tags"></i>
                 </span>
-                <span>Categorías</span>
+                <span>Personal</span>
             </a>
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('products.index') }}" class="sidebar-link" url="products">
+            <a href="#" class="sidebar-link" url="products">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-box"></i>
                 </span>
-                <span>Productos</span>
+                <span>Jugadores</span>
             </a>
         </li>
         
         <li class="sidebar-item">
-            <a href="{{ route('sales.index') }}" class="sidebar-link" url="sales">
+            <a href="#" class="sidebar-link" url="sales">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-shopping-cart"></i>
                 </span>
-                <span>Ventas</span>
+                <span>Categorias</span>
             </a>
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('reports.index') }}" class="sidebar-link" url="reports">
+            <a href="#" class="sidebar-link" url="reports">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-chart-line"></i>
                 </span>
-                <span>Reportes</span>
+                <span>Plantillas</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link" url="reports">
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </span>
+                <span>Partidos</span>
             </a>
         </li>
 
@@ -57,7 +66,7 @@
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-users"></i>
                 </span>
-                <span>Usuarios</span>
+                <span>Entrenamientos</span>
             </a>
         </li>
 
@@ -66,7 +75,7 @@
     <ul class="sidebar-nav sidebar-bottom">
 
         <li class="sidebar-item">
-            <a href="{{ route('settings.index') }}" class="sidebar-link" url="settings">
+            <a href="#" class="sidebar-link" url="settings">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-cog"></i>
                 </span>

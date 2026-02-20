@@ -1,4 +1,13 @@
 /*** LOGIN **/
+:root {
+  --brand-blue: #1b77d3;
+  --brand-blue-dark: #0b4e91;
+  --brand-blue-soft: #e8f1ff;
+  --brand-green: #16a34a;
+  --brand-green-dark: #0f6b3a;
+  --brand-green-soft: #e6f6ed;
+  --accent-gradient: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-green) 100%);
+}
 .login-split *,
 .login-split *::before,
 .login-split *::after {
@@ -44,7 +53,7 @@
 }
 
 .form-control:focus {
-  border-color: #1b77d3;
+  border-color: var(--brand-blue);
   box-shadow: 0 0 0 3px rgba(27, 119, 211, 0.15);
 }
 
@@ -63,14 +72,14 @@
 }
 
 .btn-primary {
-  background: #1b77d3;
-  border-color: #1b77d3;
+  background: var(--accent-gradient);
+  border-color: var(--brand-blue);
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: #155fb8;
-  border-color: #155fb8;
+  background: linear-gradient(135deg, var(--brand-blue-dark) 0%, var(--brand-green) 100%);
+  border-color: var(--brand-blue-dark);
 }
 
 .btn-primary:active {
@@ -105,7 +114,7 @@
 }
 
 .login-panel--brand {
-  background: linear-gradient(135deg, #1b77d3 0%, #3b82f6 45%, #60a5fa 100%);
+  background: linear-gradient(135deg, #1b77d3 0%, #22c55e 60%, #86efac 100%);
   color: #e2e8f0;
   position: relative;
   overflow: hidden;
@@ -130,7 +139,7 @@
 }
 
 .login-panel--brand::after {
-  background: #1e40af;
+  background: #86efac;
   bottom: -80px;
   right: -30px;
 }
@@ -195,8 +204,8 @@
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  background: #e8f1ff;
-  color: #1b77d3;
+  background: linear-gradient(135deg, var(--brand-blue-soft) 0%, var(--brand-green-soft) 100%);
+  color: var(--brand-blue-dark);
   font-size: 20px;
 }
 
@@ -267,8 +276,8 @@
 }
 
 .login-form .btn-primary {
-  background: #1b77d3;
-  border-color: #1b77d3;
+  background: var(--accent-gradient);
+  border-color: var(--brand-blue);
   border-radius: 12px;
 }
 

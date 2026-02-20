@@ -56,7 +56,7 @@
                 </li>
 
                 <li>
-                    <a class="dropdown-item text-dark" href="{{ route('settings.index') }}">
+                    <a class="dropdown-item text-dark" href="#">
                         <i class="fa-solid fa-gear color-primary"></i>&nbsp;&nbsp;
                         Configuración
                     </a>

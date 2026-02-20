@@ -10,13 +10,21 @@
   --breakpoint-xxl: 1400px;
 
   --bg-color: #d0cfcf;
-  --bg-accent-color: #c8e6c9;
+  --bg-accent-color: #e6f6ed;
   --bg-breadcrumb: #f4f4f4;
 
-  --accent-color: #1b77d3;
-  --dark-accent-color: #0b4e91;
-  --blue-100: #e8f1ff;
-  --blue-500: #1b77d3;
+  --brand-blue: #1b77d3;
+  --brand-blue-dark: #0b4e91;
+  --brand-blue-soft: #e8f1ff;
+  --brand-green: #16a34a;
+  --brand-green-dark: #0f6b3a;
+  --brand-green-soft: #e6f6ed;
+  --accent-gradient: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-green) 100%);
+  --accent-color: var(--brand-blue);
+  --dark-accent-color: var(--brand-blue-dark);
+  --accent-green: var(--brand-green);
+  --blue-100: var(--brand-blue-soft);
+  --blue-500: var(--brand-blue);
   --blue-600: #155fb8;
   --blue-shadow: rgba(27, 119, 211, 0.18);
 
@@ -27,7 +35,7 @@
   --gray: #d1d5db;
 
   --warning-color: #ffe082;
-  --success-color: #a5d6a7;
+  --success-color: #c7f0d8;
   --error-color: #ef9a9a;
 
   --secondary-links: #131313;
@@ -108,8 +116,8 @@ html, body {
 }
 
 .hover-success:hover {
-  color: #000000 !important;
-  background-color: #1b77d3 !important;
+  color: #ffffff !important;
+  background-color: var(--brand-green) !important;
 }
 
 /*** HEADER **/
@@ -144,13 +152,13 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #eef2f7;
+  background: var(--accent-gradient);
   border-radius: 10px;
-  color: var(--blue-500);
+  color: #ffffff;
 }
 
 .header-icon:hover {
-  background: #e0e9f6;
+  background: linear-gradient(135deg, var(--brand-blue-dark) 0%, var(--brand-green) 100%);
 }
 
 .header-breadcrumb {
@@ -179,7 +187,7 @@ html, body {
 }
 
 .app-breadcrumb .breadcrumb-active {
-  color: var(--blue-500);
+  color: var(--brand-green);
 }
 
 .header-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
@@ -341,8 +349,8 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--blue-100);
-  color: var(--blue-600);
+  background: linear-gradient(135deg, var(--brand-blue-soft) 0%, var(--brand-green-soft) 100%);
+  color: var(--brand-blue-dark);
   font-size: 18px;
 }
 
@@ -370,7 +378,7 @@ body.theme-dark .section-hero-icon {
   gap: 1rem;
   padding: 1rem 1.25rem;
   border-bottom: 1px solid #eef1f5;
-  background: #d8ebff;
+  background: linear-gradient(90deg, #e8f1ff 0%, #e6f6ed 100%);
 }
 
 /** SETTINGS **/
@@ -516,8 +524,8 @@ body.theme-dark .section-hero-icon {
 }
 
 .sale-code-badge {
-  background: #e8f1ff;
-  color: #1b77d3;
+  background: linear-gradient(135deg, #e8f1ff 0%, #e6f6ed 100%);
+  color: var(--brand-blue-dark);
   font-weight: 700;
   padding: 0.35rem 0.6rem;
   border-radius: 999px;

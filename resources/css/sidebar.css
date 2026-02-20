@@ -3,8 +3,8 @@
     --sidebar-bg: #ffffff;
     --sidebar-width: 250px;
     --sidebar-link-color: #1c1c1e;
-    --sidebar-link-hover-bg: #e8f1ff;
-    --sidebar-link-active-bg: #9cc8ff;
+    --sidebar-link-hover-bg: #e6f6ed;
+    --sidebar-link-active-bg: #d5f0e2;
     --sidebar-link-active-color: #0b4e91;
     --sidebar-border: #e3e7ee;
 }
@@ -47,7 +47,7 @@
 .sidebar-title {
     font-size: 1.7rem;
     letter-spacing: 0.6px;
-    color: #1b77d3;
+    color: var(--brand-blue);
     font-family: 'Manrope', 'Segoe UI', sans-serif;
 }
 
@@ -122,8 +122,8 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    background: #f0f4ff;
-    color: #1b77d3;
+    background: linear-gradient(135deg, #e8f1ff 0%, #e6f6ed 100%);
+    color: var(--brand-blue);
     font-size: 0.95rem;
 }
 
@@ -138,11 +138,11 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
 }
 
 .sidebar-link:hover .sidebar-icon {
-    background: #dbe9ff;
+    background: linear-gradient(135deg, #dbe9ff 0%, #d8f3e3 100%);
 }
 
 .sidebar-link.active .sidebar-icon {
-    background: #1b77d3;
+    background: var(--accent-gradient);
     color: #ffffff;
 }
 
@@ -161,7 +161,7 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
 }
 
 .sidebar .color-primary {
-    color: #1b77d3 !important;
+    color: var(--brand-blue) !important;
 }
 
 
@@ -172,7 +172,7 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
 }
 
 .bg-hover-primary:hover, .bg-hover-primary:focus {
-    background-color: #1b77d3 !important; /* Bootstrap success */
+    background: var(--accent-gradient) !important;
     color: #fff !important;
     transition: background 0.2s, color 0.2s;
 }
