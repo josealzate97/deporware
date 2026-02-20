@@ -10,7 +10,7 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'teams.index',
-                    'icon' => 'fas fa-layer-group',
+                    'icon' => 'fa-solid fa-shield',
                     'label' => 'Plantillas'
                 ]
             ])
@@ -18,15 +18,23 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
 
-                <div class="section-hero-icon">
-                    <i class="fas fa-layer-group"></i>
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                    <div class="section-hero-icon">
+                        <i class="fa-solid fa-shield"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h2 class="fw-bold mb-0">Plantillas</h2>
+                        <div class="text-muted small fw-bold">Configura plantillas y alineaciones.</div>
+                    </div>
                 </div>
 
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Plantillas</h2>
-                    <div class="text-muted small fw-bold">Configura plantillas y alineaciones.</div>
+                <div class="section-hero-actions mt-2 mt-lg-0">
+                    <a href="{{ route('teams.new') }}" class="btn btn-success">
+                        <i class="fa-solid fa-plus me-2"></i> Crear Plantilla
+                    </a>
                 </div>
 
             </div>

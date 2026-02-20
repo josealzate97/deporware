@@ -10,7 +10,7 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'staff.index',
-                    'icon' => 'fas fa-briefcase',
+                    'icon' => 'fa-solid fa-user',
                     'label' => 'Personal'
                 ]
             ])
@@ -18,15 +18,23 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
 
-                <div class="section-hero-icon">
-                    <i class="fas fa-briefcase"></i>
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                    <div class="section-hero-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h2 class="fw-bold mb-0">Personal</h2>
+                        <div class="text-muted small fw-bold">Gestiona el personal del club.</div>
+                    </div>
                 </div>
 
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Personal</h2>
-                    <div class="text-muted small fw-bold">Gestiona el personal del club.</div>
+                <div class="section-hero-actions mt-2 mt-lg-0">
+                    <a href="{{ route('staff.new') }}" class="btn btn-success">
+                        <i class="fa-solid fa-plus me-2"></i> Crear Personal
+                    </a>
                 </div>
 
             </div>

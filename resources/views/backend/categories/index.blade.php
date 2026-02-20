@@ -10,7 +10,7 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'categories.index',
-                    'icon' => 'fas fa-tags',
+                    'icon' => 'fa-solid fa-layer-group',
                     'label' => 'Categorias'
                 ]
             ])
@@ -18,15 +18,23 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
 
-                <div class="section-hero-icon">
-                    <i class="fas fa-tags"></i>
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                    <div class="section-hero-icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h2 class="fw-bold mb-0">Categorias</h2>
+                        <div class="text-muted small fw-bold">Organiza categorias y niveles.</div>
+                    </div>
                 </div>
 
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Categorias</h2>
-                    <div class="text-muted small fw-bold">Organiza categorias y niveles.</div>
+                <div class="section-hero-actions mt-2 mt-lg-0">
+                    <a href="{{ route('categories.new') }}" class="btn btn-success">
+                        <i class="fa-solid fa-plus me-2"></i> Crear Categoria
+                    </a>
                 </div>
 
             </div>
