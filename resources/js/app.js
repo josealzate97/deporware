@@ -8,6 +8,8 @@ window.IMask = IMask;
 window.Alpine = Alpine;
 window.bootstrap = bootstrap;
 
+// Loader animation handled by CSS (no JS needed)
+
 // Crear y mostrar overlay de cargando
 document.addEventListener("DOMContentLoaded", () => {
     

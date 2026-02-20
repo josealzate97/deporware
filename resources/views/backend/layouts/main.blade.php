@@ -38,8 +38,9 @@
         <div id="loading-overlay" class="page-loader-overlay" aria-live="polite">
 
             <div class="page-loader">
-                <div class="page-loader__orbit">
-                    <span></span><span></span><span></span>
+                <div class="page-loader__sport" aria-hidden="true">
+                    <i class="fa-solid fa-futbol loader-ball" aria-hidden="true"></i>
+                    <div class="loader-shadow"></div>
                 </div>
                 <div class="page-loader__text">
                     <strong>Preparando tu panel</strong>
