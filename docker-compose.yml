@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  deporware-php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}-php
+    user: "www-data"
+    volumes:
+      - .:/var/www
+    networks:
+      - deporware
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+
+  deporware-nginx:
+    image: nginx:alpine
+    container_name: ${PROJECT_NAME}-nginx
+    volumes:
+      - .:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - deporware-php
+    networks:
+      - deporware
+      - app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=80"
+      - "traefik.docker.network=app"
+
+  deporware-db:
+    image: mysql:8.0
+    container_name: ${PROJECT_NAME}-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    labels:
+      - traefik.enable=false
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - deporware
+
+  deporware-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${PROJECT_NAME}-phpmyadmin
+    environment:
+      PMA_HOST: ${PROJECT_NAME}-db
+      MYSQL_ROOT_PASSWORD: aaa
+    depends_on:
+      - ${PROJECT_NAME}-db
+    networks:
+      - deporware
+      - app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}-phpmyadmin.rule=Host(`${PHPMYADMIN_DOMAIN_NAME}`)"
+      - "traefik.docker.network=app"
+
+  deporware-vite:
+    image: node:18
+    container_name: ${PROJECT_NAME}-vite
+    working_dir: /app
+    user: "node"
+    volumes:
+      - .:/app
+    command: sh -c "npm install && npm run dev"
+    networks:
+      - deporware
+      - app
+    ports:
+      - "5173:5173" # Puerto por defecto de Vite
+    labels:
+      - traefik.enable=false
+
+volumes:
+  dbdata:
+
+networks:
+  app:
+    external: true
+  deporware:
+    driver: bridge
+
