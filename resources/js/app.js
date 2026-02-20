@@ -1,4 +1,3 @@
-import './sidebar-toggle';
 import * as bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
 import Alpine from 'alpinejs';
@@ -11,6 +10,7 @@ window.bootstrap = bootstrap;
 
 // Crear y mostrar overlay de cargando
 document.addEventListener("DOMContentLoaded", () => {
+    
     Alpine.start();
 
     // console.log("App Js loadead!");
@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     
-
     // Obtén la URL actual sin parámetros ni hash
     const currentPath = window.location.pathname.replace(/^\//, ''); // quita el slash inicial
 

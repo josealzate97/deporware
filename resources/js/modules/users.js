@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
     console.log("Users Js Loaded!");
 
     const searchInput = document.getElementById('usersSearch');
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.addEventListener('input', filterRows);
         roleSelect.addEventListener('change', filterRows);
     }
+    
 });
 
 const notyf = new Notyf();
