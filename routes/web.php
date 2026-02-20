@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DefaultController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\StaffController;
+use App\Http\Controllers\Backend\PlayersController;
+use App\Http\Controllers\Backend\CategoriesController;
+use App\Http\Controllers\Backend\TeamsController;
+use App\Http\Controllers\Backend\MatchesController;
+use App\Http\Controllers\Backend\TrainingsController;
 
 /*
  * ✅ Rutas para landing publica
@@ -38,49 +44,82 @@ Route::middleware('auth')->group(function () {
     Route::post('users/activate/{id}', [UserController::class, 'activate'])->name('users.activate');
 
     /*
-     * ✅ Rutas para vistas CRUD
+     * ✅ Rutas CRUD para Personal / Staff
+     * 
     */
-    Route::prefix('staff')->name('staff.')->group(function () {
-        Route::view('/', 'backend.staff.index')->name('index');
-        Route::view('/new', 'backend.staff.new')->name('new');
-        Route::view('/{id}/edit', 'backend.staff.edit')->name('edit');
-        Route::view('/{id}', 'backend.staff.show')->name('show');
+    Route::prefix('staff')->name('staff.')->controller(StaffController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('players')->name('players.')->group(function () {
-        Route::view('/', 'backend.players.index')->name('index');
-        Route::view('/new', 'backend.players.new')->name('new');
-        Route::view('/{id}/edit', 'backend.players.edit')->name('edit');
-        Route::view('/{id}', 'backend.players.show')->name('show');
+    /*
+     * ✅ Rutas CRUD para Jugadores / Players
+    */
+    Route::prefix('players')->name('players.')->controller(PlayersController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('categories')->name('categories.')->group(function () {
-        Route::view('/', 'backend.categories.index')->name('index');
-        Route::view('/new', 'backend.categories.new')->name('new');
-        Route::view('/{id}/edit', 'backend.categories.edit')->name('edit');
-        Route::view('/{id}', 'backend.categories.show')->name('show');
+    /*
+     * ✅ Rutas CRUD para Categorias / Categories
+    */
+    Route::prefix('categories')->name('categories.')->controller(CategoriesController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('teams')->name('teams.')->group(function () {
-        Route::view('/', 'backend.teams.index')->name('index');
-        Route::view('/new', 'backend.teams.new')->name('new');
-        Route::view('/{id}/edit', 'backend.teams.edit')->name('edit');
-        Route::view('/{id}', 'backend.teams.show')->name('show');
+    /*
+     * ✅ Rutas CRUD para Equipos / Teams
+    */
+    Route::prefix('teams')->name('teams.')->controller(TeamsController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('matches')->name('matches.')->group(function () {
-        Route::view('/', 'backend.matches.index')->name('index');
-        Route::view('/new', 'backend.matches.new')->name('new');
-        Route::view('/{id}/edit', 'backend.matches.edit')->name('edit');
-        Route::view('/{id}', 'backend.matches.show')->name('show');
+    /*
+     * ✅ Rutas CRUD para Partidos / Matches
+    */
+    Route::prefix('matches')->name('matches.')->controller(MatchesController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('trainings')->name('trainings.')->group(function () {
-        Route::view('/', 'backend.trainings.index')->name('index');
-        Route::view('/new', 'backend.trainings.new')->name('new');
-        Route::view('/{id}/edit', 'backend.trainings.edit')->name('edit');
-        Route::view('/{id}', 'backend.trainings.show')->name('show');
+    /*
+     * ✅ Rutas CRUD para Entrenamientos / Trainings
+    */
+    Route::prefix('trainings')->name('trainings.')->controller(TrainingsController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
     });
     
 });
-
