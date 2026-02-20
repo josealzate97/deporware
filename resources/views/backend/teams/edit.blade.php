@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Editar Jugadores')
+@section('title', 'Editar Plantillas')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'jugadores.edit',
-                    'icon' => 'fas fa-futbol',
-                    'label' => 'Editar Jugadores'
+                    'route' => 'teams.edit',
+                    'icon' => 'fas fa-layer-group',
+                    'label' => 'Editar Plantillas'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-futbol"></i>
+                    <i class="fas fa-layer-group"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Editar Jugadores</h2>
-                    <div class="text-muted small fw-bold">Edita la informacion de jugadores.</div>
+                    <h2 class="fw-bold mb-0">Editar Plantillas</h2>
+                    <div class="text-muted small fw-bold">Edita la informacion de teams.</div>
                 </div>
 
             </div>

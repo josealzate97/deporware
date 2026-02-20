@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Partidos')
+@section('title', 'Detalle Partidos')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'partidos.new',
+                    'route' => 'matches.show',
                     'icon' => 'fas fa-flag-checkered',
-                    'label' => 'Nuevo Partidos'
+                    'label' => 'Detalle Partidos'
                 ]
             ])
         @endpush
@@ -25,8 +25,8 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Nuevo Partidos</h2>
-                    <div class="text-muted small fw-bold">Crea un nuevo registro de partidos.</div>
+                    <h2 class="fw-bold mb-0">Detalle Partidos</h2>
+                    <div class="text-muted small fw-bold">Revisa el detalle de matches.</div>
                 </div>
 
             </div>

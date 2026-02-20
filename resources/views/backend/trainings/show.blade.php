@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Detalle Categorias')
+@section('title', 'Detalle Entrenamientos')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'categorias.show',
-                    'icon' => 'fas fa-tags',
-                    'label' => 'Detalle Categorias'
+                    'route' => 'trainings.show',
+                    'icon' => 'fas fa-dumbbell',
+                    'label' => 'Detalle Entrenamientos'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-tags"></i>
+                    <i class="fas fa-dumbbell"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Detalle Categorias</h2>
-                    <div class="text-muted small fw-bold">Revisa el detalle de categorias.</div>
+                    <h2 class="fw-bold mb-0">Detalle Entrenamientos</h2>
+                    <div class="text-muted small fw-bold">Revisa el detalle de trainings.</div>
                 </div>
 
             </div>

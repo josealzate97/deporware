@@ -40,48 +40,47 @@ Route::middleware('auth')->group(function () {
     /*
      * ✅ Rutas para vistas CRUD
     */
-    Route::prefix('personal')->name('personal.')->group(function () {
-        Route::view('/', 'backend.personal.index')->name('index');
-        Route::view('/new', 'backend.personal.new')->name('new');
-        Route::view('/{id}/edit', 'backend.personal.edit')->name('edit');
-        Route::view('/{id}', 'backend.personal.show')->name('show');
+    Route::prefix('staff')->name('staff.')->group(function () {
+        Route::view('/', 'backend.staff.index')->name('index');
+        Route::view('/new', 'backend.staff.new')->name('new');
+        Route::view('/{id}/edit', 'backend.staff.edit')->name('edit');
+        Route::view('/{id}', 'backend.staff.show')->name('show');
     });
 
-    Route::prefix('jugadores')->name('jugadores.')->group(function () {
-        Route::view('/', 'backend.jugadores.index')->name('index');
-        Route::view('/new', 'backend.jugadores.new')->name('new');
-        Route::view('/{id}/edit', 'backend.jugadores.edit')->name('edit');
-        Route::view('/{id}', 'backend.jugadores.show')->name('show');
+    Route::prefix('players')->name('players.')->group(function () {
+        Route::view('/', 'backend.players.index')->name('index');
+        Route::view('/new', 'backend.players.new')->name('new');
+        Route::view('/{id}/edit', 'backend.players.edit')->name('edit');
+        Route::view('/{id}', 'backend.players.show')->name('show');
     });
 
-    Route::prefix('categorias')->name('categorias.')->group(function () {
-        Route::view('/', 'backend.categorias.index')->name('index');
-        Route::view('/new', 'backend.categorias.new')->name('new');
-        Route::view('/{id}/edit', 'backend.categorias.edit')->name('edit');
-        Route::view('/{id}', 'backend.categorias.show')->name('show');
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::view('/', 'backend.categories.index')->name('index');
+        Route::view('/new', 'backend.categories.new')->name('new');
+        Route::view('/{id}/edit', 'backend.categories.edit')->name('edit');
+        Route::view('/{id}', 'backend.categories.show')->name('show');
     });
 
-    Route::prefix('plantillas')->name('plantillas.')->group(function () {
-        Route::view('/', 'backend.plantillas.index')->name('index');
-        Route::view('/new', 'backend.plantillas.new')->name('new');
-        Route::view('/{id}/edit', 'backend.plantillas.edit')->name('edit');
-        Route::view('/{id}', 'backend.plantillas.show')->name('show');
+    Route::prefix('teams')->name('teams.')->group(function () {
+        Route::view('/', 'backend.teams.index')->name('index');
+        Route::view('/new', 'backend.teams.new')->name('new');
+        Route::view('/{id}/edit', 'backend.teams.edit')->name('edit');
+        Route::view('/{id}', 'backend.teams.show')->name('show');
     });
 
-    Route::prefix('partidos')->name('partidos.')->group(function () {
-        Route::view('/', 'backend.partidos.index')->name('index');
-        Route::view('/new', 'backend.partidos.new')->name('new');
-        Route::view('/{id}/edit', 'backend.partidos.edit')->name('edit');
-        Route::view('/{id}', 'backend.partidos.show')->name('show');
+    Route::prefix('matches')->name('matches.')->group(function () {
+        Route::view('/', 'backend.matches.index')->name('index');
+        Route::view('/new', 'backend.matches.new')->name('new');
+        Route::view('/{id}/edit', 'backend.matches.edit')->name('edit');
+        Route::view('/{id}', 'backend.matches.show')->name('show');
     });
 
-    Route::prefix('entrenamientos')->name('entrenamientos.')->group(function () {
-        Route::view('/', 'backend.entrenamientos.index')->name('index');
-        Route::view('/new', 'backend.entrenamientos.new')->name('new');
-        Route::view('/{id}/edit', 'backend.entrenamientos.edit')->name('edit');
-        Route::view('/{id}', 'backend.entrenamientos.show')->name('show');
+    Route::prefix('trainings')->name('trainings.')->group(function () {
+        Route::view('/', 'backend.trainings.index')->name('index');
+        Route::view('/new', 'backend.trainings.new')->name('new');
+        Route::view('/{id}/edit', 'backend.trainings.edit')->name('edit');
+        Route::view('/{id}', 'backend.trainings.show')->name('show');
     });
     
 });
-
 

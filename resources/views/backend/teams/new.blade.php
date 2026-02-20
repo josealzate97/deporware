@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Plantillas')
+@section('title', 'Nuevo Plantillas')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'plantillas.index',
+                    'route' => 'teams.new',
                     'icon' => 'fas fa-layer-group',
-                    'label' => 'Plantillas'
+                    'label' => 'Nuevo Plantillas'
                 ]
             ])
         @endpush
@@ -25,8 +25,8 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Plantillas</h2>
-                    <div class="text-muted small fw-bold">Configura plantillas y alineaciones.</div>
+                    <h2 class="fw-bold mb-0">Nuevo Plantillas</h2>
+                    <div class="text-muted small fw-bold">Crea un nuevo registro de teams.</div>
                 </div>
 
             </div>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            <p class="mb-0 text-muted">Aqui ira el listado principal.</p>
+            <p class="mb-0 text-muted">Vista en construccion.</p>
         </div>
 
     </div>

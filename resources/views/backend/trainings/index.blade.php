@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Jugadores')
+@section('title', 'Entrenamientos')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'jugadores.index',
-                    'icon' => 'fas fa-futbol',
-                    'label' => 'Jugadores'
+                    'route' => 'trainings.index',
+                    'icon' => 'fas fa-dumbbell',
+                    'label' => 'Entrenamientos'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-futbol"></i>
+                    <i class="fas fa-dumbbell"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Jugadores</h2>
-                    <div class="text-muted small fw-bold">Administra los jugadores del equipo.</div>
+                    <h2 class="fw-bold mb-0">Entrenamientos</h2>
+                    <div class="text-muted small fw-bold">Planifica sesiones de entrenamiento.</div>
                 </div>
 
             </div>

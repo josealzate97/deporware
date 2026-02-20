@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Personal')
+@section('title', 'Partidos')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'personal.index',
-                    'icon' => 'fas fa-briefcase',
-                    'label' => 'Personal'
+                    'route' => 'matches.index',
+                    'icon' => 'fas fa-flag-checkered',
+                    'label' => 'Partidos'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-briefcase"></i>
+                    <i class="fas fa-flag-checkered"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Personal</h2>
-                    <div class="text-muted small fw-bold">Gestiona el personal del club.</div>
+                    <h2 class="fw-bold mb-0">Partidos</h2>
+                    <div class="text-muted small fw-bold">Programa y gestiona matches.</div>
                 </div>
 
             </div>

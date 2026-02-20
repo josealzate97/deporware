@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Partidos')
+@section('title', 'Categorias')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'partidos.index',
-                    'icon' => 'fas fa-flag-checkered',
-                    'label' => 'Partidos'
+                    'route' => 'categories.index',
+                    'icon' => 'fas fa-tags',
+                    'label' => 'Categorias'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-flag-checkered"></i>
+                    <i class="fas fa-tags"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Partidos</h2>
-                    <div class="text-muted small fw-bold">Programa y gestiona partidos.</div>
+                    <h2 class="fw-bold mb-0">Categorias</h2>
+                    <div class="text-muted small fw-bold">Organiza categorias y niveles.</div>
                 </div>
 
             </div>

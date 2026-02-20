@@ -9,7 +9,7 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'partidos.edit',
+                    'route' => 'matches.edit',
                     'icon' => 'fas fa-flag-checkered',
                     'label' => 'Editar Partidos'
                 ]
@@ -26,7 +26,7 @@
 
                 <div class="flex-grow-1">
                     <h2 class="fw-bold mb-0">Editar Partidos</h2>
-                    <div class="text-muted small fw-bold">Edita la informacion de partidos.</div>
+                    <div class="text-muted small fw-bold">Edita la informacion de matches.</div>
                 </div>
 
             </div>

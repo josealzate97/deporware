@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Editar Categorias')
+@section('title', 'Nuevo Categorias')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'categorias.edit',
+                    'route' => 'categories.new',
                     'icon' => 'fas fa-tags',
-                    'label' => 'Editar Categorias'
+                    'label' => 'Nuevo Categorias'
                 ]
             ])
         @endpush
@@ -25,8 +25,8 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Editar Categorias</h2>
-                    <div class="text-muted small fw-bold">Edita la informacion de categorias.</div>
+                    <h2 class="fw-bold mb-0">Nuevo Categorias</h2>
+                    <div class="text-muted small fw-bold">Crea un nuevo registro de categories.</div>
                 </div>
 
             </div>

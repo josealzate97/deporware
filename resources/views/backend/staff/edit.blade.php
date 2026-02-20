@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Entrenamientos')
+@section('title', 'Editar Personal')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'entrenamientos.new',
-                    'icon' => 'fas fa-dumbbell',
-                    'label' => 'Nuevo Entrenamientos'
+                    'route' => 'staff.edit',
+                    'icon' => 'fas fa-briefcase',
+                    'label' => 'Editar Personal'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-dumbbell"></i>
+                    <i class="fas fa-briefcase"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Nuevo Entrenamientos</h2>
-                    <div class="text-muted small fw-bold">Crea un nuevo registro de entrenamientos.</div>
+                    <h2 class="fw-bold mb-0">Editar Personal</h2>
+                    <div class="text-muted small fw-bold">Edita la informacion de staff.</div>
                 </div>
 
             </div>

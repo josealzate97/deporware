@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Categorias')
+@section('title', 'Plantillas')
 
 @section('content')
 
@@ -9,9 +9,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'categorias.index',
-                    'icon' => 'fas fa-tags',
-                    'label' => 'Categorias'
+                    'route' => 'teams.index',
+                    'icon' => 'fas fa-layer-group',
+                    'label' => 'Plantillas'
                 ]
             ])
         @endpush
@@ -21,12 +21,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-tags"></i>
+                    <i class="fas fa-layer-group"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Categorias</h2>
-                    <div class="text-muted small fw-bold">Organiza categorias y niveles.</div>
+                    <h2 class="fw-bold mb-0">Plantillas</h2>
+                    <div class="text-muted small fw-bold">Configura plantillas y alineaciones.</div>
                 </div>
 
             </div>

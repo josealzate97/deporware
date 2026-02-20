@@ -17,7 +17,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link" url="categories">
+            <a href="{{ route('staff.index') }}" class="sidebar-link" url="staff">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-user"></i>
                 </span>
@@ -26,7 +26,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link" url="products">
+            <a href="{{ route('players.index') }}" class="sidebar-link" url="players">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-people-group"></i>
                 </span>
@@ -35,7 +35,7 @@
         </li>
         
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link" url="sales">
+            <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-layer-group"></i>
                 </span>
@@ -44,7 +44,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link" url="reports">
+            <a href="{{ route('teams.index') }}" class="sidebar-link" url="teams">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-shield"></i>
                 </span>
@@ -53,7 +53,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link" url="reports">
+            <a href="{{ route('matches.index') }}" class="sidebar-link" url="matches">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-futbol"></i>
                 </span>
@@ -62,7 +62,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('users.index') }}" class="sidebar-link" url="users">
+            <a href="{{ route('trainings.index') }}" class="sidebar-link" url="trainings">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-dumbbell"></i>
                 </span>
