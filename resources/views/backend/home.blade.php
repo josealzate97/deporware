@@ -7,13 +7,7 @@
     <div class="container-fluid p-4">
 
         @push('breadcrumb')
-            @include('backend.components.breadcrumb', [
-                'section' => [
-                    'route' => 'home',
-                    'icon' => 'fas fa-home',
-                    'label' => 'Inicio'
-                ]
-            ])
+            @include('backend.components.breadcrumb')
         @endpush
 
         <div class="card p-4 section-hero">
