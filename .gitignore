@@ -12,10 +12,22 @@
 Homestead.yaml
 Homestead.json
 *.log
-*.lock
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 /storage/*.key
 /storage/debugbar
 /storage/framework/cache/*
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*
+/.phpunit.result.cache
+/bootstrap/cache/*.php
+/storage/app/public
+
+# IDEs and OS files
+.idea/
+.vscode/
+.fleet/
+*.swp
+.DS_Store

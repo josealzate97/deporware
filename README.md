@@ -1,18 +1,17 @@
-# deporware-stock
+# deporware
 
-Sistema de gestión de inventario y ventas desarrollado en Laravel 12, con frontend moderno usando Vite, TailwindCSS y Vue.js.
+Plataforma de gestion deportiva basada en Laravel 12. Este proyecto parte de un sistema de inventario/ventas y se adapta para administrar clubes, categorias, clientes y operaciones relacionadas.
 
-## Características principales
+## Caracteristicas
 
-- Gestión de productos, categorías, clientes y usuarios
-- Registro y control de ventas
-- Exportación de reportes a Excel y PDF (maatwebsite/excel, dompdf)
-- Configuración de impuestos y ajustes generales
-- Autenticación y roles de usuario
+- Gestion de usuarios y roles
+- Modulos de productos, categorias, clientes y ventas (base para gestion deportiva)
+- Reportes con exportacion a Excel y PDF
+- Ajustes y configuracion del sistema
 - Panel administrativo responsivo
-- Integración con Docker y Nginx para despliegue
+- Docker + Nginx + MySQL
 
-## Tecnologías utilizadas
+## Tecnologias
 
 - PHP 8.2+
 - Laravel 12
@@ -21,13 +20,18 @@ Sistema de gestión de inventario y ventas desarrollado en Laravel 12, con front
 - Vue.js
 - Docker
 - Nginx
+- MySQL 8
 
-## Instalación rápida
+## Requisitos
+
+- PHP 8.2+
+- Composer
+- Node 18+
+- MySQL 8
+
+## Instalacion local (sin Docker)
 
 ```bash
-git clone <este-repo>
-cd deporware-stock
-cp .env.example .env # (si tienes un archivo de ejemplo)
 composer install
 npm install
 php artisan key:generate
@@ -35,9 +39,25 @@ php artisan migrate --seed
 npm run dev
 ```
 
-## Uso
+Ajusta los valores de `.env` segun tu entorno.
 
-Accede a http://localhost (o el puerto configurado) para usar el sistema.
+## Instalacion con Docker
+
+1. Configura `.env` con:
+`PROJECT_NAME`, `DOMAIN_NAME`, `PHPMYADMIN_DOMAIN_NAME` y credenciales de base de datos.
+
+2. Levanta los servicios:
+
+```bash
+docker compose up -d --build
+```
+
+Si usas Traefik, asegurate de tener la red externa `app` creada.
+
+## Acceso
+
+- App: http://localhost (o el dominio configurado)
+- Vite: http://localhost:5173
 
 ## Licencia
 
