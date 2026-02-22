@@ -1,0 +1,40 @@
+.section-search {
+  position: relative;
+  width: 320px;
+  max-width: 100%;
+}
+
+.section-search i {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.section-search input {
+  padding-left: 2rem;
+  border-radius: 10px;
+  border: 1px solid #e6ebf2;
+  background: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  height: 40px;
+}
+
+.section-filter {
+  width: 180px;
+  border-radius: 10px;
+  border: 1px solid #e6ebf2;
+  background: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  height: 40px;
+}
+
+@media (max-width: 991.98px) {
+  .section-filter {
+    width: 100%;
+  }
+}
