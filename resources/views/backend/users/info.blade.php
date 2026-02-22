@@ -102,7 +102,7 @@
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Rol</label>
-                                    <select class="form-control" x-model="form.rol" :disabled="!editMode">
+                                    <select class="form-select" x-model="form.rol" :disabled="!editMode">
                                         @foreach($roles as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
                                         @endforeach
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="my-4 text-center" x-show="editMode">
-                    <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold">
+                    <button type="submit" class="btn btn-success btn-lg px-5 fw-bold">
                         <i class="fa fa-save"></i>&nbsp;
                         Actualizar Informacion
                     </button>
