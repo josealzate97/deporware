@@ -72,14 +72,14 @@
 }
 
 .btn-primary {
-  background: var(--accent-gradient);
-  border-color: var(--brand-blue);
+  background: linear-gradient(135deg, var(--brand-green) 0%, #22c55e 100%);
+  border-color: var(--brand-green);
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--brand-blue-dark) 0%, var(--brand-green) 100%);
-  border-color: var(--brand-blue-dark);
+  background: linear-gradient(135deg, var(--brand-green-dark) 0%, #16a34a 100%);
+  border-color: var(--brand-green-dark);
 }
 
 .btn-primary:active {
@@ -114,7 +114,12 @@
 }
 
 .login-panel--brand {
-  background: linear-gradient(135deg, #1b77d3 0%, #22c55e 60%, #86efac 100%);
+  background-image:
+    linear-gradient(120deg, rgba(15, 23, 42, 0.72) 0%, rgba(22, 163, 74, 0.58) 100%),
+    url('https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #e2e8f0;
   position: relative;
   overflow: hidden;
@@ -150,14 +155,27 @@
   z-index: 1;
 }
 
-.brand-content h1 {
-  font-size: 2.4rem;
-  font-weight: 800;
-  margin: 1rem 0 0.5rem;
+.brand-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.6rem;
+}
+
+.brand-title-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 8px;
 }
 
 .brand-content p {
-  color: #cbd5e1;
+  color: #e2e8f0;
   font-weight: 600;
   margin-bottom: 2rem;
 }
@@ -177,15 +195,19 @@
 
 .brand-stats span {
   display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 0.22rem;
 }
 
 .brand-stats strong {
-  color: #e2e8f0;
-  font-weight: 700;
+  display: block;
+  color: #cbd5e1;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .login-hero-icon {
@@ -207,6 +229,12 @@
   background: linear-gradient(135deg, var(--brand-blue-soft) 0%, var(--brand-green-soft) 100%);
   color: var(--brand-blue-dark);
   font-size: 20px;
+}
+
+.login-card-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .login-panel--form {
@@ -276,9 +304,14 @@
 }
 
 .login-form .btn-primary {
-  background: var(--accent-gradient);
-  border-color: var(--brand-blue);
+  background: linear-gradient(135deg, var(--brand-green) 0%, #22c55e 100%);
+  border-color: var(--brand-green);
   border-radius: 12px;
+}
+
+.login-form .btn-primary:hover {
+  background: linear-gradient(135deg, var(--brand-green-dark) 0%, #16a34a 100%);
+  border-color: var(--brand-green-dark);
 }
 
 .login-alert {

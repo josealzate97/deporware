@@ -15,21 +15,20 @@
 
             <div class="brand-content">
 
-                <div class="login-hero-icon">
-                    <i class="fas fa-right-to-bracket"></i>
-                </div>
-
-                <h1>deporware</h1>
-                <p>Gestiona inventario, ventas y reportes con claridad.</p>
+                <h1 class="brand-title">
+                    <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Logo deporware" class="brand-title-logo">
+                    <span>Deporware</span>
+                </h1>
+                <p>Controla inventario deportivo, ventas y operación diaria de tus sedes en un solo lugar.</p>
 
                 <div class="brand-stats">
                     <div>
-                        <span>Panel</span>
-                        <strong>Inteligente</strong>
+                        <span>Gestión</span>
+                        <strong>Clubes y centros</strong>
                     </div>
                     <div>
-                        <span>Datos</span>
-                        <strong>En tiempo real</strong>
+                        <span>Seguimiento</span>
+                        <strong>Estado en tiempo real</strong>
                     </div>
                 </div>
 
@@ -43,11 +42,11 @@
 
                 <div class="login-card__brand">
                     <div class="login-hero-icon login-hero-icon--sm">
-                        <i class="fas fa-right-to-bracket"></i>
+                        <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Logo deporware" class="login-card-logo">
                     </div>
                     <div>
-                        <h2>Bienvenido</h2>
-                        <p>Inicia sesión para continuar</p>
+                        <h2>Bienvenido de nuevo</h2>
+                        <p>Accede para gestionar tu operación deportiva</p>
                     </div>
                 </div>
 
