@@ -17,6 +17,23 @@ use App\Models\User;
 class UserController extends Controller {
 
     /**
+     * Muestra el formulario para crear un usuario.
+     *
+     * @return \Illuminate\View\View
+    */
+    public function create() {
+
+        $roles = [
+            User::ROLE_ROOT => 'Super Admin',
+            User::ROLE_ADMIN => 'Admin',
+            User::ROLE_SALES => 'Cajero',
+        ];
+
+        return view('backend.users.new', compact('roles'));
+
+    }
+
+    /**
      * Muestra la lista de usuarios.
      * 
      * @return \Illuminate\View\View
@@ -52,6 +69,39 @@ class UserController extends Controller {
         ];
         
         return view('backend.users.info', compact('user', 'roles'));
+
+    }
+
+    /**
+     * Crea un nuevo usuario.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+    */
+    public function store(Request $request) {
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'phone' => 'required|string|max:255|unique:users,phone',
+            'rol' => 'required|integer',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'lastname' => $validated['lastname'],
+            'username' => $validated['username'],
+            'phone' => $validated['phone'],
+            'rol' => $validated['rol'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'status' => User::ACTIVE,
+        ]);
+
+        return redirect()->route('users.index');
 
     }
 

@@ -17,7 +17,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('staff.index') }}" class="sidebar-link" url="staff">
+            <a href="{{ route('users.index') }}" class="sidebar-link" url="users">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-user"></i>
                 </span>

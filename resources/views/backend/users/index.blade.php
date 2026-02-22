@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Gestión de Usuario')
+@section('title', 'Usuarios')
 
 @push('styles')
     @vite(['resources/css/modules/users.css'])
@@ -18,23 +18,31 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'users.index',
-                    'icon' => 'fas fa-users',
-                    'label' => 'Gestión de Usuario'
+                    'icon' => 'fa-solid fa-users',
+                    'label' => 'Usuarios'
                 ]
             ])
         @endpush
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
 
-                <div class="section-hero-icon">
-                    <i class="fas fa-users"></i>
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                    <div class="section-hero-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h2 class="fw-bold mb-0">Usuarios</h2>
+                        <div class="text-muted small fw-bold">Administra usuarios, roles y estado de acceso.</div>
+                    </div>
                 </div>
 
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Gestión de Usuarios</h2>
-                    <div class="text-muted small fw-bold">Administra la información y roles de tu equipo.</div>
+                <div class="section-hero-actions mt-2 mt-lg-0">
+                    <a href="{{ route('users.new') }}" class="btn btn-success">
+                        <i class="fa-solid fa-plus me-2"></i> Crear Usuario
+                    </a>
                 </div>
 
             </div>

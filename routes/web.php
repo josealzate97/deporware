@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DefaultController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\StaffController;
 use App\Http\Controllers\Backend\PlayersController;
 use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\TeamsController;
@@ -38,24 +37,13 @@ Route::middleware('auth')->group(function () {
      * ✅ Rutas para usuarios
     */
     Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/new', [UserController::class, 'create'])->name('users.new');
+    Route::post('users/store', [UserController::class, 'store'])->name('users.store');
     Route::get('users/info/{id}', [UserController::class, 'info'])->name('users.info');
+    Route::get('users/edit/{id}', [UserController::class, 'info'])->name('users.edit');
     Route::post('users/update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::post('users/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
     Route::post('users/activate/{id}', [UserController::class, 'activate'])->name('users.activate');
-
-    /*
-     * ✅ Rutas CRUD para Personal / Staff
-     * 
-    */
-    Route::prefix('staff')->name('staff.')->controller(StaffController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/new', 'create')->name('new');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{id}', 'show')->name('show');
-        Route::get('/{id}/edit', 'edit')->name('edit');
-        Route::put('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-    });
 
     /*
      * ✅ Rutas CRUD para Jugadores / Players
