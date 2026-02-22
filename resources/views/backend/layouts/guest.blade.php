@@ -13,7 +13,7 @@
         <title>@yield('title', 'deporware')</title>
 
         <!-- Vite Assets -->
-        @vite(['resources/css/guest.css', 'resources/css/auth.css'])
+        @vite(['resources/css/guest.css', 'resources/css/modules/auth.css'])
 
         @stack('scripts')
     
