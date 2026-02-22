@@ -54,8 +54,8 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm user-menu">
-                    <li class="text-center">
-                        <p class="fw-bold small badge bg-secondary mb-2">
+                    <li class="user-role-badge-wrap">
+                        <p class="fw-bold small badge user-role-badge mb-2">
                             {{
                                 Auth::user()->rol == 1 ? 'Soporte' :
                                 (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
