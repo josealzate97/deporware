@@ -21,7 +21,7 @@
     min-width: var(--sidebar-width);
     background: var(--sidebar-bg);
     color: var(--sidebar-link-color);
-    transition: all 0.3s;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -182,9 +182,32 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
 }
 
 /* Estilos para pantallas pequeñas (móviles y tablets) */
-@media (max-width: 991.98px) {
+@media (max-width: 849.98px) {
+    .wrapper::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1030;
+    }
+
+    .wrapper.sidebar-toggled::after {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     .sidebar {
-        margin-left: calc(var(--sidebar-width) * -1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1040;
+        margin-left: 0;
+        visibility: hidden;
+        transform: translateX(-100%);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
     }
 
     .main-content {
@@ -192,12 +215,13 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
     }
 
     .wrapper.sidebar-toggled .sidebar {
-        margin-left: 0;
+        visibility: visible;
+        transform: translateX(0);
     }
 }
 
 /* Ocultar el botón en pantallas grandes */
-@media (min-width: 992px) {
+@media (min-width: 850px) {
     #sidebar-toggle {
         display: none;
     }

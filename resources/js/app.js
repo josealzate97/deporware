@@ -2,6 +2,7 @@ import * as bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
 import Alpine from 'alpinejs';
 import IMask from 'imask';
+import './sidebar-toggle';
 
 window.Notyf = Notyf;
 window.IMask = IMask;

@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Bienvenido a deporware</h2>
+                    <h2 class="fw-bold mb-0">Bienvenido a Deporware</h2>
                     <div class="text-muted small fw-bold">Panel principal listo para usar.</div>
                 </div>
 
