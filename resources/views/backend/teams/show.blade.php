@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Detalle Plantillas')
+@section('title', 'Información de la Plantilla')
 
 @push('styles')
     @vite(['resources/css/modules/teams.css'])
@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'teams.show',
-                    'icon' => 'fas fa-layer-group',
-                    'label' => 'Detalle Plantillas'
+                    'icon' => 'fa-solid fa-shield',
+                    'label' => 'Información de la Plantilla'
                 ]
             ])
         @endpush
@@ -29,12 +29,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-layer-group"></i>
+                    <i class="fa-solid fa-shield"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Detalle Plantillas</h2>
-                    <div class="text-muted small fw-bold">Revisa el detalle de teams.</div>
+                    <h2 class="fw-bold mb-0">Información de la Plantilla</h2>
+                    <div class="text-muted small fw-bold">Consulta los jugadores que integran la plantilla y su estado actual</div>
                 </div>
 
             </div>

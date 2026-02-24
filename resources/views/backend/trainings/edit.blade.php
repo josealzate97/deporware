@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Editar Entrenamientos')
+@section('title', 'Editar Entrenamiento')
 
 @push('styles')
     @vite(['resources/css/modules/trainings.css'])
@@ -19,7 +19,7 @@
                 'section' => [
                     'route' => 'trainings.edit',
                     'icon' => 'fas fa-dumbbell',
-                    'label' => 'Editar Entrenamientos'
+                    'label' => 'Editar Entrenamiento'
                 ]
             ])
         @endpush
@@ -33,8 +33,8 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Editar Entrenamientos</h2>
-                    <div class="text-muted small fw-bold">Edita la informacion de trainings.</div>
+                    <h2 class="fw-bold mb-0">Editar Entrenamiento</h2>
+                    <div class="text-muted small fw-bold">Actualiza la información de la sesión y ajusta horarios, participantes u objetivos</div>
                 </div>
 
             </div>

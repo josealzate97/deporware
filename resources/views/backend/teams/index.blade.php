@@ -35,13 +35,13 @@
 
                     <div class="flex-grow-1">
                         <h2 class="fw-bold mb-0">Plantillas</h2>
-                        <div class="text-muted small fw-bold">Configura plantillas y alineaciones.</div>
+                        <div class="text-muted small fw-bold">Organiza y controla las plantillas activas por equipo y temporada</div>
                     </div>
                 </div>
 
                 <div class="section-hero-actions mt-2 mt-lg-0">
                     <a href="{{ route('teams.new') }}" class="btn btn-success">
-                        <i class="fa-solid fa-plus me-2"></i> Crear Plantilla
+                        <i class="fa-solid fa-plus-circle me-2"></i> Crear Plantilla
                     </a>
                 </div>
 

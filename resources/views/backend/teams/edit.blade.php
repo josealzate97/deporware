@@ -18,7 +18,7 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'teams.edit',
-                    'icon' => 'fas fa-layer-group',
+                    'icon' => 'fa-solid fa-shield',
                     'label' => 'Editar Plantillas'
                 ]
             ])
@@ -29,12 +29,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-layer-group"></i>
+                    <i class="fa-solid fa-shield"></i>
                 </div>
 
                 <div class="flex-grow-1">
                     <h2 class="fw-bold mb-0">Editar Plantillas</h2>
-                    <div class="text-muted small fw-bold">Edita la informacion de teams.</div>
+                    <div class="text-muted small fw-bold">Ajusta la plantilla según cambios de temporada, transferencias o decisiones técnicas</div>
                 </div>
 
             </div>

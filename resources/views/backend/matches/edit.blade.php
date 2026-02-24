@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'matches.edit',
-                    'icon' => 'fas fa-flag-checkered',
-                    'label' => 'Editar Partidos'
+                    'icon' => 'fa-solid fa-futbol',
+                    'label' => 'Editar Partido'
                 ]
             ])
         @endpush
@@ -29,12 +29,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-flag-checkered"></i>
+                    <i class="fa-solid fa-futbol"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Editar Partidos</h2>
-                    <div class="text-muted small fw-bold">Edita la informacion de matches.</div>
+                    <h2 class="fw-bold mb-0">Editar Partido</h2>
+                    <div class="text-muted small fw-bold">Modifica fecha, equipos participantes o datos relevantes del encuentro</div>
                 </div>
 
             </div>

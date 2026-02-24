@@ -19,7 +19,7 @@
                 'section' => [
                     'route' => 'trainings.show',
                     'icon' => 'fas fa-dumbbell',
-                    'label' => 'Detalle Entrenamientos'
+                    'label' => 'Información del Entrenamiento'
                 ]
             ])
         @endpush
@@ -33,8 +33,8 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Detalle Entrenamientos</h2>
-                    <div class="text-muted small fw-bold">Revisa el detalle de trainings.</div>
+                    <h2 class="fw-bold mb-0">Información del Entrenamiento</h2>
+                    <div class="text-muted small fw-bold">Visualiza planificación, participantes y resultados de la sesión</div>
                 </div>
 
             </div>

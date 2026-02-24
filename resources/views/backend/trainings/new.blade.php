@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Entrenamientos')
+@section('title', 'Nuevo Entrenamiento')
 
 @push('styles')
     @vite(['resources/css/modules/trainings.css'])
@@ -19,7 +19,7 @@
                 'section' => [
                     'route' => 'trainings.new',
                     'icon' => 'fas fa-dumbbell',
-                    'label' => 'Nuevo Entrenamientos'
+                    'label' => 'Nuevo Entrenamiento'
                 ]
             ])
         @endpush
@@ -34,8 +34,8 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Entrenamientos</h2>
-                        <div class="text-muted small fw-bold">Crea un nuevo registro de trainings.</div>
+                        <h2 class="fw-bold mb-0">Nuevo Entrenamiento</h2>
+                        <div class="text-muted small fw-bold">Programa una nueva sesión de entrenamiento y define fecha, categoría y objetivos deportivos</div>
                     </div>
                 </div>
 

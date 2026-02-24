@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Partidos')
+@section('title', 'Nuevo Partido')
 
 @push('styles')
     @vite(['resources/css/modules/matches.css'])
@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'matches.new',
-                    'icon' => 'fas fa-flag-checkered',
-                    'label' => 'Nuevo Partidos'
+                    'icon' => 'fa-solid fa-futbol',
+                    'label' => 'Nuevo Partido'
                 ]
             ])
         @endpush
@@ -30,12 +30,12 @@
 
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                     <div class="section-hero-icon">
-                        <i class="fas fa-flag-checkered"></i>
+                        <i class="fa-solid fa-futbol"></i>
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Partidos</h2>
-                        <div class="text-muted small fw-bold">Crea un nuevo registro de matches.</div>
+                        <h2 class="fw-bold mb-0">Nuevo Partido</h2>
+                        <div class="text-muted small fw-bold">Registra un encuentro oficial o amistoso dentro del calendario deportivo</div>
                     </div>
                 </div>
 

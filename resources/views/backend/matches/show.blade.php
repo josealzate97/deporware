@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Detalle Partidos')
+@section('title', 'Información del Partido')
 
 @push('styles')
     @vite(['resources/css/modules/matches.css'])
@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'matches.show',
-                    'icon' => 'fas fa-flag-checkered',
-                    'label' => 'Detalle Partidos'
+                    'icon' => 'fa-solid fa-futbol',
+                    'label' => 'Información del Partido'
                 ]
             ])
         @endpush
@@ -29,12 +29,12 @@
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
                 <div class="section-hero-icon">
-                    <i class="fas fa-flag-checkered"></i>
+                    <i class="fa-solid fa-futbol"></i>
                 </div>
 
                 <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Detalle Partidos</h2>
-                    <div class="text-muted small fw-bold">Revisa el detalle de matches.</div>
+                    <h2 class="fw-bold mb-0">Información del Partido</h2>
+                    <div class="text-muted small fw-bold">Visualiza marcador, alineaciones y datos clave del encuentro</div>
                 </div>
 
             </div>

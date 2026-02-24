@@ -35,13 +35,13 @@
 
                     <div class="flex-grow-1">
                         <h2 class="fw-bold mb-0">Partidos</h2>
-                        <div class="text-muted small fw-bold">Programa y gestiona partidos.</div>
+                        <div class="text-muted small fw-bold">Administra los encuentros programados, resultados y estado de cada partido</div>
                     </div>
                 </div>
 
                 <div class="section-hero-actions mt-2 mt-lg-0">
                     <a href="{{ route('matches.new') }}" class="btn btn-success">
-                        <i class="fa-solid fa-plus me-2"></i> Crear Partido
+                        <i class="fa-solid fa-plus-circle me-2"></i> Crear Partido
                     </a>
                 </div>
 

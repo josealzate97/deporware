@@ -35,7 +35,7 @@
 
                     <div class="flex-grow-1">
                         <h2 class="fw-bold mb-0">Lista de Jugadores</h2>
-                        <div class="text-muted small fw-bold">Administra los jugadores del equipo.</div>
+                        <div class="text-muted small fw-bold">Organiza, actualiza y controla la información deportiva de cada jugador</div>
                     </div>
                 </div>
 
