@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Role extends Model
+class PlayerContact extends Model
 {
     use HasFactory;
+
+    protected $table = 'players_contacts';
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -16,7 +18,12 @@ class Role extends Model
     protected $fillable = [
         'id',
         'name',
-        'code',
+        'lastname',
+        'email',
+        'phone',
+        'address',
+        'city',
+        'player',
         'status',
     ];
 
@@ -31,15 +38,15 @@ class Role extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (self $role): void {
-            if (empty($role->id)) {
-                $role->id = (string) Str::uuid();
+        static::creating(function (self $contact): void {
+            if (empty($contact->id)) {
+                $contact->id = (string) Str::uuid();
             }
         });
     }
 
-    public function users()
+    public function player()
     {
-        return $this->hasMany(User::class, 'role');
+        return $this->belongsTo(Player::class, 'player');
     }
 }

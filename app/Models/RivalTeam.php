@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Role extends Model
+class RivalTeam extends Model
 {
     use HasFactory;
+
+    protected $table = 'rival_teams';
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -16,14 +18,11 @@ class Role extends Model
     protected $fillable = [
         'id',
         'name',
-        'code',
-        'status',
     ];
 
     protected function casts(): array
     {
         return [
-            'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -31,15 +30,15 @@ class Role extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (self $role): void {
-            if (empty($role->id)) {
-                $role->id = (string) Str::uuid();
+        static::creating(function (self $rival): void {
+            if (empty($rival->id)) {
+                $rival->id = (string) Str::uuid();
             }
         });
     }
 
-    public function users()
+    public function matches()
     {
-        return $this->hasMany(User::class, 'role');
+        return $this->hasMany(MatchModel::class, 'rival');
     }
 }

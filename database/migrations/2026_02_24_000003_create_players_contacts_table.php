@@ -11,12 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('players_contacts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 100);
-            $table->string('code', 20);
+            $table->string('lastname', 100);
+            $table->string('email', 100);
+            $table->string('phone', 20);
+            $table->string('address', 80)->nullable();
+            $table->string('city', 80)->nullable();
+            $table->uuid('player');
             $table->unsignedTinyInteger('status');
             $table->timestamps();
+
+            $table->foreign('player')->references('id')->on('players');
         });
     }
 
@@ -25,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('players_contacts');
     }
 };

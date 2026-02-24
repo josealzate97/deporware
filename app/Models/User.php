@@ -17,38 +17,23 @@ class User extends Authenticatable {
     public $timestamps = true;
     protected $keyType = 'string';
 
-    // Define las columnas personalizadas para las marcas de tiempo
-    const CREATED_AT = 'creation_date';
-    const UPDATED_AT = 'update_date';
-    const DELETED_AT = 'delete_date';
-
-    // Roles
-    const ROLE_ROOT = 1;
-    const ROLE_ADMIN = 2;
-    const ROLE_SALES = 3;
-
-    const ACTIVE = 1;
-    const INACTIVE = 2;
-
     protected $fillable = [
         'id',
         'name',
-        'lastname',
         'email',
+        'phone',
         'username',
+        'role',
+        'specialty',
+        'hired_date',
         'password',
-        'rol',
         'status',
-        'creation_date',
-        'update_date',
-        'delete_date',
     ];
 
-    protected static function boot() {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
+    protected static function booted(): void {
+        static::creating(function (self $user): void {
+            if (empty($user->id)) {
+                $user->id = (string) Str::uuid();
             }
         });
     }
@@ -60,7 +45,6 @@ class User extends Authenticatable {
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -70,12 +54,17 @@ class User extends Authenticatable {
      */
     protected function casts(): array {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'hired_date' => 'datetime',
+            'status' => 'integer',
         ];
     }
 
     public function getAuthIdentifierName() {
         return 'id';
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'role');
     }
 }

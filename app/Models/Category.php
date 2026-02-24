@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Role extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -16,13 +16,14 @@ class Role extends Model
     protected $fillable = [
         'id',
         'name',
-        'code',
+        'year',
         'status',
     ];
 
     protected function casts(): array
     {
         return [
+            'year' => 'integer',
             'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
@@ -31,15 +32,20 @@ class Role extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (self $role): void {
-            if (empty($role->id)) {
-                $role->id = (string) Str::uuid();
+        static::creating(function (self $category): void {
+            if (empty($category->id)) {
+                $category->id = (string) Str::uuid();
             }
         });
     }
 
-    public function users()
+    public function teams()
     {
-        return $this->hasMany(User::class, 'role');
+        return $this->hasMany(Team::class, 'category');
+    }
+
+    public function trainings()
+    {
+        return $this->hasMany(Training::class, 'category');
     }
 }

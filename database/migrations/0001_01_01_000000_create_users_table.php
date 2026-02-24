@@ -14,18 +14,15 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 100);
-            $table->string('lastname', 100);
-            $table->string('email', 100)->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('phone', 100)->unique();
-            $table->string('username', 50)->unique();
-            $table->string('password', 250);
-            $table->integer('rol')->length(9);
-            $table->boolean('status')->default(true);
-            $table->rememberToken();
-            $table->dateTime('creation_date')->nullable();
-            $table->dateTime('update_date')->nullable();
-            $table->dateTime('delete_date')->nullable();
+            $table->string('email', 100);
+            $table->string('phone', 20);
+            $table->string('username', 50);
+            $table->uuid('role');
+            $table->string('specialty', 150)->nullable();
+            $table->dateTime('hired_date');
+            $table->string('password', 255);
+            $table->unsignedTinyInteger('status');
+            $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
