@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'categories.new',
-                    'icon' => 'fas fa-tags',
-                    'label' => 'Nuevo Categorias'
+                    'icon' => 'fa-solid fa-layer-group',
+                    'label' => 'Nueva Categoria Deportiva'
                 ]
             ])
         @endpush
@@ -30,12 +30,12 @@
 
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                     <div class="section-hero-icon">
-                        <i class="fas fa-tags"></i>
+                        <i class="fa-solid fa-layer-group"></i>
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Categorias</h2>
-                        <div class="text-muted small fw-bold">Crea un nuevo registro de categories.</div>
+                        <h2 class="fw-bold mb-0">Nueva Categoria Deportiva</h2>
+                        <div class="text-muted small fw-bold">Crea una nueva categoría para organizar equipos o jugadores según edad, nivel o división</div>
                     </div>
                 </div>
 

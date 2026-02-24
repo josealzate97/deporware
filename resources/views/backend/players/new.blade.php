@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'players.new',
-                    'icon' => 'fas fa-futbol',
-                    'label' => 'Nuevo Jugadores'
+                    'icon' => 'fas fa-people-group',
+                    'label' => 'Nuevo Jugador'
                 ]
             ])
         @endpush
@@ -30,12 +30,12 @@
 
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                     <div class="section-hero-icon">
-                        <i class="fas fa-futbol"></i>
+                        <i class="fas fa-people-group"></i>
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Jugadores</h2>
-                        <div class="text-muted small fw-bold">Crea un nuevo registro de players.</div>
+                        <h2 class="fw-bold mb-0">Nuevo Jugador</h2>
+                        <div class="text-muted small fw-bold">Registra un nuevo jugador en el sistema y completa su información deportiva y personal</div>
                     </div>
                 </div>
 

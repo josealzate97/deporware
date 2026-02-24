@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'users.index',
-                    'icon' => 'fas fa-users',
-                    'label' => 'Gestión de Usuario'
+                    'icon' => 'fas fa-user',
+                    'label' => 'Gestión de Personal Deportivo'
                 ]
             ])
         @endpush
@@ -44,12 +44,12 @@
                         <i class="fa fa-user"></i>
                     </div>
                     <div>
-                        <h3 class="fw-bold mb-1">Información del Usuario</h3>
+                        <h3 class="fw-bold mb-1">Personal Deportivo</h3>
                         <div class="text-muted fw-bold small user-info-subtitle">{{ $user->name }} {{ $user->lastname }}</div>
                     </div>
                 </div>
 
-                <button class="btn btn-outline-primary" @click="toggleEdit">
+                <button class="btn btn-primary" @click="toggleEdit">
                     <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                 </button>
             </div>

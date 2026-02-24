@@ -15,7 +15,7 @@
                 'section' => [
                     'route' => 'users.new',
                     'icon' => 'fas fa-user-plus',
-                    'label' => 'Nuevo Usuario'
+                    'label' => 'Crear Personal Deportivo'
                 ]
             ])
         @endpush
@@ -28,12 +28,12 @@
                         <i class="fa fa-user-plus"></i>
                     </div>
                     <div>
-                        <h3 class="fw-bold mb-1">Nuevo Usuario</h3>
-                        <div class="text-muted fw-bold small user-info-subtitle">Crea un nuevo usuario del sistema</div>
+                        <h3 class="fw-bold mb-1">Crear Personal Deportivo</h3>
+                        <div class="text-muted fw-bold small user-info-subtitle">Crea un nuevo miembro del personal deportivo</div>
                     </div>
                 </div>
 
-                <a href="{{ route('users.index') }}" class="btn btn-outline-primary">
+                <a href="{{ route('users.index') }}" class="btn btn-primary">
                     <i class="fa-solid fa-arrow-left"></i> Volver
                 </a>
             </div>

@@ -19,7 +19,7 @@
                 'section' => [
                     'route' => 'categories.index',
                     'icon' => 'fa-solid fa-layer-group',
-                    'label' => 'Categorias'
+                    'label' => 'Categorias Deportivas'
                 ]
             ])
         @endpush
@@ -34,14 +34,14 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Categorias</h2>
-                        <div class="text-muted small fw-bold">Organiza categorias y niveles.</div>
+                        <h2 class="fw-bold mb-0">Categorias Deportivas</h2>
+                        <div class="text-muted small fw-bold">Visualiza la información general, requisitos y asignaciones de la categoría</div>
                     </div>
                 </div>
 
                 <div class="section-hero-actions mt-2 mt-lg-0">
                     <a href="{{ route('categories.new') }}" class="btn btn-success">
-                        <i class="fa-solid fa-plus me-2"></i> Crear Categoria
+                        <i class="fa-solid fa-plus-circle me-2"></i> Crear Categoria
                     </a>
                 </div>
 

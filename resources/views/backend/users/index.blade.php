@@ -18,8 +18,8 @@
             @include('backend.components.breadcrumb', [
                 'section' => [
                     'route' => 'users.index',
-                    'icon' => 'fa-solid fa-users',
-                    'label' => 'Usuarios'
+                    'icon' => 'fa-solid fa-user',
+                    'label' => 'Personal Deportivo'
                 ]
             ])
         @endpush
@@ -30,18 +30,18 @@
 
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                     <div class="section-hero-icon">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-user"></i>
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Usuarios</h2>
-                        <div class="text-muted small fw-bold">Administra usuarios, roles y estado de acceso.</div>
+                        <h2 class="fw-bold mb-0">Personal Deportivo</h2>
+                        <div class="text-muted small fw-bold">Administra usuarios, roles y estado de acceso para personal deportivo</div>
                     </div>
                 </div>
 
                 <div class="section-hero-actions mt-2 mt-lg-0">
                     <a href="{{ route('users.new') }}" class="btn btn-success">
-                        <i class="fa-solid fa-plus me-2"></i> Crear Usuario
+                        <i class="fa-solid fa-plus-circle me-2"></i> Crear Personal
                     </a>
                 </div>
 

@@ -34,14 +34,14 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Jugadores</h2>
+                        <h2 class="fw-bold mb-0">Lista de Jugadores</h2>
                         <div class="text-muted small fw-bold">Administra los jugadores del equipo.</div>
                     </div>
                 </div>
 
                 <div class="section-hero-actions mt-2 mt-lg-0">
                     <a href="{{ route('players.new') }}" class="btn btn-success">
-                        <i class="fa-solid fa-plus me-2"></i> Crear Jugador
+                        <i class="fa-solid fa-plus-circle me-2"></i> Crear Jugador
                     </a>
                 </div>
 
