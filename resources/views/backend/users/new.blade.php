@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Usuario')
+@section('title', 'Personal Deportivo')
 
 @push('styles')
     @vite(['resources/css/modules/users.css'])
@@ -46,26 +46,31 @@
                 <div class="row g-4">
 
                     <div class="col-12">
+
                         <div class="user-info-section">
+
                             <div class="user-info-section-title">Datos personales</div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Nombres</label>
+                                    <label class="form-label fw-bold">Nombre completo</label>
                                     <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Apellidos</label>
-                                    <input type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario</label>
                                     <input type="text" class="form-control" name="username" value="{{ old('username') }}" required>
                                 </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label class="form-label fw-bold">Especialidad</label>
+                                    <input type="text" class="form-control" name="specialty" value="{{ old('specialty') }}" required>
+                                </div>
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <div class="col-12">
@@ -96,8 +101,11 @@
                                     <label class="form-label fw-bold">Contraseña</label>
                                     <input type="password" class="form-control" name="password" required>
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
 
                 </div>

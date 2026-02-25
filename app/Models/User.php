@@ -17,6 +17,14 @@ class User extends Authenticatable {
     public $timestamps = true;
     protected $keyType = 'string';
 
+    const ACTIVE = 1;
+    const INACTIVE = 0;
+
+    const ROLE_ROOT = 1;
+    const ROLE_ADMIN = 2;
+    const ROLE_STAFF = 3;
+    const ROLE_PLAYER = 4;
+
     protected $fillable = [
         'id',
         'name',

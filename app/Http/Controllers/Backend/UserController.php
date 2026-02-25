@@ -25,8 +25,9 @@ class UserController extends Controller {
 
         $roles = [
             User::ROLE_ROOT => 'Super Admin',
-            User::ROLE_ADMIN => 'Admin',
-            User::ROLE_SALES => 'Cajero',
+            User::ROLE_ADMIN => 'Gerente',
+            User::ROLE_STAFF => 'Entrenador',
+            User::ROLE_PLAYER => 'Jugador',
         ];
 
         return view('backend.users.new', compact('roles'));
@@ -64,8 +65,9 @@ class UserController extends Controller {
         // Roles
         $roles = [
             User::ROLE_ROOT => 'Super Admin',
-            User::ROLE_ADMIN => 'Admin',
-            User::ROLE_SALES => 'Cajero',
+            User::ROLE_ADMIN => 'Gerente',
+            User::ROLE_STAFF => 'Entrenador',
+            User::ROLE_PLAYER => 'Jugador',
         ];
         
         return view('backend.users.info', compact('user', 'roles'));
@@ -82,20 +84,20 @@ class UserController extends Controller {
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+            'specialty' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'phone' => 'required|string|max:255|unique:users,phone',
-            'rol' => 'required|integer',
+            'role' => 'required|integer',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
 
         User::create([
             'name' => $validated['name'],
-            'lastname' => $validated['lastname'],
+            'specialty' => $validated['specialty'],
             'username' => $validated['username'],
             'phone' => $validated['phone'],
-            'rol' => $validated['rol'],
+            'role' => $validated['role'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'status' => User::ACTIVE,
@@ -123,10 +125,10 @@ class UserController extends Controller {
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+            'specialty' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'phone' => 'nullable|string|max:255',
-            'rol' => 'required|integer',
+            'role' => 'required|integer',
             'status' => 'required|integer',
             'email' => 'required|email|max:255',
             'new_password' => 'nullable|string|min:8',
@@ -135,10 +137,10 @@ class UserController extends Controller {
         // Actualiza los datos del usuario
         $user->update([
             'name' => $validated['name'],
-            'lastname' => $validated['lastname'],
+            'specialty' => $validated['specialty'],
             'username' => $validated['username'],
             'phone' => $validated['phone'],
-            'rol' => $validated['rol'],
+            'role' => $validated['role'],
             'email' => $validated['email'],
             'status' => $validated['status'],
         ]);
