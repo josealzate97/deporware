@@ -127,6 +127,7 @@ body.theme-dark .bg-soft-success {
 body.theme-dark .section-toolbar,
 body.theme-dark .sales-action-card,
 body.theme-dark .user-info-section,
+body.theme-dark .info-section,
 body.theme-dark .sales-client-card,
 body.theme-dark .sale-detail-client,
 body.theme-dark .summary-card {
@@ -507,7 +508,9 @@ body.theme-dark .form-modal .modal-title .modal-icon {
 
 body.theme-dark .settings-form-card .form-label,
 body.theme-dark .user-info-form .form-label,
+body.theme-dark .info-form .form-label,
 body.theme-dark .user-info-section-title,
+body.theme-dark .info-section-title,
 body.theme-dark .settings-section-title {
   color: #cbd5e1;
 }

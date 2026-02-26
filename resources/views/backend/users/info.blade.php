@@ -75,8 +75,13 @@
                     <input type="hidden" name="status" x-model="form.status">
 
                     <div class="col-12">
+
                         <div class="user-info-section">
-                            <div class="user-info-section-title">Datos personales</div>
+
+                            <div class="user-info-section-title">
+                                <i class="fa-solid fa-id-card me-2 text-primary"></i>
+                                Datos personales
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -99,8 +104,13 @@
                     </div>
 
                     <div class="col-12">
+                        
                         <div class="user-info-section">
-                            <div class="user-info-section-title">Contacto y acceso</div>
+
+                            <div class="user-info-section-title">
+                                <i class="fa-solid fa-envelope me-2 text-primary"></i>
+                                Contacto y acceso
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">

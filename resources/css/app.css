@@ -134,6 +134,59 @@ html, body {
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
 }
 
+.info-section,
+.user-info-section {
+  border: 1px solid #e5ebf3;
+  border-radius: 14px;
+  background: #f8fafd;
+  padding: 1rem 1rem 1.1rem;
+}
+
+.info-section-title,
+.user-info-section-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #243244;
+  margin-bottom: 0.15rem;
+}
+
+.info-form .form-label,
+.user-info-form .form-label {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.info-form .form-control,
+.info-form .form-select,
+.user-info-form .form-control,
+.user-info-form .form-select {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #d7e0ec;
+  background: #ffffff;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.info-form .form-control:disabled,
+.info-form .form-select:disabled,
+.user-info-form .form-control:disabled,
+.user-info-form .form-select:disabled {
+  background: #eef2f7;
+  color: #374151;
+  border-color: #d8e1ec;
+  opacity: 1;
+}
+
+.info-form .form-control:focus,
+.info-form .form-select:focus,
+.user-info-form .form-control:focus,
+.user-info-form .form-select:focus {
+  border-color: #80b5f0;
+  box-shadow: 0 0 0 0.2rem rgba(27, 119, 211, 0.15);
+}
+
 .section-toolbar {
   display: flex;
   align-items: center;
@@ -198,6 +251,11 @@ html, body {
     padding: 0.5rem 0.9rem;
     border-radius: 10px;
     white-space: nowrap;
+  }
+
+  .info-section,
+  .user-info-section {
+    padding: 0.85rem;
   }
 }
 
@@ -475,6 +533,16 @@ html, body {
 .invalid-input {
   border: 2px solid #dc3545;
   background-color: #f8d7da;
+}
+
+@media (max-width: 575.98px) {
+  .info-form .form-control,
+  .info-form .form-select,
+  .user-info-form .form-control,
+  .user-info-form .form-select {
+    height: 40px;
+    font-size: 0.92rem;
+  }
 }
 
 /* Móviles pequeños (teléfonos en vertical) */
