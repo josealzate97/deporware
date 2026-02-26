@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Entrenamiento')
+@php($isEdit = $isEdit ?? false)
+
+@section('title', $isEdit ? 'Editar Entrenamiento' : 'Nuevo Entrenamiento')
 
 @push('styles')
     @vite(['resources/css/modules/trainings.css'])
@@ -17,9 +19,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'trainings.new',
+                    'route' => $isEdit ? 'trainings.index' : 'trainings.new',
                     'icon' => 'fas fa-dumbbell',
-                    'label' => 'Nuevo Entrenamiento'
+                    'label' => $isEdit ? 'Editar Entrenamiento' : 'Nuevo Entrenamiento'
                 ]
             ])
         @endpush
@@ -34,8 +36,10 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Entrenamiento</h2>
-                        <div class="text-muted small fw-bold">Programa una nueva sesión de entrenamiento y define fecha, categoría y objetivos deportivos</div>
+                        <h2 class="fw-bold mb-0">{{ $isEdit ? 'Editar Entrenamiento' : 'Nuevo Entrenamiento' }}</h2>
+                        <div class="text-muted small fw-bold">
+                            {{ $isEdit ? 'Actualiza la información de la sesión y ajusta horarios, participantes u objetivos' : 'Programa una nueva sesión de entrenamiento y define fecha, categoría y objetivos deportivos' }}
+                        </div>
                     </div>
                 </div>
 

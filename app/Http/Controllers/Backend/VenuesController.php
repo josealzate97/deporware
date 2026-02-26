@@ -24,7 +24,9 @@ class VenuesController extends Controller
     */
     public function create()
     {
-        return view('backend.venues.new');
+        return view('backend.venues.new', [
+            'isEdit' => false,
+        ]);
     }
 
     /**
@@ -57,7 +59,9 @@ class VenuesController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.venues.edit');
+        return view('backend.venues.new', [
+            'isEdit' => true,
+        ]);
     }
 
     /**

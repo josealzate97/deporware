@@ -24,7 +24,9 @@ class TrainingsController extends Controller
     */
     public function create()
     {
-        return view('backend.trainings.new');
+        return view('backend.trainings.new', [
+            'isEdit' => false,
+        ]);
     }
 
     /**
@@ -57,7 +59,9 @@ class TrainingsController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.trainings.edit');
+        return view('backend.trainings.new', [
+            'isEdit' => true,
+        ]);
     }
 
     /**

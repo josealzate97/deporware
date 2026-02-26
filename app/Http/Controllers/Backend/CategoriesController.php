@@ -24,7 +24,9 @@ class CategoriesController extends Controller
     */
     public function create()
     {
-        return view('backend.categories.new');
+        return view('backend.categories.new', [
+            'isEdit' => false,
+        ]);
     }
 
     /**
@@ -57,7 +59,9 @@ class CategoriesController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.categories.edit');
+        return view('backend.categories.new', [
+            'isEdit' => true,
+        ]);
     }
 
     /**

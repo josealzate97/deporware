@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nueva Sede')
+@php($isEdit = $isEdit ?? false)
+
+@section('title', $isEdit ? 'Editar Sede' : 'Nueva Sede')
 
 @push('styles')
     @vite(['resources/css/modules/venues.css'])
@@ -17,9 +19,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'venues.new',
+                    'route' => $isEdit ? 'venues.index' : 'venues.new',
                     'icon' => 'fa-solid fa-building-circle-check',
-                    'label' => 'Nueva Sede'
+                    'label' => $isEdit ? 'Editar Sede' : 'Nueva Sede'
                 ]
             ])
         @endpush
@@ -34,8 +36,10 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nueva Sede</h2>
-                        <div class="text-muted small fw-bold">Registra una nueva sede deportiva con su ubicación y datos de contacto</div>
+                        <h2 class="fw-bold mb-0">{{ $isEdit ? 'Editar Sede' : 'Nueva Sede' }}</h2>
+                        <div class="text-muted small fw-bold">
+                            {{ $isEdit ? 'Modifica los datos de la sede deportiva seleccionada' : 'Registra una nueva sede deportiva con su ubicación y datos de contacto' }}
+                        </div>
                     </div>
                 </div>
 

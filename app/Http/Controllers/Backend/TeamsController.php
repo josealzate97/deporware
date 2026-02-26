@@ -24,7 +24,9 @@ class TeamsController extends Controller
     */
     public function create()
     {
-        return view('backend.teams.new');
+        return view('backend.teams.new', [
+            'isEdit' => false,
+        ]);
     }
 
     /**
@@ -57,7 +59,9 @@ class TeamsController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.teams.edit');
+        return view('backend.teams.new', [
+            'isEdit' => true,
+        ]);
     }
 
     /**

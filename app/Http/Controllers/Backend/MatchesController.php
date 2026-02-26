@@ -24,7 +24,9 @@ class MatchesController extends Controller
     */
     public function create()
     {
-        return view('backend.matches.new');
+        return view('backend.matches.new', [
+            'isEdit' => false,
+        ]);
     }
 
     /**
@@ -57,7 +59,9 @@ class MatchesController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.matches.edit');
+        return view('backend.matches.new', [
+            'isEdit' => true,
+        ]);
     }
 
     /**

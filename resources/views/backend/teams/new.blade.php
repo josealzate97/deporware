@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Plantillas')
+@php($isEdit = $isEdit ?? false)
+
+@section('title', $isEdit ? 'Editar Plantillas' : 'Nuevo Plantillas')
 
 @push('styles')
     @vite(['resources/css/modules/teams.css'])
@@ -17,9 +19,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'teams.new',
+                    'route' => $isEdit ? 'teams.index' : 'teams.new',
                     'icon' => 'fa-solid fa-shield',
-                    'label' => 'Nuevo Plantillas'
+                    'label' => $isEdit ? 'Editar Plantillas' : 'Nuevo Plantillas'
                 ]
             ])
         @endpush
@@ -34,8 +36,10 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nueva Plantilla</h2>
-                        <div class="text-muted small fw-bold">Configura una nueva plantilla asignando jugadores y estructura deportiva</div>
+                        <h2 class="fw-bold mb-0">{{ $isEdit ? 'Editar Plantillas' : 'Nueva Plantilla' }}</h2>
+                        <div class="text-muted small fw-bold">
+                            {{ $isEdit ? 'Ajusta la plantilla según cambios de temporada, transferencias o decisiones técnicas' : 'Configura una nueva plantilla asignando jugadores y estructura deportiva' }}
+                        </div>
                     </div>
                 </div>
 

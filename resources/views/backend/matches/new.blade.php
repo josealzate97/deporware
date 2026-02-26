@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Partido')
+@php($isEdit = $isEdit ?? false)
+
+@section('title', $isEdit ? 'Editar Partido' : 'Nuevo Partido')
 
 @push('styles')
     @vite(['resources/css/modules/matches.css'])
@@ -17,9 +19,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'matches.new',
+                    'route' => $isEdit ? 'matches.index' : 'matches.new',
                     'icon' => 'fa-solid fa-futbol',
-                    'label' => 'Nuevo Partido'
+                    'label' => $isEdit ? 'Editar Partido' : 'Nuevo Partido'
                 ]
             ])
         @endpush
@@ -34,8 +36,10 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Partido</h2>
-                        <div class="text-muted small fw-bold">Registra un encuentro oficial o amistoso dentro del calendario deportivo</div>
+                        <h2 class="fw-bold mb-0">{{ $isEdit ? 'Editar Partido' : 'Nuevo Partido' }}</h2>
+                        <div class="text-muted small fw-bold">
+                            {{ $isEdit ? 'Modifica fecha, equipos participantes o datos relevantes del encuentro' : 'Registra un encuentro oficial o amistoso dentro del calendario deportivo' }}
+                        </div>
                     </div>
                 </div>
 

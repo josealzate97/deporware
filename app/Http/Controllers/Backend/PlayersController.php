@@ -24,7 +24,9 @@ class PlayersController extends Controller
     */
     public function create()
     {
-        return view('backend.players.new');
+        return view('backend.players.new', [
+            'isEdit' => false,
+        ]);
     }
 
     /**
@@ -57,7 +59,9 @@ class PlayersController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.players.edit');
+        return view('backend.players.new', [
+            'isEdit' => true,
+        ]);
     }
 
     /**

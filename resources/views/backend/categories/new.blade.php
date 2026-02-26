@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Categorias')
+@php($isEdit = $isEdit ?? false)
+
+@section('title', $isEdit ? 'Editar Categorias' : 'Nuevo Categorias')
 
 @push('styles')
     @vite(['resources/css/modules/categories.css'])
@@ -17,9 +19,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'categories.new',
+                    'route' => $isEdit ? 'categories.index' : 'categories.new',
                     'icon' => 'fa-solid fa-layer-group',
-                    'label' => 'Nueva Categoria Deportiva'
+                    'label' => $isEdit ? 'Editar Categoria Deportiva' : 'Nueva Categoria Deportiva'
                 ]
             ])
         @endpush
@@ -34,8 +36,10 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nueva Categoria Deportiva</h2>
-                        <div class="text-muted small fw-bold">Crea una nueva categoría para organizar equipos o jugadores según edad, nivel o división</div>
+                        <h2 class="fw-bold mb-0">{{ $isEdit ? 'Editar Categoria Deportiva' : 'Nueva Categoria Deportiva' }}</h2>
+                        <div class="text-muted small fw-bold">
+                            {{ $isEdit ? 'Modifica los datos y parámetros asociados a la categoría deportiva' : 'Crea una nueva categoría para organizar equipos o jugadores según edad, nivel o división' }}
+                        </div>
                     </div>
                 </div>
 

@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Nuevo Jugadores')
+@php($isEdit = $isEdit ?? false)
+
+@section('title', $isEdit ? 'Editar Jugadores' : 'Nuevo Jugadores')
 
 @push('styles')
     @vite(['resources/css/modules/players.css'])
@@ -17,9 +19,9 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'players.new',
+                    'route' => $isEdit ? 'players.index' : 'players.new',
                     'icon' => 'fas fa-people-group',
-                    'label' => 'Nuevo Jugador'
+                    'label' => $isEdit ? 'Editar Jugador' : 'Nuevo Jugador'
                 ]
             ])
         @endpush
@@ -34,8 +36,10 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <h2 class="fw-bold mb-0">Nuevo Jugador</h2>
-                        <div class="text-muted small fw-bold">Registra un nuevo jugador en el sistema y completa su información deportiva y personal</div>
+                        <h2 class="fw-bold mb-0">{{ $isEdit ? 'Editar Jugador' : 'Nuevo Jugador' }}</h2>
+                        <div class="text-muted small fw-bold">
+                            {{ $isEdit ? 'Modifica los datos personales, deportivos y administrativos del jugador' : 'Registra un nuevo jugador en el sistema y completa su información deportiva y personal' }}
+                        </div>
                     </div>
                 </div>
 
