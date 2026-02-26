@@ -17,6 +17,7 @@ class Category extends Model
         'id',
         'name',
         'year',
+        'type',
         'status',
     ];
 
@@ -24,6 +25,7 @@ class Category extends Model
     {
         return [
             'year' => 'integer',
+            'type' => 'integer',
             'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',

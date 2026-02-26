@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('user_venue', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name', 100);
-            $table->integer('year');
-            $table->integer('type');
+            $table->uuid('user');
+            $table->uuid('venue');
             $table->unsignedTinyInteger('status');
             $table->timestamps();
+
+            $table->foreign('user')->references('id')->on('users');
+            $table->foreign('venue')->references('id')->on('sports_venues');
+
+            $table->unique(['user', 'venue']);
         });
     }
 
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('user_venue');
     }
 };

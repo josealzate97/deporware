@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Str;
 
-class Role extends Model
+class UserVenue extends Pivot
 {
-    use HasFactory;
+    protected $table = 'user_venue';
 
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'id',
-        'name',
-        'code',
+        'user',
+        'venue',
         'status',
     ];
 
@@ -31,15 +30,20 @@ class Role extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (self $role): void {
-            if (empty($role->id)) {
-                $role->id = (string) Str::uuid();
+        static::creating(function (self $pivot): void {
+            if (empty($pivot->id)) {
+                $pivot->id = (string) Str::uuid();
             }
         });
     }
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class, 'role');
+        return $this->belongsTo(User::class, 'user');
+    }
+
+    public function venue()
+    {
+        return $this->belongsTo(SportsVenue::class, 'venue');
     }
 }

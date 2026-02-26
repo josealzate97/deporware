@@ -63,4 +63,13 @@ class Team extends Model
     {
         return $this->hasMany(MatchModel::class, 'team');
     }
+
+    // Sedes donde opera este equipo
+    public function venues()
+    {
+        return $this->belongsToMany(SportsVenue::class, 'team_venue', 'team', 'venue')
+                    ->using(TeamVenue::class)
+                    ->withPivot('id', 'status')
+                    ->withTimestamps();
+    }
 }

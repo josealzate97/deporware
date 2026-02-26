@@ -26,20 +26,29 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('players.index') }}" class="sidebar-link" url="players">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-people-group"></i>
-                </span>
-                <span>Jugadores</span>
-            </a>
-        </li>
-        
-        <li class="sidebar-item">
             <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-layer-group"></i>
                 </span>
                 <span>Categorias</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-building-circle-check"></i>
+                </span>
+                <span>Sedes</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="{{ route('players.index') }}" class="sidebar-link" url="players">
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-people-group"></i>
+                </span>
+                <span>Jugadores</span>
             </a>
         </li>
 
@@ -73,6 +82,17 @@
     </ul>
 
     <ul class="sidebar-nav sidebar-bottom">
+
+        <li class="sidebar-item">
+
+            <a href="{{ route('users.info', ['id' => Auth::user()->id]) }}" class="sidebar-link" url="profile">
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-cog"></i>
+                </span>
+                <span>Configuración</span>
+            </a>
+
+        </li>
 
         <li class="sidebar-item">
 

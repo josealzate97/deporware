@@ -20,6 +20,8 @@ class MatchModel extends Model
         'match_date',
         'team',
         'rival',
+        'venue',
+        'location',
         'match_status',
         'match_result',
         'side',
@@ -62,5 +64,11 @@ class MatchModel extends Model
     public function feedback()
     {
         return $this->hasOne(MatchFeedback::class, 'match');
+    }
+
+    // Sede donde se juega el partido (si aplica)
+    public function venue()
+    {
+        return $this->belongsTo(SportsVenue::class, 'venue');
     }
 }

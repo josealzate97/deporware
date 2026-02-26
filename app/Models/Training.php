@@ -18,6 +18,8 @@ class Training extends Model
         'name',
         'category',
         'team',
+        'venue',
+        'location',
         'duration',
         'notes',
         'principal_obj',
@@ -68,5 +70,11 @@ class Training extends Model
     public function attendance()
     {
         return $this->hasMany(TrainingAttendance::class, 'training');
+    }
+
+    // Sede donde se realiza el entrenamiento (si aplica)
+    public function venue()
+    {
+        return $this->belongsTo(SportsVenue::class, 'venue');
     }
 }

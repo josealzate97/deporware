@@ -21,10 +21,9 @@ class User extends Authenticatable {
     const INACTIVE = 0;
 
     const ROLE_ROOT = 1;
-    const ROLE_ADMIN = 2;
-    const ROLE_STAFF = 3;
+    const ROLE_SPORT_MANAGER = 2;
+    const ROLE_COACH = 3;
     const ROLE_COORDINATOR = 4;
-    const ROLE_PLAYER = 5;
 
     protected $fillable = [
         'id',
@@ -71,10 +70,9 @@ class User extends Authenticatable {
     public static function roleOptions(): array {
         return [
             self::ROLE_ROOT => 'Super Admin',
-            self::ROLE_ADMIN => 'Gerente Deportivo',
-            self::ROLE_STAFF => 'Entrenador',
+            self::ROLE_SPORT_MANAGER => 'Gerente Deportivo',
             self::ROLE_COORDINATOR => 'Coordinador',
-            self::ROLE_PLAYER => 'Jugador',
+            self::ROLE_COACH => 'Entrenador',
         ];
     }
 
@@ -84,6 +82,15 @@ class User extends Authenticatable {
 
     public function getAuthIdentifierName() {
         return 'id';
+    }
+
+    // Sedes donde trabaja este usuario
+    public function venues()
+    {
+        return $this->belongsToMany(SportsVenue::class, 'user_venue', 'user', 'venue')
+                    ->using(UserVenue::class)
+                    ->withPivot('id', 'status')
+                    ->withTimestamps();
     }
 
 }

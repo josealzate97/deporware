@@ -112,7 +112,7 @@ class UserController extends Controller {
     */
     public function update(Request $request, $id) {
 
-        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_STAFF], true)) {
+        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER, User::ROLE_COACH], true)) {
             
             return response()->json([
                 'success' => false,
@@ -172,7 +172,7 @@ class UserController extends Controller {
     */
     public function delete($id) {
 
-        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_STAFF], true)) {
+        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER, User::ROLE_COACH], true)) {
             
             return response()->json([
                 'success' => false,
@@ -217,7 +217,10 @@ class UserController extends Controller {
     */
     public function activate($id) {
 
-        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_STAFF], true)) {
+        if (
+            !Auth::check() || !in_array(Auth::user()->role, 
+            [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER, User::ROLE_COACH], true)
+        ) {
             
             return response()->json([
                 'success' => false,

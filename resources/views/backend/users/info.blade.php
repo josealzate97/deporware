@@ -49,7 +49,8 @@
                     </div>
                 </div>
 
-                @if(Auth::check() && in_array(Auth::user()->role, [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_STAFF], true))
+                @if(Auth::check() && in_array(Auth::user()->role, 
+                [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))
                     <button class="btn btn-primary" @click="toggleEdit">
                         <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                     </button>

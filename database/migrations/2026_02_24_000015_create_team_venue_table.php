@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('team_venue', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name', 100);
-            $table->integer('year');
-            $table->integer('type');
+            $table->uuid('team');
+            $table->uuid('venue');
             $table->unsignedTinyInteger('status');
             $table->timestamps();
+
+            $table->foreign('team')->references('id')->on('teams');
+            $table->foreign('venue')->references('id')->on('sports_venues');
+
+            $table->unique(['team', 'venue']);
         });
     }
 
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('team_venue');
     }
 };

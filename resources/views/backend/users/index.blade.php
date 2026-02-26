@@ -103,16 +103,20 @@
                                         <span class="status-pill status-pill-muted">Inactivo</span>
                                     @endif
                                 </td>
+
                                 <td class="text-end">
 
-                                    @if(Auth::check() && in_array(Auth::user()->role, [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_STAFF], true))
+                                    @if(Auth::check() && in_array(Auth::user()->role, 
+                                    [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))
                                         <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit"
                                            aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
                                              <i class="fas fa-edit mt-1"></i>
                                         </a>
                                     @endif
 
-                                    @if(Auth::check() && in_array(Auth::user()->role, [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_STAFF], true))
+                                    @if(Auth::check() && in_array(Auth::user()->role, 
+                                    [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))
+                                        
                                         @if($user->status == \App\Models\User::ACTIVE)
                                         
                                             <button class="btn btn-icon text-danger" data-id="{{ $user->id }}"
@@ -130,6 +134,7 @@
                                             </button>
 
                                         @endif
+
                                     @endif
 
                                 </td>

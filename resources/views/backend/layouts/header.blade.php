@@ -44,10 +44,9 @@
 
                 $roleLabels = [
                     \App\Models\User::ROLE_ROOT => 'Super Admin',
-                    \App\Models\User::ROLE_ADMIN => 'Gerente Deportivo',
-                    \App\Models\User::ROLE_STAFF => 'Entrenador',
-                    \App\Models\User::ROLE_COORDINATOR => 'Coordinador',
-                    \App\Models\User::ROLE_PLAYER => 'Jugador',
+                    \App\Models\User::ROLE_SPORT_MANAGER => 'Gerente Deportivo',
+                    \App\Models\User::ROLE_COACH => 'Entrenador',
+                    \App\Models\User::ROLE_COORDINATOR => 'Coordinador'
                 ];
 
                 $roleName = $roleLabels[Auth::user()->role ?? null] ?? 'Sin rol';
