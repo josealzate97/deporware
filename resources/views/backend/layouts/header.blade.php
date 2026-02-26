@@ -21,12 +21,15 @@
 
         @if(Auth::check())
             @php
+
                 $firstName = trim((string) (Auth::user()->name ?? ''));
                 $lastName = trim((string) (Auth::user()->lastname ?? ''));
                 $fullName = trim($firstName . ' ' . $lastName);
+
                 $fallbackName = trim((string) (Auth::user()->username ?? ''));
                 $displayName = $fullName !== '' ? $fullName : $fallbackName;
                 $initials = '';
+
                 if ($firstName !== '') {
                     $initials .= mb_substr($firstName, 0, 1);
                 }
@@ -36,7 +39,19 @@
                 if ($initials === '') {
                     $initials = mb_substr($fallbackName, 0, 2);
                 }
+
                 $initials = strtoupper($initials);
+
+                $roleLabels = [
+                    \App\Models\User::ROLE_ROOT => 'Super Admin',
+                    \App\Models\User::ROLE_ADMIN => 'Gerente Deportivo',
+                    \App\Models\User::ROLE_STAFF => 'Entrenador',
+                    \App\Models\User::ROLE_COORDINATOR => 'Coordinador',
+                    \App\Models\User::ROLE_PLAYER => 'Jugador',
+                ];
+
+                $roleName = $roleLabels[Auth::user()->role ?? null] ?? 'Sin rol';
+                
             @endphp
 
             <div class="nav-item dropdown">
@@ -45,10 +60,7 @@
                     <span class="user-meta">
                         <span class="user-name">{{ $displayName }}</span>
                         <span class="user-role">
-                            {{
-                                Auth::user()->rol == 1 ? 'Soporte' :
-                                (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
-                            }}
+                            {{ $roleName }}
                         </span>
                     </span>
                 </a>
@@ -56,10 +68,7 @@
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm user-menu">
                     <li class="user-role-badge-wrap">
                         <p class="fw-bold small badge user-role-badge mb-2">
-                            {{
-                                Auth::user()->rol == 1 ? 'Soporte' :
-                                (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
-                            }}
+                            {{ $roleName }}
                         </p>
                     </li>
 
