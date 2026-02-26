@@ -63,9 +63,23 @@ class User extends Authenticatable {
     protected function casts(): array {
         return [
             'password' => 'hashed',
-            'hired_date' => 'datetime',
+            'hired_date' => 'date',
             'status' => 'integer',
         ];
+    }
+
+    public static function roleOptions(): array {
+        return [
+            self::ROLE_ROOT => 'Super Admin',
+            self::ROLE_ADMIN => 'Gerente Deportivo',
+            self::ROLE_STAFF => 'Entrenador',
+            self::ROLE_COORDINATOR => 'Coordinador',
+            self::ROLE_PLAYER => 'Jugador',
+        ];
+    }
+
+    public function getRoleLabelAttribute(): string {
+        return static::roleOptions()[$this->role] ?? 'Sin rol';
     }
 
     public function getAuthIdentifierName() {

@@ -60,9 +60,9 @@
                 <label class="visually-hidden" for="usersRoleFilter">Filtrar por rol</label>
                 <select class="form-select form-select-sm section-filter" id="usersRoleFilter">
                     <option value="">Todos los roles</option>
-                    <option value="1">Super Admin</option>
-                    <option value="2">Admin</option>
-                    <option value="3">Cajero</option>
+                    @foreach($roles as $key => $label)
+                        <option value="{{ $key }}">{{ $label }}</option>
+                    @endforeach
                 </select>
             </div>
             
@@ -86,7 +86,7 @@
 
                         @foreach($users as $user)
 
-                            <tr data-id="{{ $user->id }}" data-role="{{ $user->rol }}">
+                            <tr data-id="{{ $user->id }}" data-role="{{ $user->role }}">
                                 <td>
                                     <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
                                     <div class="text-muted small">{{ $user->username }}</div>
@@ -94,7 +94,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>
                                 <td class="text-center">
-                                    {{ $user->rol == 1 ? 'Super Admin' : ($user->rol == 2 ? 'Admin' : 'Cajero') }}
+                                    {{ $user->role_label }}
                                 </td>
                                 <td>
                                     @if($user->status == \App\Models\User::ACTIVE)
@@ -105,27 +105,31 @@
                                 </td>
                                 <td class="text-end">
 
-                                    <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit"
-                                       aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
-                                         <i class="fas fa-edit mt-1"></i>
-                                    </a>
+                                    @if(Auth::check() && in_array(Auth::user()->role, [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_STAFF], true))
+                                        <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit"
+                                           aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
+                                             <i class="fas fa-edit mt-1"></i>
+                                        </a>
+                                    @endif
 
-                                    @if($user->status == \App\Models\User::ACTIVE)
+                                    @if(Auth::check() && in_array(Auth::user()->role, [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_STAFF], true))
+                                        @if($user->status == \App\Models\User::ACTIVE)
                                         
-                                        <button class="btn btn-icon text-danger" data-id="{{ $user->id }}"
-                                            aria-label="Desactivar usuario {{ $user->name }} {{ $user->lastname }}" title="Desactivar usuario {{ $user->name }} {{ $user->lastname }}"
-                                            onclick="deleteUser(this.getAttribute('data-id'))">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                            <button class="btn btn-icon text-danger" data-id="{{ $user->id }}"
+                                                aria-label="Desactivar usuario {{ $user->name }} {{ $user->lastname }}" title="Desactivar usuario {{ $user->name }} {{ $user->lastname }}"
+                                                onclick="deleteUser(this.getAttribute('data-id'))">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
 
-                                    @else
+                                        @else
 
-                                        <button class="btn btn-icon text-success" data-id="{{ $user->id }}"
-                                            aria-label="Activar usuario {{ $user->name }} {{ $user->lastname }}" title="Activar usuario {{ $user->name }} {{ $user->lastname }}"
-                                            onclick="activateUser(this.getAttribute('data-id'))">
-                                            <i class="fas fa-check"></i>
-                                        </button>
+                                            <button class="btn btn-icon text-success" data-id="{{ $user->id }}"
+                                                aria-label="Activar usuario {{ $user->name }} {{ $user->lastname }}" title="Activar usuario {{ $user->name }} {{ $user->lastname }}"
+                                                onclick="activateUser(this.getAttribute('data-id'))">
+                                                <i class="fas fa-check"></i>
+                                            </button>
 
+                                        @endif
                                     @endif
 
                                 </td>

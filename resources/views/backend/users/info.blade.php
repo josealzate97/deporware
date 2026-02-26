@@ -26,15 +26,15 @@
 
         <div class="card p-4 user-info-card" x-data="userForm({
             name: '{{ $user->name }}',
-            lastname: '{{ $user->lastname }}',
             username: '{{ $user->username }}',
             phone: '{{ $user->phone }}',
-            rol: '{{ $user->rol }}',
+            role: '{{ $user->role }}',
             password: '{{ $user->password }}',
             showPassword: false,
             email: '{{ $user->email }}',
+            hired_date: '{{ $user->hired_date?->format('Y-m-d') ?? '' }}',
             id: '{{ $user->id }}',
-            status: '{{ $user->status }}',
+            status: '{{ $user->status }}'
         })">
 
 
@@ -49,9 +49,11 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary" @click="toggleEdit">
-                    <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
-                </button>
+                @if(Auth::check() && in_array(Auth::user()->role, [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_STAFF], true))
+                    <button class="btn btn-primary" @click="toggleEdit">
+                        <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
+                    </button>
+                @endif
             </div>
 
             <div class="user-info-divider"></div>
@@ -68,19 +70,20 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Nombres</label>
+                                    <label class="form-label fw-bold">Nombre completo</label>
                                     <input type="text" class="form-control" x-model="form.name" :disabled="!editMode">
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Apellidos</label>
-                                    <input type="text" class="form-control" x-model="form.lastname" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario</label>
                                     <input type="text" class="form-control" x-model="form.username" :disabled="!editMode">
                                 </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label class="form-label fw-bold">Fecha de contrato</label>
+                                    <input type="date" class="form-control" x-model="form.hired_date" :disabled="!editMode">
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -102,7 +105,7 @@
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Rol</label>
-                                    <select class="form-select" x-model="form.rol" :disabled="!editMode">
+                                    <select class="form-select" x-model="form.role" :disabled="!editMode">
                                         @foreach($roles as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
                                         @endforeach

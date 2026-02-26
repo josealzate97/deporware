@@ -23,13 +23,7 @@ class UserController extends Controller {
     */
     public function create() {
 
-        $roles = [
-            User::ROLE_ROOT => 'Super Admin',
-            User::ROLE_ADMIN => 'Gerente Deportivo',
-            User::ROLE_STAFF => 'Entrenador',
-            User::ROLE_COORDINATOR => 'Coordinador',
-            User::ROLE_PLAYER => 'Jugador',
-        ];
+        $roles = User::roleOptions();
 
         return view('backend.users.new', compact('roles'));
 
@@ -44,8 +38,9 @@ class UserController extends Controller {
     public function index() {
 
         $users = User::orderBy('name', 'asc')->paginate(10);
+        $roles = User::roleOptions();
         
-        return view('backend.users.index', compact('users'));
+        return view('backend.users.index', compact('users', 'roles'));
 
     }
 
@@ -64,13 +59,7 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
 
         // Roles
-        $roles = [
-            User::ROLE_ROOT => 'Super Admin',
-            User::ROLE_ADMIN => 'Gerente Deportivo',
-            User::ROLE_STAFF => 'Entrenador',
-            User::ROLE_COORDINATOR => 'Coordinador',
-            User::ROLE_PLAYER => 'Jugador',
-        ];
+        $roles = User::roleOptions();
         
         return view('backend.users.info', compact('user', 'roles'));
 
@@ -89,6 +78,7 @@ class UserController extends Controller {
             'username' => 'required|string|max:255|unique:users,username',
             'phone' => 'required|string|max:255|unique:users,phone',
             'role' => 'required|integer',
+            'hired_date' => 'required|date',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
@@ -98,6 +88,7 @@ class UserController extends Controller {
             'username' => $validated['username'],
             'phone' => $validated['phone'],
             'role' => $validated['role'],
+            'hired_date' => $validated['hired_date'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'status' => User::ACTIVE,
@@ -121,6 +112,15 @@ class UserController extends Controller {
     */
     public function update(Request $request, $id) {
 
+        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_STAFF], true)) {
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para editar usuarios.'
+            ], 403);
+
+        }
+
         $user = User::findOrFail($id);
 
         $validated = $request->validate([
@@ -128,6 +128,7 @@ class UserController extends Controller {
             'username' => 'required|string|max:255',
             'phone' => 'nullable|string|max:255',
             'role' => 'required|integer',
+            'hired_date' => 'required|date',
             'status' => 'required|integer',
             'email' => 'required|email|max:255',
             'new_password' => 'nullable|string|min:8',
@@ -139,6 +140,7 @@ class UserController extends Controller {
             'username' => $validated['username'],
             'phone' => $validated['phone'],
             'role' => $validated['role'],
+            'hired_date' => $validated['hired_date'],
             'email' => $validated['email'],
             'status' => $validated['status'],
         ]);
@@ -170,6 +172,15 @@ class UserController extends Controller {
     */
     public function delete($id) {
 
+        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_STAFF], true)) {
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para desactivar usuarios.'
+            ], 403);
+
+        }
+
         // Buscamos el usuario por ID        
         $user = User::findOrFail($id);
 
@@ -177,9 +188,19 @@ class UserController extends Controller {
         $user->update(['status' => User::INACTIVE]);
         $user->save();
 
+        $isSelf = Auth::check() && (string) Auth::id() === (string) $user->id;
+
+        if ($isSelf) {
+            Auth::logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+        }
+
         return response()->json([
             'success' => true, 
-            'message' => 'Usuario eliminado correctamente'
+            'message' => 'Usuario eliminado correctamente',
+            'logout' => $isSelf,
+            'redirect' => $isSelf ? route('login') : null,
         ]);
 
     }
@@ -195,6 +216,15 @@ class UserController extends Controller {
      * Retorna una respuesta JSON indicando el éxito o error de la operación.
     */
     public function activate($id) {
+
+        if (!Auth::check() || !in_array(Auth::user()->role, [User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_STAFF], true)) {
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para activar usuarios.'
+            ], 403);
+
+        }
 
         $user = User::findOrFail($id);
 

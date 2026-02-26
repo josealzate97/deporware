@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->string('username', 50);
             $table->integer('role');
-            $table->dateTime('hired_date');
+            $table->date('hired_date');
             $table->string('password', 255);
             $table->unsignedTinyInteger('status');
             $table->timestamps();

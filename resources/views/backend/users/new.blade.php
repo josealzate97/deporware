@@ -63,8 +63,8 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Especialidad</label>
-                                    <input type="text" class="form-control" name="specialty" value="{{ old('specialty') }}" required>
+                                    <label class="form-label fw-bold">Fecha de contrato</label>
+                                    <input type="date" class="form-control" name="hired_date" value="{{ old('hired_date') }}" required>
                                 </div>
 
                             </div>
@@ -90,9 +90,9 @@
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Rol</label>
-                                    <select class="form-select" name="rol" required>
+                                    <select class="form-select" name="role" required>
                                         @foreach($roles as $key => $label)
-                                            <option value="{{ $key }}" {{ old('rol') == $key ? 'selected' : '' }}>{{ $label }}</option>
+                                            <option value="{{ $key }}" {{ old('role') == $key ? 'selected' : '' }}>{{ $label }}</option>
                                         @endforeach
                                     </select>
                                 </div>

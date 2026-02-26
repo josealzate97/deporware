@@ -134,7 +134,15 @@ async function deleteUser(userId) {
 
         if (response.ok) {
 
-            notyf.success('Usuario marcado como inactivo correctamente');
+            const payload = await response.json();
+            notyf.success(payload.message || 'Usuario marcado como inactivo correctamente');
+
+            if (payload.logout && payload.redirect) {
+                setTimeout(() => {
+                    window.location.href = payload.redirect;
+                }, 800);
+                return;
+            }
 
             const badge = document.querySelector(`tr[data-id="${userId}"] .badge`);
             
