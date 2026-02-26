@@ -114,8 +114,8 @@
 }
 
 .login-panel--brand {
-  background-image: url('../images/backgrounds/bg_football_1.jpg');
-  background-size: 100%;
+  background-image: url('../../images/backgrounds/bg_nfl.jpg');
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: #f6f6f6;
@@ -123,11 +123,22 @@
   overflow: hidden;
 }
 
+.login-panel--brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
 
 .brand-content {
   max-width: 420px;
   position: relative;
   z-index: 1;
+  padding: 1.5rem 2rem;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
 }
 
 .brand-title {
