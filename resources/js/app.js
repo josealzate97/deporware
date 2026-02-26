@@ -61,32 +61,76 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Máscara para teléfono
-    const phoneInputs = document.querySelectorAll('.mask-phone');
+    const getCountry = () => document.body?.dataset?.country || '';
+    const getCurrency = () => document.body?.dataset?.currency || '';
 
-    phoneInputs.forEach(input => {
-        IMask(input, {
-            mask: '+{34} 000 000 000', // Ejemplo para España (+34)
-        });
-    });
+    const phoneMaskByCountry = (country) => {
+        if (country === 'CO') return '+{57} 000 000 0000';
+        if (country === 'ES') return '+{34} 000 000 000';
+        return '+{34} 000 000 000';
+    };
 
-    // Máscara para dinero (euros)
-    const moneyInputs = document.querySelectorAll('.mask-money');
+    const moneyMaskConfig = (currency) => {
+        if (currency === 'COP') {
+            return {
+                mask: Number,
+                scale: 0,
+                signed: false,
+                thousandsSeparator: '.',
+                radix: ',',
+                padFractionalZeros: false,
+                normalizeZeros: true,
+                min: 0,
+                max: 9999999999,
+            };
+        }
 
-    moneyInputs.forEach(input => {
-        IMask(input, {
+        return {
             mask: Number,
-            scale: 2, // Número de decimales
-            signed: false, // No permite valores negativos
-            thousandsSeparator: ',', // Separador de miles
-            radix: '.', // Separador decimal
-            mapToRadix: ['.'], // Permite usar "." como separador decimal
-            padFractionalZeros: true, // Rellena con ceros los decimales
-            normalizeZeros: true, // Normaliza los ceros al editar
-            min: 0, // Valor mínimo
-            max: 9999999999.99, // Valor máximo
-            
+            scale: 2,
+            signed: false,
+            thousandsSeparator: ',',
+            radix: '.',
+            mapToRadix: ['.'],
+            padFractionalZeros: true,
+            normalizeZeros: true,
+            min: 0,
+            max: 9999999999.99,
+        };
+    };
+
+    const applyPhoneMasks = () => {
+        const mask = phoneMaskByCountry(getCountry());
+        document.querySelectorAll('.mask-phone').forEach(input => {
+            if (input._imask) {
+                input._imask.destroy();
+            }
+            input._imask = IMask(input, { mask });
         });
+    };
+
+    const applyMoneyMasks = () => {
+        const config = moneyMaskConfig(getCurrency());
+        document.querySelectorAll('.mask-money').forEach(input => {
+            if (input._imask) {
+                input._imask.destroy();
+            }
+            input._imask = IMask(input, config);
+        });
+    };
+
+    applyPhoneMasks();
+    applyMoneyMasks();
+
+    window.addEventListener('app:config-updated', (event) => {
+        if (event?.detail?.country) {
+            document.body.dataset.country = event.detail.country;
+        }
+        if (event?.detail?.currency) {
+            document.body.dataset.currency = event.detail.currency;
+        }
+        applyPhoneMasks();
+        applyMoneyMasks();
     });
 
 });

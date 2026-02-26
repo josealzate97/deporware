@@ -29,7 +29,7 @@
 
     </head>
 
-    <body>
+    <body data-country="{{ $uiCountry ?? '' }}" data-currency="{{ $uiCurrency ?? '' }}">
 
         <script>
 

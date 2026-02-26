@@ -50,6 +50,9 @@ class ConfigurationsController extends Controller
         $config->fill($request->only($config->getFillable()));
         $config->save();
 
+        session()->put('config_country', $config->country);
+        session()->put('config_currency', $config->currency);
+
         if ($request->expectsJson()) {
             return response()->json([
                 'message' => 'Configuración actualizada.',

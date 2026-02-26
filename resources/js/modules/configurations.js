@@ -10,6 +10,8 @@ document.addEventListener('alpine:init', () => {
         init() {
             this.applyConfig(initial);
             this.fetchConfig(indexUrl);
+            this.$watch('form.country', () => this.updateAppConfig());
+            this.$watch('form.currency', () => this.updateAppConfig());
         },
 
         defaultForm() {
@@ -108,6 +110,7 @@ document.addEventListener('alpine:init', () => {
 
                 const payload = await response.json();
                 this.applyConfig(payload.config || this.form);
+                this.updateAppConfig();
                 this.isEditing = false;
                 this.hasConfig = true;
                 this.notifySuccess(payload.message || 'Configuración actualizada.');
@@ -116,6 +119,21 @@ document.addEventListener('alpine:init', () => {
             } finally {
                 this.isSaving = false;
             }
+        },
+
+        updateAppConfig() {
+            if (document.body) {
+                document.body.dataset.country = this.form.country || '';
+                document.body.dataset.currency = this.form.currency || '';
+            }
+            window.dispatchEvent(
+                new CustomEvent('app:config-updated', {
+                    detail: {
+                        country: this.form.country || '',
+                        currency: this.form.currency || '',
+                    },
+                })
+            );
         },
 
         getCsrfToken() {
