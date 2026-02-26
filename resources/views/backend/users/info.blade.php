@@ -51,9 +51,18 @@
 
                 @if(Auth::check() && in_array(Auth::user()->role, 
                 [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))
-                    <button class="btn btn-primary" @click="toggleEdit">
-                        <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-primary" x-show="!editMode" @click="enableEdit" :disabled="isSaving">
+                            <i class="fa fa-edit"></i> Editar
+                        </button>
+                        <button type="button" class="btn btn-danger" x-show="editMode" @click="cancelEdit" :disabled="isSaving">
+                            <i class="fa fa-trash"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-success" x-show="editMode" @click="saveUser" :disabled="isSaving">
+                            <span x-show="!isSaving"><i class="fa fa-save"></i> Guardar</span>
+                            <span x-show="isSaving"><i class="fa fa-save"></i> Guardando...</span>
+                        </button>
+                    </div>
                 @endif
             </div>
 
@@ -121,13 +130,6 @@
                         </div>
                     </div>
 
-                </div>
-
-                <div class="my-4 text-center" x-show="editMode">
-                    <button type="submit" class="btn btn-success btn-lg px-5 fw-bold">
-                        <i class="fa fa-save"></i>&nbsp;
-                        Actualizar Informacion
-                    </button>
                 </div>
 
             </form>

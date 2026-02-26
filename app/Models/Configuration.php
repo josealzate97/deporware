@@ -97,6 +97,34 @@ class Configuration extends Model
         ];
     }
 
+    public static function currencyOptions(): array
+    {
+        return [
+            self::CURRENCY_COP => 'COP',
+            self::CURRENCY_EUR => 'EUR',
+            self::CURRENCY_USD => 'USD',
+        ];
+    }
+
+    public static function timezoneOptions(): array
+    {
+        return [
+            self::TIMEZONE_BOGOTA => 'America/Bogota',
+            self::TIMEZONE_MADRID => 'Europe/Madrid',
+            self::TIMEZONE_NEW_YORK => 'America/New_York',
+            self::TIMEZONE_BRASIL => 'America/Sao_Paulo',
+            self::TIMEZONE_BUENOS_AIRES => 'America/Argentina/Buenos_Aires',
+        ];
+    }
+
+    public static function localeOptions(): array
+    {
+        return [
+            self::LOCALE_ES_CO => 'es_CO',
+            self::LOCALE_ES_ES => 'es_ES',
+        ];
+    }
+
     public static function currencyByCountry(): array
     {
         return [

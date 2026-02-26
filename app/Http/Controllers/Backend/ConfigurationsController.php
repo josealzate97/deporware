@@ -17,10 +17,19 @@ class ConfigurationsController extends Controller
     {
         $config = Configuration::first();
 
+        if (request()->expectsJson()) {
+            return response()->json([
+                'config' => $config,
+            ]);
+        }
+
         return view('backend.configurations.index', [
             'config' => $config,
             'sports' => Configuration::sportOptions(),
             'countries' => Configuration::countryOptions(),
+            'currencies' => Configuration::currencyOptions(),
+            'timezones' => Configuration::timezoneOptions(),
+            'locales' => Configuration::localeOptions(),
         ]);
     }
 
@@ -40,6 +49,13 @@ class ConfigurationsController extends Controller
 
         $config->fill($request->only($config->getFillable()));
         $config->save();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Configuración actualizada.',
+                'config' => $config,
+            ]);
+        }
 
         return redirect()->route('configurations.index');
     }

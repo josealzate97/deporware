@@ -42,12 +42,21 @@ window.userForm = function (userData) {
     
     return {
         editMode: false,
+        isSaving: false,
         isPasswordValid: true, // Estado inicial de la validación de la contraseña
         form: { ...userData, new_password: '' },
-        toggleEdit() {
-            this.editMode = !this.editMode;
+        original: { ...userData, new_password: '' },
+        enableEdit() {
+            this.editMode = true;
+        },
+        cancelEdit() {
+            this.form = { ...this.original, new_password: '' };
+            this.editMode = false;
+            this.isPasswordValid = true;
         },
         async saveUser() {
+            if (this.isSaving) return;
+            this.isSaving = true;
 
             // const form = document.getElementsByClassName('form')[0];
 
@@ -78,6 +87,8 @@ window.userForm = function (userData) {
                 // y mostramos un mensaje de éxito
                 if (response.ok == true) {
 
+                    this.original = { ...this.form, new_password: '' };
+                    this.form = { ...this.original };
                     this.editMode = false;
 
                     notyf.success('Usuario actualizado correctamente');
@@ -92,6 +103,8 @@ window.userForm = function (userData) {
 
                 notyf.error('Error de red');
                 
+            } finally {
+                this.isSaving = false;
             }
         },
         validatePassword() {
