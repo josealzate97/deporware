@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\TeamsController;
 use App\Http\Controllers\Backend\MatchesController;
 use App\Http\Controllers\Backend\TrainingsController;
+use App\Http\Controllers\Backend\VenuesController;
 
 /*
  * ✅ Rutas para landing publica
@@ -101,6 +102,19 @@ Route::middleware('auth')->group(function () {
      * ✅ Rutas CRUD para Entrenamientos / Trainings
     */
     Route::prefix('trainings')->name('trainings.')->controller(TrainingsController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'create')->name('new');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
+    /*
+     * ✅ Rutas CRUD para Sedes / Venues
+    */
+    Route::prefix('venues')->name('venues.')->controller(VenuesController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/new', 'create')->name('new');
         Route::post('/', 'store')->name('store');

@@ -35,7 +35,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
+            <a href="{{ route('venues.index') }}" class="sidebar-link" url="venues">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-building-circle-check"></i>
                 </span>
