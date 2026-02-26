@@ -85,7 +85,7 @@
 
         <li class="sidebar-item">
 
-            <a href="{{ route('users.info', ['id' => Auth::user()->id]) }}" class="sidebar-link" url="profile">
+            <a href="{{ route('configurations.index') }}" class="sidebar-link" url="configurations">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-cog"></i>
                 </span>

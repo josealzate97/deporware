@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\TeamsController;
 use App\Http\Controllers\Backend\MatchesController;
 use App\Http\Controllers\Backend\TrainingsController;
 use App\Http\Controllers\Backend\VenuesController;
+use App\Http\Controllers\Backend\ConfigurationsController;
 
 /*
  * ✅ Rutas para landing publica
@@ -122,6 +123,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
         Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
+    /*
+     * ✅ Rutas para Configuración / Configurations
+    */
+    Route::prefix('configurations')->name('configurations.')->controller(ConfigurationsController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/', 'update')->name('update');
     });
     
 });
