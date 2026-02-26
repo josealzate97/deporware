@@ -20,9 +20,8 @@
             ])
         @endpush
 
-        <div class="card p-4 user-info-card">
-
-            <div class="user-info-header">
+        <div class="card p-4 section-hero">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                 <div class="user-info-title">
                     <div class="user-avatar-lg">
                         <i class="fa fa-user-plus"></i>
@@ -33,13 +32,15 @@
                     </div>
                 </div>
 
-                <a href="{{ route('users.index') }}" class="btn btn-primary">
-                    <i class="fa-solid fa-arrow-left"></i> Volver
-                </a>
+                <div class="section-hero-actions mt-2 mt-lg-0">
+                    <a href="{{ route('users.index') }}" class="btn btn-primary">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Volver
+                    </a>
+                </div>
             </div>
+        </div>
 
-            <div class="user-info-divider"></div>
-
+        <div class="card p-4 mt-4 user-info-card">
             <form class="form user-info-form" method="POST" action="{{ route('users.store') }}">
                 @csrf
 

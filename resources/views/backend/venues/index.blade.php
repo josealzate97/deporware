@@ -49,8 +49,81 @@
 
         </div>
 
-        <div class="card p-4 mt-4 section-card">
-            <p class="mb-0 text-muted">Aqui ira el listado principal.</p>
+        <div class="card p-0 mt-4 section-card"
+            x-data='venuesTable({
+                destroyUrlTemplate: @json(route("venues.destroy", ["id" => "__ID__"]))
+            })'
+        >
+
+            <div class="section-toolbar">
+                <div class="section-search">
+                    <i class="fas fa-search"></i>
+                    <label class="visually-hidden" for="venuesSearch">Buscar sede</label>
+                    <input type="text" class="form-control form-control-sm" id="venuesSearch" placeholder="Buscar sede...">
+                </div>
+                <label class="visually-hidden" for="venuesStatusFilter">Filtrar por estado</label>
+                <select class="form-select form-select-sm section-filter" id="venuesStatusFilter">
+                    <option value="">Todas</option>
+                    @foreach($statusOptions as $key => $label)
+                        <option value="{{ $key }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-borderless align-middle section-table">
+
+                    <thead>
+                        <tr>
+                            <th>Sede</th>
+                            <th>Dirección</th>
+                            <th>Ciudad</th>
+                            <th>Estado</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @forelse($venues as $venue)
+                            <tr data-id="{{ $venue->id }}" data-status="{{ $venue->status ? '1' : '0' }}">
+                                <td>
+                                    <div class="fw-bold">{{ $venue->name }}</div>
+                                </td>
+                                <td>{{ $venue->address }}</td>
+                                <td>{{ $venue->city }}</td>
+                                <td>
+                                    @if($venue->status)
+                                        <span class="status-pill status-pill-success">Activa</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactiva</span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ route('venues.edit', $venue->id) }}" class="btn btn-icon btn-icon-edit"
+                                       aria-label="Editar sede {{ $venue->name }}" title="Editar sede {{ $venue->name }}">
+                                        <i class="fas fa-edit mt-1"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-icon text-danger"
+                                        aria-label="Eliminar sede {{ $venue->name }}" title="Eliminar sede {{ $venue->name }}"
+                                        @click="deleteVenue('{{ $venue->id }}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No hay sedes registradas.</td>
+                            </tr>
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
 
     </div>

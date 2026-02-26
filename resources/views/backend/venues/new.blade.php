@@ -54,7 +54,49 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            <p class="mb-0 text-muted">Vista en construccion.</p>
+            <form class="info-form" method="POST" action="{{ $isEdit ? route('venues.update', $venue->id) : route('venues.store') }}">
+                @csrf
+                @if($isEdit)
+                    @method('PUT')
+                @endif
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="info-section">
+                            <div class="info-section-title">Datos de la sede</div>
+
+                            <div class="row g-3 mt-1">
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Nombre</label>
+                                    <input type="text" class="form-control" name="name" value="{{ old('name', $venue->name) }}" required>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Dirección</label>
+                                    <input type="text" class="form-control" name="address" value="{{ old('address', $venue->address) }}" required>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <label class="form-label fw-semibold">Ciudad</label>
+                                    <input type="text" class="form-control" name="city" value="{{ old('city', $venue->city) }}" required>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <label class="form-label fw-semibold d-block">Estado</label>
+                                    <div class="form-check form-switch mt-2">
+                                        <input class="form-check-input" type="checkbox" name="status" value="1"
+                                            {{ old('status', $venue->status ?? true) ? 'checked' : '' }}>
+                                        <label class="form-check-label">Sede activa</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-save"></i> {{ $isEdit ? 'Guardar Cambios' : 'Crear Sede' }}
+                    </button>
+                </div>
+            </form>
         </div>
 
     </div>

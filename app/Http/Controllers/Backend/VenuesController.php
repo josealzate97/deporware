@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\SportsVenue;
 use Illuminate\Http\Request;
 
 class VenuesController extends Controller
@@ -14,7 +15,13 @@ class VenuesController extends Controller
     */
     public function index()
     {
-        return view('backend.venues.index');
+        return view('backend.venues.index', [
+            'venues' => SportsVenue::orderByDesc('created_at')->get(),
+            'statusOptions' => [
+                '1' => 'Activas',
+                '0' => 'Inactivas',
+            ],
+        ]);
     }
 
     /**
@@ -26,6 +33,7 @@ class VenuesController extends Controller
     {
         return view('backend.venues.new', [
             'isEdit' => false,
+            'venue' => new SportsVenue(),
         ]);
     }
 
@@ -37,6 +45,17 @@ class VenuesController extends Controller
     */
     public function store(Request $request)
     {
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'address' => 'required|string|max:250',
+            'city' => 'required|string|max:100',
+            'status' => 'nullable|boolean',
+        ]);
+
+        $data['status'] = $request->boolean('status');
+
+        SportsVenue::create($data);
+
         return redirect()->route('venues.index');
     }
 
@@ -61,6 +80,7 @@ class VenuesController extends Controller
     {
         return view('backend.venues.new', [
             'isEdit' => true,
+            'venue' => SportsVenue::findOrFail($id),
         ]);
     }
 
@@ -73,6 +93,18 @@ class VenuesController extends Controller
     */
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'address' => 'required|string|max:250',
+            'city' => 'required|string|max:100',
+            'status' => 'nullable|boolean',
+        ]);
+
+        $data['status'] = $request->boolean('status');
+
+        $venue = SportsVenue::findOrFail($id);
+        $venue->update($data);
+
         return redirect()->route('venues.index');
     }
 
@@ -84,6 +116,17 @@ class VenuesController extends Controller
     */
     public function destroy($id)
     {
+        $venue = SportsVenue::findOrFail($id);
+        $venue->status = false;
+        $venue->save();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Sede marcada como inactiva.',
+                'venue' => $venue,
+            ]);
+        }
+
         return redirect()->route('venues.index');
     }
 }

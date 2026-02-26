@@ -26,15 +26,23 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
 
-                <div class="section-hero-icon">
-                    <i class="fa-solid fa-cog"></i>
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                    <div class="section-hero-icon">
+                        <i class="fa-solid fa-cog"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h2 class="fw-bold mb-0">Configuración</h2>
+                        <div class="text-muted small fw-bold">Datos generales de tu escuela deportiva, localización y preferencias</div>
+                    </div>
                 </div>
 
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Configuración</h2>
-                    <div class="text-muted small fw-bold">Datos generales de tu escuela deportiva, localización y preferencias</div>
+                <div class="section-hero-actions mt-2 mt-lg-0">
+                    <a href="{{ route('home') }}" class="btn btn-primary">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Volver
+                    </a>
                 </div>
 
             </div>
@@ -84,9 +92,15 @@
 
             <form class="info-form" @submit.prevent="save">
                 <div class="row g-4">
+
                     <div class="col-12">
+
                         <div class="info-section">
-                            <div class="info-section-title">Datos generales</div>
+
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-list me-2 text-primary"></i>
+                                Información General
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-4">
@@ -124,7 +138,10 @@
 
                     <div class="col-12">
                         <div class="info-section">
-                            <div class="info-section-title">Ubicación</div>
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-location-dot me-2 text-primary"></i>
+                                Ubicación
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-6">
@@ -152,7 +169,10 @@
 
                     <div class="col-12">
                         <div class="info-section">
-                            <div class="info-section-title">Preferencias</div>
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-cog me-2 text-primary"></i>
+                                Preferencias
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-4">
