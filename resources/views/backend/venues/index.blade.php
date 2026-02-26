@@ -51,7 +51,8 @@
 
         <div class="card p-0 mt-4 section-card"
             x-data='venuesTable({
-                destroyUrlTemplate: @json(route("venues.destroy", ["id" => "__ID__"]))
+                destroyUrlTemplate: @json(route("venues.destroy", ["id" => "__ID__"])),
+                activateUrlTemplate: @json(route("venues.activate", ["id" => "__ID__"]))
             })'
         >
 
@@ -105,11 +106,27 @@
                                        aria-label="Editar sede {{ $venue->name }}" title="Editar sede {{ $venue->name }}">
                                         <i class="fas fa-edit mt-1"></i>
                                     </a>
-                                    <button type="button" class="btn btn-icon text-danger"
-                                        aria-label="Eliminar sede {{ $venue->name }}" title="Eliminar sede {{ $venue->name }}"
-                                        @click="deleteVenue('{{ $venue->id }}')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    @if($venue->name === 'Sede Principal')
+                                        <button type="button" class="btn btn-icon text-muted" disabled
+                                            aria-label="Sede Principal protegida" title="Sede Principal protegida">
+                                            <i class="fas fa-lock"></i>
+                                        </button>
+                                    @else
+                                        <template x-if="rowStatus('{{ $venue->id }}') === '1'">
+                                            <button type="button" class="btn btn-icon text-danger"
+                                                aria-label="Eliminar sede {{ $venue->name }}" title="Eliminar sede {{ $venue->name }}"
+                                                @click="deleteVenue('{{ $venue->id }}')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </template>
+                                        <template x-if="rowStatus('{{ $venue->id }}') === '0'">
+                                            <button type="button" class="btn btn-icon text-success"
+                                                aria-label="Activar sede {{ $venue->name }}" title="Activar sede {{ $venue->name }}"
+                                                @click="activateVenue('{{ $venue->id }}')">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </template>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

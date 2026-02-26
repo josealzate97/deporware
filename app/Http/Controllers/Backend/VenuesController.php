@@ -140,4 +140,26 @@ class VenuesController extends Controller
 
         return redirect()->route('venues.index');
     }
+
+    /**
+     * Activate a venue.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+    */
+    public function activate($id)
+    {
+        $venue = SportsVenue::findOrFail($id);
+        $venue->status = true;
+        $venue->save();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Sede activada.',
+                'venue' => $venue,
+            ]);
+        }
+
+        return redirect()->route('venues.index');
+    }
 }

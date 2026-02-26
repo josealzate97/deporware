@@ -123,6 +123,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
         Route::delete('/{id}', 'destroy')->name('destroy');
+        Route::post('/{id}/activate', 'activate')->name('activate');
     });
 
     /*

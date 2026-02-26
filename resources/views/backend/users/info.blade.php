@@ -44,20 +44,26 @@
             </div>
         </div>
 
-        <div class="card p-4 mt-4 user-info-card" x-data="userForm({
-            name: '{{ $user->name }}',
-            username: '{{ $user->username }}',
-            phone: '{{ $user->phone }}',
-            role: '{{ $user->role }}',
-            password: '{{ $user->password }}',
-            showPassword: false,
-            email: '{{ $user->email }}',
-            hired_date: '{{ $user->hired_date?->format('Y-m-d') ?? '' }}',
-            id: '{{ $user->id }}',
-            status: '{{ $user->status }}',
-            venues: @json($user->venues->pluck('id')->values()),
-            adminRoles: [{{ \App\Models\User::ROLE_ROOT }}, {{ \App\Models\User::ROLE_SPORT_MANAGER }}]
-        })">
+        @php
+            $userPayload = [
+                'name' => $user->name,
+                'username' => $user->username,
+                'phone' => $user->phone,
+                'role' => $user->role,
+                'password' => $user->password,
+                'showPassword' => false,
+                'email' => $user->email,
+                'hired_date' => $user->hired_date?->format('Y-m-d') ?? '',
+                'id' => $user->id,
+                'status' => $user->status,
+                'venues' => $user->venues->pluck('id')->values(),
+                'adminRoles' => [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER],
+            ];
+        @endphp
+
+        <div class="card p-4 mt-4 user-info-card"
+            x-data='userForm(@json($userPayload))'
+        >
 
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3 mb-3">
                 <div>
@@ -154,25 +160,30 @@
                         </div>
                     </div>
 
-                    <div class="col-12" x-show="!adminRoles.includes(parseInt(form.role))">
+                    <div class="col-12">
                         <div class="user-info-section">
                             <div class="user-info-section-title">
                                 <i class="fa-solid fa-building-circle-check me-2 text-primary"></i>
                                 Sedes asignadas
                             </div>
 
-                            <div class="row g-3 mt-1">
-                                @foreach($venues as $venue)
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" :value="'{{ $venue->id }}'" x-model="form.venues" :disabled="!editMode">
-                                            <label class="form-check-label">{{ $venue->name }}</label>
+                            <div x-show="!adminRoles.includes(parseInt(form.role))">
+                                <div class="row g-3 mt-1">
+                                    @foreach($venues as $venue)
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" :value="'{{ $venue->id }}'" x-model="form.venues" :disabled="!editMode">
+                                                <label class="form-check-label">{{ $venue->name }}</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                </div>
+                                <div class="text-muted small mt-2">
+                                    Selecciona una o varias sedes donde trabaja el personal.
+                                </div>
                             </div>
 
-                            <div class="text-muted small mt-2">
+                            <div class="text-muted small mt-2" x-show="adminRoles.includes(parseInt(form.role))">
                                 Los roles Super Admin y Gerente Deportivo no requieren sedes asignadas.
                             </div>
                         </div>
