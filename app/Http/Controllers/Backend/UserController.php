@@ -25,8 +25,9 @@ class UserController extends Controller {
 
         $roles = [
             User::ROLE_ROOT => 'Super Admin',
-            User::ROLE_ADMIN => 'Gerente',
+            User::ROLE_ADMIN => 'Gerente Deportivo',
             User::ROLE_STAFF => 'Entrenador',
+            User::ROLE_COORDINATOR => 'Coordinador',
             User::ROLE_PLAYER => 'Jugador',
         ];
 
@@ -65,8 +66,9 @@ class UserController extends Controller {
         // Roles
         $roles = [
             User::ROLE_ROOT => 'Super Admin',
-            User::ROLE_ADMIN => 'Gerente',
+            User::ROLE_ADMIN => 'Gerente Deportivo',
             User::ROLE_STAFF => 'Entrenador',
+            User::ROLE_COORDINATOR => 'Coordinador',
             User::ROLE_PLAYER => 'Jugador',
         ];
         
@@ -84,7 +86,6 @@ class UserController extends Controller {
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'specialty' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'phone' => 'required|string|max:255|unique:users,phone',
             'role' => 'required|integer',
@@ -94,7 +95,6 @@ class UserController extends Controller {
 
         User::create([
             'name' => $validated['name'],
-            'specialty' => $validated['specialty'],
             'username' => $validated['username'],
             'phone' => $validated['phone'],
             'role' => $validated['role'],
@@ -125,7 +125,6 @@ class UserController extends Controller {
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'specialty' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'phone' => 'nullable|string|max:255',
             'role' => 'required|integer',
@@ -137,7 +136,6 @@ class UserController extends Controller {
         // Actualiza los datos del usuario
         $user->update([
             'name' => $validated['name'],
-            'specialty' => $validated['specialty'],
             'username' => $validated['username'],
             'phone' => $validated['phone'],
             'role' => $validated['role'],

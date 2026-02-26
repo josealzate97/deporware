@@ -51,8 +51,4 @@ class ManagerRoster extends Model
         return $this->belongsTo(Team::class, 'team');
     }
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role');
-    }
 }

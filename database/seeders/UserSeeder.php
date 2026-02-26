@@ -7,60 +7,50 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $rolePrimary = Role::query()->where('code', '001')->value('id');
-        $roleSecondary = Role::query()->where('code', '002')->value('id');
-        $roleTertiary = Role::query()->where('code', '003')->value('id');
-
-        $fallbackRole = Role::query()->orderBy('code')->value('id');
-        $rolePrimary = $rolePrimary ?: $fallbackRole;
-        $roleSecondary = $roleSecondary ?: $fallbackRole;
-        $roleTertiary = $roleTertiary ?: $fallbackRole;
 
         DB::table('users')->insert([
             [
                 'id' => (string) Str::uuid(),
                 'name' => 'Super',
-                'email' => 'superadmin@deporware.com',
+                'email' => 'root@deporware.com',
                 'username' => 'superadmin',
-                'password' => Hash::make('superadmin@123'),
+                'password' => Hash::make('root@123'),
                 'phone' => "100-000-000",
-                'role' => $rolePrimary,
-                'specialty' => null,
+                'role' => User::ROLE_ROOT,
                 'hired_date' => now(),
-                'status' => 1,
+                'status' => User::ACTIVE,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => (string) Str::uuid(),
-                'name' => 'Admin',
-                'email' => 'admin@deporware.com',
-                'username' => 'admin',
-                'password' => Hash::make('admin@123'),
+                'name' => 'Gerente Deportivo',
+                'email' => 'gerente@deporware.com',
+                'username' => 'gerente',
+                'password' => Hash::make('gerente@123'),
                 'phone' => "200-000-000",
-                'role' => $roleSecondary,
-                'specialty' => null,
+                'role' => User::ROLE_ADMIN,
                 'hired_date' => now(),
-                'status' => 1,
+                'status' => User::ACTIVE,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => (string) Str::uuid(),
-                'name' => 'Cajero',
-                'email' => 'caja@deporware.com',
-                'username' => 'caja',
-                'password' => Hash::make('caja@123'),
+                'name' => 'Entrenador',
+                'email' => 'staff@deporware.com',
+                'username' => 'staff',
+                'password' => Hash::make('staff@123'),
                 'phone' => "300-000-000",
-                'role' => $roleTertiary,
-                'specialty' => null,
+                'role' => User::ROLE_STAFF,
                 'hired_date' => now(),
-                'status' => 1,
+                'status' => User::ACTIVE,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

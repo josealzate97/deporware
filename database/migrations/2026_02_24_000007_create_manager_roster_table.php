@@ -15,13 +15,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user');
             $table->uuid('team');
-            $table->uuid('role');
+            $table->integer('role');
             $table->unsignedTinyInteger('status');
             $table->timestamps();
 
             $table->foreign('user')->references('id')->on('users');
             $table->foreign('team')->references('id')->on('teams');
-            $table->foreign('role')->references('id')->on('roles');
         });
     }
 

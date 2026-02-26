@@ -23,7 +23,8 @@ class User extends Authenticatable {
     const ROLE_ROOT = 1;
     const ROLE_ADMIN = 2;
     const ROLE_STAFF = 3;
-    const ROLE_PLAYER = 4;
+    const ROLE_COORDINATOR = 4;
+    const ROLE_PLAYER = 5;
 
     protected $fillable = [
         'id',
@@ -32,7 +33,6 @@ class User extends Authenticatable {
         'phone',
         'username',
         'role',
-        'specialty',
         'hired_date',
         'password',
         'status',
@@ -72,7 +72,4 @@ class User extends Authenticatable {
         return 'id';
     }
 
-    public function role() {
-        return $this->belongsTo(Role::class, 'role');
-    }
 }
