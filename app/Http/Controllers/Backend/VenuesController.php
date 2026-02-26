@@ -117,6 +117,17 @@ class VenuesController extends Controller
     public function destroy($id)
     {
         $venue = SportsVenue::findOrFail($id);
+
+        if ($venue->name === 'Sede Principal') {
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'message' => 'La Sede Principal no se puede eliminar.',
+                ], 403);
+            }
+
+            return redirect()->route('venues.index');
+        }
+
         $venue->status = false;
         $venue->save();
 
