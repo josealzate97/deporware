@@ -44,13 +44,21 @@ window.userForm = function (userData) {
         editMode: false,
         isSaving: false,
         isPasswordValid: true, // Estado inicial de la validación de la contraseña
-        form: { ...userData, new_password: '' },
-        original: { ...userData, new_password: '' },
+        adminRoles: userData.adminRoles || [],
+        form: { ...userData, venues: userData.venues || [], new_password: '' },
+        original: { ...userData, venues: userData.venues || [], new_password: '' },
+        init() {
+            this.$watch('form.role', (value) => {
+                if (this.adminRoles.includes(parseInt(value))) {
+                    this.form.venues = [];
+                }
+            });
+        },
         enableEdit() {
             this.editMode = true;
         },
         cancelEdit() {
-            this.form = { ...this.original, new_password: '' };
+            this.form = { ...this.original, venues: [...(this.original.venues || [])], new_password: '' };
             this.editMode = false;
             this.isPasswordValid = true;
         },

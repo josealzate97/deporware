@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\SportsVenue;
 use App\Models\User;
 
 /**
@@ -24,8 +25,9 @@ class UserController extends Controller {
     public function create() {
 
         $roles = User::roleOptions();
+        $venues = SportsVenue::orderBy('name')->get();
 
-        return view('backend.users.new', compact('roles'));
+        return view('backend.users.new', compact('roles', 'venues'));
 
     }
 
@@ -56,12 +58,13 @@ class UserController extends Controller {
     public function info($id) {   
 
         // Informacion del usuario
-        $user = User::findOrFail($id);
+        $user = User::with('venues')->findOrFail($id);
 
         // Roles
         $roles = User::roleOptions();
+        $venues = SportsVenue::orderBy('name')->get();
         
-        return view('backend.users.info', compact('user', 'roles'));
+        return view('backend.users.info', compact('user', 'roles', 'venues'));
 
     }
 
@@ -73,6 +76,9 @@ class UserController extends Controller {
     */
     public function store(Request $request) {
 
+        $role = (int) $request->input('role');
+        $requiresVenues = !in_array($role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER], true);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
@@ -81,9 +87,11 @@ class UserController extends Controller {
             'hired_date' => 'required|date',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
+            'venues' => [$requiresVenues ? 'required' : 'nullable', 'array'],
+            'venues.*' => 'uuid|exists:sports_venues,id',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'username' => $validated['username'],
             'phone' => $validated['phone'],
@@ -93,6 +101,11 @@ class UserController extends Controller {
             'password' => Hash::make($validated['password']),
             'status' => User::ACTIVE,
         ]);
+
+        if ($requiresVenues) {
+            $venueIds = $validated['venues'] ?? [];
+            $user->venues()->syncWithPivotValues($venueIds, ['status' => 1]);
+        }
 
         return redirect()->route('users.index');
 
@@ -123,6 +136,9 @@ class UserController extends Controller {
 
         $user = User::findOrFail($id);
 
+        $role = (int) $request->input('role');
+        $requiresVenues = !in_array($role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER], true);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
@@ -132,6 +148,8 @@ class UserController extends Controller {
             'status' => 'required|integer',
             'email' => 'required|email|max:255',
             'new_password' => 'nullable|string|min:8',
+            'venues' => [$requiresVenues ? 'required' : 'nullable', 'array'],
+            'venues.*' => 'uuid|exists:sports_venues,id',
         ]);
 
         // Actualiza los datos del usuario
@@ -151,6 +169,13 @@ class UserController extends Controller {
             $user->password = Hash::make($validated['new_password']);
             $user->save();
 
+        }
+
+        if ($requiresVenues) {
+            $venueIds = $validated['venues'] ?? [];
+            $user->venues()->syncWithPivotValues($venueIds, ['status' => 1]);
+        } else {
+            $user->venues()->detach();
         }
 
         return response()->json([

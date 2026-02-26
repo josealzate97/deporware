@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use App\Models\Role;
+use App\Models\SportsVenue;
 use App\Models\User;
 
 class UserSeeder extends Seeder
@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        DB::table('users')->insert([
+        $users = [
             [
                 'id' => (string) Str::uuid(),
                 'name' => 'Super',
@@ -54,6 +54,33 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);
+        ];
+
+        DB::table('users')->insert($users);
+
+        $mainVenue = SportsVenue::where('name', 'Sede Principal')->first();
+
+        if ($mainVenue) {
+            $pivotRows = [];
+
+            foreach ($users as $user) {
+                if (in_array($user['role'], [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER], true)) {
+                    continue;
+                }
+
+                $pivotRows[] = [
+                    'id' => (string) Str::uuid(),
+                    'user' => $user['id'],
+                    'venue' => $mainVenue->id,
+                    'status' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            if (!empty($pivotRows)) {
+                DB::table('user_venue')->insert($pivotRows);
+            }
+        }
     }
 }

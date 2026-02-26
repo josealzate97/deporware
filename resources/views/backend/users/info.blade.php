@@ -54,7 +54,9 @@
             email: '{{ $user->email }}',
             hired_date: '{{ $user->hired_date?->format('Y-m-d') ?? '' }}',
             id: '{{ $user->id }}',
-            status: '{{ $user->status }}'
+            status: '{{ $user->status }}',
+            venues: @json($user->venues->pluck('id')->values()),
+            adminRoles: [{{ \App\Models\User::ROLE_ROOT }}, {{ \App\Models\User::ROLE_SPORT_MANAGER }}]
         })">
 
             <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3 mb-3">
@@ -148,6 +150,30 @@
                                     <label class="form-label fw-bold">Nueva Contraseña</label>
                                     <input type="password" class="form-control" x-model="form.new_password" @change="validatePassword" :disabled="!editMode">
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12" x-show="!adminRoles.includes(parseInt(form.role))">
+                        <div class="user-info-section">
+                            <div class="user-info-section-title">
+                                <i class="fa-solid fa-building-circle-check me-2 text-primary"></i>
+                                Sedes asignadas
+                            </div>
+
+                            <div class="row g-3 mt-1">
+                                @foreach($venues as $venue)
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" :value="'{{ $venue->id }}'" x-model="form.venues" :disabled="!editMode">
+                                            <label class="form-check-label">{{ $venue->name }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="text-muted small mt-2">
+                                Los roles Super Admin y Gerente Deportivo no requieren sedes asignadas.
                             </div>
                         </div>
                     </div>

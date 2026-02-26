@@ -40,7 +40,12 @@
             </div>
         </div>
 
-        <div class="card p-4 mt-4 user-info-card">
+        <div class="card p-4 mt-4 user-info-card"
+            x-data="{
+                role: '{{ old('role') }}',
+                adminRoles: [{{ \App\Models\User::ROLE_ROOT }}, {{ \App\Models\User::ROLE_SPORT_MANAGER }}]
+            }"
+        >
             <form class="form user-info-form" method="POST" action="{{ route('users.store') }}">
                 @csrf
 
@@ -91,7 +96,7 @@
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Rol</label>
-                                    <select class="form-select" name="role" required>
+                                    <select class="form-select" name="role" x-model="role" required>
                                         @foreach($roles as $key => $label)
                                             <option value="{{ $key }}" {{ old('role') == $key ? 'selected' : '' }}>{{ $label }}</option>
                                         @endforeach
@@ -107,6 +112,28 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="col-12" x-show="!adminRoles.includes(parseInt(role))">
+                        <div class="user-info-section">
+                            <div class="user-info-section-title">Sedes asignadas</div>
+
+                            <div class="row g-3 mt-1">
+                                @foreach($venues as $venue)
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="venues[]" value="{{ $venue->id }}"
+                                                {{ in_array($venue->id, old('venues', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label">{{ $venue->name }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="text-muted small mt-2">
+                                Los roles Super Admin y Gerente Deportivo no requieren sedes asignadas.
+                            </div>
+                        </div>
                     </div>
 
                 </div>
