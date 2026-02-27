@@ -7,7 +7,7 @@
 @endpush
 
 @push('scripts')
-    @vite(['resources/js/modules/users.js'])
+    @vite(['resources/js/modules/validator.js', 'resources/js/modules/users.js'])
 @endpush
 
 @section('content')
@@ -154,7 +154,34 @@
 
                                 <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
                                     <label class="form-label fw-bold">Nueva Contraseña</label>
-                                    <input type="password" class="form-control" x-model="form.new_password" @change="validatePassword" :disabled="!editMode">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="user-new-password" x-model="form.new_password" @blur="validatePassword" :disabled="!editMode">
+                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password" aria-label="Mostrar u ocultar contraseña" :disabled="!editMode">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
+                                    <small class="text-danger" id="user-new-password-message"></small>
+                                    <ul class="password-checklist mt-2" id="user-new-password-checklist">
+                                        <li data-rule="length">Mínimo 8 caracteres</li>
+                                        <li data-rule="letter">Al menos una letra</li>
+                                        <li data-rule="number">Al menos un número</li>
+                                        <li data-rule="special">Al menos un carácter especial</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
+                                    <label class="form-label fw-bold">Confirmar contraseña</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="user-new-password-confirm" x-model="confirmNewPassword" @blur="validatePassword" :disabled="!editMode">
+                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password-confirm" aria-label="Mostrar u ocultar confirmación de contraseña" :disabled="!editMode">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-danger" id="user-new-password-confirm-message"></small>
+                                    <ul class="password-checklist mt-2" id="user-new-password-confirm-checklist">
+                                        <li data-rule="match">Las contraseñas coinciden</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

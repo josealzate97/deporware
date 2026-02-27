@@ -80,6 +80,44 @@
   margin-top: 0;
 }
 
+.password-checklist {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.password-checklist li {
+  font-size: 0.85rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.password-checklist li::before {
+  content: "○";
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.password-checklist li.is-passed {
+  color: #16a34a;
+}
+
+.password-checklist li.is-passed::before {
+  content: "●";
+  color: #16a34a;
+}
+
+.password-checklist li.is-failed {
+  color: #dc2626;
+}
+
+.password-checklist li.is-failed::before {
+  content: "●";
+  color: #dc2626;
+}
+
 @media (max-width: 849.98px) {
   .user-info-card {
     border-radius: 14px;

@@ -6,6 +6,9 @@
     @vite(['resources/css/modules/users.css'])
 @endpush
 
+@push('scripts')
+    @vite(['resources/js/modules/validator.js', 'resources/js/modules/users.js'])
+@endpush
 @section('content')
 
     <div class="container-fluid p-4">
@@ -46,7 +49,7 @@
                 adminRoles: [{{ \App\Models\User::ROLE_ROOT }}, {{ \App\Models\User::ROLE_SPORT_MANAGER }}]
             }"
         >
-            <form class="form user-info-form" method="POST" action="{{ route('users.store') }}">
+            <form class="form user-info-form" method="POST" action="{{ route('users.store') }}" data-user-form="create">
                 @csrf
 
                 <div class="row g-4">
@@ -63,12 +66,12 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Nombre completo</label>
-                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
+                                    <input type="text" class="form-control" id="user-name" name="name" value="{{ old('name') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario</label>
-                                    <input type="text" class="form-control" name="username" value="{{ old('username') }}" required>
+                                    <input type="text" class="form-control" id="user-username" name="username" value="{{ old('username') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -111,7 +114,34 @@
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Contraseña</label>
-                                    <input type="password" class="form-control" name="password" required>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="user-password" name="password" required>
+                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password" aria-label="Mostrar u ocultar contraseña">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
+                                    <small class="text-danger" id="user-password-message"></small>
+                                    <ul class="password-checklist mt-2" id="user-password-checklist">
+                                        <li data-rule="length">Mínimo 8 caracteres</li>
+                                        <li data-rule="letter">Al menos una letra</li>
+                                        <li data-rule="number">Al menos un número</li>
+                                        <li data-rule="special">Al menos un carácter especial</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label class="form-label fw-bold">Confirmar contraseña</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="user-password-confirm" name="password_confirmation" required>
+                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password-confirm" aria-label="Mostrar u ocultar confirmación de contraseña">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-danger" id="user-password-confirm-message"></small>
+                                    <ul class="password-checklist mt-2" id="user-password-confirm-checklist">
+                                        <li data-rule="match">Las contraseñas coinciden</li>
+                                    </ul>
                                 </div>
 
                             </div>

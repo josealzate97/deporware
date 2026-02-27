@@ -7,7 +7,7 @@
 @endpush
 
 @push('scripts')
-    @vite(['resources/js/modules/users.js'])
+    @vite(['resources/js/modules/validator.js', 'resources/js/modules/users.js'])
 @endpush
 
 @section('content')
