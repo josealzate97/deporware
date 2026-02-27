@@ -16,7 +16,6 @@ class Training extends Model
     protected $fillable = [
         'id',
         'name',
-        'category',
         'team',
         'venue',
         'location',
@@ -55,11 +54,6 @@ class Training extends Model
                 $training->id = (string) Str::uuid();
             }
         });
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category');
     }
 
     public function team()

@@ -135,7 +135,7 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Teléfono</label>
-                                    <input type="text" class="form-control" x-model="form.phone" :disabled="!editMode">
+                                    <input type="text" class="form-control mask-phone" x-model="form.phone" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">

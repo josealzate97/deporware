@@ -25,14 +25,6 @@
             </a>
         </li>
 
-        <li class="sidebar-item">
-            <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-layer-group"></i>
-                </span>
-                <span>Categorias</span>
-            </a>
-        </li>
 
         <li class="sidebar-item">
             <a href="{{ route('venues.index') }}" class="sidebar-link" url="venues">
@@ -44,20 +36,20 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="{{ route('players.index') }}" class="sidebar-link" url="players">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-people-group"></i>
-                </span>
-                <span>Jugadores</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
             <a href="{{ route('teams.index') }}" class="sidebar-link" url="teams">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-shield"></i>
                 </span>
                 <span>Plantillas</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="{{ route('players.index') }}" class="sidebar-link" url="players">
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-people-group"></i>
+                </span>
+                <span>Jugadores</span>
             </a>
         </li>
 

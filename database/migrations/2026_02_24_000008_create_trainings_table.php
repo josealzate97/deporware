@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('trainings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 250);
-            $table->uuid('category');
             $table->uuid('team');
             $table->integer('duration');
             $table->text('notes')->nullable();
@@ -28,7 +27,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('status');
             $table->timestamps();
 
-            $table->foreign('category')->references('id')->on('categories');
             $table->foreign('team')->references('id')->on('teams');
         });
     }

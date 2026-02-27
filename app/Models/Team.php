@@ -16,7 +16,8 @@ class Team extends Model
     protected $fillable = [
         'id',
         'name',
-        'category',
+        'year',
+        'type',
         'season',
         'status',
     ];
@@ -37,11 +38,6 @@ class Team extends Model
                 $team->id = (string) Str::uuid();
             }
         });
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category');
     }
 
     public function playerRosters()
@@ -68,8 +64,8 @@ class Team extends Model
     public function venues()
     {
         return $this->belongsToMany(SportsVenue::class, 'team_venue', 'team', 'venue')
-                    ->using(TeamVenue::class)
-                    ->withPivot('id', 'status')
-                    ->withTimestamps();
+        ->using(TeamVenue::class)
+        ->withPivot('id', 'status')
+        ->withTimestamps();
     }
 }
