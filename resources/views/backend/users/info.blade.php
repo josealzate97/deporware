@@ -171,9 +171,9 @@
                                 <div class="row g-3 mt-1">
                                     @foreach($venues as $venue)
                                         <div class="col-lg-4 col-md-6 col-sm-12">
-                                            <div class="form-check form-switch">
+                                            <div class="form-check form-switch form-switch-lg venue-switch">
                                                 <input class="form-check-input" type="checkbox" :value="'{{ $venue->id }}'" x-model="form.venues" :disabled="!editMode">
-                                                <label class="form-check-label">{{ $venue->name }}</label>
+                                                <label class="form-check-label fw-bold">{{ $venue->name }}</label>
                                             </div>
                                         </div>
                                     @endforeach

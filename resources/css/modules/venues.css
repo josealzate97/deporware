@@ -1,0 +1,14 @@
+.venue-status-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.venue-status-switch.form-switch {
+  padding-left: 0;
+}
+
+.venue-status-switch.form-switch .form-check-input {
+  margin-left: 0;
+  margin-top: 0;
+}

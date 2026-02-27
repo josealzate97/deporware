@@ -63,7 +63,10 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <div class="info-section">
-                            <div class="info-section-title">Datos de la sede</div>
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-building-circle-check me-2 text-primary"></i>
+                                Datos de la sede
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-6">
@@ -80,7 +83,7 @@
                                 </div>
                                 <div class="col-12 col-lg-4">
                                     <label class="form-label fw-semibold d-block">Estado</label>
-                                    <div class="form-check form-switch mt-2">
+                                    <div class="form-check form-switch form-switch-lg mt-2 venue-status-switch">
                                         <input class="form-check-input" type="checkbox" name="status" value="1"
                                             {{ old('status', $venue->status ?? true) ? 'checked' : '' }}>
                                         <label class="form-check-label">Sede activa</label>

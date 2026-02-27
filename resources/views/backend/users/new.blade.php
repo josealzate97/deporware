@@ -55,7 +55,10 @@
 
                         <div class="user-info-section">
 
-                            <div class="user-info-section-title">Datos personales</div>
+                            <div class="user-info-section-title">
+                                <i class="fa-solid fa-user me-2 text-primary"></i>
+                                Datos personales
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -81,7 +84,10 @@
 
                     <div class="col-12">
                         <div class="user-info-section">
-                            <div class="user-info-section-title">Contacto y acceso</div>
+                            <div class="user-info-section-title">
+                                <i class="fa-solid fa-envelope me-2 text-primary"></i>
+                                Contacto y acceso
+                            </div>
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -116,24 +122,30 @@
 
                     <div class="col-12">
                         <div class="user-info-section">
-                            <div class="user-info-section-title">Sedes asignadas</div>
+                            <div class="user-info-section-title">
+                                <i class="fa-solid fa-building-circle-check me-2 text-primary"></i>
+                                Sedes asignadas
+                            </div>
+
+                            <div class="text-muted small mt-1" x-show="!adminRoles.includes(parseInt(role))">
+                                Selecciona una o varias sedes donde trabaja el personal.
+                            </div>
 
                             <div x-show="!adminRoles.includes(parseInt(role))">
                                 <div class="row g-3 mt-1">
                                     @foreach($venues as $venue)
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
-                                            <div class="form-check form-switch">
+                                        @if($venue->status)
+                                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="form-check form-switch form-switch-lg venue-switch">
                                                 <input class="form-check-input" type="checkbox" name="venues[]" value="{{ $venue->id }}"
                                                     {{ in_array($venue->id, old('venues', [])) ? 'checked' : '' }}>
-                                                <label class="form-check-label">{{ $venue->name }}</label>
+                                                <label class="form-check-label fw-bold">{{ $venue->name }}</label>
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
-                                <div class="text-muted small mt-2">
-                                    Selecciona una o varias sedes donde trabaja el personal.
-                                </div>
+                                    @endif
+                                @endforeach
                             </div>
+                        </div>
 
                             <div class="text-muted small mt-2" x-show="adminRoles.includes(parseInt(role))">
                                 Los roles Super Admin y Gerente Deportivo no requieren sedes asignadas.
