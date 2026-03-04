@@ -13,6 +13,7 @@
 @section('content')
 
     <div class="container-fluid p-4">
+        @php($baseFilters = array_filter(['season' => $seasonFilter, 'year' => $yearFilter]))
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -49,8 +50,118 @@
 
         </div>
 
-        <div class="card p-4 mt-4 section-card">
-            <p class="mb-0 text-muted">Aqui ira el listado principal.</p>
+        <div class="card p-0 mt-4 section-card"
+            x-data='teamsTable({
+                destroyUrlTemplate: @json(route("teams.destroy", ["id" => "__ID__"])),
+                activateUrlTemplate: @json(route("teams.activate", ["id" => "__ID__"]))
+            })'
+        >
+            <div class="section-toolbar teams-toolbar">
+                <div class="section-search">
+                    <i class="fas fa-search"></i>
+                    <label class="visually-hidden" for="teamsSearch">Buscar plantilla</label>
+                    <input type="text" class="form-control form-control-sm" id="teamsSearch" placeholder="Buscar plantilla...">
+                </div>
+                <label class="visually-hidden" for="teamsStatusFilter">Filtrar por estado</label>
+                <select class="form-select form-select-sm section-filter" id="teamsStatusFilter">
+                    <option value="">Todas</option>
+                    @foreach($statusOptions as $key => $label)
+                        <option value="{{ $key }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+
+                <form class="teams-server-filters" method="GET" action="{{ route('teams.index') }}">
+                    <input type="hidden" name="type" value="{{ $activeType }}">
+                    <label class="visually-hidden" for="teamsSeasonFilter">Temporada</label>
+                    <input
+                        type="text"
+                        id="teamsSeasonFilter"
+                        name="season"
+                        class="form-control form-control-sm"
+                        placeholder="Temporada"
+                        value="{{ $seasonFilter }}"
+                    >
+                    <label class="visually-hidden" for="teamsYearFilter">Año</label>
+                    <input
+                        type="text"
+                        id="teamsYearFilter"
+                        name="year"
+                        class="form-control form-control-sm"
+                        placeholder="Año"
+                        value="{{ $yearFilter }}"
+                    >
+                    <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+                </form>
+            </div>
+
+            <div class="teams-tabs">
+                <a
+                    href="{{ route('teams.index', array_merge(['type' => 'competitive'], $baseFilters)) }}"
+                    class="teams-tab {{ $activeType === 'competitive' ? 'is-active' : '' }}"
+                >
+                    Competitivo
+                </a>
+                <a
+                    href="{{ route('teams.index', array_merge(['type' => 'formative'], $baseFilters)) }}"
+                    class="teams-tab {{ $activeType === 'formative' ? 'is-active' : '' }}"
+                >
+                    Formativo
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle section-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Temporada</th>
+                            <th>Año</th>
+                            <th>Estado</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($teams as $team)
+                            <tr data-id="{{ $team->id }}" data-status="{{ $team->status ? '1' : '0' }}">
+                                <td class="fw-semibold">{{ $team->name }}</td>
+                                <td>{{ $team->season }}</td>
+                                <td>{{ $team->year }}</td>
+                                <td>
+                                    @if($team->status)
+                                        <span class="status-pill status-pill-success">Activa</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactiva</span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ route('teams.edit', $team->id) }}" class="btn btn-icon btn-icon-edit"
+                                       aria-label="Editar plantilla {{ $team->name }}" title="Editar plantilla {{ $team->name }}">
+                                        <i class="fas fa-edit mt-1"></i>
+                                    </a>
+                                    <template x-if="rowStatus('{{ $team->id }}') === '1'">
+                                        <button type="button" class="btn btn-icon text-danger"
+                                            aria-label="Eliminar plantilla {{ $team->name }}" title="Eliminar plantilla {{ $team->name }}"
+                                            @click="deleteTeam('{{ $team->id }}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </template>
+                                    <template x-if="rowStatus('{{ $team->id }}') === '0'">
+                                        <button type="button" class="btn btn-icon text-success"
+                                            aria-label="Activar plantilla {{ $team->name }}" title="Activar plantilla {{ $team->name }}"
+                                            @click="activateTeam('{{ $team->id }}')">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </template>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No hay plantillas registradas.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>

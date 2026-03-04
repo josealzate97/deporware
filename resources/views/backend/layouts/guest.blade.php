@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="@yield('meta_description', 'deporware: acceso seguro al panel de inventario, ventas y reportes.')">
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/tab_icon.png') }}">
 
         <title>@yield('title', 'deporware')</title>
 

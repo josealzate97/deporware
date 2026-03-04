@@ -1,0 +1,48 @@
+.teams-tabs {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e6e8ec;
+}
+
+.teams-tab {
+    padding: 8px 14px;
+    border-radius: 10px 10px 0 0;
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 600;
+    background: #f8f9fa;
+}
+
+.teams-tab.is-active {
+    color: #0d6efd;
+    background: #ffffff;
+    border: 1px solid #e6e8ec;
+    border-bottom-color: #ffffff;
+}
+
+.teams-table th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #6c757d;
+}
+
+.section-toolbar {
+    padding: 0 24px 16px;
+}
+
+.teams-toolbar {
+    padding-top: 16px;
+}
+
+.teams-server-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.teams-server-filters .form-control {
+    width: 120px;
+}

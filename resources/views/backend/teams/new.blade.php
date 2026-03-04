@@ -1,6 +1,7 @@
 @extends('backend.layouts.main')
 
 @php($isEdit = $isEdit ?? false)
+@php($team = $team ?? null)
 
 @section('title', $isEdit ? 'Editar Plantillas' : 'Nuevo Plantillas')
 
@@ -54,7 +55,60 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            <p class="mb-0 text-muted">Vista en construccion.</p>
+            <form class="info-form" method="POST" action="{{ $isEdit ? route('teams.update', $team?->id) : route('teams.store') }}">
+                @csrf
+                @if($isEdit)
+                    @method('PUT')
+                @endif
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="info-section">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-shield me-2 text-primary"></i>
+                                Datos de la plantilla
+                            </div>
+
+                            <div class="row g-3 mt-1">
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Nombre</label>
+                                    <input type="text" class="form-control" name="name" value="{{ old('name', $team->name ?? '') }}" required>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <label class="form-label fw-semibold">Año</label>
+                                    <input type="text" class="form-control" name="year" maxlength="4" value="{{ old('year', $team->year ?? '') }}" required>
+                                </div>
+                                <div class="col-12 col-lg-3">
+                                    <label class="form-label fw-semibold">Temporada</label>
+                                    <input type="text" class="form-control" name="season" maxlength="20" value="{{ old('season', $team->season ?? '') }}" required>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <label class="form-label fw-semibold">Tipo</label>
+                                    <select class="form-select" name="type" required>
+                                        <option value="">Selecciona...</option>
+                                        <option value="1" {{ (string) old('type', $team->type ?? '') === '1' ? 'selected' : '' }}>Competitivo</option>
+                                        <option value="2" {{ (string) old('type', $team->type ?? '') === '2' ? 'selected' : '' }}>Formativo</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <label class="form-label fw-semibold d-block">Estado</label>
+                                    <div class="form-check form-switch form-switch-lg mt-2">
+                                        <input class="form-check-input" type="checkbox" name="status" value="1"
+                                            {{ old('status', $team->status ?? true) ? 'checked' : '' }}>
+                                        <label class="form-check-label">Plantilla activa</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-save"></i> {{ $isEdit ? 'Guardar Cambios' : 'Crear Plantilla' }}
+                    </button>
+                </div>
+            </form>
         </div>
 
     </div>

@@ -13,6 +13,9 @@ class Player extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     protected $fillable = [
         'id',
         'name',

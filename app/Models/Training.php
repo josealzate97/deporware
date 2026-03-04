@@ -10,6 +10,9 @@ class Training extends Model
 {
     use HasFactory;
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     public $incrementing = false;
     protected $keyType = 'string';
 

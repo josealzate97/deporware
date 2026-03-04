@@ -17,13 +17,13 @@ class User extends Authenticatable {
     public $timestamps = true;
     protected $keyType = 'string';
 
-    const ACTIVE = 1;
-    const INACTIVE = 0;
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
 
-    const ROLE_ROOT = 1;
-    const ROLE_SPORT_MANAGER = 2;
-    const ROLE_COACH = 3;
-    const ROLE_COORDINATOR = 4;
+    public const ROLE_ROOT = 1;
+    public const ROLE_SPORT_MANAGER = 2;
+    public const ROLE_COACH = 3;
+    public const ROLE_COORDINATOR = 4;
 
     protected $fillable = [
         'id',

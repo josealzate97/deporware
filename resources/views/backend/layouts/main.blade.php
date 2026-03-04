@@ -11,7 +11,7 @@
         <title>@yield('title', 'deporware')</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/tab_icon.png') }}">
 
         <!-- Vite Assets -->
         @vite([

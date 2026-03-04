@@ -152,8 +152,8 @@
 }
 
 .brand-title-logo {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.14);
@@ -209,8 +209,8 @@
 }
 
 .login-hero-icon--sm {
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   border-radius: 14px;
   background: linear-gradient(135deg, var(--brand-blue-soft) 0%, var(--brand-green-soft) 100%);
   color: var(--brand-blue-dark);
@@ -218,8 +218,8 @@
 }
 
 .login-card-logo {
-  width: 24px;
-  height: 24px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 

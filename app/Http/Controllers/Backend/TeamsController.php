@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class TeamsController extends Controller
@@ -14,7 +15,39 @@ class TeamsController extends Controller
     */
     public function index()
     {
-        return view('backend.teams.index');
+        $typeOptions = Team::typeOptions();
+        $activeType = request()->query('type', 'competitive');
+        if (!array_key_exists($activeType, $typeOptions)) {
+            $activeType = 'competitive';
+        }
+
+        $seasonFilter = trim((string) request()->query('season', ''));
+        $yearFilter = trim((string) request()->query('year', ''));
+
+        $teamsQuery = Team::query()
+            ->where('type', $typeOptions[$activeType])
+            ->orderBy('name');
+
+        if ($seasonFilter !== '') {
+            $teamsQuery->where('season', 'like', '%' . $seasonFilter . '%');
+        }
+
+        if ($yearFilter !== '') {
+            $teamsQuery->where('year', $yearFilter);
+        }
+
+        $teams = $teamsQuery->get();
+
+        return view('backend.teams.index', [
+            'teams' => $teams,
+            'activeType' => $activeType,
+            'statusOptions' => [
+                '1' => 'Activas',
+                '0' => 'Inactivas',
+            ],
+            'seasonFilter' => $seasonFilter,
+            'yearFilter' => $yearFilter,
+        ]);
     }
 
     /**
@@ -26,6 +59,7 @@ class TeamsController extends Controller
     {
         return view('backend.teams.new', [
             'isEdit' => false,
+            'team' => new Team(),
         ]);
     }
 
@@ -37,7 +71,21 @@ class TeamsController extends Controller
     */
     public function store(Request $request)
     {
-        return redirect()->route('teams.index');
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'year' => 'required|string|max:4',
+            'type' => 'required|integer|in:1,2',
+            'season' => 'required|string|max:20',
+            'status' => 'nullable|boolean',
+        ]);
+
+        $data['status'] = $request->boolean('status');
+
+        Team::create($data);
+
+        $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
+
+        return redirect()->route('teams.index', ['type' => $redirectType]);
     }
 
     /**
@@ -61,6 +109,7 @@ class TeamsController extends Controller
     {
         return view('backend.teams.new', [
             'isEdit' => true,
+            'team' => Team::findOrFail($id),
         ]);
     }
 
@@ -73,7 +122,22 @@ class TeamsController extends Controller
     */
     public function update(Request $request, $id)
     {
-        return redirect()->route('teams.index');
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'year' => 'required|string|max:4',
+            'type' => 'required|integer|in:1,2',
+            'season' => 'required|string|max:20',
+            'status' => 'nullable|boolean',
+        ]);
+
+        $data['status'] = $request->boolean('status');
+
+        $team = Team::findOrFail($id);
+        $team->update($data);
+
+        $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
+
+        return redirect()->route('teams.index', ['type' => $redirectType]);
     }
 
     /**
@@ -84,6 +148,39 @@ class TeamsController extends Controller
     */
     public function destroy($id)
     {
+        $team = Team::findOrFail($id);
+        $team->status = false;
+        $team->save();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Plantilla marcada como inactiva.',
+                'team' => $team,
+            ]);
+        }
+
+        return redirect()->route('teams.index');
+    }
+
+    /**
+     * Activate a team.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function activate($id)
+    {
+        $team = Team::findOrFail($id);
+        $team->status = true;
+        $team->save();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Plantilla activada.',
+                'team' => $team,
+            ]);
+        }
+
         return redirect()->route('teams.index');
     }
 }

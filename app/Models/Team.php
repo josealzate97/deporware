@@ -10,6 +10,12 @@ class Team extends Model
 {
     use HasFactory;
 
+    public const TYPE_COMPETITIVE = 1;
+    public const TYPE_FORMATIVE = 2;
+
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -28,6 +34,14 @@ class Team extends Model
             'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
+        ];
+    }
+
+    public static function typeOptions(): array
+    {
+        return [
+            'competitive' => self::TYPE_COMPETITIVE,
+            'formative' => self::TYPE_FORMATIVE,
         ];
     }
 

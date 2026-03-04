@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
     const searchInput = document.getElementById('venuesSearch');
     const statusSelect = document.getElementById('venuesStatusFilter');
     const table = document.querySelector('.section-table');

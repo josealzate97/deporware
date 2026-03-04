@@ -9,6 +9,9 @@ class UserVenue extends Pivot
 {
     protected $table = 'user_venue';
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     public $incrementing = false;
     protected $keyType = 'string';
 
