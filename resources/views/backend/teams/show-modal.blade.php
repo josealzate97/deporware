@@ -32,5 +32,27 @@
                 @endif
             </div>
         </div>
+        <div class="col-12">
+            <div class="fw-semibold">Sedes asociadas</div>
+            @if($team->venues->isEmpty())
+                <div class="text-muted">Sin sedes asociadas.</div>
+            @else
+                <div class="row g-2 mt-2">
+                    @foreach($team->venues as $venue)
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="team-info-item h-100">
+                                <span class="team-avatar-badge">
+                                    <i class="fa-solid fa-building"></i>
+                                </span>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">{{ $venue->name }}</div>
+                                    <span class="meta-badge">{{ $venue->city }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
     </div>
 </div>

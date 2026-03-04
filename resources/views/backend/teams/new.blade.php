@@ -101,6 +101,31 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-12">
+                        <div class="info-section">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-location-dot me-2 text-primary"></i>
+                                Sedes asociadas
+                            </div>
+
+                            <div class="row g-3 mt-1">
+                                @forelse($venues as $venue)
+                                    <div class="col-12 col-lg-6">
+                                        <div class="form-check form-switch form-switch-lg team-venue-switch">
+                                            <input class="form-check-input" type="checkbox" name="venues[]"
+                                                value="{{ $venue->id }}"
+                                                {{ in_array($venue->id, $teamVenueIds ?? [], true) ? 'checked' : '' }}>
+                                            <label class="form-check-label fw-semibold">{{ $venue->name }}</label>
+                                        </div>
+                                        <div class="text-muted small">{{ $venue->city }}</div>
+                                    </div>
+                                @empty
+                                    <div class="col-12 text-muted">No hay sedes registradas.</div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mt-4 text-end">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\SportsVenue;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -61,6 +62,8 @@ class TeamsController extends Controller
         return view('backend.teams.new', [
             'isEdit' => false,
             'team' => new Team(),
+            'venues' => SportsVenue::orderBy('name')->get(),
+            'teamVenueIds' => [],
         ]);
     }
 
@@ -78,11 +81,20 @@ class TeamsController extends Controller
             'type' => 'required|integer|in:1,2',
             'season' => 'required|string|max:20',
             'status' => 'nullable|boolean',
+            'venues' => 'nullable|array',
+            'venues.*' => 'uuid|exists:sports_venues,id',
         ]);
 
         $data['status'] = $request->boolean('status');
 
-        Team::create($data);
+        $venueIds = $data['venues'] ?? [];
+        unset($data['venues']);
+
+        $team = Team::create($data);
+
+        if (!empty($venueIds)) {
+            $team->venues()->syncWithPivotValues($venueIds, ['status' => 1]);
+        }
 
         $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
 
@@ -97,7 +109,7 @@ class TeamsController extends Controller
     */
     public function show($id)
     {
-        $team = Team::findOrFail($id);
+        $team = Team::with('venues')->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.teams.show-modal', [
@@ -116,9 +128,13 @@ class TeamsController extends Controller
     */
     public function edit($id)
     {
+        $team = Team::with('venues')->findOrFail($id);
+
         return view('backend.teams.new', [
             'isEdit' => true,
-            'team' => Team::findOrFail($id),
+            'team' => $team,
+            'venues' => SportsVenue::orderBy('name')->get(),
+            'teamVenueIds' => $team->venues->pluck('id')->all(),
         ]);
     }
 
@@ -137,12 +153,23 @@ class TeamsController extends Controller
             'type' => 'required|integer|in:1,2',
             'season' => 'required|string|max:20',
             'status' => 'nullable|boolean',
+            'venues' => 'nullable|array',
+            'venues.*' => 'uuid|exists:sports_venues,id',
         ]);
 
         $data['status'] = $request->boolean('status');
 
+        $venueIds = $data['venues'] ?? [];
+        unset($data['venues']);
+
         $team = Team::findOrFail($id);
         $team->update($data);
+
+        if (!empty($venueIds)) {
+            $team->venues()->syncWithPivotValues($venueIds, ['status' => 1]);
+        } else {
+            $team->venues()->detach();
+        }
 
         $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
 

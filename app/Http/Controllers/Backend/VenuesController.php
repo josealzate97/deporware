@@ -67,7 +67,7 @@ class VenuesController extends Controller
     */
     public function show($id)
     {
-        $venue = SportsVenue::findOrFail($id);
+        $venue = SportsVenue::with('teams')->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.venues.show-modal', [

@@ -352,9 +352,41 @@ html, body {
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
-  background: #f1f5f9;
-  color: #475569;
-  border: 1px solid #e2e8f0;
+  background: #eaf3ff;
+  color: #1e3a8a;
+  border: 1px solid #d3e4ff;
+}
+
+.team-avatar-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaf3ff;
+  color: #166534;
+  border: 1px solid #d3e4ff;
+}
+
+.team-avatar-badge i {
+  font-size: 0.95rem;
+}
+
+.team-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.team-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .info-modal-frame {

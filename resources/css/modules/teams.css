@@ -36,3 +36,18 @@
 .teams-toolbar {
     padding-top: 16px;
 }
+
+.team-venue-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.team-venue-switch.form-switch {
+    padding-left: 0;
+}
+
+.team-venue-switch.form-switch .form-check-input {
+    margin-left: 0;
+    margin-top: 0;
+}
