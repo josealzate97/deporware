@@ -54,4 +54,10 @@ class ManagerRoster extends Model
         return $this->belongsTo(Team::class, 'team');
     }
 
+    // Avoid name collision with the "team" attribute.
+    public function teamModel()
+    {
+        return $this->belongsTo(Team::class, 'team');
+    }
+
 }

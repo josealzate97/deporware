@@ -1,4 +1,5 @@
 @php($typeLabel = ($team->type ?? 0) === \App\Models\Team::TYPE_FORMATIVE ? 'Formativo' : 'Competitivo')
+@php($coachCount = ($primaryCoach ? 1 : 0) + ($assistantCoach ? 1 : 0))
 
 <div class="section-hero mb-3">
     <div class="d-flex align-items-start gap-3">
@@ -33,7 +34,10 @@
             </div>
         </div>
         <div class="col-12">
-            <div class="fw-semibold">Sedes asociadas</div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="fw-semibold">Sedes asociadas</div>
+                <span class="meta-badge">{{ $team->venues->count() }} sede{{ $team->venues->count() === 1 ? '' : 's' }}</span>
+            </div>
             @if($team->venues->isEmpty())
                 <div class="text-muted">Sin sedes asociadas.</div>
             @else
@@ -55,7 +59,10 @@
             @endif
         </div>
         <div class="col-12">
-            <div class="fw-semibold">Entrenadores</div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="fw-semibold">Entrenadores</div>
+                <span class="meta-badge">{{ $coachCount }} entrenador{{ $coachCount === 1 ? '' : 'es' }}</span>
+            </div>
             @if(!$primaryCoach && !$assistantCoach)
                 <div class="text-muted">Sin entrenadores asignados.</div>
             @else

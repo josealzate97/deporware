@@ -25,6 +25,10 @@
             <div>{{ $user->phone }}</div>
         </div>
         <div class="col-md-6">
+            <div class="fw-semibold">Fecha de contrato</div>
+            <div>{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</div>
+        </div>
+        <div class="col-md-6">
             <div class="fw-semibold">Rol</div>
             <div>{{ $user->role_label }}</div>
         </div>
@@ -49,7 +53,10 @@
 <div class="card p-3 section-card mt-3">
     <div class="row g-3">
         <div class="col-12">
-            <div class="fw-semibold">Sedes asociadas</div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="fw-semibold">Sedes asociadas</div>
+                <span class="meta-badge">{{ $venues->count() }} sede{{ $venues->count() === 1 ? '' : 's' }}</span>
+            </div>
             @if($venues->isEmpty())
                 <div class="text-muted">Sin sedes asociadas.</div>
             @else
@@ -73,7 +80,10 @@
 
         @if(in_array($user->role, [\App\Models\User::ROLE_COACH, \App\Models\User::ROLE_COORDINATOR], true))
             <div class="col-12">
-                <div class="fw-semibold">Equipos</div>
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                    <div class="fw-semibold">Equipos</div>
+                    <span class="meta-badge">{{ $teamAssignments->count() }} equipo{{ $teamAssignments->count() === 1 ? '' : 's' }}</span>
+                </div>
                 @if($teamAssignments->isEmpty())
                     <div class="text-muted">Sin equipos asociados.</div>
                 @else
@@ -85,9 +95,9 @@
                                         <i class="fa-solid fa-shield"></i>
                                     </span>
                                     <div class="flex-grow-1">
-                                        <div class="fw-semibold">{{ $assignment->team->name }}</div>
+                                        <div class="fw-semibold">{{ $assignment->teamModel->name }}</div>
                                         <span class="meta-badge">
-                                            {{ $assignment->team->season }} {{ $assignment->team->year }}
+                                            {{ $assignment->teamModel->season }} {{ $assignment->teamModel->year }}
                                         </span>
                                         <div class="text-muted small">
                                             {{ $managerRoleLabels[$assignment->role] ?? 'Rol no definido' }}

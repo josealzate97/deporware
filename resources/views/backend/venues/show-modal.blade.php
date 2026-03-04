@@ -31,7 +31,10 @@
             </div>
         </div>
         <div class="col-12">
-            <div class="fw-semibold">Equipos asociados</div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="fw-semibold">Equipos asociados</div>
+                <span class="meta-badge">{{ $venue->teams->count() }} equipo{{ $venue->teams->count() === 1 ? '' : 's' }}</span>
+            </div>
             @if($venue->teams->isEmpty())
                 <div class="text-muted">Sin equipos asociados.</div>
             @else

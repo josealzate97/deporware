@@ -68,11 +68,11 @@ class UserController extends Controller {
 
             $teamAssignments = collect();
             if (in_array($user->role, [User::ROLE_COACH, User::ROLE_COORDINATOR], true)) {
-                $teamAssignments = ManagerRoster::with('team')
+                $teamAssignments = ManagerRoster::with('teamModel')
                     ->where('user', $user->id)
                     ->get()
-                    ->filter(fn ($assignment) => $assignment->team)
-                    ->sortBy(fn ($assignment) => $assignment->team->name ?? '')
+                    ->filter(fn ($assignment) => $assignment->teamModel)
+                    ->sortBy(fn ($assignment) => $assignment->teamModel->name ?? '')
                     ->values();
             }
 

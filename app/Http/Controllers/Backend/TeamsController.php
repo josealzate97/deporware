@@ -133,12 +133,15 @@ class TeamsController extends Controller
     public function show($id)
     {
         $team = Team::with(['venues', 'managerRosters.user'])->findOrFail($id);
+        
         $primaryCoachId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_PRIMARY_COACH)
         )->user;
+        
         $assistantCoachId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_ASSISTANT_COACH)
         )->user;
+        
         $primaryCoach = $primaryCoachId ? User::find($primaryCoachId) : null;
         $assistantCoach = $assistantCoachId ? User::find($assistantCoachId) : null;
 
