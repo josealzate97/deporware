@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\SportsVenue;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeamsController extends Controller
@@ -62,8 +63,9 @@ class TeamsController extends Controller
         return view('backend.teams.new', [
             'isEdit' => false,
             'team' => new Team(),
-            'venues' => SportsVenue::orderBy('name')->get(),
+            'venues' => SportsVenue::where('status', true)->orderBy('name')->get(),
             'teamVenueIds' => [],
+            'coaches' => User::where('role', User::ROLE_COACH)->orderBy('name')->get(),
         ]);
     }
 
@@ -135,6 +137,7 @@ class TeamsController extends Controller
             'team' => $team,
             'venues' => SportsVenue::orderBy('name')->get(),
             'teamVenueIds' => $team->venues->pluck('id')->all(),
+            'coaches' => User::where('role', User::ROLE_COACH)->orderBy('name')->get(),
         ]);
     }
 

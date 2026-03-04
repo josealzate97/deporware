@@ -55,7 +55,8 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            <form class="info-form" method="POST" action="{{ $isEdit ? route('teams.update', $team?->id) : route('teams.store') }}">
+            <form class="info-form" method="POST" action="{{ $isEdit ? route('teams.update', $team?->id) : route('teams.store') }}"
+                x-data="{ coachA: @json(old('coach_primary', '')), coachB: @json(old('coach_secondary', '')) }">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
@@ -111,18 +112,55 @@
 
                             <div class="row g-3 mt-1">
                                 @forelse($venues as $venue)
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-sm-6 col-lg-3">
                                         <div class="form-check form-switch form-switch-lg team-venue-switch">
                                             <input class="form-check-input" type="checkbox" name="venues[]"
                                                 value="{{ $venue->id }}"
                                                 {{ in_array($venue->id, $teamVenueIds ?? [], true) ? 'checked' : '' }}>
                                             <label class="form-check-label fw-semibold">{{ $venue->name }}</label>
+                                            <span class="meta-badge">{{ $venue->city }}</span>
                                         </div>
-                                        <div class="text-muted small">{{ $venue->city }}</div>
                                     </div>
                                 @empty
                                     <div class="col-12 text-muted">No hay sedes registradas.</div>
                                 @endforelse
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="info-section">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-user-group me-2 text-primary"></i>
+                                Personal (Entrenadores)
+                            </div>
+
+                            <div class="row g-3 mt-1">
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Entrenador principal</label>
+                                    <select class="form-select" name="coach_primary" x-model="coachA">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($coaches as $coach)
+                                            <option value="{{ $coach->id }}" :disabled="coachB === '{{ $coach->id }}'">
+                                                {{ $coach->name }} {{ $coach->lastname }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Entrenador asistente</label>
+                                    <select class="form-select" name="coach_secondary" x-model="coachB">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($coaches as $coach)
+                                            <option value="{{ $coach->id }}" :disabled="coachA === '{{ $coach->id }}'">
+                                                {{ $coach->name }} {{ $coach->lastname }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-muted small">No se puede repetir el mismo entrenador en ambos campos.</div>
+                                </div>
                             </div>
                         </div>
                     </div>

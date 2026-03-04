@@ -42,8 +42,6 @@
     align-items: center;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&display=swap');
-
 .sidebar-title {
     font-size: 1.7rem;
     letter-spacing: 0.6px;
