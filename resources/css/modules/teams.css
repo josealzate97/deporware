@@ -39,7 +39,7 @@
 
 .team-venue-switch {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.6rem;
 }
 
@@ -52,6 +52,33 @@
     margin-top: 0;
 }
 
+.team-venue-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.team-venue-switch .form-check-label {
+    font-size: 0.88rem;
+    line-height: 1.15;
+}
+
 .team-venue-switch .meta-badge {
-    margin-left: 0.4rem;
+    margin-left: 0;
+    width: fit-content;
+}
+
+.teams-form-layout > .col-lg-6 {
+    display: flex;
+}
+
+.teams-form-layout > .col-lg-6 .info-section {
+    width: 100%;
+    height: 100%;
+}
+
+.team-status-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }

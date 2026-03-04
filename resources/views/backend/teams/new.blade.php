@@ -2,6 +2,7 @@
 
 @php($isEdit = $isEdit ?? false)
 @php($team = $team ?? null)
+@php($seasonSuggestion = now()->year . '-' . (now()->year + 1))
 
 @section('title', $isEdit ? 'Editar Plantillas' : 'Nuevo Plantillas')
 
@@ -67,7 +68,7 @@
                     @method('PUT')
                 @endif
 
-                <div class="row g-4">
+                <div class="row g-4 teams-form-layout">
                     <div class="col-12">
                         <div class="info-section">
                             <div class="info-section-title">
@@ -76,19 +77,37 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-lg-5">
                                     <label class="form-label fw-semibold">Nombre</label>
                                     <input type="text" class="form-control" name="name" value="{{ old('name', $team->name ?? '') }}" required>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-2">
                                     <label class="form-label fw-semibold">Año</label>
-                                    <input type="text" class="form-control" name="year" maxlength="4" value="{{ old('year', $team->year ?? '') }}" required>
+                                    <input type="text"
+                                        class="form-control"
+                                        name="year"
+                                        maxlength="9"
+                                        inputmode="numeric"
+                                        pattern="\\d{4}(-\\d{4})?"
+                                        placeholder="2016-2018"
+                                        title="Usa el formato 2026 o 2016-2018"
+                                        value="{{ old('year', $team->year ?? '') }}"
+                                        required>
                                 </div>
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-2">
                                     <label class="form-label fw-semibold">Temporada</label>
-                                    <input type="text" class="form-control" name="season" maxlength="20" value="{{ old('season', $team->season ?? '') }}" required>
+                                    <input type="text"
+                                        class="form-control"
+                                        name="season"
+                                        maxlength="9"
+                                        inputmode="numeric"
+                                        pattern="\\d{4}-\\d{4}"
+                                        placeholder="2026-2027"
+                                        title="Usa el formato 2026-2027"
+                                        value="{{ old('season', $team->season ?? $seasonSuggestion) }}"
+                                        required>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-md-6 col-lg-3">
                                     <label class="form-label fw-semibold">Tipo</label>
                                     <select class="form-select" name="type" required>
                                         <option value="">Selecciona...</option>
@@ -96,19 +115,20 @@
                                         <option value="2" {{ (string) old('type', $team->type ?? '') === '2' ? 'selected' : '' }}>Formativo</option>
                                     </select>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold d-block">Estado</label>
-                                    <div class="form-check form-switch form-switch-lg mt-2">
+                                    <div class="form-check form-switch form-switch-lg mt-2 team-status-switch">
                                         <input class="form-check-input" type="checkbox" name="status" value="1"
                                             {{ old('status', $team->status ?? true) ? 'checked' : '' }}>
-                                        <label class="form-check-label">Plantilla activa</label>
+                                        <label class="form-check-label fw-semibold">Plantilla activa</label>
                                     </div>
                                 </div>
+                                <div class="col-12 col-lg-4 d-none d-lg-block"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12 col-lg-6">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-location-dot me-2 text-primary"></i>
@@ -117,13 +137,15 @@
 
                             <div class="row g-3 mt-1">
                                 @forelse($venues as $venue)
-                                    <div class="col-12 col-sm-6 col-lg-3">
+                                    <div class="col-12 col-sm-6">
                                         <div class="form-check form-switch form-switch-lg team-venue-switch">
                                             <input class="form-check-input" type="checkbox" name="venues[]"
                                                 value="{{ $venue->id }}"
                                                 {{ in_array($venue->id, $teamVenueIds ?? [], true) ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-semibold">{{ $venue->name }}</label>
-                                            <span class="meta-badge">{{ $venue->city }}</span>
+                                            <div class="team-venue-meta">
+                                                <label class="form-check-label fw-semibold">{{ $venue->name }}</label>
+                                                <span class="meta-badge">{{ $venue->city }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 @empty
@@ -133,7 +155,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12 col-lg-6">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-user-group me-2 text-primary"></i>

@@ -5,6 +5,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const seasonInput = document.getElementById('teamsSeasonFilter');
     const yearInput = document.getElementById('teamsYearFilter');
+    const seasonField = document.querySelector('input[name="season"]');
+    const yearField = document.querySelector('input[name="year"]');
+
+    const sanitizeYearSeason = (event) => {
+        const input = event.target;
+        const cleaned = input.value.replace(/[^0-9-]/g, '');
+        if (cleaned !== input.value) {
+            const pos = input.selectionStart;
+            input.value = cleaned;
+            if (typeof pos === 'number') {
+                const nextPos = Math.max(0, pos - 1);
+                input.setSelectionRange(nextPos, nextPos);
+            }
+        }
+    };
+
+    [seasonField, yearField].forEach((field) => {
+        if (!field) return;
+        field.addEventListener('input', sanitizeYearSeason);
+        field.addEventListener('paste', sanitizeYearSeason);
+    });
 
     if (searchInput && statusSelect && seasonInput && yearInput && table) {
         const rows = Array.from(table.querySelectorAll('tbody tr'));

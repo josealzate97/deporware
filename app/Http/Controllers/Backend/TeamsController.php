@@ -83,9 +83,9 @@ class TeamsController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'year' => 'required|string|max:4',
+            'year' => ['required', 'string', 'regex:/^\\d{4}(-\\d{4})?$/'],
             'type' => 'required|integer|in:1,2',
-            'season' => 'required|string|max:20',
+            'season' => ['required', 'string', 'regex:/^\\d{4}-\\d{4}$/'],
             'status' => 'nullable|boolean',
             'venues' => 'nullable|array',
             'venues.*' => 'uuid|exists:sports_venues,id',
@@ -194,9 +194,9 @@ class TeamsController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'year' => 'required|string|max:4',
+            'year' => ['required', 'string', 'regex:/^\\d{4}(-\\d{4})?$/'],
             'type' => 'required|integer|in:1,2',
-            'season' => 'required|string|max:20',
+            'season' => ['required', 'string', 'regex:/^\\d{4}-\\d{4}$/'],
             'status' => 'nullable|boolean',
             'venues' => 'nullable|array',
             'venues.*' => 'uuid|exists:sports_venues,id',
