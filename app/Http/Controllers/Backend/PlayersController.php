@@ -68,11 +68,26 @@ class PlayersController extends Controller
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
             'status' => 'nullable|boolean',
+            'initial_observation_type' => ['nullable', 'integer', Rule::in(array_keys(PlayerObservation::typeOptions()))],
+            'initial_observation_notes' => 'nullable|string',
         ]);
 
         $validated['status'] = $request->boolean('status') ? Player::ACTIVE : Player::INACTIVE;
 
+        $initialObservationType = $validated['initial_observation_type'] ?? null;
+        $initialObservationNotes = $validated['initial_observation_notes'] ?? null;
+        unset($validated['initial_observation_type'], $validated['initial_observation_notes']);
+
         $player = Player::create($validated);
+
+        if (!empty($initialObservationType)) {
+            $player->observations()->create([
+                'type' => $initialObservationType,
+                'notes' => $initialObservationNotes ?? null,
+                'user' => Auth::id(),
+                'status' => PlayerObservation::ACTIVE,
+            ]);
+        }
 
         return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
     }
@@ -132,6 +147,7 @@ class PlayersController extends Controller
 
         if ($step === 'contacts') {
             $validated = $request->validate([
+                'contact_id' => 'nullable|uuid',
                 'contact_name' => 'required|string|max:100',
                 'contact_lastname' => 'required|string|max:100',
                 'contact_email' => 'required|email|max:100',
@@ -151,14 +167,18 @@ class PlayersController extends Controller
                 'status' => $request->boolean('contact_status') ? 1 : 0,
             ];
 
-            $contact = $player->contacts()->first();
+            $contact = null;
+            if (!empty($validated['contact_id'])) {
+                $contact = $player->contacts()->where('id', $validated['contact_id'])->first();
+            }
+
             if ($contact) {
                 $contact->update($contactPayload);
             } else {
                 $player->contacts()->create($contactPayload);
             }
 
-            return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'observations']);
+            return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
         }
 
         $validated = $request->validate([
@@ -210,6 +230,22 @@ class PlayersController extends Controller
     }
 
     /**
+     * Remove a contact from a player.
+     *
+     * @param int $id
+     * @param string $contactId
+     * @return \Illuminate\Http\Response
+    */
+    public function destroyContact($id, $contactId)
+    {
+        $player = Player::findOrFail($id);
+        $contact = $player->contacts()->where('id', $contactId)->firstOrFail();
+        $contact->delete();
+
+        return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -217,6 +253,15 @@ class PlayersController extends Controller
     */
     public function destroy($id)
     {
+        $player = Player::findOrFail($id);
+        $player->contacts()->delete();
+        $player->observations()->delete();
+        $player->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
         return redirect()->route('players.index');
     }
 }

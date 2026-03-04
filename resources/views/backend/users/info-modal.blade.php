@@ -11,34 +11,51 @@
 </div>
 
 <div class="card p-3 section-card">
-    <div class="row g-3">
-        <div class="col-md-6">
-            <div class="fw-semibold">Nombre</div>
-            <div>{{ $user->name }} {{ $user->lastname }}</div>
-            <div class="mt-2">
+    <div class="user-info-grid">
+        <div class="user-info-item">
+            <div class="user-info-label">
+                <i class="fa-solid fa-user text-primary me-2"></i>
+                Nombre
+            </div>
+            <div class="user-info-value">{{ $user->name }} {{ $user->lastname }}</div>
+            <div class="user-info-sub">
                 <span class="meta-badge">{{ $user->username }}</span>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="fw-semibold">Contacto</div>
-            <div>{{ $user->email }}</div>
-            <div>{{ $user->phone }}</div>
+        <div class="user-info-item">
+            <div class="user-info-label">
+                <i class="fa-solid fa-phone text-primary me-2"></i>
+                Contacto
+            </div>
+            <div class="user-info-value">{{ $user->email }}</div>
+            <div class="user-info-sub">{{ $user->phone }}</div>
         </div>
-        <div class="col-md-6">
-            <div class="fw-semibold">Fecha de contrato</div>
-            <div>{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</div>
+        <div class="user-info-item">
+            <div class="user-info-label">
+                <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                Fecha de contrato
+            </div>
+            <div class="user-info-value">{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</div>
         </div>
-        <div class="col-md-6">
-            <div class="fw-semibold">Rol</div>
-            <div>{{ $user->role_label }}</div>
+        <div class="user-info-item">
+            <div class="user-info-label">
+                <i class="fa-solid fa-id-badge text-primary me-2"></i>
+                Rol
+            </div>
+            <div class="user-info-value">{{ $user->role_label }}</div>
         </div>
-        <div class="col-md-6">
-            <div class="fw-semibold">Estado</div>
-            @if($user->status == \App\Models\User::ACTIVE)
-                <span class="status-pill status-pill-success">Activo</span>
-            @else
-                <span class="status-pill status-pill-muted">Inactivo</span>
-            @endif
+        <div class="user-info-item">
+            <div class="user-info-label">
+                <i class="fa-solid fa-toggle-on text-primary me-2"></i>
+                Estado
+            </div>
+            <div class="user-info-value">
+                @if($user->status == \App\Models\User::ACTIVE)
+                    <span class="status-pill status-pill-success">Activo</span>
+                @else
+                    <span class="status-pill status-pill-muted">Inactivo</span>
+                @endif
+            </div>
         </div>
     </div>
 </div>

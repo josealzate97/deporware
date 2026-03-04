@@ -22,52 +22,94 @@
         <label for="player-tab-observations">Observaciones</label>
 
         <div class="player-tab-panels w-100">
+            @php($nationalityOptions = \App\Models\Player::nationalityOptions())
+            @php($positionOptions = \App\Models\Player::positionOptions())
+            @php($footOptions = \App\Models\Player::footOptions())
+
             <div class="player-tab-panel" data-panel="general">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="fw-semibold">Jugador</div>
-                        <div>{{ $player->name }} {{ $player->lastname }}</div>
-                        <div class="text-muted small">NIT: {{ $player->nit ?? '-' }}</div>
+                <div class="player-info-grid">
+                    <div class="player-info-item">
+                        <div class="player-info-label">
+                            <i class="fa-solid fa-user text-primary me-2"></i>
+                            Jugador
+                        </div>
+                        <div class="player-info-value">{{ $player->name }} {{ $player->lastname }}</div>
+                        <div class="player-info-sub">NIT: {{ $player->nit ?? '-' }}</div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="fw-semibold">Contacto</div>
-                        <div>{{ $player->email ?? '-' }}</div>
-                        <div>{{ $player->phone ?? '-' }}</div>
+                    <div class="player-info-item">
+                        <div class="player-info-label">
+                            <i class="fa-solid fa-phone text-primary me-2"></i>
+                            Contacto
+                        </div>
+                        <div class="player-info-value">{{ $player->email ?? '-' }}</div>
+                        <div class="player-info-sub">{{ $player->phone ?? '-' }}</div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="fw-semibold">Estado</div>
-                        @if($player->status == \App\Models\Player::ACTIVE)
-                            <span class="status-pill status-pill-success">Activo</span>
-                        @else
-                            <span class="status-pill status-pill-muted">Inactivo</span>
-                        @endif
+                    <div class="player-info-item">
+                        <div class="player-info-label">
+                            <i class="fa-solid fa-cake-candles text-primary me-2"></i>
+                            Nacimiento
+                        </div>
+                        <div class="player-info-value">{{ $player->birthdate?->format('Y-m-d') ?? '-' }}</div>
+                        <div class="player-info-sub">
+                            Nacionalidad: {{ $nationalityOptions[$player->nacionality] ?? '-' }}
+                        </div>
+                    </div>
+                    <div class="player-info-item">
+                        <div class="player-info-label">
+                            <i class="fa-solid fa-futbol text-primary me-2"></i>
+                            Perfil deportivo
+                        </div>
+                        <div class="player-info-value">Posición: {{ $positionOptions[$player->position] ?? '-' }}</div>
+                        <div class="player-info-sub">Pierna hábil: {{ $footOptions[$player->foot] ?? '-' }}</div>
+                        <div class="player-info-sub">Peso: {{ $player->weight ?? '-' }} kg</div>
+                    </div>
+                    <div class="player-info-item">
+                        <div class="player-info-label">
+                            <i class="fa-solid fa-hashtag text-primary me-2"></i>
+                            Dorsal
+                        </div>
+                        <div class="player-info-value">{{ $player->dorsal ?? '-' }}</div>
+                    </div>
+                    <div class="player-info-item">
+                        <div class="player-info-label">
+                            <i class="fa-solid fa-toggle-on text-primary me-2"></i>
+                            Estado
+                        </div>
+                        <div class="player-info-value">
+                            @if($player->status == \App\Models\Player::ACTIVE)
+                                <span class="status-pill status-pill-success">Activo</span>
+                            @else
+                                <span class="status-pill status-pill-muted">Inactivo</span>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="player-tab-panel" data-panel="contacts">
-                @php($contact = $player->contacts->first())
-                @if(!$contact)
+                @if($player->contacts->isEmpty())
                     <div class="text-muted">Sin contactos registrados.</div>
                 @else
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="fw-semibold">Contacto principal</div>
-                            <div>{{ $contact->name }} {{ $contact->lastname }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="fw-semibold">Email / Teléfono</div>
-                            <div>{{ $contact->email }}</div>
-                            <div>{{ $contact->phone }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="fw-semibold">Dirección</div>
-                            <div>{{ $contact->address ?? '-' }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="fw-semibold">Ciudad</div>
-                            <div>{{ $contact->city ?? '-' }}</div>
-                        </div>
+                    <div class="row g-2">
+                        @foreach($player->contacts as $contact)
+                            <div class="col-12 col-lg-6">
+                                <div class="player-contact-card">
+                                    <div class="player-contact-header">
+                                        <span class="player-contact-icon">
+                                            <i class="fa-solid fa-user-group"></i>
+                                        </span>
+                                        <div>
+                                            <div class="fw-semibold">{{ $contact->name }} {{ $contact->lastname }}</div>
+                                            <div class="text-muted small">{{ $contact->email }} · {{ $contact->phone }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="player-contact-meta">
+                                        <div><i class="fa-solid fa-location-dot text-primary me-2"></i>{{ $contact->address ?? '-' }}</div>
+                                        <div><i class="fa-solid fa-city text-primary me-2"></i>{{ $contact->city ?? '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 @endif
             </div>

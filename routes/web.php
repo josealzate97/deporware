@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
         Route::post('/{id}/observations', 'storeObservation')->name('observations.store');
+        Route::delete('/{id}/contacts/{contactId}', 'destroyContact')->name('contacts.destroy');
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
 

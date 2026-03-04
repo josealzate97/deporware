@@ -3,7 +3,8 @@
 @php($isEdit = $isEdit ?? false)
 @php($player = $player ?? null)
 @php($activeStep = in_array($step ?? 'player', ['player', 'contacts', 'observations'], true) ? $step : 'player')
-@php($contact = $player?->contacts?->first())
+@php($activeContactId = request()->query('contact_id'))
+@php($contact = $activeContactId ? $player?->contacts?->firstWhere('id', $activeContactId) : null)
 
 @section('title', $isEdit ? 'Editar Jugadores' : 'Nuevo Jugadores')
 
@@ -196,6 +197,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if(!$isEdit)
+                            <div class="col-12">
+                                <div class="info-section">
+                                    <div class="info-section-title">
+                                        <i class="fa-solid fa-clipboard-list me-2 text-primary"></i>
+                                        Observación inicial (opcional)
+                                    </div>
+                                    <div class="row g-3 mt-1">
+                                        <div class="col-12 col-lg-4">
+                                            <label class="form-label fw-semibold">Tipo</label>
+                                            <select class="form-select" name="initial_observation_type">
+                                                <option value="">Selecciona...</option>
+                                                @foreach($observationTypes as $key => $label)
+                                                    <option value="{{ $key }}" {{ (string) old('initial_observation_type') === (string) $key ? 'selected' : '' }}>
+                                                        {{ $label }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label fw-semibold">Notas</label>
+                                            <textarea class="form-control" name="initial_observation_notes" rows="3" placeholder="Escribe una observación inicial...">{{ old('initial_observation_notes') }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="mt-4 text-end">
@@ -211,10 +240,46 @@
                 @if(!$isEdit)
                     <div class="text-muted">Primero guarda los datos del jugador para habilitar contactos.</div>
                 @else
+                    <div class="mb-3">
+                        <div class="fw-semibold mb-2">Contactos registrados</div>
+                        @if($player->contacts->isEmpty())
+                            <div class="text-muted">Sin contactos registrados.</div>
+                        @else
+                            <div class="row g-2">
+                                @foreach($player->contacts as $listedContact)
+                                    <div class="col-12 col-lg-6">
+                                        <div class="team-info-item h-100">
+                                            <div class="flex-grow-1">
+                                                <div class="fw-semibold">{{ $listedContact->name }} {{ $listedContact->lastname }}</div>
+                                                <div class="text-muted small">{{ $listedContact->email }} · {{ $listedContact->phone }}</div>
+                                                <div class="text-muted small">{{ $listedContact->city ?? '-' }}</div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <a class="btn btn-icon btn-icon-edit"
+                                                   href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts', 'contact_id' => $listedContact->id]) }}"
+                                                   title="Editar contacto">
+                                                    <i class="fas fa-edit mt-1"></i>
+                                                </a>
+                                                <form method="POST" action="{{ route('players.contacts.destroy', ['id' => $player->id, 'contactId' => $listedContact->id]) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-icon text-danger" title="Eliminar contacto">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
                     <form class="info-form" method="POST" action="{{ route('players.update', $player->id) }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="step" value="contacts">
+                        <input type="hidden" name="contact_id" value="{{ $contact?->id }}">
 
                         <div class="row g-4">
                             <div class="col-12">
@@ -271,7 +336,7 @@
                         <div class="mt-4 text-end">
                             <button type="submit" class="btn btn-success px-4 fw-bold">
                                 <i class="fa fa-save me-2"></i>
-                                Guardar contacto
+                                {{ $contact ? 'Actualizar contacto' : 'Guardar contacto' }}
                             </button>
                         </div>
                     </form>

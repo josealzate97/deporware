@@ -389,6 +389,40 @@ html, body {
   gap: 0.6rem;
 }
 
+.entity-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.entity-info-item {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+}
+
+.entity-info-label {
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: #1f2937;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.entity-info-value {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.entity-info-sub {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 0.15rem;
+}
+
 .info-modal-frame {
   width: 100%;
   height: 75vh;
