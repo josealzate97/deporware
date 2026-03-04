@@ -55,8 +55,13 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
+            @php($selectedCoachPrimary = old('coach_primary', $coachPrimaryId ?? ''))
+            @php($selectedCoachSecondary = old('coach_secondary', $coachSecondaryId ?? ''))
+
             <form class="info-form" method="POST" action="{{ $isEdit ? route('teams.update', $team?->id) : route('teams.store') }}"
-                x-data="{ coachA: @json(old('coach_primary', '')), coachB: @json(old('coach_secondary', '')) }">
+                x-data="{ coachA: '', coachB: '' }"
+                x-init="coachA = @js($selectedCoachPrimary); coachB = @js($selectedCoachSecondary)"
+                x-effect="if (coachA && coachB && coachA === coachB) { coachB = '' }">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
@@ -141,7 +146,9 @@
                                     <select class="form-select" name="coach_primary" x-model="coachA">
                                         <option value="">Selecciona...</option>
                                         @foreach($coaches as $coach)
-                                            <option value="{{ $coach->id }}" :disabled="coachB === '{{ $coach->id }}'">
+                                            <option value="{{ $coach->id }}"
+                                                :disabled="coachB === '{{ $coach->id }}'"
+                                                {{ (string) $selectedCoachPrimary === (string) $coach->id ? 'selected' : '' }}>
                                                 {{ $coach->name }} {{ $coach->lastname }}
                                             </option>
                                         @endforeach
@@ -152,7 +159,9 @@
                                     <select class="form-select" name="coach_secondary" x-model="coachB">
                                         <option value="">Selecciona...</option>
                                         @foreach($coaches as $coach)
-                                            <option value="{{ $coach->id }}" :disabled="coachA === '{{ $coach->id }}'">
+                                            <option value="{{ $coach->id }}"
+                                                :disabled="coachA === '{{ $coach->id }}'"
+                                                {{ (string) $selectedCoachSecondary === (string) $coach->id ? 'selected' : '' }}>
                                                 {{ $coach->name }} {{ $coach->lastname }}
                                             </option>
                                         @endforeach

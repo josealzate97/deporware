@@ -54,5 +54,40 @@
                 </div>
             @endif
         </div>
+        <div class="col-12">
+            <div class="fw-semibold">Entrenadores</div>
+            @if(!$primaryCoach && !$assistantCoach)
+                <div class="text-muted">Sin entrenadores asignados.</div>
+            @else
+                <div class="row g-2 mt-2">
+                    @if($primaryCoach)
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="team-info-item h-100">
+                                <span class="team-avatar-badge">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </span>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">{{ $primaryCoach->name }}</div>
+                                    <span class="meta-badge">Entrenador principal</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if($assistantCoach)
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="team-info-item h-100">
+                                <span class="team-avatar-badge">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">{{ $assistantCoach->name }}</div>
+                                    <span class="meta-badge">Entrenador asistente</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @endif
+        </div>
     </div>
 </div>

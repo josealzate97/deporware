@@ -10,6 +10,9 @@ class ManagerRoster extends Model
 {
     use HasFactory;
 
+    public const ROLE_PRIMARY_COACH = 1;
+    public const ROLE_ASSISTANT_COACH = 2;
+
     protected $table = 'manager_roster';
 
     public $incrementing = false;
