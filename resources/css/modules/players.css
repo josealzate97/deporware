@@ -1,0 +1,67 @@
+.players-wizard-tabs {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.players-tab {
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.players-tab.is-active {
+  color: #0f172a;
+  background: #ffffff;
+  border-color: #cbd5f5;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.players-tab.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.player-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.player-tabs input[type="radio"] {
+  display: none;
+}
+
+.player-tabs label {
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.player-tabs input[type="radio"]:checked + label {
+  color: #0f172a;
+  background: #ffffff;
+  border-color: #cbd5f5;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+}
+
+.player-tab-panels .player-tab-panel {
+  display: none;
+}
+
+#player-tab-general:checked ~ .player-tab-panels [data-panel="general"],
+#player-tab-contacts:checked ~ .player-tab-panels [data-panel="contacts"],
+#player-tab-observations:checked ~ .player-tab-panels [data-panel="observations"] {
+  display: block;
+}

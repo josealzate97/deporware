@@ -12,6 +12,13 @@ class PlayerObservation extends Model
 
     protected $table = 'player_observations';
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
+    public const TYPE_TACTIC = 1;
+    public const TYPE_PSYCHIQUE = 2;
+    public const TYPE_PSYCOLOGICAL = 3;
+
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -51,5 +58,14 @@ class PlayerObservation extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user');
+    }
+
+    public static function typeOptions(): array
+    {
+        return [
+            self::TYPE_TACTIC => 'Táctica',
+            self::TYPE_PSYCHIQUE => 'Física',
+            self::TYPE_PSYCOLOGICAL => 'Psicológica',
+        ];
     }
 }

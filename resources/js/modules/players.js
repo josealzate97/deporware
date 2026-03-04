@@ -1,5 +1,21 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('infoModal', () => ({
+    const observationModal = () => ({
+        observationOpen: false,
+        observationPlayerId: null,
+        observationPlayerName: '',
+        openObservation(id, name) {
+            this.observationPlayerId = id;
+            this.observationPlayerName = name;
+            this.observationOpen = true;
+        },
+        closeObservation() {
+            this.observationOpen = false;
+            this.observationPlayerId = null;
+            this.observationPlayerName = '';
+        },
+    });
+
+    const infoModal = () => ({
         open: false,
         title: 'Detalle',
         content: '',
@@ -21,5 +37,12 @@ document.addEventListener('alpine:init', () => {
             this.open = false;
             this.content = '';
         },
+    });
+
+    Alpine.data('infoModal', infoModal);
+
+    Alpine.data('playersPage', () => ({
+        ...infoModal(),
+        ...observationModal(),
     }));
 });

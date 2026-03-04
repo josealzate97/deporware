@@ -19,16 +19,8 @@ class Player extends Model
     public const NATIONALITY_COLOMBIA = 1;
     public const NATIONALITY_VENEZUELA = 2;
     public const NATIONALITY_ECUADOR = 3;
-    public const NATIONALITY_PERU = 4;
-    public const NATIONALITY_BRAZIL = 5;
-    public const NATIONALITY_ARGENTINA = 6;
-    public const NATIONALITY_CHILE = 7;
-    public const NATIONALITY_URUGUAY = 8;
-    public const NATIONALITY_PARAGUAY = 9;
-    public const NATIONALITY_BOLIVIA = 10;
-    public const NATIONALITY_MEXICO = 11;
-    public const NATIONALITY_SPAIN = 12;
-    public const NATIONALITY_USA = 13;
+    public const NATIONALITY_SPAIN = 4;
+    public const NATIONALITY_USA = 5;
 
     public const POSITION_GOALKEEPER = 1;
     public const POSITION_DEFENDER = 2;
@@ -43,6 +35,7 @@ class Player extends Model
         'id',
         'name',
         'lastname',
+        'nit',
         'email',
         'phone',
         'birthdate',
@@ -104,14 +97,6 @@ class Player extends Model
             self::NATIONALITY_COLOMBIA => 'Colombia',
             self::NATIONALITY_VENEZUELA => 'Venezuela',
             self::NATIONALITY_ECUADOR => 'Ecuador',
-            self::NATIONALITY_PERU => 'Perú',
-            self::NATIONALITY_BRAZIL => 'Brasil',
-            self::NATIONALITY_ARGENTINA => 'Argentina',
-            self::NATIONALITY_CHILE => 'Chile',
-            self::NATIONALITY_URUGUAY => 'Uruguay',
-            self::NATIONALITY_PARAGUAY => 'Paraguay',
-            self::NATIONALITY_BOLIVIA => 'Bolivia',
-            self::NATIONALITY_MEXICO => 'México',
             self::NATIONALITY_SPAIN => 'España',
             self::NATIONALITY_USA => 'Estados Unidos',
         ];

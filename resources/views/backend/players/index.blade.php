@@ -49,7 +49,7 @@
 
         </div>
 
-        <div x-data="infoModal()">
+        <div x-data="playersPage()">
         <div class="card p-0 mt-4 section-card">
             <div class="table-responsive">
                 <table class="table table-borderless align-middle section-table">
@@ -83,6 +83,11 @@
                                         aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
                                         <i class="fas fa-circle-info"></i>
                                     </button>
+                                    <button type="button" class="btn btn-icon text-success"
+                                        @click="openObservation('{{ $player->id }}', @js($player->name . ' ' . $player->lastname))"
+                                        aria-label="Agregar observación a {{ $player->name }} {{ $player->lastname }}" title="Agregar observación">
+                                        <i class="fas fa-note-sticky"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
@@ -104,6 +109,47 @@
                     <button type="button" class="info-close" @click="closeModal">&times;</button>
                 </div>
                 <div class="info-body" x-html="content"></div>
+            </div>
+        </div>
+
+        <div class="info-overlay" x-show="observationOpen" x-transition.opacity x-cloak @click.self="closeObservation">
+            <div class="info-panel" :class="observationOpen ? 'is-open' : ''" x-show="observationOpen" x-transition>
+                <div class="info-header">
+                    <span>Crear observación</span>
+                    <button type="button" class="info-close" @click="closeObservation">&times;</button>
+                </div>
+                <div class="info-body">
+                    <form method="POST" :action="`{{ route('players.observations.store', ['id' => '__ID__']) }}`.replace('__ID__', observationPlayerId)">
+                        @csrf
+                        <div class="info-section">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-clipboard-list me-2 text-primary"></i>
+                                <span x-text="observationPlayerName"></span>
+                            </div>
+                            <div class="row g-3 mt-1">
+                                <div class="col-12 col-lg-4">
+                                    <label class="form-label fw-semibold">Tipo</label>
+                                    <select class="form-select" name="type" required>
+                                        <option value="">Selecciona...</option>
+                                        @foreach($observationTypes as $key => $label)
+                                            <option value="{{ $key }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Notas</label>
+                                    <textarea class="form-control" name="notes" rows="4" placeholder="Escribe la observación..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn btn-success px-4 fw-bold">
+                                <i class="fa fa-save me-2"></i>
+                                Guardar observación
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
