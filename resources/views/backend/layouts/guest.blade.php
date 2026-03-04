@@ -8,9 +8,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="@yield('meta_description', 'deporware: acceso seguro al panel de inventario, ventas y reportes.')">
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/tab_icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/tab_icon.png') }}">
 
-        <title>@yield('title', 'deporware')</title>
+        <title>@yield('title', 'Deporware')</title>
 
         <!-- Vite Assets -->
         @vite(['resources/css/guest.css', 'resources/css/modules/auth.css'])

@@ -8,10 +8,10 @@
         <meta name="description" content="@yield('meta_description', 'deporware: panel de gestión de inventario, ventas y reportes en tiempo real.')">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', 'deporware')</title>
+        <title>@yield('title', 'Deporware')</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/tab_icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/tab_icon.png') }}">
 
         <!-- Vite Assets -->
         @vite([

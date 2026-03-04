@@ -29,8 +29,8 @@
 }
 
 .sidebar-logo {
-    width: 45px;
-    height: 45px;
+    width: 70%;
+    height: auto;
 }
 
 .sidebar-brand {
@@ -48,6 +48,8 @@
     font-size: 1.7rem;
     letter-spacing: 0.6px;
     color: var(--brand-blue);
+    display: flex;
+    justify-content: center;
     font-family: 'Manrope', 'Segoe UI', sans-serif;
 }
 
