@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Usuarios')
+@section('title', 'Personal Deportivo')
 
 @push('styles')
     @vite(['resources/css/modules/users.css'])
@@ -55,8 +55,8 @@
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
-                    <label class="visually-hidden" for="usersSearch">Buscar usuario</label>
-                    <input type="text" class="form-control form-control-sm" id="usersSearch" placeholder="Buscar usuario...">
+                    <label class="visually-hidden" for="usersSearch">Buscar personal</label>
+                    <input type="text" class="form-control form-control-sm" id="usersSearch" placeholder="Buscar personal...">
                 </div>
                 <label class="visually-hidden" for="usersRoleFilter">Filtrar por rol</label>
                 <select class="form-select form-select-sm section-filter" id="usersRoleFilter">

@@ -34,6 +34,10 @@ class PlayersController extends Controller
     {
         return view('backend.players.new', [
             'isEdit' => false,
+            'player' => new Player(),
+            'nationalityOptions' => Player::nationalityOptions(),
+            'positionOptions' => Player::positionOptions(),
+            'footOptions' => Player::footOptions(),
         ]);
     }
 
@@ -75,8 +79,14 @@ class PlayersController extends Controller
     */
     public function edit($id)
     {
+        $player = Player::findOrFail($id);
+
         return view('backend.players.new', [
             'isEdit' => true,
+            'player' => $player,
+            'nationalityOptions' => Player::nationalityOptions(),
+            'positionOptions' => Player::positionOptions(),
+            'footOptions' => Player::footOptions(),
         ]);
     }
 
