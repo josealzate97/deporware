@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name', 100);
             $table->string('year', 4);
-            $table->integer('type', 2);
+            $table->unsignedTinyInteger('type');
             $table->string('season', 20);
             $table->unsignedTinyInteger('status');
             $table->timestamps();
