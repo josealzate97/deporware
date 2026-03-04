@@ -39,7 +39,7 @@ class UserController extends Controller {
     */
     public function index() {
 
-        $users = User::orderBy('name', 'asc')->paginate(10);
+        $users = User::orderByDesc('status')->orderBy('name', 'asc')->paginate(10);
         $roles = User::roleOptions();
         
         return view('backend.users.index', compact('users', 'roles'));
@@ -59,6 +59,10 @@ class UserController extends Controller {
 
         // Informacion del usuario
         $user = User::with('venues')->findOrFail($id);
+
+        if (request()->boolean('modal')) {
+            return view('backend.users.info-modal', compact('user'));
+        }
 
         // Roles
         $roles = User::roleOptions();

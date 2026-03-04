@@ -49,6 +49,7 @@
 
         </div>
 
+        <div x-data="infoModal()">
         <div class="card p-0 mt-4 section-card">
 
             <div class="section-toolbar">
@@ -89,7 +90,9 @@
                             <tr data-id="{{ $user->id }}" data-role="{{ $user->role }}">
                                 <td>
                                     <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
-                                    <div class="text-muted small">{{ $user->username }}</div>
+                                    <div class="mt-1">
+                                        <span class="meta-badge">{{ $user->username }}</span>
+                                    </div>
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>
@@ -108,6 +111,11 @@
 
                                     @if(Auth::check() && in_array(Auth::user()->role, 
                                     [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))
+                                        <button type="button" class="btn btn-icon text-primary"
+                                            @click="openModal('{{ route('users.info', $user->id) }}?modal=1')"
+                                            aria-label="Ver información de {{ $user->name }} {{ $user->lastname }}" title="Ver información">
+                                            <i class="fas fa-circle-info"></i>
+                                        </button>
                                         <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit"
                                            aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
                                              <i class="fas fa-edit mt-1"></i>
@@ -148,6 +156,18 @@
                 </table>
 
             </div>
+
+        </div>
+
+        <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
+            <div class="info-panel" x-show="open" x-transition>
+                <div class="info-header">
+                    <span x-text="title"></span>
+                    <button type="button" class="info-close" @click="closeModal">&times;</button>
+                </div>
+                <div class="info-body" x-html="content"></div>
+            </div>
+        </div>
 
         </div>
 

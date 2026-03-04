@@ -16,7 +16,7 @@ class VenuesController extends Controller
     public function index()
     {
         return view('backend.venues.index', [
-            'venues' => SportsVenue::orderByDesc('created_at')->get(),
+            'venues' => SportsVenue::orderByDesc('status')->orderBy('name')->get(),
             'statusOptions' => [
                 '1' => 'Activas',
                 '0' => 'Inactivas',
@@ -67,7 +67,17 @@ class VenuesController extends Controller
     */
     public function show($id)
     {
-        return view('backend.venues.show');
+        $venue = SportsVenue::findOrFail($id);
+
+        if (request()->boolean('modal')) {
+            return view('backend.venues.show-modal', [
+                'venue' => $venue,
+            ]);
+        }
+
+        return view('backend.venues.show', [
+            'venue' => $venue,
+        ]);
     }
 
     /**

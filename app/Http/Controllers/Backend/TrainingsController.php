@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Training;
 use Illuminate\Http\Request;
 
 class TrainingsController extends Controller
@@ -14,7 +15,14 @@ class TrainingsController extends Controller
     */
     public function index()
     {
-        return view('backend.trainings.index');
+        $trainings = Training::with('team')
+            ->orderByDesc('status')
+            ->orderBy('name')
+            ->get();
+
+        return view('backend.trainings.index', [
+            'trainings' => $trainings,
+        ]);
     }
 
     /**
@@ -48,7 +56,17 @@ class TrainingsController extends Controller
     */
     public function show($id)
     {
-        return view('backend.trainings.show');
+        $training = Training::with('team')->findOrFail($id);
+
+        if (request()->boolean('modal')) {
+            return view('backend.trainings.show-modal', [
+                'training' => $training,
+            ]);
+        }
+
+        return view('backend.trainings.show', [
+            'training' => $training,
+        ]);
     }
 
     /**

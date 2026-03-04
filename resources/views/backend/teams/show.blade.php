@@ -17,7 +17,7 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'teams.show',
+                    'route' => 'teams.index',
                     'icon' => 'fa-solid fa-shield',
                     'label' => 'Información de la Plantilla'
                 ]

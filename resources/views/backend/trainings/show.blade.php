@@ -17,7 +17,7 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'trainings.show',
+                    'route' => 'trainings.index',
                     'icon' => 'fas fa-dumbbell',
                     'label' => 'Información del Entrenamiento'
                 ]

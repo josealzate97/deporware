@@ -50,6 +50,7 @@
 
         </div>
 
+        <div x-data="infoModal()">
         <div class="card p-0 mt-4 section-card"
             x-data='teamsTable({
                 destroyUrlTemplate: @json(route("teams.destroy", ["id" => "__ID__"])),
@@ -57,11 +58,13 @@
             })'
         >
             <div class="section-toolbar teams-toolbar">
+
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="teamsSearch">Buscar plantilla</label>
                     <input type="text" class="form-control form-control-sm" id="teamsSearch" placeholder="Buscar plantilla...">
                 </div>
+
                 <label class="visually-hidden" for="teamsStatusFilter">Filtrar por estado</label>
                 <select class="form-select form-select-sm section-filter" id="teamsStatusFilter">
                     <option value="">Todas</option>
@@ -70,31 +73,24 @@
                     @endforeach
                 </select>
 
-                <form class="teams-server-filters" method="GET" action="{{ route('teams.index') }}">
-                    <input type="hidden" name="type" value="{{ $activeType }}">
-                    <label class="visually-hidden" for="teamsSeasonFilter">Temporada</label>
-                    <input
-                        type="text"
-                        id="teamsSeasonFilter"
-                        name="season"
-                        class="form-control form-control-sm"
-                        placeholder="Temporada"
-                        value="{{ $seasonFilter }}"
-                    >
-                    <label class="visually-hidden" for="teamsYearFilter">Año</label>
-                    <input
-                        type="text"
-                        id="teamsYearFilter"
-                        name="year"
-                        class="form-control form-control-sm"
-                        placeholder="Año"
-                        value="{{ $yearFilter }}"
-                    >
-                    <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
-                </form>
+                <label class="visually-hidden" for="teamsSeasonFilter">Temporada</label>
+                <input
+                    type="text"
+                    id="teamsSeasonFilter"
+                    class="form-control form-control-sm section-filter"
+                    placeholder="Temporada"
+                >
+                <label class="visually-hidden" for="teamsYearFilter">Año</label>
+                <input
+                    type="text"
+                    id="teamsYearFilter"
+                    class="form-control form-control-sm section-filter"
+                    placeholder="Año"
+                >
+
             </div>
 
-            <div class="teams-tabs">
+            <div class="teams-tabs my-4">
                 <a
                     href="{{ route('teams.index', array_merge(['type' => 'competitive'], $baseFilters)) }}"
                     class="teams-tab {{ $activeType === 'competitive' ? 'is-active' : '' }}"
@@ -134,6 +130,11 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
+                                    <button type="button" class="btn btn-icon text-primary"
+                                        @click="openModal('{{ route('teams.show', $team->id) }}?modal=1')"
+                                        aria-label="Ver información de {{ $team->name }}" title="Ver información">
+                                        <i class="fas fa-circle-info"></i>
+                                    </button>
                                     <a href="{{ route('teams.edit', $team->id) }}" class="btn btn-icon btn-icon-edit"
                                        aria-label="Editar plantilla {{ $team->name }}" title="Editar plantilla {{ $team->name }}">
                                         <i class="fas fa-edit mt-1"></i>
@@ -162,6 +163,18 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+            <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
+                <div class="info-panel" x-show="open" x-transition>
+                    <div class="info-header">
+                        <span x-text="title"></span>
+                        <button type="button" class="info-close" @click="closeModal">&times;</button>
+                    </div>
+                    <div class="info-body" x-html="content"></div>
+                </div>
+            </div>
+
         </div>
 
     </div>

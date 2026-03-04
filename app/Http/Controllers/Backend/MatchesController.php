@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\MatchModel;
 use Illuminate\Http\Request;
 
 class MatchesController extends Controller
@@ -14,7 +15,14 @@ class MatchesController extends Controller
     */
     public function index()
     {
-        return view('backend.matches.index');
+        $matches = MatchModel::with(['team', 'rival'])
+            ->orderByDesc('match_status')
+            ->orderBy('match_date')
+            ->get();
+
+        return view('backend.matches.index', [
+            'matches' => $matches,
+        ]);
     }
 
     /**
@@ -48,7 +56,17 @@ class MatchesController extends Controller
     */
     public function show($id)
     {
-        return view('backend.matches.show');
+        $match = MatchModel::with(['team', 'rival', 'venue'])->findOrFail($id);
+
+        if (request()->boolean('modal')) {
+            return view('backend.matches.show-modal', [
+                'match' => $match,
+            ]);
+        }
+
+        return view('backend.matches.show', [
+            'match' => $match,
+        ]);
     }
 
     /**

@@ -17,7 +17,7 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'matches.show',
+                    'route' => 'matches.index',
                     'icon' => 'fa-solid fa-futbol',
                     'label' => 'Información del Partido'
                 ]

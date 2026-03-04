@@ -17,7 +17,7 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'players.show',
+                    'route' => 'players.index',
                     'icon' => 'fas fa-people-group',
                     'label' => 'Información del Jugador'
                 ]

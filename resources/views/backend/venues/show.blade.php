@@ -17,7 +17,7 @@
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
                 'section' => [
-                    'route' => 'venues.show',
+                    'route' => 'venues.index',
                     'icon' => 'fa-solid fa-building-circle-check',
                     'label' => 'Información de la Sede'
                 ]

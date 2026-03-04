@@ -26,6 +26,7 @@ class TeamsController extends Controller
 
         $teamsQuery = Team::query()
             ->where('type', $typeOptions[$activeType])
+            ->orderByDesc('status')
             ->orderBy('name');
 
         if ($seasonFilter !== '') {
@@ -96,7 +97,17 @@ class TeamsController extends Controller
     */
     public function show($id)
     {
-        return view('backend.teams.show');
+        $team = Team::findOrFail($id);
+
+        if (request()->boolean('modal')) {
+            return view('backend.teams.show-modal', [
+                'team' => $team,
+            ]);
+        }
+
+        return view('backend.teams.show', [
+            'team' => $team,
+        ]);
     }
 
     /**

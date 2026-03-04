@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Player;
 use Illuminate\Http\Request;
 
 class PlayersController extends Controller
@@ -14,7 +15,14 @@ class PlayersController extends Controller
     */
     public function index()
     {
-        return view('backend.players.index');
+        $players = Player::orderByDesc('status')
+            ->orderBy('name')
+            ->orderBy('lastname')
+            ->get();
+
+        return view('backend.players.index', [
+            'players' => $players,
+        ]);
     }
 
     /**
@@ -48,7 +56,17 @@ class PlayersController extends Controller
     */
     public function show($id)
     {
-        return view('backend.players.show');
+        $player = Player::findOrFail($id);
+
+        if (request()->boolean('modal')) {
+            return view('backend.players.show-modal', [
+                'player' => $player,
+            ]);
+        }
+
+        return view('backend.players.show', [
+            'player' => $player,
+        ]);
     }
 
     /**

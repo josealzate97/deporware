@@ -49,10 +49,64 @@
 
         </div>
 
-        <div class="card p-4 mt-4 section-card">
-            <p class="mb-0 text-muted">Aqui ira el listado principal.</p>
+        <div x-data="infoModal()">
+        <div class="card p-0 mt-4 section-card">
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle section-table">
+                    <thead>
+                        <tr>
+                            <th>Jugador</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($players as $player)
+                            <tr data-id="{{ $player->id }}">
+                                <td>
+                                    <div class="fw-bold">{{ $player->name }} {{ $player->lastname }}</div>
+                                </td>
+                                <td>{{ $player->email ?? '-' }}</td>
+                                <td>{{ $player->phone ?? '-' }}</td>
+                                <td>
+                                    @if($player->status == \App\Models\Player::ACTIVE)
+                                        <span class="status-pill status-pill-success">Activo</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactivo</span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <button type="button" class="btn btn-icon text-primary"
+                                        @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
+                                        aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
+                                        <i class="fas fa-circle-info"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No hay jugadores registrados.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-    </div>
+        </div>
+
+        <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
+            <div class="info-panel" x-show="open" x-transition>
+                <div class="info-header">
+                    <span x-text="title"></span>
+                    <button type="button" class="info-close" @click="closeModal">&times;</button>
+                </div>
+                <div class="info-body" x-html="content"></div>
+            </div>
+        </div>
+
+        </div>
 
 @endsection

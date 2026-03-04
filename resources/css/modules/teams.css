@@ -36,13 +36,3 @@
 .teams-toolbar {
     padding-top: 16px;
 }
-
-.teams-server-filters {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.teams-server-filters .form-control {
-    width: 120px;
-}
