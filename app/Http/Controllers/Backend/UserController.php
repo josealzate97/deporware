@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ManagerRoster;
 use App\Models\SportsVenue;
 use App\Models\User;
 
@@ -25,7 +26,7 @@ class UserController extends Controller {
     public function create() {
 
         $roles = User::roleOptions();
-        $venues = SportsVenue::orderBy('name')->get();
+        $venues = SportsVenue::where('status', true)->orderBy('name')->get();
 
         return view('backend.users.new', compact('roles', 'venues'));
 
@@ -61,7 +62,21 @@ class UserController extends Controller {
         $user = User::with('venues')->findOrFail($id);
 
         if (request()->boolean('modal')) {
-            return view('backend.users.info-modal', compact('user'));
+            $venues = $user->venues
+                ->where('pivot.status', 1)
+                ->values();
+
+            $teamAssignments = collect();
+            if (in_array($user->role, [User::ROLE_COACH, User::ROLE_COORDINATOR], true)) {
+                $teamAssignments = ManagerRoster::with('team')
+                    ->where('user', $user->id)
+                    ->get()
+                    ->filter(fn ($assignment) => $assignment->team)
+                    ->sortBy(fn ($assignment) => $assignment->team->name ?? '')
+                    ->values();
+            }
+
+            return view('backend.users.info-modal', compact('user', 'venues', 'teamAssignments'));
         }
 
         // Roles

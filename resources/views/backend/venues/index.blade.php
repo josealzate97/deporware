@@ -114,7 +114,7 @@
                                         <i class="fas fa-edit mt-1"></i>
                                     </a>
                                     @if($venue->name === 'Sede Principal')
-                                        <button type="button" class="btn btn-icon text-muted" disabled
+                                        <button type="button" class="btn btn-icon btn-icon-locked" disabled
                                             aria-label="Sede Principal protegida" title="Sede Principal protegida">
                                             <i class="fas fa-lock"></i>
                                         </button>

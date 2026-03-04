@@ -226,9 +226,9 @@ body.theme-dark .btn-icon {
 }
 
 body.theme-dark .btn-icon-edit {
-  background: #1a2230;
-  border-color: #2b313c;
-  color: #9cc8ff;
+  background: #0f2f23;
+  border-color: #1c3b2c;
+  color: #86efac;
 }
 
 body.theme-dark .btn-icon:hover {
@@ -237,8 +237,14 @@ body.theme-dark .btn-icon:hover {
 }
 
 body.theme-dark .btn-icon-edit:hover {
-  background: #222a38;
-  color: #c7deff;
+  background: #153a2b;
+  color: #bbf7d0;
+}
+
+body.theme-dark .btn-icon-locked {
+  background: #3a2b12;
+  border-color: #4a3816;
+  color: #fbbf24;
 }
 
 body.theme-dark h1,
