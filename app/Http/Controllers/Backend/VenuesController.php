@@ -75,9 +75,7 @@ class VenuesController extends Controller
             ]);
         }
 
-        return view('backend.venues.show', [
-            'venue' => $venue,
-        ]);
+        return redirect()->route('venues.index');
     }
 
     /**

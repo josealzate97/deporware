@@ -64,9 +64,7 @@ class PlayersController extends Controller
             ]);
         }
 
-        return view('backend.players.show', [
-            'player' => $player,
-        ]);
+        return redirect()->route('players.index');
     }
 
     /**

@@ -94,7 +94,7 @@
         </div>
 
         <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
-            <div class="info-panel" x-show="open" x-transition>
+            <div class="info-panel" :class="open ? 'is-open' : ''" x-show="open" x-transition>
                 <div class="info-header">
                     <span x-text="title"></span>
                     <button type="button" class="info-close" @click="closeModal">&times;</button>

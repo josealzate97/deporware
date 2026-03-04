@@ -64,9 +64,7 @@ class TrainingsController extends Controller
             ]);
         }
 
-        return view('backend.trainings.show', [
-            'training' => $training,
-        ]);
+        return redirect()->route('trainings.index');
     }
 
     /**

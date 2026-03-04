@@ -105,9 +105,7 @@ class TeamsController extends Controller
             ]);
         }
 
-        return view('backend.teams.show', [
-            'team' => $team,
-        ]);
+        return redirect()->route('teams.index');
     }
 
     /**

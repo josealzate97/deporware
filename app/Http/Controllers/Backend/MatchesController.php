@@ -64,9 +64,7 @@ class MatchesController extends Controller
             ]);
         }
 
-        return view('backend.matches.show', [
-            'match' => $match,
-        ]);
+        return redirect()->route('matches.index');
     }
 
     /**
