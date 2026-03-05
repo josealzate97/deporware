@@ -10,6 +10,9 @@ class PlayerContact extends Model
 {
     use HasFactory;
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     protected $table = 'players_contacts';
 
     public $incrementing = false;

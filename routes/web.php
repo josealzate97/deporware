@@ -57,8 +57,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', 'show')->name('show');
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
+        Route::post('/{id}/activate', 'activate')->name('activate');
         Route::post('/{id}/observations', 'storeObservation')->name('observations.store');
+        Route::delete('/{id}/observations/{observationId}', 'destroyObservation')->name('observations.destroy');
+        Route::post('/{id}/observations/{observationId}/activate', 'activateObservation')->name('observations.activate');
         Route::delete('/{id}/contacts/{contactId}', 'destroyContact')->name('contacts.destroy');
+        Route::post('/{id}/contacts/{contactId}/activate', 'activateContact')->name('contacts.activate');
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
 

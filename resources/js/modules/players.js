@@ -3,7 +3,6 @@ document.addEventListener('alpine:init', () => {
         observationOpen: false,
         observationPlayerId: null,
         observationPlayerName: '',
-        isDeleting: false,
         openObservation(id, name) {
             this.observationPlayerId = id;
             this.observationPlayerName = name;
@@ -13,32 +12,6 @@ document.addEventListener('alpine:init', () => {
             this.observationOpen = false;
             this.observationPlayerId = null;
             this.observationPlayerName = '';
-        },
-        async deletePlayer(url) {
-            if (this.isDeleting) return;
-            if (!window.confirm('¿Deseas eliminar este jugador?')) return;
-            this.isDeleting = true;
-            try {
-                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-                const response = await fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': token,
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('No se pudo eliminar el jugador.');
-                }
-                window.location.reload();
-            } catch (error) {
-                if (window.Notyf) {
-                    new window.Notyf().error(error.message || 'Error eliminando el jugador.');
-                }
-            } finally {
-                this.isDeleting = false;
-            }
         },
     });
 
@@ -71,5 +44,63 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('playersPage', () => ({
         ...infoModal(),
         ...observationModal(),
+        confirmOpen: false,
+        confirmTitle: 'Confirmar',
+        confirmMessage: '',
+        confirmAction: '',
+        confirmMethod: 'POST',
+        confirmSuccess: '',
+        isConfirming: false,
+        openConfirm({ title, message, action, method = 'POST', successMessage }) {
+            this.confirmTitle = title || 'Confirmar';
+            this.confirmMessage = message || '';
+            this.confirmAction = action || '';
+            this.confirmMethod = method || 'POST';
+            this.confirmSuccess = successMessage || '';
+            this.confirmOpen = true;
+        },
+        closeConfirm() {
+            this.confirmOpen = false;
+            this.confirmMessage = '';
+            this.confirmAction = '';
+            this.confirmMethod = 'POST';
+            this.confirmSuccess = '';
+        },
+        async runConfirm() {
+            if (this.isConfirming || !this.confirmAction) return;
+            this.isConfirming = true;
+            try {
+                const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                const payload = new URLSearchParams();
+                payload.append('_token', token);
+                if (this.confirmMethod && this.confirmMethod !== 'POST') {
+                    payload.append('_method', this.confirmMethod);
+                }
+
+                const response = await fetch(this.confirmAction, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    },
+                    body: payload.toString(),
+                });
+
+                if (!response.ok) {
+                    throw new Error('No se pudo completar la acción.');
+                }
+                if (this.confirmSuccess && window.Notyf) {
+                    new window.Notyf().success(this.confirmSuccess);
+                }
+                window.location.reload();
+            } catch (error) {
+                if (window.Notyf) {
+                    new window.Notyf().error(error.message || 'Error realizando la acción.');
+                }
+            } finally {
+                this.isConfirming = false;
+                this.closeConfirm();
+            }
+        },
     }));
 });

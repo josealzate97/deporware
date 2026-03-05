@@ -181,6 +181,35 @@ class PlayersController extends Controller
             return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
         }
 
+        if ($step === 'observations') {
+            $validated = $request->validate([
+                'observation_id' => 'nullable|uuid',
+                'type' => ['required', 'integer', Rule::in(array_keys(PlayerObservation::typeOptions()))],
+                'notes' => 'nullable|string',
+                'status' => 'nullable|boolean',
+            ]);
+
+            $payload = [
+                'type' => $validated['type'],
+                'notes' => $validated['notes'] ?? null,
+                'status' => $request->boolean('status') ? PlayerObservation::ACTIVE : PlayerObservation::INACTIVE,
+                'user' => Auth::id(),
+            ];
+
+            $observation = null;
+            if (!empty($validated['observation_id'])) {
+                $observation = $player->observations()->where('id', $validated['observation_id'])->first();
+            }
+
+            if ($observation) {
+                $observation->update($payload);
+            } else {
+                $player->observations()->create($payload);
+            }
+
+            return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'observations']);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
@@ -240,9 +269,25 @@ class PlayersController extends Controller
     {
         $player = Player::findOrFail($id);
         $contact = $player->contacts()->where('id', $contactId)->firstOrFail();
-        $contact->delete();
+        $contact->update(['status' => \App\Models\PlayerContact::INACTIVE]);
 
         return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
+    }
+
+    /**
+     * Remove an observation from a player.
+     *
+     * @param int $id
+     * @param string $observationId
+     * @return \Illuminate\Http\Response
+    */
+    public function destroyObservation($id, $observationId)
+    {
+        $player = Player::findOrFail($id);
+        $observation = $player->observations()->where('id', $observationId)->firstOrFail();
+        $observation->update(['status' => PlayerObservation::INACTIVE]);
+
+        return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'observations']);
     }
 
     /**
@@ -254,14 +299,66 @@ class PlayersController extends Controller
     public function destroy($id)
     {
         $player = Player::findOrFail($id);
-        $player->contacts()->delete();
-        $player->observations()->delete();
-        $player->delete();
+        $player->update(['status' => Player::INACTIVE]);
+        $player->contacts()->update(['status' => \App\Models\PlayerContact::INACTIVE]);
+        $player->observations()->update(['status' => PlayerObservation::INACTIVE]);
 
         if (request()->expectsJson()) {
             return response()->json(['success' => true]);
         }
 
         return redirect()->route('players.index');
+    }
+
+    /**
+     * Activate a player.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+    */
+    public function activate($id)
+    {
+        $player = Player::findOrFail($id);
+        $player->update(['status' => Player::ACTIVE]);
+        $player->contacts()->update(['status' => \App\Models\PlayerContact::ACTIVE]);
+        $player->observations()->update(['status' => PlayerObservation::ACTIVE]);
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->route('players.index');
+    }
+
+    /**
+     * Activate a contact for a player.
+     *
+     * @param int $id
+     * @param string $contactId
+     * @return \Illuminate\Http\Response
+    */
+    public function activateContact($id, $contactId)
+    {
+        $player = Player::findOrFail($id);
+        $contact = $player->contacts()->where('id', $contactId)->firstOrFail();
+        $contact->update(['status' => \App\Models\PlayerContact::ACTIVE]);
+
+        return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
+    }
+
+    /**
+     * Activate an observation for a player.
+     *
+     * @param int $id
+     * @param string $observationId
+     * @return \Illuminate\Http\Response
+    */
+    public function activateObservation($id, $observationId)
+    {
+        $player = Player::findOrFail($id);
+        $observation = $player->observations()->where('id', $observationId)->firstOrFail();
+        $observation->update(['status' => PlayerObservation::ACTIVE]);
+
+        return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'observations']);
     }
 }

@@ -77,29 +77,49 @@
                                             <span class="status-pill status-pill-muted">Inactivo</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
-                                        <button type="button" class="btn btn-icon text-primary"
-                                            @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
-                                            aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
-                                            <i class="fas fa-circle-info"></i>
-                                        </button>
-                                        <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-icon btn-icon-edit"
-                                            aria-label="Editar jugador {{ $player->name }} {{ $player->lastname }}" title="Editar jugador {{ $player->name }} {{ $player->lastname }}">
-                                            <i class="fas fa-edit mt-1"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-icon text-success"
-                                            @click="openObservation('{{ $player->id }}', @js($player->name . ' ' . $player->lastname))"
-                                            aria-label="Agregar observación a {{ $player->name }} {{ $player->lastname }}" title="Agregar observación">
-                                            <i class="fas fa-note-sticky"></i>
-                                        </button>
+                                <td class="text-end">
+                                    <button type="button" class="btn btn-icon text-primary"
+                                        @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
+                                        aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
+                                        <i class="fas fa-circle-info"></i>
+                                    </button>
+                                    <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-icon btn-icon-edit"
+                                        aria-label="Editar jugador {{ $player->name }} {{ $player->lastname }}" title="Editar jugador {{ $player->name }} {{ $player->lastname }}">
+                                        <i class="fas fa-edit mt-1"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-icon text-success"
+                                        @click="openObservation('{{ $player->id }}', @js($player->name . ' ' . $player->lastname))"
+                                        aria-label="Agregar observación a {{ $player->name }} {{ $player->lastname }}" title="Agregar observación">
+                                        <i class="fas fa-note-sticky"></i>
+                                    </button>
+                                    @if($player->status == \App\Models\Player::ACTIVE)
                                         <button type="button" class="btn btn-icon text-danger"
-                                            @click="deletePlayer('{{ route('players.destroy', $player->id) }}')"
-                                            aria-label="Eliminar jugador {{ $player->name }} {{ $player->lastname }}" title="Eliminar jugador">
+                                            @click="openConfirm({
+                                                title: 'Desactivar jugador',
+                                                message: '¿Deseas desactivar este jugador?',
+                                                action: '{{ route('players.destroy', $player->id) }}',
+                                                method: 'DELETE',
+                                                successMessage: 'Jugador desactivado.'
+                                            })"
+                                            aria-label="Desactivar jugador {{ $player->name }} {{ $player->lastname }}" title="Desactivar jugador">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                    </td>
-                                </tr>
-                            @empty
+                                    @else
+                                        <button type="button" class="btn btn-icon text-success"
+                                            @click="openConfirm({
+                                                title: 'Activar jugador',
+                                                message: '¿Deseas activar este jugador?',
+                                                action: '{{ route('players.activate', $player->id) }}',
+                                                method: 'POST',
+                                                successMessage: 'Jugador activado.'
+                                            })"
+                                            aria-label="Activar jugador {{ $player->name }} {{ $player->lastname }}" title="Activar jugador">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
                                 <tr>
                                     <td colspan="5" class="text-center text-muted py-4">No hay jugadores registrados.</td>
                                 </tr>
@@ -156,6 +176,31 @@
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <div class="info-overlay" x-show="confirmOpen" x-transition.opacity x-cloak @click.self="closeConfirm">
+                <div class="info-panel" :class="confirmOpen ? 'is-open' : ''" x-show="confirmOpen" x-transition>
+                    <div class="info-header">
+                        <span x-text="confirmTitle"></span>
+                        <button type="button" class="info-close" @click="closeConfirm">&times;</button>
+                    </div>
+                    <div class="info-body">
+                        <div class="info-section">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-circle-question me-2 text-primary"></i>
+                                Confirmación
+                            </div>
+                            <p class="mb-0" x-text="confirmMessage"></p>
+                        </div>
+                        <div class="mt-4 text-end">
+                            <button type="button" class="btn btn-outline-secondary px-4 fw-bold me-2" @click="closeConfirm">
+                                Cancelar
+                            </button>
+                            <button type="button" class="btn btn-danger px-4 fw-bold" @click="runConfirm">
+                                Confirmar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
