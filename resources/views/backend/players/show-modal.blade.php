@@ -143,7 +143,7 @@
                     <div class="row g-2">
                         @foreach($player->observations as $observation)
                             <div class="col-12 col-lg-6">
-                                <div class="team-info-item">
+                                <div class="team-info-item player-observation-card">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
                                         <div class="text-muted small">{{ $observation->notes ?? '-' }}</div>

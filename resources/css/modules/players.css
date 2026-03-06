@@ -216,6 +216,36 @@
   color: #1e3a8a !important;
 }
 
+.info-panel .player-observation-card {
+  position: relative;
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+  background: #f7fbff;
+  border-color: #d7e6ff;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.info-panel .player-observation-card::before {
+  content: "";
+  position: absolute;
+  left: 0.65rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+}
+
+.info-panel .player-observation-card .flex-grow-1 {
+  padding-left: 0.5rem;
+}
+
+.info-panel .player-observation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+}
+
 .player-status-switch {
   margin-left: 0.4rem;
 }
