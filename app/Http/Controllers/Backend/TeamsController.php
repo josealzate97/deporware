@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ManagerRoster;
+use App\Models\Player;
+use App\Models\PlayerRoster;
 use App\Models\SportsVenue;
 use App\Models\Team;
 use App\Models\User;
@@ -29,6 +31,10 @@ class TeamsController extends Controller
         $yearFilter = trim((string) request()->query('year', ''));
 
         $teamsQuery = Team::query()
+            ->with(['managerRosters.user'])
+            ->withCount(['playerRosters as players_count' => function ($query) {
+                $query->where('status', 1);
+            }])
             ->where('type', $typeOptions[$activeType])
             ->orderByDesc('status')
             ->orderBy('name');
@@ -67,6 +73,8 @@ class TeamsController extends Controller
             'team' => new Team(),
             'venues' => SportsVenue::where('status', true)->orderBy('name')->get(),
             'teamVenueIds' => [],
+            'players' => Player::where('status', Player::ACTIVE)->orderBy('name')->get(),
+            'selectedPlayerIds' => [],
             'coaches' => User::where('role', User::ROLE_COACH)->orderBy('name')->get(),
             'coachPrimaryId' => null,
             'coachSecondaryId' => null,
@@ -83,12 +91,14 @@ class TeamsController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'year' => ['required', 'string', 'regex:/^\\d{4}(-\\d{4})?$/'],
+            'year' => 'required|string|max:9',
             'type' => 'required|integer|in:1,2',
-            'season' => ['required', 'string', 'regex:/^\\d{4}-\\d{4}$/'],
+            'season' => 'required|string|max:20',
             'status' => 'nullable|boolean',
             'venues' => 'nullable|array',
             'venues.*' => 'uuid|exists:sports_venues,id',
+            'players' => 'nullable|array',
+            'players.*' => 'uuid|exists:players,id',
             'coach_primary' => [
                 'nullable',
                 'uuid',
@@ -111,6 +121,9 @@ class TeamsController extends Controller
         $coachSecondaryId = $data['coach_secondary'] ?? null;
         unset($data['coach_primary'], $data['coach_secondary']);
 
+        $playerIds = $data['players'] ?? [];
+        unset($data['players']);
+
         $team = Team::create($data);
 
         if (!empty($venueIds)) {
@@ -118,6 +131,7 @@ class TeamsController extends Controller
         }
 
         $this->syncTeamCoaches($team, $coachPrimaryId, $coachSecondaryId);
+        $this->syncTeamPlayers($team, $playerIds);
 
         $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
 
@@ -132,7 +146,7 @@ class TeamsController extends Controller
     */
     public function show($id)
     {
-        $team = Team::with(['venues', 'managerRosters.user'])->findOrFail($id);
+        $team = Team::with(['venues', 'managerRosters.user', 'playerRosters.player'])->findOrFail($id);
         
         $primaryCoachId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_PRIMARY_COACH)
@@ -164,7 +178,7 @@ class TeamsController extends Controller
     */
     public function edit($id)
     {
-        $team = Team::with(['venues', 'managerRosters'])->findOrFail($id);
+        $team = Team::with(['venues', 'managerRosters', 'playerRosters'])->findOrFail($id);
         $coachPrimaryId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_PRIMARY_COACH)
         )->user;
@@ -177,6 +191,8 @@ class TeamsController extends Controller
             'team' => $team,
             'venues' => SportsVenue::where('status', true)->orderBy('name')->get(),
             'teamVenueIds' => $team->venues->pluck('id')->all(),
+            'players' => Player::where('status', Player::ACTIVE)->orderBy('name')->get(),
+            'selectedPlayerIds' => $team->playerRosters->where('status', 1)->pluck('player')->all(),
             'coaches' => User::where('role', User::ROLE_COACH)->orderBy('name')->get(),
             'coachPrimaryId' => $coachPrimaryId,
             'coachSecondaryId' => $coachSecondaryId,
@@ -194,12 +210,14 @@ class TeamsController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'year' => ['required', 'string', 'regex:/^\\d{4}(-\\d{4})?$/'],
+            'year' => 'required|string|max:9',
             'type' => 'required|integer|in:1,2',
-            'season' => ['required', 'string', 'regex:/^\\d{4}-\\d{4}$/'],
+            'season' => 'required|string|max:20',
             'status' => 'nullable|boolean',
             'venues' => 'nullable|array',
             'venues.*' => 'uuid|exists:sports_venues,id',
+            'players' => 'nullable|array',
+            'players.*' => 'uuid|exists:players,id',
             'coach_primary' => [
                 'nullable',
                 'uuid',
@@ -222,6 +240,9 @@ class TeamsController extends Controller
         $coachSecondaryId = $data['coach_secondary'] ?? null;
         unset($data['coach_primary'], $data['coach_secondary']);
 
+        $playerIds = $data['players'] ?? [];
+        unset($data['players']);
+
         $team = Team::findOrFail($id);
         $team->update($data);
 
@@ -232,6 +253,7 @@ class TeamsController extends Controller
         }
 
         $this->syncTeamCoaches($team, $coachPrimaryId, $coachSecondaryId);
+        $this->syncTeamPlayers($team, $playerIds);
 
         $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
 
@@ -304,6 +326,33 @@ class TeamsController extends Controller
                 'role' => ManagerRoster::ROLE_ASSISTANT_COACH,
                 'status' => 1,
             ]);
+        }
+    }
+
+    private function syncTeamPlayers(Team $team, array $playerIds): void
+    {
+        $playerIds = array_values(array_unique(array_filter($playerIds)));
+
+        if (empty($playerIds)) {
+            PlayerRoster::where('team', $team->id)->update(['status' => 0]);
+            return;
+        }
+
+        PlayerRoster::where('team', $team->id)
+            ->whereNotIn('player', $playerIds)
+            ->update(['status' => 0]);
+
+        $players = Player::whereIn('id', $playerIds)->get(['id', 'position', 'dorsal']);
+
+        foreach ($players as $player) {
+            PlayerRoster::updateOrCreate(
+                ['team' => $team->id, 'player' => $player->id],
+                [
+                    'position' => $player->position,
+                    'dorsal' => $player->dorsal,
+                    'status' => 1,
+                ]
+            );
         }
     }
 }

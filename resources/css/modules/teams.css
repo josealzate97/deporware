@@ -82,3 +82,102 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+.team-player-card {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 0.65rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
+}
+
+label.team-player-card {
+    cursor: pointer;
+}
+
+.team-player-card.is-selected {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+.team-player-checkbox {
+    margin: 0;
+}
+
+.team-player-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e7f5ee;
+    color: #0f5132;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.team-player-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.team-player-name {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.team-player-position {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.team-modal-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.team-modal-tabs input {
+    display: none;
+}
+
+.team-modal-tab {
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid #e6e8ec;
+    background: #f8f9fa;
+    color: #6c757d;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#team-tab-info:checked + .team-modal-tab,
+#team-tab-players:checked + .team-modal-tab {
+    background: #ffffff;
+    color: #0d6efd;
+    border-bottom-color: #ffffff;
+}
+
+.team-modal-panels {
+    width: 100%;
+    border-top: 1px solid #e6e8ec;
+    padding-top: 0.75rem;
+}
+
+.team-modal-panel {
+    display: none;
+}
+
+#team-tab-info:checked ~ .team-modal-panels [data-panel="info"] {
+    display: block;
+}
+
+#team-tab-players:checked ~ .team-modal-panels [data-panel="players"] {
+    display: block;
+}

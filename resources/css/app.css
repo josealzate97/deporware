@@ -533,6 +533,17 @@ html, body {
   border-color: #d3e4ff;
 }
 
+.info-panel .show-modal-mint .team-info-item,
+.info-panel .show-modal-mint .team-player-card {
+  background: #d8efe3 !important;
+  border-color: #bcd9c7 !important;
+}
+
+.info-panel .show-modal-mint .team-player-card.is-selected {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
 .btn-icon {
   width: 32px;
   height: 32px;

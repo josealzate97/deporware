@@ -72,11 +72,11 @@
                     </a>
                     <a class="players-tab {{ $activeStep === 'observations' ? 'is-active' : '' }}"
                        href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}">
-                        3. Observaciones
+                        3. Ficha Valorativa
                     </a>
                 @else
                     <span class="players-tab is-disabled">2. Contactos</span>
-                    <span class="players-tab is-disabled">3. Observaciones</span>
+                    <span class="players-tab is-disabled">3. Ficha Valorativa</span>
                 @endif
             </div>
 
@@ -195,10 +195,10 @@
 
                                     <div class="col-12 col-lg-4">
                                         <label class="form-label fw-semibold d-block">Estado</label>
-                                        <div class="form-check form-switch form-switch-lg mt-2">
+                                        <div class="form-check form-switch form-switch-lg mt-2 player-status-check">
                                             <input class="form-check-input player-status-switch" id="player-status" type="checkbox" name="status" value="1"
                                                 {{ old('status', $player->status ?? true) ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-semibold" for="player-status">Jugador activo</label>
+                                            <label class="form-check-label fw-semibold player-status-label mt-1" for="player-status">Jugador activo</label>
                                         </div>
                                     </div>
 
@@ -317,9 +317,9 @@
                                 </div>
 
                                 <div class="mt-3 d-flex align-items-center justify-content-between">
-                                    <div class="text-muted small">Puedes continuar al paso de observaciones.</div>
+                                    <div class="text-muted small">Puedes continuar al paso de ficha valorativa.</div>
                                     <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn btn-outline-primary btn-sm">
-                                        Ir a observaciones
+                                        Ir a ficha valorativa
                                     </a>
                                 </div>
 
@@ -375,11 +375,11 @@
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <label class="form-label fw-semibold d-block">Estado</label>
-                                            <div class="form-check form-switch form-switch-lg mt-2">
-                                                <input class="form-check-input player-status-switch" id="contact-status" type="checkbox" name="contact_status" value="1"
-                                                    {{ old('contact_status', $contact->status ?? true) ? 'checked' : '' }}>
-                                                <label class="form-check-label fw-semibold" for="contact-status">Contacto activo</label>
-                                            </div>
+                                        <div class="form-check form-switch form-switch-lg mt-2 player-status-check">
+                                            <input class="form-check-input player-status-switch" id="contact-status" type="checkbox" name="contact_status" value="1"
+                                                {{ old('contact_status', $contact->status ?? true) ? 'checked' : '' }}>
+                                            <label class="form-check-label fw-semibold player-status-label" for="contact-status">Contacto activo</label>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -401,16 +401,16 @@
 
             @if($activeStep === 'observations')
                 @if(!$isEdit)
-                    <div class="text-muted">Primero guarda los datos del jugador para habilitar observaciones.</div>
+                    <div class="text-muted">Primero guarda los datos del jugador para habilitar la ficha valorativa.</div>
                 @else
                     <div class="info-section mb-3">
                         <div class="info-section-title">
                             <i class="fa-solid fa-clipboard-list me-2 text-primary"></i>
-                            Observaciones registradas
+                            Ficha valorativa registrada
                         </div>
 
                         @if($player->observations->isEmpty())
-                            <div class="text-muted">Sin observaciones registradas.</div>
+                            <div class="text-muted">Sin ficha valorativa registrada.</div>
                         @else
                             <div class="row g-2 mt-2">
                                 @foreach($player->observations as $listedObservation)
@@ -485,10 +485,10 @@
                                 </div>
                                 <div class="col-12 col-lg-4">
                                     <label class="form-label fw-semibold d-block">Estado</label>
-                                    <div class="form-check form-switch form-switch-lg mt-2">
+                                    <div class="form-check form-switch form-switch-lg mt-2 player-status-check">
                                         <input class="form-check-input player-status-switch" id="observation-status" type="checkbox" name="status" value="1"
                                             {{ old('status', $observation->status ?? true) ? 'checked' : '' }}>
-                                        <label class="form-check-label fw-semibold" for="observation-status">Observación activa</label>
+                                        <label class="form-check-label fw-semibold player-status-label" for="observation-status">Observación activa</label>
                                     </div>
                                 </div>
                                 <div class="col-12">

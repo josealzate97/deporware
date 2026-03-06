@@ -112,6 +112,8 @@
                             <th>Nombre</th>
                             <th>Temporada</th>
                             <th>Año</th>
+                            <th>Entrenador</th>
+                            <th>Jugadores</th>
                             <th>Estado</th>
                             <th class="text-end">Acciones</th>
                         </tr>
@@ -122,6 +124,16 @@
                                 <td class="fw-semibold">{{ $team->name }}</td>
                                 <td>{{ $team->season }}</td>
                                 <td>{{ $team->year }}</td>
+                                @php($primaryCoachRoster = $team->managerRosters->firstWhere('role', \App\Models\ManagerRoster::ROLE_PRIMARY_COACH))
+                                @php($primaryCoachUser = $primaryCoachRoster ? $primaryCoachRoster->getRelation('user') : null)
+                                <td>
+                                    {{ $primaryCoachUser
+                                        ? $primaryCoachUser->name . ' ' . $primaryCoachUser->lastname
+                                        : '-' }}
+                                </td>
+                                <td>
+                                    <span class="meta-badge">{{ $team->players_count ?? 0 }}</span>
+                                </td>
                                 <td>
                                     @if($team->status)
                                         <span class="status-pill status-pill-success">Activa</span>
@@ -157,7 +169,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">No hay plantillas registradas.</td>
+                                <td colspan="7" class="text-center text-muted py-4">No hay plantillas registradas.</td>
                             </tr>
                         @endforelse
                     </tbody>

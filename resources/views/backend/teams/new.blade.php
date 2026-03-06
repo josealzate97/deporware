@@ -3,6 +3,8 @@
 @php($isEdit = $isEdit ?? false)
 @php($team = $team ?? null)
 @php($seasonSuggestion = now()->year . '-' . (now()->year + 1))
+@php($selectedPlayerIds = (array) old('players', $selectedPlayerIds ?? []))
+@php($positionOptions = \App\Models\Player::positionOptions())
 
 @section('title', $isEdit ? 'Editar Plantillas' : 'Nuevo Plantillas')
 
@@ -88,9 +90,7 @@
                                         name="year"
                                         maxlength="9"
                                         inputmode="numeric"
-                                        pattern="\\d{4}(-\\d{4})?"
                                         placeholder="2016-2018"
-                                        title="Usa el formato 2026 o 2016-2018"
                                         value="{{ old('year', $team->year ?? '') }}"
                                         required>
                                 </div>
@@ -101,9 +101,7 @@
                                         name="season"
                                         maxlength="9"
                                         inputmode="numeric"
-                                        pattern="\\d{4}-\\d{4}"
                                         placeholder="2026-2027"
-                                        title="Usa el formato 2026-2027"
                                         value="{{ old('season', $team->season ?? $seasonSuggestion) }}"
                                         required>
                                 </div>
@@ -192,6 +190,42 @@
                                 <div class="col-12">
                                     <div class="text-muted small">No se puede repetir el mismo entrenador en ambos campos.</div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="info-section">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-users me-2 text-primary"></i>
+                                Jugadores
+                            </div>
+                            <div class="text-muted small">
+                                Selecciona los jugadores para esta plantilla ({{ count($selectedPlayerIds) }} seleccionados).
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                @forelse($players as $player)
+                                    @php($isChecked = in_array($player->id, $selectedPlayerIds, true))
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <label class="team-player-card {{ $isChecked ? 'is-selected' : '' }}">
+                                            <input
+                                                class="form-check-input team-player-checkbox"
+                                                type="checkbox"
+                                                name="players[]"
+                                                value="{{ $player->id }}"
+                                                {{ $isChecked ? 'checked' : '' }}
+                                            >
+                                            <span class="team-player-number">{{ $player->dorsal ?? '-' }}</span>
+                                            <span class="team-player-meta">
+                                                <span class="team-player-name">{{ $player->name }} {{ $player->lastname }}</span>
+                                                <span class="team-player-position">{{ $positionOptions[$player->position] ?? 'Sin posición' }}</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                @empty
+                                    <div class="col-12 text-muted">No hay jugadores activos para asignar.</div>
+                                @endforelse
                             </div>
                         </div>
                     </div>
