@@ -204,10 +204,10 @@
                                 Selecciona los jugadores para esta plantilla ({{ count($selectedPlayerIds) }} seleccionados).
                             </div>
 
-                            <div class="row g-3 mt-2">
+                            <div class="row g-3 mt-2 {{ $isEdit ? 'team-edit-players' : '' }}">
                                 @forelse($players as $player)
                                     @php($isChecked = in_array($player->id, $selectedPlayerIds, true))
-                                    <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="col-12 col-md-6 {{ $isEdit ? 'col-lg-3' : 'col-lg-4' }}">
                                         <label class="team-player-card {{ $isChecked ? 'is-selected' : '' }}">
                                             <input
                                                 class="form-check-input team-player-checkbox"

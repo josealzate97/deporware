@@ -56,6 +56,9 @@
                         <thead>
                             <tr>
                                 <th>Jugador</th>
+                                <th>Posición</th>
+                                <th>Equipo</th>
+                                <th>Edad - Año</th>
                                 <th>Email</th>
                                 <th>Teléfono</th>
                                 <th>Estado</th>
@@ -68,6 +71,24 @@
                                     <td>
                                         <div class="fw-bold">{{ $player->name }} {{ $player->lastname }}</div>
                                     </td>
+                                    <td>
+                                        @if(!empty($positionOptions[$player->position] ?? null))
+                                            <span class="meta-badge">{{ $positionOptions[$player->position] }}</span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @php($activeRoster = $player->rosters->first())
+                                        {{ $activeRoster?->team?->name ?? '-' }}
+                                    </td>
+                                    <td>
+                                        @if($player->birthdate)
+                                            {{ \Carbon\Carbon::parse($player->birthdate)->age }} - {{ $player->birthdate->format('Y') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>{{ $player->email ?? '-' }}</td>
                                     <td>{{ $player->phone ?? '-' }}</td>
                                     <td>
@@ -77,11 +98,11 @@
                                             <span class="status-pill status-pill-muted">Inactivo</span>
                                         @endif
                                     </td>
-                                <td class="text-end">
-                                    <button type="button" class="btn btn-icon text-primary"
-                                        @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
-                                        aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
-                                        <i class="fas fa-circle-info"></i>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-icon text-primary"
+                                            @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
+                                            aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
+                                            <i class="fas fa-circle-info"></i>
                                     </button>
                                     <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-icon btn-icon-edit"
                                         aria-label="Editar jugador {{ $player->name }} {{ $player->lastname }}" title="Editar jugador {{ $player->name }} {{ $player->lastname }}">
@@ -117,13 +138,13 @@
                                             <i class="fas fa-check"></i>
                                         </button>
                                     @endif
-                                </td>
+                                    </td>
                             </tr>
                         @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">No hay jugadores registrados.</td>
+                                    <td colspan="8" class="text-center text-muted py-4">No hay jugadores registrados.</td>
                                 </tr>
-                            @endforelse
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

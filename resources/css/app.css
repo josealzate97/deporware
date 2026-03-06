@@ -544,6 +544,24 @@ html, body {
   border-color: #86efac;
 }
 
+main[role="main"] .fa-solid,
+main[role="main"] .fa-regular,
+main[role="main"] .fa-light,
+main[role="main"] .fa-thin,
+main[role="main"] .fa-duotone,
+main[role="main"] .fa-brands {
+  color: #1e3a8a !important;
+}
+
+main[role="main"] .btn .fa-solid,
+main[role="main"] .btn .fa-regular,
+main[role="main"] .btn .fa-light,
+main[role="main"] .btn .fa-thin,
+main[role="main"] .btn .fa-duotone,
+main[role="main"] .btn .fa-brands {
+  color: inherit !important;
+}
+
 .btn-icon {
   width: 32px;
   height: 32px;

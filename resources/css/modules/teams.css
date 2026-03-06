@@ -104,8 +104,22 @@ label.team-player-card {
     background: #f0fdf4;
 }
 
+.team-edit-players .team-player-card {
+    background: #e7f6ee;
+    border-color: #cfe9dd;
+}
+
 .team-player-checkbox {
     margin: 0;
+}
+
+.team-player-checkbox {
+    border-color: #1e3a8a;
+}
+
+.team-player-checkbox:checked {
+    background-color: #1e3a8a;
+    border-color: #1e3a8a;
 }
 
 .team-player-number {

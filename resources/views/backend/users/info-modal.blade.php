@@ -115,11 +115,8 @@
                                         <div class="flex-grow-1">
                                             <div class="fw-semibold">{{ $assignment->teamModel->name }}</div>
                                             <span class="meta-badge">
-                                                {{ $assignment->teamModel->season }} {{ $assignment->teamModel->year }}
-                                            </span>
-                                            <div class="text-muted small">
                                                 {{ $managerRoleLabels[$assignment->role] ?? 'Rol no definido' }}
-                                            </div>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

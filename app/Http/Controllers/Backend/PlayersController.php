@@ -18,13 +18,20 @@ class PlayersController extends Controller
     */
     public function index()
     {
-        $players = Player::orderByDesc('status')
+        $players = Player::with([
+                'rosters' => function ($query) {
+                    $query->where('status', 1)->latest();
+                },
+                'rosters.team',
+            ])
+            ->orderByDesc('status')
             ->orderBy('name')
             ->orderBy('lastname')
             ->get();
 
         return view('backend.players.index', [
             'players' => $players,
+            'positionOptions' => Player::positionOptions(),
             'observationTypes' => PlayerObservation::typeOptions(),
         ]);
     }
