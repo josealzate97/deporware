@@ -16,23 +16,38 @@ class PlayersController extends Controller
      *
      * @return \Illuminate\Http\Response
     */
-    public function index()
+    public function index(Request $request)
     {
-        $players = Player::with([
+        $search = trim((string) $request->query('search', ''));
+
+        $playersQuery = Player::with([
                 'rosters' => function ($query) {
                     $query->where('status', 1)->latest();
                 },
                 'rosters.team',
-            ])
+            ]);
+
+        if ($search !== '') {
+            $playersQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            });
+        }
+
+        $players = $playersQuery
             ->orderByDesc('status')
             ->orderBy('name')
             ->orderBy('lastname')
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return view('backend.players.index', [
             'players' => $players,
             'positionOptions' => Player::positionOptions(),
             'observationTypes' => PlayerObservation::typeOptions(),
+            'search' => $search,
         ]);
     }
 
