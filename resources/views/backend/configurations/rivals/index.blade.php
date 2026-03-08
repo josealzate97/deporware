@@ -44,7 +44,9 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            @php($activeTab = 'rivals')
+            @php
+                $activeTab = 'rivals';
+            @endphp
             @include('backend.configurations.partials.tabs')
 
             @if(session('error'))
@@ -96,9 +98,11 @@
                 </table>
             </div>
 
-            @if($rivals->hasPages())
-                <div class="mt-2">{{ $rivals->links() }}</div>
-            @endif
+            @include('backend.components.pagination', [
+                'paginator' => $rivals,
+                'ariaLabel' => 'Paginador de rivales',
+                'wrapperClass' => 'players-pagination mt-2',
+            ])
         </div>
 
     </div>

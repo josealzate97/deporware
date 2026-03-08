@@ -346,6 +346,30 @@ body.theme-dark .section-toolbar .form-select {
   color: #e5e7eb;
 }
 
+body.theme-dark .pagination .page-item .page-link {
+  background: #11161e;
+  border-color: #2b3340;
+  color: #d1d9e6;
+}
+
+body.theme-dark .pagination .page-item .page-link:hover {
+  background: #1a2230;
+  border-color: #3b4b63;
+  color: #bfdbfe;
+}
+
+body.theme-dark .pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+body.theme-dark .pagination .page-item.disabled .page-link {
+  background: #11161e;
+  border-color: #2b3340;
+  color: #64748b;
+}
+
 body.theme-dark .section-avatar {
   border: 1px solid #2b313c;
 }

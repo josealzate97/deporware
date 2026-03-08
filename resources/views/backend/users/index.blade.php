@@ -63,20 +63,22 @@
                 </span>
             </div>
 
-            <div class="section-toolbar">
+            <form class="section-toolbar" method="GET" action="{{ route('users.index') }}">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="usersSearch">Buscar personal</label>
-                    <input type="text" class="form-control form-control-sm" id="usersSearch" placeholder="Buscar personal...">
+                    <input type="search" class="form-control form-control-sm" id="usersSearch" name="search" value="{{ $search ?? '' }}" placeholder="Buscar personal...">
                 </div>
                 <label class="visually-hidden" for="usersRoleFilter">Filtrar por rol</label>
-                <select class="form-select form-select-sm section-filter" id="usersRoleFilter">
+                <select class="form-select form-select-sm section-filter" id="usersRoleFilter" name="role" onchange="this.form.requestSubmit()">
                     <option value="">Todos los roles</option>
                     @foreach($roles as $key => $label)
-                        <option value="{{ $key }}">{{ $label }}</option>
+                        <option value="{{ $key }}" {{ (string) ($selectedRole ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
-            </div>
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Filtrar</button>
+                <a href="{{ route('users.index') }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
+            </form>
             
             <!-- Tabla de Usuarios -->
             <div class="table-responsive">
@@ -96,7 +98,7 @@
 
                     <tbody>
 
-                        @foreach($users as $user)
+                        @forelse($users as $user)
 
                             <tr data-id="{{ $user->id }}" data-role="{{ $user->role }}">
                                 <td>
@@ -160,13 +162,22 @@
 
                             </tr>
 
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">No hay usuarios registrados.</td>
+                            </tr>
+                        @endforelse
 
                     </tbody>
 
                 </table>
 
             </div>
+
+            @include('backend.components.pagination', [
+                'paginator' => $users,
+                'ariaLabel' => 'Paginador de personal',
+            ])
 
         </div>
 

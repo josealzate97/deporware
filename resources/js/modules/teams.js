@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('teamsSearch');
-    const statusSelect = document.getElementById('teamsStatusFilter');
-    const table = document.querySelector('.section-table');
-
     const seasonInput = document.getElementById('teamsSeasonFilter');
     const yearInput = document.getElementById('teamsYearFilter');
     const seasonField = document.querySelector('input[name="season"]');
@@ -26,33 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         field.addEventListener('input', sanitizeYearSeason);
         field.addEventListener('paste', sanitizeYearSeason);
     });
-
-    if (searchInput && statusSelect && seasonInput && yearInput && table) {
-        const rows = Array.from(table.querySelectorAll('tbody tr'));
-
-        const filterRows = () => {
-            const query = searchInput.value.trim().toLowerCase();
-            const status = statusSelect.value;
-            const season = seasonInput.value.trim().toLowerCase();
-            const year = yearInput.value.trim().toLowerCase();
-
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                const seasonText = row.children[1]?.textContent.toLowerCase() || '';
-                const yearText = row.children[2]?.textContent.toLowerCase() || '';
-                const matchesQuery = !query || text.includes(query);
-                const matchesStatus = !status || row.dataset.status === status;
-                const matchesSeason = !season || seasonText.includes(season);
-                const matchesYear = !year || yearText.includes(year);
-                row.style.display = matchesQuery && matchesStatus && matchesSeason && matchesYear ? '' : 'none';
-            });
-        };
-
-        searchInput.addEventListener('input', filterRows);
-        statusSelect.addEventListener('change', filterRows);
-        seasonInput.addEventListener('input', filterRows);
-        yearInput.addEventListener('input', filterRows);
-    }
 
 });
 

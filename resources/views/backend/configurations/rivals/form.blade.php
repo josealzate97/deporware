@@ -46,7 +46,9 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            @php($activeTab = 'rivals')
+            @php
+                $activeTab = 'rivals';
+            @endphp
             @include('backend.configurations.partials.tabs')
 
             <form class="info-form" method="POST" action="{{ $isEdit ? route('configurations.rivals.update', $rival->id) : route('configurations.rivals.store') }}">

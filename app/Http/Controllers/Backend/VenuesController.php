@@ -15,12 +15,38 @@ class VenuesController extends Controller
     */
     public function index()
     {
+        $search = trim((string) request()->query('search', ''));
+        $status = (string) request()->query('status', '');
+        $statusOptions = [
+            '1' => 'Activas',
+            '0' => 'Inactivas',
+        ];
+
+        if ($status !== '' && !array_key_exists($status, $statusOptions)) {
+            $status = '';
+        }
+
+        $venuesQuery = SportsVenue::query()
+            ->orderByDesc('status')
+            ->orderBy('name');
+
+        if ($search !== '') {
+            $venuesQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('city', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($status !== '') {
+            $venuesQuery->where('status', (int) $status);
+        }
+
         return view('backend.venues.index', [
-            'venues' => SportsVenue::orderByDesc('status')->orderBy('name')->get(),
-            'statusOptions' => [
-                '1' => 'Activas',
-                '0' => 'Inactivas',
-            ],
+            'venues' => $venuesQuery->paginate(10)->withQueryString(),
+            'statusOptions' => $statusOptions,
+            'search' => $search,
+            'selectedStatus' => $status,
         ]);
     }
 

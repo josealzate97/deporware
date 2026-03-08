@@ -1,28 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    const searchInput = document.getElementById('venuesSearch');
-    const statusSelect = document.getElementById('venuesStatusFilter');
-    const table = document.querySelector('.section-table');
-
-    if (searchInput && statusSelect && table) {
-        const rows = Array.from(table.querySelectorAll('tbody tr'));
-
-        const filterRows = () => {
-            const query = searchInput.value.trim().toLowerCase();
-            const status = statusSelect.value;
-
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                const matchesQuery = !query || text.includes(query);
-                const matchesStatus = !status || row.dataset.status === status;
-                row.style.display = matchesQuery && matchesStatus ? '' : 'none';
-            });
-        };
-
-        searchInput.addEventListener('input', filterRows);
-        statusSelect.addEventListener('change', filterRows);
-    }
-
 });
 
 document.addEventListener('alpine:init', () => {

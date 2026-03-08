@@ -52,7 +52,9 @@
                 updateUrl: @json(route('configurations.update'))
             })'
         >
-            @php($activeTab = 'general')
+            @php
+                $activeTab = 'general';
+            @endphp
             @include('backend.configurations.partials.tabs')
 
             <div class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center mb-3">

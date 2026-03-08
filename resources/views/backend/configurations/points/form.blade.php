@@ -49,7 +49,9 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            @php($activeTab = 'points')
+            @php
+                $activeTab = 'points';
+            @endphp
             @include('backend.configurations.partials.tabs')
 
             @php

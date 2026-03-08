@@ -27,8 +27,18 @@ class TeamsController extends Controller
             $activeType = 'competitive';
         }
 
+        $search = trim((string) request()->query('search', ''));
+        $status = (string) request()->query('status', '');
         $seasonFilter = trim((string) request()->query('season', ''));
         $yearFilter = trim((string) request()->query('year', ''));
+        $statusOptions = [
+            '1' => 'Activas',
+            '0' => 'Inactivas',
+        ];
+
+        if ($status !== '' && !array_key_exists($status, $statusOptions)) {
+            $status = '';
+        }
 
         $teamsQuery = Team::query()
             ->with(['managerRosters.user'])
@@ -47,15 +57,26 @@ class TeamsController extends Controller
             $teamsQuery->where('year', $yearFilter);
         }
 
-        $teams = $teamsQuery->get();
+        if ($search !== '') {
+            $teamsQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('season', 'like', '%' . $search . '%')
+                    ->orWhere('year', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($status !== '') {
+            $teamsQuery->where('status', (int) $status);
+        }
+
+        $teams = $teamsQuery->paginate(10)->withQueryString();
 
         return view('backend.teams.index', [
             'teams' => $teams,
             'activeType' => $activeType,
-            'statusOptions' => [
-                '1' => 'Activas',
-                '0' => 'Inactivas',
-            ],
+            'statusOptions' => $statusOptions,
+            'search' => $search,
+            'selectedStatus' => $status,
             'seasonFilter' => $seasonFilter,
             'yearFilter' => $yearFilter,
         ]);

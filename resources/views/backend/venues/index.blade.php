@@ -57,28 +57,33 @@
             })'
         >
 
-            @php($venuesTotal = $venues->count())
             <div class="section-results-meta">
                 <span class="fw-bold">Resultados</span>
                 <span class="text-muted">
-                    Mostrando {{ $venuesTotal > 0 ? 1 : 0 }}-{{ $venuesTotal }} de {{ $venuesTotal }}
+                    @if($venues->total() > 0)
+                        Mostrando {{ $venues->firstItem() }}-{{ $venues->lastItem() }} de {{ $venues->total() }}
+                    @else
+                        Mostrando 0-0 de 0
+                    @endif
                 </span>
             </div>
 
-            <div class="section-toolbar">
+            <form class="section-toolbar" method="GET" action="{{ route('venues.index') }}">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="venuesSearch">Buscar sede</label>
-                    <input type="text" class="form-control form-control-sm" id="venuesSearch" placeholder="Buscar sede...">
+                    <input type="search" class="form-control form-control-sm" id="venuesSearch" name="search" value="{{ $search ?? '' }}" placeholder="Buscar sede...">
                 </div>
                 <label class="visually-hidden" for="venuesStatusFilter">Filtrar por estado</label>
-                <select class="form-select form-select-sm section-filter" id="venuesStatusFilter">
+                <select class="form-select form-select-sm section-filter" id="venuesStatusFilter" name="status" onchange="this.form.requestSubmit()">
                     <option value="">Todas</option>
                     @foreach($statusOptions as $key => $label)
-                        <option value="{{ $key }}">{{ $label }}</option>
+                        <option value="{{ $key }}" {{ (string) ($selectedStatus ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
-            </div>
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Filtrar</button>
+                <a href="{{ route('venues.index') }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
+            </form>
 
             <div class="table-responsive">
 
@@ -155,6 +160,11 @@
                 </table>
 
             </div>
+
+            @include('backend.components.pagination', [
+                'paginator' => $venues,
+                'ariaLabel' => 'Paginador de sedes',
+            ])
 
         </div>
 

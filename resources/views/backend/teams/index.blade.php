@@ -13,7 +13,12 @@
 @section('content')
 
     <div class="container-fluid p-4">
-        @php($baseFilters = array_filter(['season' => $seasonFilter, 'year' => $yearFilter]))
+        @php($baseFilters = array_filter([
+            'search' => $search ?? '',
+            'status' => $selectedStatus ?? '',
+            'season' => $seasonFilter,
+            'year' => $yearFilter,
+        ], fn ($value) => $value !== null && $value !== ''))
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -57,27 +62,31 @@
                 activateUrlTemplate: @json(route("teams.activate", ["id" => "__ID__"]))
             })'
         >
-            @php($teamsTotal = $teams->count())
             <div class="section-results-meta">
                 <span class="fw-bold">Resultados</span>
                 <span class="text-muted">
-                    Mostrando {{ $teamsTotal > 0 ? 1 : 0 }}-{{ $teamsTotal }} de {{ $teamsTotal }}
+                    @if($teams->total() > 0)
+                        Mostrando {{ $teams->firstItem() }}-{{ $teams->lastItem() }} de {{ $teams->total() }}
+                    @else
+                        Mostrando 0-0 de 0
+                    @endif
                 </span>
             </div>
 
-            <div class="section-toolbar teams-toolbar">
+            <form class="section-toolbar teams-toolbar" method="GET" action="{{ route('teams.index') }}">
+                <input type="hidden" name="type" value="{{ $activeType }}">
 
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="teamsSearch">Buscar plantilla</label>
-                    <input type="text" class="form-control form-control-sm" id="teamsSearch" placeholder="Buscar plantilla...">
+                    <input type="search" class="form-control form-control-sm" id="teamsSearch" name="search" value="{{ $search ?? '' }}" placeholder="Buscar plantilla...">
                 </div>
 
                 <label class="visually-hidden" for="teamsStatusFilter">Filtrar por estado</label>
-                <select class="form-select form-select-sm section-filter" id="teamsStatusFilter">
+                <select class="form-select form-select-sm section-filter" id="teamsStatusFilter" name="status" onchange="this.form.requestSubmit()">
                     <option value="">Todas</option>
                     @foreach($statusOptions as $key => $label)
-                        <option value="{{ $key }}">{{ $label }}</option>
+                        <option value="{{ $key }}" {{ (string) ($selectedStatus ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
 
@@ -85,18 +94,25 @@
                 <input
                     type="text"
                     id="teamsSeasonFilter"
+                    name="season"
                     class="form-control form-control-sm section-filter"
                     placeholder="Temporada"
+                    value="{{ $seasonFilter }}"
                 >
                 <label class="visually-hidden" for="teamsYearFilter">Año</label>
                 <input
                     type="text"
                     id="teamsYearFilter"
+                    name="year"
                     class="form-control form-control-sm section-filter"
                     placeholder="Año"
+                    value="{{ $yearFilter }}"
                 >
 
-            </div>
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Filtrar</button>
+                <a href="{{ route('teams.index', ['type' => $activeType]) }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
+
+            </form>
 
             <div class="teams-tabs my-4">
                 <a
@@ -183,6 +199,11 @@
                     </tbody>
                 </table>
             </div>
+
+            @include('backend.components.pagination', [
+                'paginator' => $teams,
+                'ariaLabel' => 'Paginador de plantillas',
+            ])
         </div>
 
             <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">

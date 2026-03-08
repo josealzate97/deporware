@@ -211,54 +211,11 @@
                         </tbody>
                         </table>
                     </div>
-                    @if($players->hasPages())
-                        <div class="players-pagination">
-                            <nav aria-label="Paginador de jugadores">
-                                <ul class="pagination mb-0">
-                                    <li class="page-item {{ $players->onFirstPage() ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ $players->previousPageUrl() ?? '#' }}" aria-label="Anterior">
-                                            <span aria-hidden="true">&laquo;</span> Anterior
-                                        </a>
-                                    </li>
-
-                                    @php
-                                        $start = max($players->currentPage() - 2, 1);
-                                        $end = min($players->currentPage() + 2, $players->lastPage());
-                                    @endphp
-
-                                    @if($start > 1)
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $players->url(1) }}">1</a>
-                                        </li>
-                                        @if($start > 2)
-                                            <li class="page-item disabled"><span class="page-link">…</span></li>
-                                        @endif
-                                    @endif
-
-                                    @for($page = $start; $page <= $end; $page++)
-                                        <li class="page-item {{ $page === $players->currentPage() ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $players->url($page) }}">{{ $page }}</a>
-                                        </li>
-                                    @endfor
-
-                                    @if($end < $players->lastPage())
-                                        @if($end < $players->lastPage() - 1)
-                                            <li class="page-item disabled"><span class="page-link">…</span></li>
-                                        @endif
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $players->url($players->lastPage()) }}">{{ $players->lastPage() }}</a>
-                                        </li>
-                                    @endif
-
-                                    <li class="page-item {{ $players->hasMorePages() ? '' : 'disabled' }}">
-                                        <a class="page-link" href="{{ $players->nextPageUrl() ?? '#' }}" aria-label="Siguiente">
-                                            Siguiente <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    @endif
+                    @include('backend.components.pagination', [
+                        'paginator' => $players,
+                        'ariaLabel' => 'Paginador de jugadores',
+                        'wrapperClass' => 'players-pagination',
+                    ])
                 </div>
             </div>
 

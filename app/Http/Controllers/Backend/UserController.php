@@ -38,12 +38,43 @@ class UserController extends Controller {
      * @return \Illuminate\View\View
      * Retorna la vista `backend.users.index` con la lista de usuarios.
     */
-    public function index() {
+    public function index(Request $request) {
 
-        $users = User::orderByDesc('status')->orderBy('name', 'asc')->paginate(10);
+        $search = trim((string) $request->query('search', ''));
+        $role = (string) $request->query('role', '');
         $roles = User::roleOptions();
+
+        if ($role !== '' && !array_key_exists((int) $role, $roles)) {
+            $role = '';
+        }
+
+        $usersQuery = User::query()
+            ->orderByDesc('status')
+            ->orderBy('name', 'asc');
+
+        if ($search !== '') {
+            $usersQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('username', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($role !== '') {
+            $usersQuery->where('role', (int) $role);
+        }
+
+        $users = $usersQuery
+            ->paginate(10)
+            ->withQueryString();
         
-        return view('backend.users.index', compact('users', 'roles'));
+        return view('backend.users.index', [
+            'users' => $users,
+            'roles' => $roles,
+            'search' => $search,
+            'selectedRole' => $role,
+        ]);
 
     }
 
