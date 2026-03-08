@@ -10,17 +10,22 @@ class AttackPoint extends Model
 {
     use HasFactory;
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'id',
         'name',
+        'status',
     ];
 
     protected function casts(): array
     {
         return [
+            'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -31,6 +36,10 @@ class AttackPoint extends Model
         static::creating(function (self $attackPoint): void {
             if (empty($attackPoint->id)) {
                 $attackPoint->id = (string) Str::uuid();
+            }
+
+            if ($attackPoint->status === null) {
+                $attackPoint->status = self::ACTIVE;
             }
         });
     }
