@@ -51,6 +51,14 @@
 
         <div x-data="infoModal()">
         <div class="card p-0 mt-4 section-card">
+            @php($matchesTotal = $matches->count())
+            <div class="section-results-meta">
+                <span class="fw-bold">Resultados</span>
+                <span class="text-muted">
+                    Mostrando {{ $matchesTotal > 0 ? 1 : 0 }}-{{ $matchesTotal }} de {{ $matchesTotal }}
+                </span>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-borderless align-middle section-table">
                     <thead>

@@ -57,6 +57,14 @@
             })'
         >
 
+            @php($venuesTotal = $venues->count())
+            <div class="section-results-meta">
+                <span class="fw-bold">Resultados</span>
+                <span class="text-muted">
+                    Mostrando {{ $venuesTotal > 0 ? 1 : 0 }}-{{ $venuesTotal }} de {{ $venuesTotal }}
+                </span>
+            </div>
+
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>

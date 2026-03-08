@@ -57,6 +57,14 @@
                 activateUrlTemplate: @json(route("teams.activate", ["id" => "__ID__"]))
             })'
         >
+            @php($teamsTotal = $teams->count())
+            <div class="section-results-meta">
+                <span class="fw-bold">Resultados</span>
+                <span class="text-muted">
+                    Mostrando {{ $teamsTotal > 0 ? 1 : 0 }}-{{ $teamsTotal }} de {{ $teamsTotal }}
+                </span>
+            </div>
+
             <div class="section-toolbar teams-toolbar">
 
                 <div class="section-search">

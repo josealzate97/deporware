@@ -52,6 +52,17 @@
         <div x-data="infoModal()">
         <div class="card p-0 mt-4 section-card">
 
+            <div class="section-results-meta">
+                <span class="fw-bold">Resultados</span>
+                <span class="text-muted">
+                    @if($users->total() > 0)
+                        Mostrando {{ $users->firstItem() }}-{{ $users->lastItem() }} de {{ $users->total() }}
+                    @else
+                        Mostrando 0-0 de 0
+                    @endif
+                </span>
+            </div>
+
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>

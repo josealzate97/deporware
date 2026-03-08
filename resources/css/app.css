@@ -196,6 +196,14 @@ html, body {
   background: linear-gradient(90deg, #e8f1ff 0%, #e6f6ed 100%);
 }
 
+.section-results-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 1.1rem 1.25rem 0.5rem;
+}
+
 @media (max-width: 900px) {
   .section-hero {
     padding: 1rem !important;
