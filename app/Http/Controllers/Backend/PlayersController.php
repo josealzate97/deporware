@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Player;
 use App\Models\PlayerObservation;
+use App\Models\PlayerRoster;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -87,12 +88,19 @@ class PlayersController extends Controller
     */
     public function create()
     {
+        $teamOptions = Team::query()
+            ->where('status', Team::ACTIVE)
+            ->orderBy('name')
+            ->pluck('name', 'id');
+
         return view('backend.players.new', [
             'isEdit' => false,
             'player' => new Player(),
             'nationalityOptions' => Player::nationalityOptions(),
             'positionOptions' => Player::positionOptions(),
             'footOptions' => Player::footOptions(),
+            'teamOptions' => $teamOptions,
+            'selectedTeamId' => null,
             'observationTypes' => PlayerObservation::typeOptions(),
             'step' => 'player',
         ]);
@@ -119,6 +127,7 @@ class PlayersController extends Controller
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
             'status' => 'nullable|boolean',
+            'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id')],
             'initial_observation_type' => ['nullable', 'integer', Rule::in(array_keys(PlayerObservation::typeOptions()))],
             'initial_observation_notes' => 'nullable|string',
         ]);
@@ -127,7 +136,9 @@ class PlayersController extends Controller
 
         $initialObservationType = $validated['initial_observation_type'] ?? null;
         $initialObservationNotes = $validated['initial_observation_notes'] ?? null;
+        $teamId = $validated['team_id'] ?? null;
         unset($validated['initial_observation_type'], $validated['initial_observation_notes']);
+        unset($validated['team_id']);
 
         $player = Player::create($validated);
 
@@ -139,6 +150,8 @@ class PlayersController extends Controller
                 'status' => PlayerObservation::ACTIVE,
             ]);
         }
+
+        $this->syncPlayerTeamRoster($player, $teamId);
 
         return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
     }
@@ -171,7 +184,17 @@ class PlayersController extends Controller
     */
     public function edit($id)
     {
-        $player = Player::with(['contacts', 'observations.user'])->findOrFail($id);
+        $player = Player::with(['contacts', 'observations.user', 'rosters'])->findOrFail($id);
+
+        $teamOptions = Team::query()
+            ->where('status', Team::ACTIVE)
+            ->orderBy('name')
+            ->pluck('name', 'id');
+
+        $selectedTeamId = $player->rosters
+            ->sortByDesc('created_at')
+            ->firstWhere('status', PlayerRoster::ACTIVE)?->team
+            ?? $player->rosters->sortByDesc('created_at')->first()?->team;
 
         return view('backend.players.new', [
             'isEdit' => true,
@@ -179,6 +202,8 @@ class PlayersController extends Controller
             'nationalityOptions' => Player::nationalityOptions(),
             'positionOptions' => Player::positionOptions(),
             'footOptions' => Player::footOptions(),
+            'teamOptions' => $teamOptions,
+            'selectedTeamId' => $selectedTeamId,
             'observationTypes' => PlayerObservation::typeOptions(),
             'step' => request()->query('step', 'player'),
         ]);
@@ -274,13 +299,41 @@ class PlayersController extends Controller
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
             'status' => 'nullable|boolean',
+            'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id')],
         ]);
 
         $validated['status'] = $request->boolean('status') ? Player::ACTIVE : Player::INACTIVE;
+        $teamId = $validated['team_id'] ?? null;
+        unset($validated['team_id']);
 
         $player->update($validated);
+        $this->syncPlayerTeamRoster($player, $teamId);
 
         return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
+    }
+
+    private function syncPlayerTeamRoster(Player $player, ?string $teamId): void
+    {
+        if (empty($teamId)) {
+            $player->rosters()->update(['status' => PlayerRoster::INACTIVE]);
+            return;
+        }
+
+        $player->rosters()
+            ->where('team', '!=', $teamId)
+            ->update(['status' => PlayerRoster::INACTIVE]);
+
+        PlayerRoster::updateOrCreate(
+            [
+                'player' => $player->id,
+                'team' => $teamId,
+            ],
+            [
+                'position' => $player->position ?? 0,
+                'dorsal' => $player->dorsal ?? 0,
+                'status' => PlayerRoster::ACTIVE,
+            ]
+        );
     }
 
     /**

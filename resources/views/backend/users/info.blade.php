@@ -105,17 +105,17 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Nombre completo</label>
+                                    <label class="form-label fw-bold">Nombre completo <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" x-model="form.name" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Usuario</label>
+                                    <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" x-model="form.username" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Fecha de contrato</label>
+                                    <label class="form-label fw-bold">Fecha de contrato <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" x-model="form.hired_date" :disabled="!editMode">
                                 </div>
 
@@ -134,17 +134,17 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Teléfono</label>
+                                    <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mask-phone" x-model="form.phone" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Correo electrónico</label>
+                                    <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" x-model="form.email" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Rol</label>
+                                    <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
                                     <select class="form-select" x-model="form.role" :disabled="!editMode">
                                         @foreach($roles as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
@@ -153,7 +153,7 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
-                                    <label class="form-label fw-bold">Nueva Contraseña</label>
+                                    <label class="form-label fw-bold">Nueva Contraseña <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="user-new-password" x-model="form.new_password" @blur="validatePassword" :disabled="!editMode">
                                         <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password" aria-label="Mostrar u ocultar contraseña" :disabled="!editMode">

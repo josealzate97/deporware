@@ -80,11 +80,11 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-5">
-                                    <label class="form-label fw-semibold">Nombre</label>
+                                    <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name" value="{{ old('name', $team->name ?? '') }}" required>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-2">
-                                    <label class="form-label fw-semibold">Año</label>
+                                    <label class="form-label fw-semibold">Año <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control"
                                         name="year"
@@ -95,7 +95,7 @@
                                         required>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-2">
-                                    <label class="form-label fw-semibold">Temporada</label>
+                                    <label class="form-label fw-semibold">Temporada <span class="text-danger">*</span></label>
                                     <input type="text"
                                         class="form-control"
                                         name="season"
@@ -106,7 +106,7 @@
                                         required>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-3">
-                                    <label class="form-label fw-semibold">Tipo</label>
+                                    <label class="form-label fw-semibold">Tipo <span class="text-danger">*</span></label>
                                     <select class="form-select" name="type" required>
                                         <option value="">Selecciona...</option>
                                         <option value="1" {{ (string) old('type', $team->type ?? '') === '1' ? 'selected' : '' }}>Competitivo</option>
@@ -162,8 +162,8 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-6">
-                                    <label class="form-label fw-semibold">Entrenador principal</label>
-                                    <select class="form-select" name="coach_primary" x-model="coachA">
+                                    <label class="form-label fw-semibold">Entrenador principal <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="coach_primary" x-model="coachA" required>
                                         <option value="">Selecciona...</option>
                                         @foreach($coaches as $coach)
                                             <option value="{{ $coach->id }}"

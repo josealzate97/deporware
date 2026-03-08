@@ -101,27 +101,27 @@
                                 <div class="row g-3 mt-1">
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Nombre</label>
+                                        <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="name" value="{{ old('name', $player->name ?? '') }}" required>
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Apellidos</label>
+                                        <label class="form-label fw-semibold">Apellidos <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="lastname" value="{{ old('lastname', $player->lastname ?? '') }}" required>
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Identificación (NIT)</label>
+                                        <label class="form-label fw-semibold">Identificación (NIT) <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="nit" value="{{ old('nit', $player->nit ?? '') }}" required>
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Fecha de nacimiento</label>
+                                        <label class="form-label fw-semibold">Fecha de nacimiento <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate', $player->birthdate?->format('Y-m-d') ?? '') }}" required>
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Nacionalidad</label>
+                                        <label class="form-label fw-semibold">Nacionalidad <span class="text-danger">*</span></label>
                                         <select class="form-select" name="nacionality" required>
                                             <option value="">Selecciona...</option>
                                             @foreach($nationalityOptions as $key => $label)
@@ -133,13 +133,13 @@
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Teléfono</label>
-                                        <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone', $player->phone ?? '') }}">
+                                        <label class="form-label fw-semibold">Teléfono <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone', $player->phone ?? '') }}" required>
                                     </div>
 
                                     <div class="col-12 col-lg-6">
-                                        <label class="form-label fw-semibold">Correo electrónico</label>
-                                        <input type="email" class="form-control" name="email" value="{{ old('email', $player->email ?? '') }}">
+                                        <label class="form-label fw-semibold">Correo electrónico <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" name="email" value="{{ old('email', $player->email ?? '') }}" required>
                                     </div>
 
                                 </div>
@@ -158,12 +158,24 @@
 
                                 <div class="row g-3 mt-1">
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Posición</label>
-                                        <select class="form-select" name="position">
+                                        <label class="form-label fw-semibold">Posición <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="position" required>
                                             <option value="">Selecciona...</option>
                                             @foreach($positionOptions as $key => $label)
                                                 <option value="{{ $key }}" {{ (string) old('position', $player->position ?? '') === (string) $key ? 'selected' : '' }}>
                                                     {{ $label }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 col-lg-3">
+                                        <label class="form-label fw-semibold">Equipo <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="team_id" required>
+                                            <option value="">Selecciona...</option>
+                                            @foreach($teamOptions as $teamId => $teamName)
+                                                <option value="{{ $teamId }}" {{ (string) old('team_id', $selectedTeamId ?? '') === (string) $teamId ? 'selected' : '' }}>
+                                                    {{ $teamName }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -176,7 +188,7 @@
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Pierna hábil</label>
+                                        <label class="form-label fw-semibold">Pierna hábil <span class="text-danger">*</span></label>
                                         <select class="form-select" name="foot" required>
                                             <option value="">Selecciona...</option>
                                             @foreach($footOptions as $key => $label)
@@ -188,7 +200,7 @@
                                     </div>
 
                                     <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Peso (kg)</label>
+                                        <label class="form-label fw-semibold">Peso (kg) <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="weight" min="0" step="1"
                                             value="{{ old('weight', $player->weight ?? '') }}" required>
                                     </div>

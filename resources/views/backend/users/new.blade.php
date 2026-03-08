@@ -65,17 +65,17 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Nombre completo</label>
+                                    <label class="form-label fw-bold">Nombre completo <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="user-name" name="name" value="{{ old('name') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Usuario</label>
+                                    <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="user-username" name="username" value="{{ old('username') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Fecha de contrato</label>
+                                    <label class="form-label fw-bold">Fecha de contrato <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="hired_date" value="{{ old('hired_date') }}" required>
                                 </div>
 
@@ -94,17 +94,17 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Teléfono</label>
+                                    <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Correo electrónico</label>
+                                    <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Rol</label>
+                                    <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
                                     <select class="form-select" name="role" x-model="role" required>
                                         @foreach($roles as $key => $label)
                                             <option value="{{ $key }}" {{ old('role') == $key ? 'selected' : '' }}>{{ $label }}</option>
@@ -113,7 +113,7 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Contraseña</label>
+                                    <label class="form-label fw-bold">Contraseña <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="user-password" name="password" required>
                                         <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password" aria-label="Mostrar u ocultar contraseña">

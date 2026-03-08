@@ -70,15 +70,15 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-lg-6">
-                                    <label class="form-label fw-semibold">Nombre</label>
+                                    <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name" value="{{ old('name', $venue->name) }}" required>
                                 </div>
                                 <div class="col-12 col-lg-6">
-                                    <label class="form-label fw-semibold">Dirección</label>
+                                    <label class="form-label fw-semibold">Dirección <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="address" value="{{ old('address', $venue->address) }}" required>
                                 </div>
                                 <div class="col-12 col-lg-4">
-                                    <label class="form-label fw-semibold">Ciudad</label>
+                                    <label class="form-label fw-semibold">Ciudad <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="city" value="{{ old('city', $venue->city) }}" required>
                                 </div>
                                 <div class="col-12 col-lg-4">
