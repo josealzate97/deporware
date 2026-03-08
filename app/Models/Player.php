@@ -86,6 +86,19 @@ class Player extends Model
         return $this->hasMany(PlayerRoster::class, 'player');
     }
 
+    public function activeRoster()
+    {
+        return $this->hasOne(PlayerRoster::class, 'player')
+            ->where('status', PlayerRoster::ACTIVE)
+            ->latestOfMany('created_at');
+    }
+
+    public function latestRoster()
+    {
+        return $this->hasOne(PlayerRoster::class, 'player')
+            ->latestOfMany('created_at');
+    }
+
     public function trainingAttendance()
     {
         return $this->hasMany(TrainingAttendance::class, 'player');

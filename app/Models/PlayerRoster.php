@@ -10,6 +10,9 @@ class PlayerRoster extends Model
 {
     use HasFactory;
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     protected $table = 'player_roster';
 
     public $incrementing = false;

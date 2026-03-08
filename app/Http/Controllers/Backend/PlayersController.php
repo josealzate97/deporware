@@ -34,7 +34,9 @@ class PlayersController extends Controller
 
         $playersQuery = Player::with([
             'rosters' => function ($query) {
-                $query->latest()->with('team');
+                $query->with('team')
+                    ->orderByDesc('status')
+                    ->orderByDesc('created_at');
             },
         ]);
 

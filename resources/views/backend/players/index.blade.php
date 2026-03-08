@@ -49,12 +49,12 @@
 
         </div>
 
-        <div x-data="playersPage({
+        <div x-data='playersPage({
             search: @json($search ?? ''),
             position: @json($selectedPosition ?? ''),
             team: @json($selectedTeam ?? ''),
             baseUrl: @json(route('players.index'))
-        })">
+        })'>
             <div class="card p-0 mt-4 section-card">
                 <div class="players-toolbar">
                     <div class="players-toolbar-meta">
@@ -100,12 +100,6 @@
                             @endforeach
                         </select>
 
-                        <a class="btn btn-outline-secondary btn-sm"
-                            href="{{ route('players.index') }}"
-                            x-show="search || position || team"
-                            @click.prevent="search = ''; position = ''; team = ''; fetchPlayers()">
-                            Limpiar
-                        </a>
                     </form>
                 </div>
                 <div id="playersTableWrap">
@@ -138,10 +132,18 @@
                                     </td>
                                     <td>
                                         @php
-                                            $activeRoster = $player->rosters->firstWhere('status', 1)
-                                                ?? $player->rosters->first();
+                                            $roster = $player->rosters->first();
+                                            $teamName = null;
+
+                                            if ($roster) {
+                                                $teamModel = $roster->relationLoaded('team')
+                                                    ? $roster->getRelation('team')
+                                                    : $roster->team()->first();
+
+                                                $teamName = $teamModel?->name;
+                                            }
                                         @endphp
-                                        {{ $activeRoster?->team?->name ?? '-' }}
+                                        {{ $teamName ?? '-' }}
                                     </td>
                                     <td>
                                         @if($player->birthdate)
