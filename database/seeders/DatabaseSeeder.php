@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
             ConfigurationSeeder::class,
             SportsVenueSeeder::class,
             UserSeeder::class,
+            AttackPointSeeder::class,
+            DefensivePointSeeder::class,
         ]);
     }
 }
