@@ -49,12 +49,17 @@
 
         </div>
 
-        <div x-data="playersPage()">
+        <div x-data="playersPage({
+            search: @json($search ?? ''),
+            position: @json($selectedPosition ?? ''),
+            team: @json($selectedTeam ?? ''),
+            baseUrl: @json(route('players.index'))
+        })">
             <div class="card p-0 mt-4 section-card">
                 <div class="players-toolbar">
                     <div class="players-toolbar-meta">
                         <span class="fw-bold">Resultados</span>
-                        <span class="text-muted">
+                        <span class="text-muted" id="playersResultsMeta">
                             @if($players->total() > 0)
                                 Mostrando {{ $players->firstItem() }}-{{ $players->lastItem() }} de {{ $players->total() }}
                             @else
@@ -62,21 +67,50 @@
                             @endif
                         </span>
                     </div>
-                    <form class="players-search" method="GET" action="{{ route('players.index') }}">
-                        <div class="players-search-group">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="search" name="search" class="form-control"
-                                placeholder="Buscar por nombre, apellido, email o teléfono"
-                                value="{{ $search ?? '' }}">
+                    <form class="section-toolbar players-filters" method="GET" action="{{ route('players.index') }}" @submit.prevent="fetchPlayers()">
+                        <div class="section-search">
+                            <i class="fas fa-search"></i>
+                            <label class="visually-hidden" for="playersSearch">Buscar jugador</label>
+                            <input
+                                type="search"
+                                id="playersSearch"
+                                name="search"
+                                class="form-control form-control-sm"
+                                placeholder="Buscar jugador, teléfono o equipo..."
+                                x-model.trim="search"
+                                @input.debounce.500ms="fetchPlayers()"
+                            >
                         </div>
-                        @if(!empty($search))
-                            <a class="btn btn-outline-secondary" href="{{ route('players.index') }}">Limpiar</a>
-                        @endif
-                        <button type="submit" class="btn btn-primary">Buscar</button>
+
+                        <label class="visually-hidden" for="playersPosition">Posición</label>
+                        <select class="form-select form-select-sm section-filter" id="playersPosition" name="position"
+                            x-model="position" @change="fetchPlayers()">
+                            <option value="">Todas</option>
+                            @foreach($positionOptions as $key => $label)
+                                <option value="{{ $key }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+
+                        <label class="visually-hidden" for="playersTeam">Equipo</label>
+                        <select class="form-select form-select-sm section-filter" id="playersTeam" name="team"
+                            x-model="team" @change="fetchPlayers()">
+                            <option value="">Todos</option>
+                            @foreach($teamOptions as $teamId => $teamName)
+                                <option value="{{ $teamId }}">{{ $teamName }}</option>
+                            @endforeach
+                        </select>
+
+                        <a class="btn btn-outline-secondary btn-sm"
+                            href="{{ route('players.index') }}"
+                            x-show="search || position || team"
+                            @click.prevent="search = ''; position = ''; team = ''; fetchPlayers()">
+                            Limpiar
+                        </a>
                     </form>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-borderless align-middle section-table">
+                <div id="playersTableWrap">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle section-table">
                         <thead>
                             <tr>
                                 <th>Jugador</th>
@@ -103,7 +137,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @php($activeRoster = $player->rosters->first())
+                                        @php
+                                            $activeRoster = $player->rosters->firstWhere('status', 1)
+                                                ?? $player->rosters->first();
+                                        @endphp
                                         {{ $activeRoster?->team?->name ?? '-' }}
                                     </td>
                                     <td>
@@ -170,71 +207,71 @@
                                 </tr>
                         @endforelse
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
+                    @if($players->hasPages())
+                        <div class="players-pagination">
+                            <nav aria-label="Paginador de jugadores">
+                                <ul class="pagination mb-0">
+                                    <li class="page-item {{ $players->onFirstPage() ? 'disabled' : '' }}">
+                                        <a class="page-link" href="{{ $players->previousPageUrl() ?? '#' }}" aria-label="Anterior">
+                                            <span aria-hidden="true">&laquo;</span> Anterior
+                                        </a>
+                                    </li>
+
+                                    @php
+                                        $start = max($players->currentPage() - 2, 1);
+                                        $end = min($players->currentPage() + 2, $players->lastPage());
+                                    @endphp
+
+                                    @if($start > 1)
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $players->url(1) }}">1</a>
+                                        </li>
+                                        @if($start > 2)
+                                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                                        @endif
+                                    @endif
+
+                                    @for($page = $start; $page <= $end; $page++)
+                                        <li class="page-item {{ $page === $players->currentPage() ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $players->url($page) }}">{{ $page }}</a>
+                                        </li>
+                                    @endfor
+
+                                    @if($end < $players->lastPage())
+                                        @if($end < $players->lastPage() - 1)
+                                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                                        @endif
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $players->url($players->lastPage()) }}">{{ $players->lastPage() }}</a>
+                                        </li>
+                                    @endif
+
+                                    <li class="page-item {{ $players->hasMorePages() ? '' : 'disabled' }}">
+                                        <a class="page-link" href="{{ $players->nextPageUrl() ?? '#' }}" aria-label="Siguiente">
+                                            Siguiente <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    @endif
                 </div>
             </div>
 
-            @if($players->hasPages())
-                <div class="players-pagination">
-                    <nav aria-label="Paginador de jugadores">
-                        <ul class="pagination mb-0">
-                            <li class="page-item {{ $players->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $players->previousPageUrl() ?? '#' }}" aria-label="Anterior">
-                                    <span aria-hidden="true">&laquo;</span> Anterior
-                                </a>
-                            </li>
-
-                            @php
-                                $start = max($players->currentPage() - 2, 1);
-                                $end = min($players->currentPage() + 2, $players->lastPage());
-                            @endphp
-
-                            @if($start > 1)
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ $players->url(1) }}">1</a>
-                                </li>
-                                @if($start > 2)
-                                    <li class="page-item disabled"><span class="page-link">…</span></li>
-                                @endif
-                            @endif
-
-                            @for($page = $start; $page <= $end; $page++)
-                                <li class="page-item {{ $page === $players->currentPage() ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ $players->url($page) }}">{{ $page }}</a>
-                                </li>
-                            @endfor
-
-                            @if($end < $players->lastPage())
-                                @if($end < $players->lastPage() - 1)
-                                    <li class="page-item disabled"><span class="page-link">…</span></li>
-                                @endif
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ $players->url($players->lastPage()) }}">{{ $players->lastPage() }}</a>
-                                </li>
-                            @endif
-
-                            <li class="page-item {{ $players->hasMorePages() ? '' : 'disabled' }}">
-                                <a class="page-link" href="{{ $players->nextPageUrl() ?? '#' }}" aria-label="Siguiente">
-                                    Siguiente <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            @endif
-
-            <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
-                <div class="info-panel" :class="open ? 'is-open' : ''" x-show="open" x-transition>
+            <div class="info-overlay" x-show="open === true" x-transition.opacity x-cloak @click.self="closeModal">
+                <div class="info-panel" :class="open ? 'is-open' : ''" x-show="open === true" x-transition>
                     <div class="info-header">
                         <span x-text="title"></span>
                         <button type="button" class="info-close" @click="closeModal">&times;</button>
                     </div>
-                    <div class="info-body" x-html="content"></div>
+                    <div class="info-body" x-html="content ?? ''"></div>
                 </div>
             </div>
 
-            <div class="info-overlay" x-show="observationOpen" x-transition.opacity x-cloak @click.self="closeObservation">
-                <div class="info-panel" :class="observationOpen ? 'is-open' : ''" x-show="observationOpen" x-transition>
+            <div class="info-overlay" x-show="observationOpen === true" x-transition.opacity x-cloak @click.self="closeObservation">
+                <div class="info-panel" :class="observationOpen ? 'is-open' : ''" x-show="observationOpen === true" x-transition>
                     <div class="info-header">
                         <span>Crear observación</span>
                         <button type="button" class="info-close" @click="closeObservation">&times;</button>
@@ -273,8 +310,8 @@
                     </div>
                 </div>
             </div>
-            <div class="info-overlay" x-show="confirmOpen" x-transition.opacity x-cloak @click.self="closeConfirm">
-                <div class="info-panel" :class="confirmOpen ? 'is-open' : ''" x-show="confirmOpen" x-transition>
+            <div class="info-overlay" x-show="confirmOpen === true" x-transition.opacity x-cloak @click.self="closeConfirm">
+                <div class="info-panel" :class="confirmOpen ? 'is-open' : ''" x-show="confirmOpen === true" x-transition>
                     <div class="info-header">
                         <span x-text="confirmTitle"></span>
                         <button type="button" class="info-close" @click="closeConfirm">&times;</button>

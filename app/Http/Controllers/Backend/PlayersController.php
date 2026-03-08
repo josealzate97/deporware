@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Player;
 use App\Models\PlayerObservation;
+use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -19,20 +20,43 @@ class PlayersController extends Controller
     public function index(Request $request)
     {
         $search = trim((string) $request->query('search', ''));
+        $position = (string) $request->query('position', '');
+        $team = (string) $request->query('team', '');
+
+        $positionOptions = Player::positionOptions();
+        if ($position !== '' && !array_key_exists((int) $position, $positionOptions)) {
+            $position = '';
+        }
+
+        $teamOptions = Team::query()
+            ->orderBy('name')
+            ->pluck('name', 'id');
 
         $playersQuery = Player::with([
-                'rosters' => function ($query) {
-                    $query->where('status', 1)->latest();
-                },
-                'rosters.team',
-            ]);
+            'rosters' => function ($query) {
+                $query->latest()->with('team');
+            },
+        ]);
 
         if ($search !== '') {
             $playersQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('lastname', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%')
-                    ->orWhere('phone', 'like', '%' . $search . '%');
+                    ->orWhere('phone', 'like', '%' . $search . '%')
+                    ->orWhereHas('rosters.team', function ($teamQuery) use ($search) {
+                        $teamQuery->where('name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        if ($position !== '') {
+            $playersQuery->where('position', (int) $position);
+        }
+
+        if ($team !== '') {
+            $playersQuery->whereHas('rosters', function ($rosterQuery) use ($team) {
+                $rosterQuery->where('team', $team);
             });
         }
 
@@ -45,9 +69,12 @@ class PlayersController extends Controller
 
         return view('backend.players.index', [
             'players' => $players,
-            'positionOptions' => Player::positionOptions(),
+            'positionOptions' => $positionOptions,
+            'teamOptions' => $teamOptions,
             'observationTypes' => PlayerObservation::typeOptions(),
             'search' => $search,
+            'selectedPosition' => $position,
+            'selectedTeam' => $team,
         ]);
     }
 
