@@ -30,8 +30,10 @@ class DefensivePointSeeder extends Seeder
         ];
 
         foreach ($points as $point) {
-            DefensivePoint::firstOrCreate([
+            DefensivePoint::updateOrCreate([
                 'name' => $point,
+            ], [
+                'status' => DefensivePoint::ACTIVE,
             ]);
         }
     }

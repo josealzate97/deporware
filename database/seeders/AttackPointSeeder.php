@@ -39,8 +39,10 @@ class AttackPointSeeder extends Seeder
         ];
 
         foreach ($points as $point) {
-            AttackPoint::firstOrCreate([
+            AttackPoint::updateOrCreate([
                 'name' => $point,
+            ], [
+                'status' => AttackPoint::ACTIVE,
             ]);
         }
     }

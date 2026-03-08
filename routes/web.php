@@ -12,7 +12,9 @@ use App\Http\Controllers\Backend\TeamsController;
 use App\Http\Controllers\Backend\MatchesController;
 use App\Http\Controllers\Backend\TrainingsController;
 use App\Http\Controllers\Backend\VenuesController;
-use App\Http\Controllers\Backend\ConfigurationsController;
+use App\Http\Controllers\Backend\Configurations\GeneralController as ConfigGeneralController;
+use App\Http\Controllers\Backend\Configurations\PointsController as ConfigPointsController;
+use App\Http\Controllers\Backend\Configurations\RivalsController as ConfigRivalsController;
 
 /*
  * ✅ Rutas para landing publica
@@ -123,9 +125,34 @@ Route::middleware('auth')->group(function () {
     /*
      * ✅ Rutas para Configuración / Configurations
     */
-    Route::prefix('configurations')->name('configurations.')->controller(ConfigurationsController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::put('/', 'update')->name('update');
+    Route::prefix('configurations')->name('configurations.')->group(function () {
+        Route::get('/', [ConfigGeneralController::class, 'index'])->name('index');
+        Route::put('/', [ConfigGeneralController::class, 'update'])->name('update');
+
+        Route::prefix('rivals')->name('rivals.')->controller(ConfigRivalsController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/new', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}', 'update')->name('update');
+            Route::delete('/{id}', 'destroy')->name('destroy');
+        });
+
+        Route::prefix('points')->name('points.')->controller(ConfigPointsController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+
+            Route::get('/attack/new', 'createAttack')->name('attack.create');
+            Route::post('/attack', 'storeAttack')->name('attack.store');
+            Route::get('/attack/{id}/edit', 'editAttack')->name('attack.edit');
+            Route::put('/attack/{id}', 'updateAttack')->name('attack.update');
+            Route::delete('/attack/{id}', 'destroyAttack')->name('attack.destroy');
+
+            Route::get('/defensive/new', 'createDefensive')->name('defensive.create');
+            Route::post('/defensive', 'storeDefensive')->name('defensive.store');
+            Route::get('/defensive/{id}/edit', 'editDefensive')->name('defensive.edit');
+            Route::put('/defensive/{id}', 'updateDefensive')->name('defensive.update');
+            Route::delete('/defensive/{id}', 'destroyDefensive')->name('defensive.destroy');
+        });
     });
     
 });
