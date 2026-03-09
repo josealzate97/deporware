@@ -44,11 +44,6 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('playersPage', (config = {}) => ({
         ...infoModal(),
         ...observationModal(),
-        search: config.search || '',
-        position: config.position || '',
-        team: config.team || '',
-        baseUrl: config.baseUrl || window.location.pathname,
-        isLoading: false,
         confirmOpen: false,
         confirmTitle: 'Confirmar',
         confirmMessage: '',
@@ -62,68 +57,6 @@ document.addEventListener('alpine:init', () => {
             this.title = 'Detalle';
             this.observationOpen = false;
             this.confirmOpen = false;
-            this.bindPagination();
-        },
-        buildUrl(overrideUrl) {
-            if (overrideUrl) return overrideUrl;
-            const params = new URLSearchParams();
-            if (this.search) params.set('search', this.search);
-            if (this.position) params.set('position', this.position);
-            if (this.team) params.set('team', this.team);
-            const query = params.toString();
-            return query ? `${this.baseUrl}?${query}` : this.baseUrl;
-        },
-        bindPagination() {
-            const wrap = document.getElementById('playersTableWrap');
-            if (!wrap) return;
-            wrap.querySelectorAll('.pagination a.page-link').forEach((link) => {
-                link.addEventListener('click', (event) => {
-                    const href = link.getAttribute('href');
-                    if (!href || href === '#') return;
-                    event.preventDefault();
-                    this.fetchPlayers(href);
-                });
-            });
-        },
-        async fetchPlayers(overrideUrl) {
-            if (this.isLoading) return;
-            const url = this.buildUrl(overrideUrl);
-            this.isLoading = true;
-            try {
-                const response = await fetch(url, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('No se pudo actualizar la lista.');
-                }
-                const html = await response.text();
-                const doc = new DOMParser().parseFromString(html, 'text/html');
-                const newMeta = doc.getElementById('playersResultsMeta');
-                const newWrap = doc.getElementById('playersTableWrap');
-
-                if (newMeta && newWrap) {
-                    const currentMeta = document.getElementById('playersResultsMeta');
-                    const currentWrap = document.getElementById('playersTableWrap');
-                    if (currentMeta) currentMeta.innerHTML = newMeta.innerHTML;
-                    if (currentWrap) {
-                        currentWrap.innerHTML = newWrap.innerHTML;
-                        if (window.Alpine && typeof window.Alpine.initTree === 'function') {
-                            window.Alpine.initTree(currentWrap);
-                        }
-                    }
-                    this.bindPagination();
-                }
-
-                window.history.replaceState({}, '', url);
-            } catch (error) {
-                if (window.Notyf) {
-                    new window.Notyf().error(error.message || 'Error al actualizar la lista.');
-                }
-            } finally {
-                this.isLoading = false;
-            }
         },
         openConfirm({ title, message, action, method = 'POST', successMessage }) {
             this.confirmTitle = title || 'Confirmar';

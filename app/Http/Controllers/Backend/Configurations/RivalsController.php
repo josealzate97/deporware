@@ -11,13 +11,21 @@ class RivalsController extends Controller
 {
     public function index()
     {
-        $rivals = RivalTeam::query()
+        $search = trim((string) request()->query('search', ''));
+
+        $rivalsQuery = RivalTeam::query()
             ->orderBy('name')
-            ->paginate(10)
-            ->withQueryString();
+            ;
+
+        if ($search !== '') {
+            $rivalsQuery->where('name', 'like', '%' . $search . '%');
+        }
+
+        $rivals = $rivalsQuery->paginate(10)->withQueryString();
 
         return view('backend.configurations.rivals.index', [
             'rivals' => $rivals,
+            'search' => $search,
         ]);
     }
 

@@ -49,17 +49,12 @@
 
         </div>
 
-        <div x-data='playersPage({
-            search: @json($search ?? ''),
-            position: @json($selectedPosition ?? ''),
-            team: @json($selectedTeam ?? ''),
-            baseUrl: @json(route('players.index'))
-        })'>
+        <div x-data="playersPage()">
             <div class="card p-0 mt-4 section-card">
                 <div class="players-toolbar">
                     <div class="players-toolbar-meta">
                         <span class="fw-bold">Resultados</span>
-                        <span class="text-muted" id="playersResultsMeta">
+                        <span class="text-muted">
                             @if($players->total() > 0)
                                 Mostrando {{ $players->firstItem() }}-{{ $players->lastItem() }} de {{ $players->total() }}
                             @else
@@ -67,7 +62,7 @@
                             @endif
                         </span>
                     </div>
-                    <form class="section-toolbar players-filters" method="GET" action="{{ route('players.index') }}" @submit.prevent="fetchPlayers()">
+                    <form class="section-toolbar players-filters" method="GET" action="{{ route('players.index') }}">
                         <div class="section-search">
                             <i class="fas fa-search"></i>
                             <label class="visually-hidden" for="playersSearch">Buscar jugador</label>
@@ -77,32 +72,36 @@
                                 name="search"
                                 class="form-control form-control-sm"
                                 placeholder="Buscar jugador, teléfono o equipo..."
-                                x-model.trim="search"
-                                @input.debounce.500ms="fetchPlayers()"
+                                value="{{ $search ?? '' }}"
                             >
                         </div>
 
                         <label class="visually-hidden" for="playersPosition">Posición</label>
-                        <select class="form-select form-select-sm section-filter" id="playersPosition" name="position"
-                            x-model="position" @change="fetchPlayers()">
+                        <select class="form-select form-select-sm section-filter" id="playersPosition" name="position" onchange="this.form.requestSubmit()">
                             <option value="">Todas</option>
                             @foreach($positionOptions as $key => $label)
-                                <option value="{{ $key }}">{{ $label }}</option>
+                                <option value="{{ $key }}" {{ (string) ($selectedPosition ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach
                         </select>
 
                         <label class="visually-hidden" for="playersTeam">Equipo</label>
-                        <select class="form-select form-select-sm section-filter" id="playersTeam" name="team"
-                            x-model="team" @change="fetchPlayers()">
+                        <select class="form-select form-select-sm section-filter" id="playersTeam" name="team" onchange="this.form.requestSubmit()">
                             <option value="">Todos</option>
                             @foreach($teamOptions as $teamId => $teamName)
-                                <option value="{{ $teamId }}">{{ $teamName }}</option>
+                                <option value="{{ $teamId }}" {{ (string) ($selectedTeam ?? '') === (string) $teamId ? 'selected' : '' }}>{{ $teamName }}</option>
                             @endforeach
                         </select>
 
+                        <button type="submit" class="btn btn-sm section-filter-btn">
+                            <i class="fas fa-filter"></i> Filtrar
+                        </button>
+                        <a href="{{ route('players.index') }}" class="btn btn-sm section-clear-btn">
+                            <i class="fas fa-rotate-left"></i> Limpiar
+                        </a>
+
                     </form>
                 </div>
-                <div id="playersTableWrap">
+                <div>
                     <div class="table-responsive">
                         <table class="table table-borderless align-middle section-table">
                         <thead>

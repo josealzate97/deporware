@@ -64,6 +64,20 @@
                 </span>
             </div>
 
+            <form class="section-toolbar mb-3" method="GET" action="{{ route('configurations.rivals.index') }}">
+                <div class="section-search">
+                    <i class="fas fa-search"></i>
+                    <label class="visually-hidden" for="rivalsSearch">Buscar rival</label>
+                    <input type="search" class="form-control form-control-sm" id="rivalsSearch" name="search" value="{{ $search ?? '' }}" placeholder="Buscar rival...">
+                </div>
+                <button type="submit" class="btn btn-sm section-filter-btn">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+                <a href="{{ route('configurations.rivals.index') }}" class="btn btn-sm section-clear-btn">
+                    <i class="fas fa-rotate-left"></i> Limpiar
+                </a>
+            </form>
+
             <div class="table-responsive">
                 <table class="table table-borderless align-middle section-table">
                     <thead>
@@ -101,7 +115,6 @@
             @include('backend.components.pagination', [
                 'paginator' => $rivals,
                 'ariaLabel' => 'Paginador de rivales',
-                'wrapperClass' => 'players-pagination mt-2',
             ])
         </div>
 

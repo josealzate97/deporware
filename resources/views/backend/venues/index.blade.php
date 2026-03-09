@@ -81,8 +81,12 @@
                         <option value="{{ $key }}" {{ (string) ($selectedStatus ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
-                <button type="submit" class="btn btn-outline-secondary btn-sm">Filtrar</button>
-                <a href="{{ route('venues.index') }}" class="btn btn-outline-secondary btn-sm">Limpiar</a>
+                <button type="submit" class="btn btn-sm section-filter-btn">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+                <a href="{{ route('venues.index') }}" class="btn btn-sm section-clear-btn">
+                    <i class="fas fa-rotate-left"></i> Limpiar
+                </a>
             </form>
 
             <div class="table-responsive">

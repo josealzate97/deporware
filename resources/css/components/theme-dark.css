@@ -346,6 +346,24 @@ body.theme-dark .section-toolbar .form-select {
   color: #e5e7eb;
 }
 
+body.theme-dark .section-filter-btn {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: #1d4ed8;
+  color: #fff;
+}
+
+body.theme-dark .section-clear-btn {
+  background: #11161e;
+  border-color: #2b3340;
+  color: #cbd5e1;
+}
+
+body.theme-dark .section-clear-btn:hover {
+  background: #1a2230;
+  border-color: #3b4b63;
+  color: #bfdbfe;
+}
+
 body.theme-dark .pagination .page-item .page-link {
   background: #11161e;
   border-color: #2b3340;
