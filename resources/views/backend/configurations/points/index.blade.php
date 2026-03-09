@@ -57,6 +57,32 @@
                             </a>
                         </div>
 
+                        <div class="section-results-meta px-0 pt-0">
+                            <span class="fw-bold">Resultados</span>
+                            <span class="text-muted">
+                                @if($attackPoints->total() > 0)
+                                    Mostrando {{ $attackPoints->firstItem() }}-{{ $attackPoints->lastItem() }} de {{ $attackPoints->total() }}
+                                @else
+                                    Mostrando 0-0 de 0
+                                @endif
+                            </span>
+                        </div>
+
+                        <form class="section-toolbar mb-3" method="GET" action="{{ route('configurations.points.index') }}">
+                            <input type="hidden" name="defensive_search" value="{{ $defensiveSearch ?? '' }}">
+                            <div class="section-search">
+                                <i class="fas fa-search"></i>
+                                <label class="visually-hidden" for="attackPointsSearch">Buscar punto de ataque</label>
+                                <input type="search" class="form-control form-control-sm" id="attackPointsSearch" name="attack_search" value="{{ $attackSearch ?? '' }}" placeholder="Buscar punto de ataque...">
+                            </div>
+                            <button type="submit" class="btn btn-sm section-filter-btn">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                            <a href="{{ route('configurations.points.index', ['defensive_search' => $defensiveSearch ?? '']) }}" class="btn btn-sm section-clear-btn">
+                                <i class="fas fa-rotate-left"></i> Limpiar
+                            </a>
+                        </form>
+
                         <div class="table-responsive">
                             <table class="table table-borderless align-middle section-table mb-0">
                                 <thead>
@@ -90,6 +116,12 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        @include('backend.components.pagination', [
+                            'paginator' => $attackPoints,
+                            'ariaLabel' => 'Paginador de puntos de ataque',
+                            'wrapperClass' => 'section-pagination mt-3',
+                        ])
                     </div>
                 </div>
 
@@ -104,6 +136,32 @@
                                 <i class="fa-solid fa-plus-circle me-1"></i> Nuevo
                             </a>
                         </div>
+
+                        <div class="section-results-meta px-0 pt-0">
+                            <span class="fw-bold">Resultados</span>
+                            <span class="text-muted">
+                                @if($defensivePoints->total() > 0)
+                                    Mostrando {{ $defensivePoints->firstItem() }}-{{ $defensivePoints->lastItem() }} de {{ $defensivePoints->total() }}
+                                @else
+                                    Mostrando 0-0 de 0
+                                @endif
+                            </span>
+                        </div>
+
+                        <form class="section-toolbar mb-3" method="GET" action="{{ route('configurations.points.index') }}">
+                            <input type="hidden" name="attack_search" value="{{ $attackSearch ?? '' }}">
+                            <div class="section-search">
+                                <i class="fas fa-search"></i>
+                                <label class="visually-hidden" for="defensivePointsSearch">Buscar punto defensivo</label>
+                                <input type="search" class="form-control form-control-sm" id="defensivePointsSearch" name="defensive_search" value="{{ $defensiveSearch ?? '' }}" placeholder="Buscar punto defensivo...">
+                            </div>
+                            <button type="submit" class="btn btn-sm section-filter-btn">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                            <a href="{{ route('configurations.points.index', ['attack_search' => $attackSearch ?? '']) }}" class="btn btn-sm section-clear-btn">
+                                <i class="fas fa-rotate-left"></i> Limpiar
+                            </a>
+                        </form>
 
                         <div class="table-responsive">
                             <table class="table table-borderless align-middle section-table mb-0">
@@ -138,6 +196,12 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        @include('backend.components.pagination', [
+                            'paginator' => $defensivePoints,
+                            'ariaLabel' => 'Paginador de puntos defensivos',
+                            'wrapperClass' => 'section-pagination mt-3',
+                        ])
                     </div>
                 </div>
             </div>

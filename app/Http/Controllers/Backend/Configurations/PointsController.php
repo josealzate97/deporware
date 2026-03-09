@@ -12,9 +12,42 @@ class PointsController extends Controller
 {
     public function index()
     {
+        $attackSearch = trim((string) request()->query('attack_search', ''));
+        $defensiveSearch = trim((string) request()->query('defensive_search', ''));
+
+        $attackQuery = AttackPoint::query()
+            ->where('status', AttackPoint::ACTIVE)
+            ->orderBy('name');
+
+        if ($attackSearch !== '') {
+            $attackQuery->where('name', 'like', '%' . $attackSearch . '%');
+        }
+
+        $defensiveQuery = DefensivePoint::query()
+            ->where('status', DefensivePoint::ACTIVE)
+            ->orderBy('name');
+
+        if ($defensiveSearch !== '') {
+            $defensiveQuery->where('name', 'like', '%' . $defensiveSearch . '%');
+        }
+
         return view('backend.configurations.points.index', [
-            'attackPoints' => AttackPoint::query()->orderBy('name')->get(),
-            'defensivePoints' => DefensivePoint::query()->orderBy('name')->get(),
+            'attackPoints' => $attackQuery
+                ->paginate(8, ['*'], 'attack_page')
+                ->appends([
+                    'attack_search' => $attackSearch,
+                    'defensive_search' => $defensiveSearch,
+                    'defensive_page' => request()->query('defensive_page'),
+                ]),
+            'defensivePoints' => $defensiveQuery
+                ->paginate(8, ['*'], 'defensive_page')
+                ->appends([
+                    'attack_search' => $attackSearch,
+                    'defensive_search' => $defensiveSearch,
+                    'attack_page' => request()->query('attack_page'),
+                ]),
+            'attackSearch' => $attackSearch,
+            'defensiveSearch' => $defensiveSearch,
         ]);
     }
 

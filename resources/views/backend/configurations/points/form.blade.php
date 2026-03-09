@@ -1,7 +1,9 @@
 @extends('backend.layouts.main')
 
-@php($isEdit = $isEdit ?? false)
-@php($isAttack = ($pointType ?? 'attack') === 'attack')
+@php
+    $isEdit = $isEdit ?? false;
+    $isAttack = ($pointType ?? 'attack') === 'attack';
+@endphp
 
 @section('title', $isEdit ? 'Editar Punto' : 'Nuevo Punto')
 
