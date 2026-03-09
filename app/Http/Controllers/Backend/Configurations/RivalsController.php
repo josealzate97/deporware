@@ -12,8 +12,18 @@ class RivalsController extends Controller
     public function index()
     {
         $search = trim((string) request()->query('search', ''));
+        $status = (string) request()->query('status', '');
+        $statusOptions = [
+            (string) RivalTeam::ACTIVE => 'Activos',
+            (string) RivalTeam::INACTIVE => 'Inactivos',
+        ];
+
+        if ($status !== '' && !array_key_exists($status, $statusOptions)) {
+            $status = '';
+        }
 
         $rivalsQuery = RivalTeam::query()
+            ->orderByDesc('status')
             ->orderBy('name')
             ;
 
@@ -21,11 +31,17 @@ class RivalsController extends Controller
             $rivalsQuery->where('name', 'like', '%' . $search . '%');
         }
 
+        if ($status !== '') {
+            $rivalsQuery->where('status', (int) $status);
+        }
+
         $rivals = $rivalsQuery->paginate(10)->withQueryString();
 
         return view('backend.configurations.rivals.index', [
             'rivals' => $rivals,
             'search' => $search,
+            'statusOptions' => $statusOptions,
+            'selectedStatus' => $status,
         ]);
     }
 
@@ -78,12 +94,16 @@ class RivalsController extends Controller
     {
         $rival = RivalTeam::findOrFail($id);
 
-        if ($rival->matches()->exists()) {
-            return redirect()->route('configurations.rivals.index')
-                ->with('error', 'No puedes eliminar un rival con partidos asociados.');
-        }
+        $rival->update(['status' => RivalTeam::INACTIVE]);
 
-        $rival->delete();
+        return redirect()->route('configurations.rivals.index');
+    }
+
+    public function activate(string $id)
+    {
+        $rival = RivalTeam::findOrFail($id);
+
+        $rival->update(['status' => RivalTeam::ACTIVE]);
 
         return redirect()->route('configurations.rivals.index');
     }

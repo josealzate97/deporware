@@ -136,6 +136,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/edit', 'edit')->name('edit');
             Route::put('/{id}', 'update')->name('update');
             Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::post('/{id}/activate', 'activate')->name('activate');
         });
 
         Route::prefix('points')->name('points.')->controller(ConfigPointsController::class)->group(function () {
@@ -146,12 +147,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/attack/{id}/edit', 'editAttack')->name('attack.edit');
             Route::put('/attack/{id}', 'updateAttack')->name('attack.update');
             Route::delete('/attack/{id}', 'destroyAttack')->name('attack.destroy');
+            Route::post('/attack/{id}/activate', 'activateAttack')->name('attack.activate');
 
             Route::get('/defensive/new', 'createDefensive')->name('defensive.create');
             Route::post('/defensive', 'storeDefensive')->name('defensive.store');
             Route::get('/defensive/{id}/edit', 'editDefensive')->name('defensive.edit');
             Route::put('/defensive/{id}', 'updateDefensive')->name('defensive.update');
             Route::delete('/defensive/{id}', 'destroyDefensive')->name('defensive.destroy');
+            Route::post('/defensive/{id}/activate', 'activateDefensive')->name('defensive.activate');
         });
     });
     

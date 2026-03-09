@@ -14,21 +14,43 @@ class PointsController extends Controller
     {
         $attackSearch = trim((string) request()->query('attack_search', ''));
         $defensiveSearch = trim((string) request()->query('defensive_search', ''));
+        $attackStatus = (string) request()->query('attack_status', '');
+        $defensiveStatus = (string) request()->query('defensive_status', '');
+        $statusOptions = [
+            (string) AttackPoint::ACTIVE => 'Activos',
+            (string) AttackPoint::INACTIVE => 'Inactivos',
+        ];
+
+        if ($attackStatus !== '' && !array_key_exists($attackStatus, $statusOptions)) {
+            $attackStatus = '';
+        }
+
+        if ($defensiveStatus !== '' && !array_key_exists($defensiveStatus, $statusOptions)) {
+            $defensiveStatus = '';
+        }
 
         $attackQuery = AttackPoint::query()
-            ->where('status', AttackPoint::ACTIVE)
+            ->orderByDesc('status')
             ->orderBy('name');
 
         if ($attackSearch !== '') {
             $attackQuery->where('name', 'like', '%' . $attackSearch . '%');
         }
 
+        if ($attackStatus !== '') {
+            $attackQuery->where('status', (int) $attackStatus);
+        }
+
         $defensiveQuery = DefensivePoint::query()
-            ->where('status', DefensivePoint::ACTIVE)
+            ->orderByDesc('status')
             ->orderBy('name');
 
         if ($defensiveSearch !== '') {
             $defensiveQuery->where('name', 'like', '%' . $defensiveSearch . '%');
+        }
+
+        if ($defensiveStatus !== '') {
+            $defensiveQuery->where('status', (int) $defensiveStatus);
         }
 
         return view('backend.configurations.points.index', [
@@ -36,18 +58,25 @@ class PointsController extends Controller
                 ->paginate(8, ['*'], 'attack_page')
                 ->appends([
                     'attack_search' => $attackSearch,
+                    'attack_status' => $attackStatus,
                     'defensive_search' => $defensiveSearch,
+                    'defensive_status' => $defensiveStatus,
                     'defensive_page' => request()->query('defensive_page'),
                 ]),
             'defensivePoints' => $defensiveQuery
                 ->paginate(8, ['*'], 'defensive_page')
                 ->appends([
                     'attack_search' => $attackSearch,
+                    'attack_status' => $attackStatus,
                     'defensive_search' => $defensiveSearch,
+                    'defensive_status' => $defensiveStatus,
                     'attack_page' => request()->query('attack_page'),
                 ]),
             'attackSearch' => $attackSearch,
             'defensiveSearch' => $defensiveSearch,
+            'attackStatus' => $attackStatus,
+            'defensiveStatus' => $defensiveStatus,
+            'statusOptions' => $statusOptions,
         ]);
     }
 
@@ -100,7 +129,16 @@ class PointsController extends Controller
 
     public function destroyAttack(string $id)
     {
-        AttackPoint::findOrFail($id)->delete();
+        $point = AttackPoint::findOrFail($id);
+        $point->update(['status' => AttackPoint::INACTIVE]);
+
+        return redirect()->route('configurations.points.index');
+    }
+
+    public function activateAttack(string $id)
+    {
+        $point = AttackPoint::findOrFail($id);
+        $point->update(['status' => AttackPoint::ACTIVE]);
 
         return redirect()->route('configurations.points.index');
     }
@@ -154,7 +192,16 @@ class PointsController extends Controller
 
     public function destroyDefensive(string $id)
     {
-        DefensivePoint::findOrFail($id)->delete();
+        $point = DefensivePoint::findOrFail($id);
+        $point->update(['status' => DefensivePoint::INACTIVE]);
+
+        return redirect()->route('configurations.points.index');
+    }
+
+    public function activateDefensive(string $id)
+    {
+        $point = DefensivePoint::findOrFail($id);
+        $point->update(['status' => DefensivePoint::ACTIVE]);
 
         return redirect()->route('configurations.points.index');
     }

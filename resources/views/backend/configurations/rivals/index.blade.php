@@ -49,10 +49,6 @@
             @endphp
             @include('backend.configurations.partials.tabs')
 
-            @if(session('error'))
-                <div class="alert alert-danger py-2">{{ session('error') }}</div>
-            @endif
-
             <div class="section-results-meta px-0">
                 <span class="fw-bold">Resultados</span>
                 <span class="text-muted">
@@ -70,6 +66,13 @@
                     <label class="visually-hidden" for="rivalsSearch">Buscar rival</label>
                     <input type="search" class="form-control form-control-sm" id="rivalsSearch" name="search" value="{{ $search ?? '' }}" placeholder="Buscar rival...">
                 </div>
+                <label class="visually-hidden" for="rivalsStatusFilter">Filtrar por estado</label>
+                <select class="form-select form-select-sm section-filter" id="rivalsStatusFilter" name="status" onchange="this.form.requestSubmit()">
+                    <option value="">Todos</option>
+                    @foreach($statusOptions as $key => $label)
+                        <option value="{{ $key }}" {{ (string) ($selectedStatus ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
                 <button type="submit" class="btn btn-sm section-filter-btn">
                     <i class="fas fa-filter"></i> Filtrar
                 </button>
@@ -83,6 +86,7 @@
                     <thead>
                         <tr>
                             <th>Rival</th>
+                            <th>Estado</th>
                             <th class="text-end">Acciones</th>
                         </tr>
                     </thead>
@@ -90,22 +94,38 @@
                         @forelse($rivals as $rival)
                             <tr>
                                 <td class="fw-semibold">{{ $rival->name }}</td>
+                                <td>
+                                    @if((int) $rival->status === \App\Models\RivalTeam::ACTIVE)
+                                        <span class="status-pill status-pill-success">Activo</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactivo</span>
+                                    @endif
+                                </td>
                                 <td class="text-end">
                                     <a href="{{ route('configurations.rivals.edit', $rival->id) }}" class="btn btn-icon btn-icon-edit" title="Editar rival {{ $rival->name }}">
                                         <i class="fas fa-edit mt-1"></i>
                                     </a>
-                                    <form method="POST" action="{{ route('configurations.rivals.destroy', $rival->id) }}" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-icon text-danger" title="Eliminar rival {{ $rival->name }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    @if((int) $rival->status === \App\Models\RivalTeam::ACTIVE)
+                                        <form method="POST" action="{{ route('configurations.rivals.destroy', $rival->id) }}" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-icon text-danger" title="Desactivar rival {{ $rival->name }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form method="POST" action="{{ route('configurations.rivals.activate', $rival->id) }}" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-icon text-success" title="Activar rival {{ $rival->name }}">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="2" class="text-center text-muted py-4">No hay rivales registrados.</td>
+                                <td colspan="3" class="text-center text-muted py-4">No hay rivales registrados.</td>
                             </tr>
                         @endforelse
                     </tbody>

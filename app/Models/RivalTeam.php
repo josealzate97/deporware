@@ -10,6 +10,9 @@ class RivalTeam extends Model
 {
     use HasFactory;
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
+
     protected $table = 'rival_teams';
 
     public $incrementing = false;
@@ -18,11 +21,13 @@ class RivalTeam extends Model
     protected $fillable = [
         'id',
         'name',
+        'status',
     ];
 
     protected function casts(): array
     {
         return [
+            'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -33,6 +38,10 @@ class RivalTeam extends Model
         static::creating(function (self $rival): void {
             if (empty($rival->id)) {
                 $rival->id = (string) Str::uuid();
+            }
+
+            if ($rival->status === null) {
+                $rival->status = self::ACTIVE;
             }
         });
     }
