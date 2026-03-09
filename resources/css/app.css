@@ -243,6 +243,20 @@ html, body {
   padding: 1.1rem 1.25rem 0.5rem;
 }
 
+.section-results-meta .text-muted {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1e40af !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
 @media (max-width: 900px) {
   .section-hero {
     padding: 1rem !important;
