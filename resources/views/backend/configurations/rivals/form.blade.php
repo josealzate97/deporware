@@ -1,6 +1,8 @@
 @extends('backend.layouts.main')
 
-@php($isEdit = $isEdit ?? false)
+@php
+    $isEdit = $isEdit ?? false;
+@endphp
 
 @section('title', $isEdit ? 'Editar Rival' : 'Nuevo Rival')
 
