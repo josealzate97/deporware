@@ -58,13 +58,13 @@
                     <div class="players-toolbar-meta p-3">
 
                         <span class="fw-bold">Resultados</span>
-                        <span class="text-muted">
-                            @if($matches->total() > 0)
-                                Mostrando {{ $matches->firstItem() }}-{{ $matches->lastItem() }} de {{ $matches->total() }}
-                            @else
-                                Sin resultados
-                            @endif
-                        </span>
+                    <span class="text-muted">
+                        @if($matches->total() > 0)
+                            Mostrando {{ $matches->firstItem() }}-{{ $matches->lastItem() }} de {{ $matches->total() }}
+                        @else
+                            <span class="match-results-badge">Sin resultados</span>
+                        @endif
+                    </span>
                     </div>
 
                     <form class="section-toolbar players-filters matches-filters" method="GET" action="{{ route('matches.index') }}">

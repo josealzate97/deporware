@@ -90,6 +90,8 @@
                             </div>
 
                             <div class="row g-3 mt-1">
+                                <div class="col-12 col-lg-7">
+                                    <div class="row g-3">
                                 @php($matchDateValue = old('match_date', $match?->match_date?->format('Y-m-d H:i') ?? ''))
                                 @php($matchDateDate = $matchDateValue ? \Carbon\Carbon::parse($matchDateValue)->format('Y-m-d') : '')
                                 @php($matchDateTime = $matchDateValue ? \Carbon\Carbon::parse($matchDateValue)->format('H:i') : '')
@@ -199,15 +201,28 @@
                                     <label class="form-label fw-semibold">Notas</label>
                                     <textarea class="form-control" name="match_notes" rows="5">{{ old('match_notes', $match->match_notes ?? '') }}</textarea>
                                 </div>
-
-                                <div class="col-12 col-lg-6">
-                                    <label class="form-label fw-semibold">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                    <input type="file" class="form-control upload-control" name="match_file" x-bind:required="requiresResult" x-bind:disabled="isScheduled" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                                    </div>
                                 </div>
 
-                                <div class="col-12 col-lg-6">
-                                    <label class="form-label fw-semibold">Foto equipo</label>
-                                    <input type="file" class="form-control upload-control" name="team_photo" accept="image/*">
+                                <div class="col-12 col-lg-5">
+                                        <div class="match-file-panel">
+                                            <div class="match-file-panel-header">
+                                                <div>
+                                                    <div class="fw-semibold">Archivos del partido</div>
+                                                    <span class="match-file-badge">PDF/DOC/XLS · Máx 5MB</span>
+                                                </div>
+                                            </div>
+                                        <div class="row g-3 mt-2">
+                                            <div class="col-12">
+                                                <label class="form-label fw-semibold">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
+                                                <input type="file" class="form-control upload-control upload-control-gradient" name="match_file" x-bind:required="requiresResult" x-bind:disabled="isScheduled" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label fw-semibold">Foto equipo</label>
+                                                <input type="file" class="form-control upload-control upload-control-gradient" name="team_photo" accept="image/*">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

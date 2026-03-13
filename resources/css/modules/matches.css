@@ -93,6 +93,62 @@
   background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
 }
 
+.match-file-panel {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 1rem;
+  height: 100%;
+}
+
+.match-file-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.match-results-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #eef2ff;
+  color: #1e3a8a;
+  border: 1px solid #c7d2fe;
+}
+.match-file-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e8f1ff 0%, #e6f6ed 100%);
+  color: #1e3a8a;
+  border: 1px solid #cfe1f7;
+}
+
+.upload-control.upload-control-gradient::file-selector-button {
+  background: linear-gradient(135deg, #16a34a 0%, #2563eb 100%);
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.2);
+}
+
+.upload-control.upload-control-gradient::file-selector-button:hover {
+  background: linear-gradient(135deg, #15803d 0%, #1d4ed8 100%);
+}
+
+.upload-control.upload-control-gradient::-webkit-file-upload-button {
+  background: linear-gradient(135deg, #16a34a 0%, #2563eb 100%);
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.2);
+}
+
+.upload-control.upload-control-gradient::-webkit-file-upload-button:hover {
+  background: linear-gradient(135deg, #15803d 0%, #1d4ed8 100%);
+}
 .upload-control {
   padding: 0.65rem 0.9rem;
   background: #f8fafc;
