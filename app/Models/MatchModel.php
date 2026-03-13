@@ -42,6 +42,7 @@ class MatchModel extends Model
         'final_score',
         'match_notes',
         'match_file',
+        'team_picture',
     ];
 
     protected function casts(): array

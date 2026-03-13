@@ -18,11 +18,13 @@
         </div>
         <div class="col-md-6">
             <div class="fw-semibold">Equipo</div>
-            <div>{{ $match->team?->name ?? '-' }}</div>
+            @php($teamModel = $match->relationLoaded('team') ? $match->getRelation('team') : null)
+            <div>{{ $teamModel?->name ?? '-' }}</div>
         </div>
         <div class="col-md-6">
             <div class="fw-semibold">Rival</div>
-            <div>{{ $match->rival?->name ?? '-' }}</div>
+            @php($rivalModel = $match->relationLoaded('rival') ? $match->getRelation('rival') : null)
+            <div>{{ $rivalModel?->name ?? '-' }}</div>
         </div>
         <div class="col-md-6">
             <div class="fw-semibold">Estado</div>

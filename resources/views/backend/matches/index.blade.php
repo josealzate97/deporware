@@ -51,12 +51,78 @@
 
         <div x-data="infoModal()">
         <div class="card p-0 mt-4 section-card">
-            @php($matchesTotal = $matches->count())
-            <div class="section-results-meta">
-                <span class="fw-bold">Resultados</span>
-                <span class="text-muted">
-                    Mostrando {{ $matchesTotal > 0 ? 1 : 0 }}-{{ $matchesTotal }} de {{ $matchesTotal }}
-                </span>
+            <div class="players-toolbar">
+                <div class="players-toolbar-meta">
+                    <span class="fw-bold">Resultados</span>
+                    <span class="text-muted">
+                        @if($matches->total() > 0)
+                            Mostrando {{ $matches->firstItem() }}-{{ $matches->lastItem() }} de {{ $matches->total() }}
+                        @else
+                            Sin resultados
+                        @endif
+                    </span>
+                </div>
+                <form class="section-toolbar players-filters matches-filters" method="GET" action="{{ route('matches.index') }}">
+                    <div class="section-search">
+                        <i class="fas fa-search"></i>
+                        <label class="visually-hidden" for="matchesSearch">Buscar partido</label>
+                            <input
+                                type="search"
+                                id="matchesSearch"
+                                name="search"
+                                class="form-control form-control-sm"
+                                placeholder="Buscar por fecha, equipo o rival..."
+                                value="{{ $search ?? '' }}"
+                            >
+                        </div>
+
+                    <label class="visually-hidden" for="matchesStatus">Estado</label>
+                    <select class="form-select form-select-sm section-filter" id="matchesStatus" name="status" onchange="this.form.requestSubmit()">
+                        <option value="">Todos</option>
+                        @foreach($statusOptions as $key => $label)
+                            <option value="{{ $key }}" {{ (string) ($selectedStatus ?? '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                        @endforeach
+                    </select>
+
+                    <div class="autocomplete section-filter" data-autocomplete='@json(collect($teamOptions)->map(fn($name, $id) => ["id" => $id, "name" => $name])->values())'>
+                        <label class="visually-hidden" for="matchesTeamInput">Equipo</label>
+                        <i class="fas fa-search"></i>
+                        <input
+                            type="search"
+                            id="matchesTeamInput"
+                            class="form-control form-control-sm"
+                            data-autocomplete-input
+                            placeholder="Equipo..."
+                            autocomplete="off"
+                            value="{{ $selectedTeamName ?? '' }}"
+                        >
+                        <input type="hidden" name="team" data-autocomplete-hidden value="{{ $selectedTeam ?? '' }}">
+                        <div class="autocomplete-list" data-autocomplete-list></div>
+                    </div>
+
+                    <div class="autocomplete section-filter" data-autocomplete='@json(collect($rivalOptions)->map(fn($name, $id) => ["id" => $id, "name" => $name])->values())'>
+                        <label class="visually-hidden" for="matchesRivalInput">Rival</label>
+                        <i class="fas fa-search"></i>
+                        <input
+                            type="search"
+                            id="matchesRivalInput"
+                            class="form-control form-control-sm"
+                            data-autocomplete-input
+                            placeholder="Rival..."
+                            autocomplete="off"
+                            value="{{ $selectedRivalName ?? '' }}"
+                        >
+                        <input type="hidden" name="rival" data-autocomplete-hidden value="{{ $selectedRival ?? '' }}">
+                        <div class="autocomplete-list" data-autocomplete-list></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-sm section-filter-btn">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                    <a href="{{ route('matches.index') }}" class="btn btn-sm section-clear-btn">
+                        <i class="fas fa-rotate-left"></i> Limpiar
+                    </a>
+                </form>
             </div>
 
             <div class="table-responsive">
@@ -74,11 +140,14 @@
                         @forelse($matches as $match)
                             <tr data-id="{{ $match->id }}">
                                 <td>{{ $match->match_date?->format('Y-m-d H:i') ?? '-' }}</td>
-                                <td>{{ $match->team?->name ?? '-' }}</td>
-                                <td>{{ $match->rival?->name ?? '-' }}</td>
+                                @php($teamModel = $match->relationLoaded('team') ? $match->getRelation('team') : null)
+                                @php($rivalModel = $match->relationLoaded('rival') ? $match->getRelation('rival') : null)
+                                <td>{{ $teamModel?->name ?? ($match->team ? 'Sin equipo vinculado' : '-') }}</td>
+                                <td>{{ $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : '-') }}</td>
                                 <td>
-                                    <span class="status-pill {{ $match->match_status ? 'status-pill-success' : 'status-pill-muted' }}">
-                                        {{ $match->match_status ? 'Activo' : 'Inactivo' }}
+                                    @php($statusLabel = $statusOptions[$match->match_status] ?? 'Sin estado')
+                                    <span class="status-pill {{ $match->match_status === \App\Models\MatchModel::STATUS_COMPLETED ? 'status-pill-success' : 'status-pill-muted' }}">
+                                        {{ $statusLabel }}
                                     </span>
                                 </td>
                                 <td class="text-end">
@@ -87,6 +156,10 @@
                                         aria-label="Ver información del partido" title="Ver información">
                                         <i class="fas fa-circle-info"></i>
                                     </button>
+                                    <a href="{{ route('matches.edit', $match->id) }}" class="btn btn-icon btn-icon-edit"
+                                        aria-label="Editar partido" title="Editar partido">
+                                        <i class="fas fa-edit mt-1"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @empty
@@ -97,6 +170,11 @@
                     </tbody>
                 </table>
             </div>
+            @include('backend.components.pagination', [
+                'paginator' => $matches,
+                'ariaLabel' => 'Paginador de partidos',
+                'wrapperClass' => 'players-pagination',
+            ])
         </div>
 
         </div>

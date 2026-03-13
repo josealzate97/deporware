@@ -90,17 +90,29 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-12 col-md-4">
+                                @php($matchDateValue = old('match_date', $match?->match_date?->format('Y-m-d H:i') ?? ''))
+                                @php($matchDateDate = $matchDateValue ? \Carbon\Carbon::parse($matchDateValue)->format('Y-m-d') : '')
+                                @php($matchDateTime = $matchDateValue ? \Carbon\Carbon::parse($matchDateValue)->format('H:i') : '')
+                                <div class="col-12 col-lg-4">
                                     <label class="form-label fw-semibold">Fecha del partido <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="match_date"
-                                        value="{{ old('match_date', $match?->match_date?->format('Y-m-d') ?? '') }}" required>
+                                    <div class="row g-2">
+                                        <div class="col-7">
+                                            <input type="date" class="form-control" id="match_date_date"
+                                                value="{{ $matchDateDate }}" required>
+                                        </div>
+                                        <div class="col-5">
+                                            <input type="time" class="form-control" id="match_date_time" step="1800"
+                                                value="{{ $matchDateTime }}" required>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="match_date" id="match_date" value="{{ $matchDateValue }}" required>
                                 </div>
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-lg-4">
                                     <label class="form-label fw-semibold">Jornada</label>
                                     <input type="text" class="form-control" name="match_round"
                                         value="{{ old('match_round', $match->match_round ?? '') }}">
                                 </div>
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-lg-4">
                                     <label class="form-label fw-semibold">Estado <span class="text-danger">*</span></label>
                                     <select class="form-select" name="match_status" x-model="status" required>
                                         <option value="">Selecciona...</option>
@@ -112,7 +124,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 col-lg-3">
                                     <label class="form-label fw-semibold">Equipo <span class="text-danger">*</span></label>
                                     <div class="autocomplete" data-autocomplete='@json($teams->map(fn($team) => ['id' => $team->id, 'name' => $team->name])->values())'>
                                         <input type="text" class="form-control" data-autocomplete-input
@@ -122,7 +134,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 col-lg-3">
                                     <label class="form-label fw-semibold">Rival <span class="text-danger">*</span></label>
                                     <div class="autocomplete" data-autocomplete='@json($rivals->map(fn($rival) => ['id' => $rival->id, 'name' => $rival->name])->values())'>
                                         <input type="text" class="form-control" data-autocomplete-input
@@ -132,7 +144,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 col-lg-3">
                                     <label class="form-label fw-semibold">Sede</label>
                                     <select class="form-select" name="venue">
                                         <option value="">Selecciona...</option>
@@ -144,13 +156,13 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 col-lg-3">
                                     <label class="form-label fw-semibold">Locacion</label>
                                     <input type="text" class="form-control" name="location"
                                         value="{{ old('location', $match->location ?? '') }}">
                                 </div>
 
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-3">
                                     <label class="form-label fw-semibold">Local / Visitante <span class="text-danger">*</span></label>
                                     <select class="form-select" name="side" required>
                                         <option value="">Selecciona...</option>
@@ -162,7 +174,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-3">
                                     <label class="form-label fw-semibold">Resultado Juego <span class="text-danger" x-show="requiresResult">*</span></label>
                                     <select class="form-select" name="match_result" x-bind:required="requiresResult" x-bind:disabled="isScheduled">
                                         <option value="">Selecciona...</option>
@@ -174,7 +186,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-3">
                                     <label class="form-label fw-semibold">Marcador <span class="text-danger" x-show="requiresResult">*</span></label>
                                     <input type="text" class="form-control" name="final_score"
                                         value="{{ old('final_score', $match->final_score ?? '') }}"
@@ -188,14 +200,14 @@
                                     <textarea class="form-control" name="match_notes" rows="5">{{ old('match_notes', $match->match_notes ?? '') }}</textarea>
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-lg-6">
                                     <label class="form-label fw-semibold">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                    <input type="file" class="form-control" name="match_file" x-bind:required="requiresResult" x-bind:disabled="isScheduled">
+                                    <input type="file" class="form-control upload-control" name="match_file" x-bind:required="requiresResult" x-bind:disabled="isScheduled" accept=".pdf,.doc,.docx,.xls,.xlsx">
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-lg-6">
                                     <label class="form-label fw-semibold">Foto equipo</label>
-                                    <input type="file" class="form-control" name="team_photo">
+                                    <input type="file" class="form-control upload-control" name="team_photo" accept="image/*">
                                 </div>
                             </div>
                         </div>
@@ -214,7 +226,7 @@
                                     <select class="form-select" name="match_feedback[match_formation]" x-bind:required="isCompleted">
                                         <option value="">Selecciona...</option>
                                         @foreach($formationOptions as $value => $label)
-                                            <option value="{{ $value }}">{{ $label }}</option>
+                                            <option value="{{ $value }}" {{ (string) old('match_feedback.match_formation', $match?->feedback?->match_formation ?? '') === (string) $value ? 'selected' : '' }}>{{ $label }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -224,7 +236,9 @@
                                     <select class="form-select" name="match_feedback[attack_strengths]" x-bind:required="isCompleted">
                                         <option value="">Selecciona...</option>
                                         @foreach($attackPoints as $point)
-                                            <option value="{{ $point->id }}">{{ $point->name }}</option>
+                                            <option value="{{ $point->id }}" {{ (string) old('match_feedback.attack_strengths', $match?->feedback?->attack_strengths ?? '') === (string) $point->id ? 'selected' : '' }}>
+                                                {{ $point->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -234,7 +248,9 @@
                                     <select class="form-select" name="match_feedback[attack_weaknesses]" x-bind:required="isCompleted">
                                         <option value="">Selecciona...</option>
                                         @foreach($attackPoints as $point)
-                                            <option value="{{ $point->id }}">{{ $point->name }}</option>
+                                            <option value="{{ $point->id }}" {{ (string) old('match_feedback.attack_weaknesses', $match?->feedback?->attack_weaknesses ?? '') === (string) $point->id ? 'selected' : '' }}>
+                                                {{ $point->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -244,7 +260,9 @@
                                     <select class="form-select" name="match_feedback[defense_strengths]" x-bind:required="isCompleted">
                                         <option value="">Selecciona...</option>
                                         @foreach($defensivePoints as $point)
-                                            <option value="{{ $point->id }}">{{ $point->name }}</option>
+                                            <option value="{{ $point->id }}" {{ (string) old('match_feedback.defense_strengths', $match?->feedback?->defense_strengths ?? '') === (string) $point->id ? 'selected' : '' }}>
+                                                {{ $point->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -254,14 +272,16 @@
                                     <select class="form-select" name="match_feedback[defense_weaknesses]" x-bind:required="isCompleted">
                                         <option value="">Selecciona...</option>
                                         @foreach($defensivePoints as $point)
-                                            <option value="{{ $point->id }}">{{ $point->name }}</option>
+                                            <option value="{{ $point->id }}" {{ (string) old('match_feedback.defense_weaknesses', $match?->feedback?->defense_weaknesses ?? '') === (string) $point->id ? 'selected' : '' }}>
+                                                {{ $point->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
 
                                 <div class="col-12">
                                     <label class="form-label fw-semibold">Notas</label>
-                                    <textarea class="form-control" name="match_feedback[notes]" rows="5"></textarea>
+                                    <textarea class="form-control" name="match_feedback[notes]" rows="5">{{ old('match_feedback.notes', $match?->feedback?->notes ?? '') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -278,39 +298,48 @@
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con arbitro <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control"
-                                        name="match_team_rating[referee_rating]" x-bind:required="isCompleted">
+                                        name="match_team_rating[referee_rating]" x-bind:required="isCompleted"
+                                        value="{{ old('match_team_rating.referee_rating', $match?->teamRating?->referee_rating ?? '') }}">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con companeros <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control"
-                                        name="match_team_rating[teammates_rating]" x-bind:required="isCompleted">
+                                        name="match_team_rating[teammates_rating]" x-bind:required="isCompleted"
+                                        value="{{ old('match_team_rating.teammates_rating', $match?->teamRating?->teammates_rating ?? '') }}">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con rivales <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control"
-                                        name="match_team_rating[opponents_rating]" x-bind:required="isCompleted">
+                                        name="match_team_rating[opponents_rating]" x-bind:required="isCompleted"
+                                        value="{{ old('match_team_rating.opponents_rating', $match?->teamRating?->opponents_rating ?? '') }}">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con grada <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control"
-                                        name="match_team_rating[fans_rating]" x-bind:required="isCompleted">
+                                        name="match_team_rating[fans_rating]" x-bind:required="isCompleted"
+                                        value="{{ old('match_team_rating.fans_rating', $match?->teamRating?->fans_rating ?? '') }}">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con tecnico <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control"
-                                        name="match_team_rating[coach_rating]" x-bind:required="isCompleted">
+                                        name="match_team_rating[coach_rating]" x-bind:required="isCompleted"
+                                        value="{{ old('match_team_rating.coach_rating', $match?->teamRating?->coach_rating ?? '') }}">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label fw-semibold">Notas</label>
-                                    <textarea class="form-control" name="match_team_rating[notes]" rows="5"></textarea>
+                                    <textarea class="form-control" name="match_team_rating[notes]" rows="5">{{ old('match_team_rating.notes', $match?->teamRating?->notes ?? '') }}</textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <a href="{{ route('matches.index') }}" class="btn btn-outline-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="{{ route('matches.index') }}" class="btn btn-danger btn-action">
+                            <i class="fa-solid fa-xmark me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success btn-action">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>Guardar
+                        </button>
                     </div>
                 </div>
             </form>

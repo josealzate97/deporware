@@ -92,4 +92,18 @@ const initAutocomplete = (wrapper) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-autocomplete]').forEach(initAutocomplete);
+
+    const dateInput = document.getElementById('match_date_date');
+    const timeInput = document.getElementById('match_date_time');
+    const hiddenInput = document.getElementById('match_date');
+    if (dateInput && timeInput && hiddenInput) {
+        const sync = () => {
+            if (dateInput.value && timeInput.value) {
+                hiddenInput.value = `${dateInput.value} ${timeInput.value}`;
+            }
+        };
+        dateInput.addEventListener('input', sync);
+        timeInput.addEventListener('input', sync);
+        sync();
+    }
 });
