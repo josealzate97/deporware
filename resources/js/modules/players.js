@@ -111,3 +111,45 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('player_photo');
+    const preview = document.querySelector('[data-photo-preview]');
+    const img = preview?.querySelector('[data-photo-img]');
+    const empty = preview?.querySelector('[data-photo-empty]');
+    if (!input || !preview || !img || !empty) return;
+
+    const existingUrl = preview.dataset.photoUrl || '';
+
+    const showImage = (url) => {
+        img.src = url;
+        img.classList.add('is-visible');
+        empty.style.display = 'none';
+    };
+
+    const showEmpty = () => {
+        img.removeAttribute('src');
+        img.classList.remove('is-visible');
+        empty.style.display = 'flex';
+    };
+
+    if (existingUrl) {
+        showImage(existingUrl);
+    } else {
+        showEmpty();
+    }
+
+    input.addEventListener('change', () => {
+        const file = input.files?.[0];
+        if (!file) {
+            if (existingUrl) {
+                showImage(existingUrl);
+            } else {
+                showEmpty();
+            }
+            return;
+        }
+        const url = URL.createObjectURL(file);
+        showImage(url);
+    });
+});

@@ -72,6 +72,108 @@
   gap: 0.85rem;
 }
 
+.player-photo-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.player-profile-header {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.9rem;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.player-profile-photo {
+  width: 110px;
+  height: 110px;
+  border-radius: 18px;
+  border: 2px dashed #cbd5f5;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.player-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 2.2rem;
+}
+
+.player-profile-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.player-profile-name {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+
+.player-profile-sub {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.player-photo-frame {
+  width: 140px;
+  height: 140px;
+  border-radius: 16px;
+  border: 2px dashed #cbd5f5;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.player-photo-frame--small {
+  width: 90px;
+  height: 90px;
+}
+
+.player-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.player-photo-img.is-visible {
+  display: block;
+}
+
+.player-photo-empty {
+  font-weight: 700;
+  color: #64748b;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.player-photo-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.35rem;
+}
+
 .player-info-item {
   border: 1px solid #e2e8f0;
   background: #f8fafc;

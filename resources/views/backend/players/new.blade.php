@@ -120,9 +120,17 @@
                                         <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate', $player->birthdate?->format('Y-m-d') ?? '') }}" required>
                                     </div>
 
+                                    @php($playerPhotoUrl = $player?->photo ? \Illuminate\Support\Facades\Storage::url($player->photo) : '')
                                     <div class="col-12 col-lg-3">
                                         <label class="form-label fw-semibold">Foto (jpg/png)</label>
-                                        <input type="file" class="form-control" name="photo" accept=".jpg,.jpeg,.png">
+                                        <input type="file" class="form-control" name="photo" id="player_photo" accept=".jpg,.jpeg,.png">
+                                        <div class="player-photo-preview mt-2" data-photo-preview data-photo-url="{{ $playerPhotoUrl }}">
+                                            <div class="player-photo-frame">
+                                                <img class="player-photo-img" data-photo-img alt="Foto del jugador">
+                                                <div class="player-photo-empty" data-photo-empty>No valido por el momento</div>
+                                            </div>
+                                            <div class="player-photo-hint">Vista previa de la foto.</div>
+                                        </div>
                                     </div>
 
                                     <div class="col-12 col-lg-3">

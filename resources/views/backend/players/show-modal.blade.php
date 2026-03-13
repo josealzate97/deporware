@@ -25,30 +25,33 @@
             @php($nationalityOptions = \App\Models\Player::nationalityOptions())
             @php($positionOptions = \App\Models\Player::positionOptions())
             @php($footOptions = \App\Models\Player::footOptions())
+            @php($playerPhotoUrl = $player->photo ? \Illuminate\Support\Facades\Storage::url($player->photo) : null)
 
             <div class="player-tab-panel" data-panel="general">
+                <div class="player-profile-header mb-3">
+                    <div class="player-profile-photo">
+                        @if($playerPhotoUrl)
+                            <img src="{{ $playerPhotoUrl }}" alt="Foto del jugador" class="player-photo-img is-visible">
+                        @else
+                            <div class="player-photo-placeholder">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="player-profile-meta">
+                        <div class="player-profile-name">{{ $player->name }} {{ $player->lastname }}</div>
+                        <div class="player-profile-sub">
+                            NIT: <span class="player-badge-blue">{{ $player->nit ?? '-' }}</span>
+                        </div>
+                        <div class="player-profile-sub">
+                            Contacto: <span class="player-badge-blue">{{ $player->phone ?? '-' }}</span>
+                        </div>
+                        <div class="player-profile-sub">
+                            Email: <span class="player-badge-blue">{{ $player->email ?? '-' }}</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="player-info-grid">
-                    <div class="player-info-item">
-                        <div class="player-info-label">
-                            <i class="fa-solid fa-user text-primary me-2"></i>
-                            Jugador
-                        </div>
-                        <div class="player-info-value">{{ $player->name }} {{ $player->lastname }}</div>
-                        <div class="player-info-sub">
-                            NIT:
-                            <span class="player-badge-blue">{{ $player->nit ?? '-' }}</span>
-                        </div>
-                    </div>
-                    <div class="player-info-item">
-                        <div class="player-info-label">
-                            <i class="fa-solid fa-phone text-primary me-2"></i>
-                            Contacto
-                        </div>
-                        <div class="player-info-value">{{ $player->email ?? '-' }}</div>
-                        <div class="player-info-sub">
-                            <span class="player-badge-blue">{{ $player->phone ?? '-' }}</span>
-                        </div>
-                    </div>
                     <div class="player-info-item">
                         <div class="player-info-label">
                             <i class="fa-solid fa-cake-candles text-primary me-2"></i>
