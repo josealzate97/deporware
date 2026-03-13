@@ -117,8 +117,8 @@ class MatchesController extends Controller
             'match_result' => [$isScheduled ? 'nullable' : 'required', 'integer'],
             'final_score' => [$isScheduled ? 'nullable' : 'required', 'string', 'max:20'],
             'match_notes' => ['nullable', 'string'],
-            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,doc,docx,xls,xlsx'],
-            'team_photo' => ['nullable', 'image'],
+            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,docx,xls'],
+            'team_photo' => ['nullable', 'mimes:jpg,png'],
 
             'match_feedback.match_formation' => [$isCompleted ? 'required' : 'nullable', 'string', 'max:20'],
             'match_feedback.attack_strengths' => [$isCompleted ? 'required' : 'nullable', 'uuid', 'exists:attack_points,id'],
@@ -264,8 +264,8 @@ class MatchesController extends Controller
             'match_result' => [$isScheduled ? 'nullable' : 'required', 'integer'],
             'final_score' => [$isScheduled ? 'nullable' : 'required', 'string', 'max:20'],
             'match_notes' => ['nullable', 'string'],
-            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,doc,docx,xls,xlsx'],
-            'team_photo' => ['nullable', 'image'],
+            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,docx,xls'],
+            'team_photo' => ['nullable', 'mimes:jpg,png'],
 
             'match_feedback.match_formation' => [$isCompleted ? 'required' : 'nullable', 'string', 'max:20'],
             'match_feedback.attack_strengths' => [$isCompleted ? 'required' : 'nullable', 'uuid', 'exists:attack_points,id'],

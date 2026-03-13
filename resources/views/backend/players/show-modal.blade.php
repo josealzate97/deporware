@@ -115,22 +115,27 @@
                     <div class="row g-2">
                         @foreach($player->contacts as $contact)
                             <div class="col-12 col-lg-6">
-                                <div class="player-contact-card">
+                                <div class="player-contact-card player-contact-card--modern">
                                     <div class="player-contact-header">
                                         <span class="player-contact-icon">
-                                            <i class="fa-solid fa-user-group"></i>
+                                            <i class="fa-solid fa-user"></i>
                                         </span>
                                         <div>
-                                            <div class="fw-semibold">{{ $contact->name }} {{ $contact->lastname }}</div>
+                                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                                <div class="fw-semibold">{{ $contact->name }} {{ $contact->lastname }}</div>
+                                                <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
+                                            </div>
                                             <div class="player-contact-details">
                                                 <span class="player-contact-email">{{ $contact->email }}</span>
-                                                <span class="player-contact-phone">{{ $contact->phone }}</span>
+                                            </div>
+                                            <div class="player-contact-meta">
+                                                <span class="player-badge-blue"><i class="fa-solid fa-phone me-1"></i>{{ $contact->phone }}</span>
+                                                <span class="player-badge-blue"><i class="fa-solid fa-location-dot me-1"></i>{{ $contact->city ?? '-' }}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="player-contact-meta">
-                                        <div><i class="fa-solid fa-location-dot text-primary me-2"></i>{{ $contact->address ?? '-' }}</div>
-                                        <div><i class="fa-solid fa-city text-primary me-2"></i>{{ $contact->city ?? '-' }}</div>
+                                    <div class="player-contact-address">
+                                        <i class="fa-solid fa-location-dot text-primary me-2"></i>{{ $contact->address ?? '-' }}
                                     </div>
                                 </div>
                             </div>

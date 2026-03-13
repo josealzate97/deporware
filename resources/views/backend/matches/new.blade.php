@@ -209,17 +209,18 @@
                                             <div class="match-file-panel-header">
                                                 <div>
                                                     <div class="fw-semibold">Archivos del partido</div>
-                                                    <span class="match-file-badge">PDF/DOC/XLS · Máx 5MB</span>
                                                 </div>
                                             </div>
                                         <div class="row g-3 mt-2">
                                             <div class="col-12">
                                                 <label class="form-label fw-semibold">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                                <input type="file" class="form-control upload-control upload-control-gradient" name="match_file" x-bind:required="requiresResult" x-bind:disabled="isScheduled" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                                                <span class="match-file-badge">PDF/DOCX/XLS · Máx 5MB</span>
+                                                <input type="file" class="form-control upload-control upload-control-gradient" name="match_file" id="match_file" x-bind:required="requiresResult" x-bind:disabled="isScheduled" accept=".pdf,.docx,.xls">
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label fw-semibold">Foto equipo</label>
-                                                <input type="file" class="form-control upload-control upload-control-gradient" name="team_photo" accept="image/*">
+                                                <span class="match-file-badge">JPG/PNG · Máx 5MB</span>
+                                                <input type="file" class="form-control upload-control upload-control-gradient" name="team_photo" id="team_photo" accept=".jpg,.png">
                                             </div>
                                         </div>
                                     </div>

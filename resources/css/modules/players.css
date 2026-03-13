@@ -233,6 +233,64 @@
   margin-top: 0.35rem;
 }
 
+.player-contact-card {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.player-contact-card--modern {
+  background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 100%);
+  border: 1px solid #dbe7f5;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+}
+
+.player-contact-card--modern .player-contact-header {
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.player-contact-card--modern .player-contact-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #e8f1ff;
+  color: #1d4ed8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.player-contact-card--modern .player-contact-details {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.player-contact-card--modern .player-contact-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.player-contact-card--modern .player-contact-address {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
 .player-info-item {
   border: 1px solid #e2e8f0;
   background: #f8fafc;

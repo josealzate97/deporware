@@ -60,7 +60,7 @@
                         <span class="fw-bold">Resultados</span>
                     <span class="text-muted">
                         @if($matches->total() > 0)
-                            Mostrando {{ $matches->firstItem() }}-{{ $matches->lastItem() }} de {{ $matches->total() }}
+                            <span class="match-results-badge">Mostrando {{ $matches->firstItem() }}-{{ $matches->lastItem() }} de {{ $matches->total() }}</span>
                         @else
                             <span class="match-results-badge">Sin resultados</span>
                         @endif

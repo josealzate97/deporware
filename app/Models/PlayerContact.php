@@ -13,6 +13,12 @@ class PlayerContact extends Model
     public const ACTIVE = 1;
     public const INACTIVE = 0;
 
+    public const MOTHER = 1;
+    public const FATHER = 2;
+    public const SIBLING = 3;
+    public const UNCLE_AUNT = 4;
+    public const COUSIN = 5;
+
     protected $table = 'players_contacts';
 
     public $incrementing = false;
@@ -22,6 +28,7 @@ class PlayerContact extends Model
         'id',
         'name',
         'lastname',
+        'relationship',
         'email',
         'phone',
         'address',
@@ -33,6 +40,7 @@ class PlayerContact extends Model
     protected function casts(): array
     {
         return [
+            'relationship' => 'integer',
             'status' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
@@ -51,5 +59,16 @@ class PlayerContact extends Model
     public function player()
     {
         return $this->belongsTo(Player::class, 'player');
+    }
+
+    public static function relationshipOptions(): array
+    {
+        return [
+            self::MOTHER => 'Madre',
+            self::FATHER => 'Padre',
+            self::SIBLING => 'Hermano/a',
+            self::UNCLE_AUNT => 'Tío/a',
+            self::COUSIN => 'Primo/a',
+        ];
     }
 }

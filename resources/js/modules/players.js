@@ -164,6 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return;
         }
+        const ext = file.name.split('.').pop()?.toLowerCase() || '';
+        if (!['jpg', 'jpeg', 'png'].includes(ext)) {
+            if (window.Notyf) {
+                new window.Notyf().error('Formato no válido para la foto.');
+            } else {
+                alert('Formato no válido para la foto.');
+            }
+            input.value = '';
+            showEmpty();
+            return;
+        }
         if (removeInput) removeInput.value = '0';
         const url = URL.createObjectURL(file);
         showImage(url);

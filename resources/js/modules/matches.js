@@ -106,4 +106,28 @@ document.addEventListener('DOMContentLoaded', () => {
         timeInput.addEventListener('input', sync);
         sync();
     }
+
+    const showFileError = (message) => {
+        if (window.Notyf) {
+            new window.Notyf().error(message);
+        } else {
+            alert(message);
+        }
+    };
+
+    const validateFileInput = (input, allowedExts, label) => {
+        if (!input) return;
+        input.addEventListener('change', () => {
+            const file = input.files?.[0];
+            if (!file) return;
+            const ext = file.name.split('.').pop()?.toLowerCase() || '';
+            if (!allowedExts.includes(ext)) {
+                showFileError(`Formato no válido para ${label}.`);
+                input.value = '';
+            }
+        });
+    };
+
+    validateFileInput(document.getElementById('match_file'), ['pdf', 'docx', 'xls', 'xlsx'], 'el informe del partido');
+    validateFileInput(document.getElementById('team_photo'), ['jpg', 'png'], 'la foto del equipo');
 });

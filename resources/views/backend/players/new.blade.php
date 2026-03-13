@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="card p-4 mt-4 section-card">
+                <div class="card p-4 mt-4 section-card">
             <div class="players-wizard-tabs mb-4">
                 <a class="players-tab {{ $activeStep === 'player' ? 'is-active' : '' }}"
                    href="{{ $isEdit ? route('players.edit', ['id' => $player->id, 'step' => 'player']) : route('players.new') }}">
@@ -308,6 +308,7 @@
                 @if(!$isEdit)
                     <div class="text-muted">Primero guarda los datos del jugador para habilitar contactos.</div>
                 @else
+                    @php($relationshipOptions = \App\Models\PlayerContact::relationshipOptions())
                     <div class="mb-3">
 
                         <div class="fw-semibold mb-2">Contactos registrados</div>
@@ -318,14 +319,20 @@
 
                                 <div class="row g-2">
                                     @foreach($player->contacts as $listedContact)
-                                        <div class="col-12 col-lg-6">
-                                            <div class="team-info-item h-100">
+                                        <div class="col-12 col-lg-4">
+                                            <div class="player-contact-card h-100">
                                                 <div class="flex-grow-1">
-                                                    <div class="fw-semibold">{{ $listedContact->name }} {{ $listedContact->lastname }}</div>
-                                                    <div class="text-muted small">{{ $listedContact->email }} · {{ $listedContact->phone }}</div>
-                                                    <div class="text-muted small">{{ $listedContact->city ?? '-' }}</div>
+                                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                                        <div class="fw-semibold">{{ $listedContact->name }} {{ $listedContact->lastname }}</div>
+                                                        <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$listedContact->relationship] ?? '-' }}</span>
+                                                    </div>
+                                                    <div class="text-muted small">{{ $listedContact->email ?? '-' }}</div>
+                                                    <div class="text-muted small">
+                                                        <span class="player-badge-blue">{{ $listedContact->phone ?? '-' }}</span>
+                                                        <span class="player-badge-blue">{{ $listedContact->city ?? '-' }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex gap-2">
+                                                <div class="contact-actions">
                                                     <a class="btn btn-icon btn-icon-edit"
                                                     href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts', 'contact_id' => $listedContact->id]) }}"
                                                     title="Editar contacto">
@@ -372,6 +379,7 @@
 
                     </div>
 
+                    @php($relationshipOptions = \App\Models\PlayerContact::relationshipOptions())
                     <form class="info-form" method="POST" action="{{ route('players.update', $player->id) }}">
                         @csrf
                         @method('PUT')
@@ -396,6 +404,17 @@
                                             <label class="form-label fw-semibold">Apellidos</label>
                                             <input type="text" class="form-control" name="contact_lastname"
                                                 value="{{ old('contact_lastname', $contact->lastname ?? '') }}" required>
+                                        </div>
+                                        <div class="col-12 col-lg-4">
+                                            <label class="form-label fw-semibold">Parentesco</label>
+                                            <select class="form-select" name="contact_relationship" required>
+                                                <option value="">Selecciona...</option>
+                                                @foreach($relationshipOptions as $key => $label)
+                                                    <option value="{{ $key }}" {{ (string) old('contact_relationship', $contact->relationship ?? '') === (string) $key ? 'selected' : '' }}>
+                                                        {{ $label }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <label class="form-label fw-semibold">Correo electrónico</label>

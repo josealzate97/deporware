@@ -229,10 +229,12 @@ class PlayersController extends Controller
         $step = $request->input('step', 'player');
 
         if ($step === 'contacts') {
+            $relationshipOptions = \App\Models\PlayerContact::relationshipOptions();
             $validated = $request->validate([
                 'contact_id' => 'nullable|uuid',
                 'contact_name' => 'required|string|max:100',
                 'contact_lastname' => 'required|string|max:100',
+                'contact_relationship' => ['required', 'integer', Rule::in(array_keys($relationshipOptions))],
                 'contact_email' => 'required|email|max:100',
                 'contact_phone' => 'required|string|max:20',
                 'contact_address' => 'required|string|max:80',
@@ -243,6 +245,7 @@ class PlayersController extends Controller
             $contactPayload = [
                 'name' => $validated['contact_name'],
                 'lastname' => $validated['contact_lastname'],
+                'relationship' => $validated['contact_relationship'],
                 'email' => $validated['contact_email'],
                 'phone' => $validated['contact_phone'],
                 'address' => $validated['contact_address'],
