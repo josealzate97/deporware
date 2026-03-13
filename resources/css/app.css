@@ -163,10 +163,16 @@ html, body {
 .user-info-form .form-select {
   height: 42px;
   border-radius: 10px;
-  border: 1px solid #d7e0ec;
+  border: 1px solid #b3c0d4;
   background: #ffffff;
   font-weight: 600;
   color: #1f2937;
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 140px;
+  resize: vertical;
 }
 
 .info-form .form-control:disabled,

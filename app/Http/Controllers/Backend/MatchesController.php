@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AttackPoint;
+use App\Models\DefensivePoint;
 use App\Models\MatchModel;
+use App\Models\RivalTeam;
+use App\Models\SportsVenue;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class MatchesController extends Controller
@@ -34,6 +39,15 @@ class MatchesController extends Controller
     {
         return view('backend.matches.new', [
             'isEdit' => false,
+            'teams' => Team::orderBy('name')->get(),
+            'rivals' => RivalTeam::orderBy('name')->get(),
+            'venues' => SportsVenue::orderBy('name')->get(),
+            'attackPoints' => AttackPoint::orderBy('name')->get(),
+            'defensivePoints' => DefensivePoint::orderBy('name')->get(),
+            'statusOptions' => MatchModel::statusOptions(),
+            'resultOptions' => MatchModel::resultOptions(),
+            'sideOptions' => MatchModel::sideOptions(),
+            'formationOptions' => MatchModel::formationOptions(),
         ]);
     }
 
@@ -77,6 +91,15 @@ class MatchesController extends Controller
     {
         return view('backend.matches.new', [
             'isEdit' => true,
+            'teams' => Team::orderBy('name')->get(),
+            'rivals' => RivalTeam::orderBy('name')->get(),
+            'venues' => SportsVenue::orderBy('name')->get(),
+            'attackPoints' => AttackPoint::orderBy('name')->get(),
+            'defensivePoints' => DefensivePoint::orderBy('name')->get(),
+            'statusOptions' => MatchModel::statusOptions(),
+            'resultOptions' => MatchModel::resultOptions(),
+            'sideOptions' => MatchModel::sideOptions(),
+            'formationOptions' => MatchModel::formationOptions(),
         ]);
     }
 

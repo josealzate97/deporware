@@ -254,7 +254,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label fw-semibold">Notas</label>
-                                        <textarea class="form-control" name="notes" rows="4" placeholder="Escribe la observación..."></textarea>
+                                        <textarea class="form-control" name="notes" rows="5" placeholder="Escribe la observación..."></textarea>
                                     </div>
                                 </div>
                             </div>

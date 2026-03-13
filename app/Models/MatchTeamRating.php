@@ -23,6 +23,7 @@ class MatchTeamRating extends Model
         'teammates_rating',
         'opponents_rating',
         'fans_rating',
+        'notes',
     ];
 
     protected function casts(): array
@@ -33,6 +34,7 @@ class MatchTeamRating extends Model
             'teammates_rating' => 'integer',
             'opponents_rating' => 'integer',
             'fans_rating' => 'integer',
+            'notes' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];

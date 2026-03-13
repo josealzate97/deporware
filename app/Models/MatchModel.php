@@ -31,6 +31,7 @@ class MatchModel extends Model
     protected $fillable = [
         'id',
         'match_date',
+        'match_round',
         'team',
         'rival',
         'venue',
@@ -93,26 +94,26 @@ class MatchModel extends Model
     public static function statusOptions(): array
     {
         return [
-            self::STATUS_SCHEDULED => 'Scheduled',
-            self::STATUS_COMPLETED => 'Completed',
-            self::STATUS_CANCELLED => 'Cancelled',
+            self::STATUS_SCHEDULED => 'AGENDADO',
+            self::STATUS_COMPLETED => 'COMPLETADO',
+            self::STATUS_CANCELLED => 'CANCELADO',
         ];
     }
 
     public static function resultOptions(): array
     {
         return [
-            self::RESULT_WIN => 'Win',
-            self::RESULT_LOSS => 'Loss',
-            self::RESULT_DRAW => 'Draw',
+            self::RESULT_WIN => 'GANADO',
+            self::RESULT_LOSS => 'PERDIDO',
+            self::RESULT_DRAW => 'EMPATE',
         ];
     }
 
     public static function sideOptions(): array
     {
         return [
-            self::SIDE_HOME => 'Home',
-            self::SIDE_AWAY => 'Away',
+            self::SIDE_HOME => 'LOCAL',
+            self::SIDE_AWAY => 'VISITANTE',
         ];
     }
 

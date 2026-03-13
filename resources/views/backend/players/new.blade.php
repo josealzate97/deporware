@@ -247,7 +247,7 @@
 
                                         <div class="col-12">
                                             <label class="form-label fw-semibold">Notas</label>
-                                            <textarea class="form-control" name="initial_observation_notes" rows="3" placeholder="Escribe una observación inicial...">{{ old('initial_observation_notes') }}</textarea>
+                                            <textarea class="form-control" name="initial_observation_notes" rows="5" placeholder="Escribe una observación inicial...">{{ old('initial_observation_notes') }}</textarea>
                                         </div>
 
                                     </div>
@@ -505,7 +505,7 @@
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label fw-semibold">Notas</label>
-                                    <textarea class="form-control" name="notes" rows="4" placeholder="Escribe la observación...">{{ old('notes', $observation->notes ?? '') }}</textarea>
+                                    <textarea class="form-control" name="notes" rows="5" placeholder="Escribe la observación...">{{ old('notes', $observation->notes ?? '') }}</textarea>
                                 </div>
                             </div>
                         </div>

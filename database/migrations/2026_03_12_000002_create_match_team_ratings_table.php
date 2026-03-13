@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('teammates_rating')->nullable();
             $table->integer('opponents_rating')->nullable();
             $table->integer('fans_rating')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
 
             $table->foreign('match')->references('id')->on('matches');
