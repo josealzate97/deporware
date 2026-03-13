@@ -133,6 +133,7 @@ class PlayersController extends Controller
             'weight' => 'required|integer|min:0',
             'status' => 'nullable|boolean',
             'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id'), 'required_with:photo'],
+            'remove_photo' => ['nullable', 'boolean'],
             'initial_observation_type' => ['nullable', 'integer', Rule::in(array_keys(PlayerObservation::typeOptions()))],
             'initial_observation_notes' => 'nullable|string',
         ]);
@@ -312,6 +313,10 @@ class PlayersController extends Controller
         $validated['status'] = $request->boolean('status') ? Player::ACTIVE : Player::INACTIVE;
         $teamId = $validated['team_id'] ?? null;
         unset($validated['team_id']);
+
+        if ($request->boolean('remove_photo')) {
+            $this->removePlayerPhoto($player);
+        }
 
         $player->update($validated);
         $this->syncPlayerTeamRoster($player, $teamId);
@@ -507,6 +512,26 @@ class PlayersController extends Controller
                 'photo' => Str::replaceFirst($oldPrefix, $newPrefix, $player->photo),
             ]);
         }
+    }
+
+    private function removePlayerPhoto(Player $player): void
+    {
+        if (empty($player->photo)) {
+            return;
+        }
+
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+        if ($disk->exists($player->photo) && !$disk->delete($player->photo)) {
+            Log::error('Failed to delete player photo.', [
+                'player' => $player->id,
+                'path' => $player->photo,
+            ]);
+            $this->flashStorageError();
+            return;
+        }
+
+        $player->update(['photo' => null]);
     }
 
     /**

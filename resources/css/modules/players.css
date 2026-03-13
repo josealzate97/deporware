@@ -82,6 +82,65 @@
   border: 1px solid #e2e8f0;
 }
 
+.player-photo-panel {
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 360px;
+}
+
+.player-photo-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.player-photo-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.player-photo-panel .player-photo-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.player-photo-panel .player-photo-frame {
+  width: 240px;
+  height: 240px;
+  border-radius: 22px;
+}
+
+@media (max-width: 1200px) {
+  .player-photo-panel {
+    min-height: 320px;
+  }
+  .player-photo-panel .player-photo-frame {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media (max-width: 992px) {
+  .player-photo-panel {
+    min-height: 280px;
+  }
+  .player-photo-panel .player-photo-frame {
+    width: 200px;
+    height: 200px;
+  }
+}
+
 .player-profile-header {
   display: grid;
   grid-template-columns: 110px 1fr;

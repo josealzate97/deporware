@@ -99,60 +99,79 @@
                                 </div>
 
                                 <div class="row g-3 mt-1">
-
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="name" value="{{ old('name', $player->name ?? '') }}" required>
-                                    </div>
-
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Apellidos <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="lastname" value="{{ old('lastname', $player->lastname ?? '') }}" required>
-                                    </div>
-
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Identificación (NIT) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="nit" value="{{ old('nit', $player->nit ?? '') }}" required>
-                                    </div>
-
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Fecha de nacimiento <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate', $player->birthdate?->format('Y-m-d') ?? '') }}" required>
-                                    </div>
-
-                                    @php($playerPhotoUrl = $player?->photo ? \Illuminate\Support\Facades\Storage::url($player->photo) : '')
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Foto (jpg/png)</label>
-                                        <input type="file" class="form-control" name="photo" id="player_photo" accept=".jpg,.jpeg,.png">
-                                        <div class="player-photo-preview mt-2" data-photo-preview data-photo-url="{{ $playerPhotoUrl }}">
-                                            <div class="player-photo-frame">
-                                                <img class="player-photo-img" data-photo-img alt="Foto del jugador">
-                                                <div class="player-photo-empty" data-photo-empty>No valido por el momento</div>
+                                    <div class="col-12 col-lg-7">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-lg-6">
+                                                <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="name" value="{{ old('name', $player->name ?? '') }}" required>
                                             </div>
-                                            <div class="player-photo-hint">Vista previa de la foto.</div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <label class="form-label fw-semibold">Apellidos <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="lastname" value="{{ old('lastname', $player->lastname ?? '') }}" required>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <label class="form-label fw-semibold">Identificación (NIT) <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="nit" value="{{ old('nit', $player->nit ?? '') }}" required>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <label class="form-label fw-semibold">Fecha de nacimiento <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate', $player->birthdate?->format('Y-m-d') ?? '') }}" required>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <label class="form-label fw-semibold">Nacionalidad <span class="text-danger">*</span></label>
+                                                <select class="form-select" name="nacionality" required>
+                                                    <option value="">Selecciona...</option>
+                                                    @foreach($nationalityOptions as $key => $label)
+                                                        <option value="{{ $key }}" {{ (string) old('nacionality', $player->nacionality ?? '') === (string) $key ? 'selected' : '' }}>
+                                                            {{ $label }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <label class="form-label fw-semibold">Teléfono <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone', $player->phone ?? '') }}" required>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label fw-semibold">Correo electrónico <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" name="email" value="{{ old('email', $player->email ?? '') }}" required>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Nacionalidad <span class="text-danger">*</span></label>
-                                        <select class="form-select" name="nacionality" required>
-                                            <option value="">Selecciona...</option>
-                                            @foreach($nationalityOptions as $key => $label)
-                                                <option value="{{ $key }}" {{ (string) old('nacionality', $player->nacionality ?? '') === (string) $key ? 'selected' : '' }}>
-                                                    {{ $label }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Teléfono <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone', $player->phone ?? '') }}" required>
-                                    </div>
-
-                                    <div class="col-12 col-lg-6">
-                                        <label class="form-label fw-semibold">Correo electrónico <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" name="email" value="{{ old('email', $player->email ?? '') }}" required>
+                                    @php($playerPhotoUrl = $player?->photo ? \Illuminate\Support\Facades\Storage::url($player->photo) : '')
+                                    <div class="col-12 col-lg-5">
+                                        <div class="player-photo-panel">
+                                            <div class="player-photo-panel-header">
+                                                <div>
+                                                    <div class="fw-semibold">Foto del jugador</div>
+                                                    <span class="player-badge-blue">JPG o PNG · Máx 5MB</span>
+                                                </div>
+                                                <div class="player-photo-actions">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" data-photo-action="upload">
+                                                        <i class="fa-solid fa-upload me-1"></i> Subir
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" data-photo-action="remove">
+                                                        <i class="fa-solid fa-trash me-1"></i> Eliminar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <input type="file" class="form-control d-none" name="photo" id="player_photo" accept=".jpg,.jpeg,.png">
+                                            <input type="hidden" name="remove_photo" id="remove_photo" value="0">
+                                            <div class="player-photo-preview mt-3" data-photo-preview data-photo-url="{{ $playerPhotoUrl }}">
+                                                <div class="player-photo-frame">
+                                                    <img class="player-photo-img" data-photo-img alt="Foto del jugador">
+                                                    <div class="player-photo-empty" data-photo-empty>No valido por el momento</div>
+                                                </div>
+                                                <div class="player-photo-hint">Vista previa de la foto.</div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>

@@ -117,6 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const preview = document.querySelector('[data-photo-preview]');
     const img = preview?.querySelector('[data-photo-img]');
     const empty = preview?.querySelector('[data-photo-empty]');
+    const removeInput = document.getElementById('remove_photo');
+    const uploadBtn = document.querySelector('[data-photo-action="upload"]');
+    const removeBtn = document.querySelector('[data-photo-action="remove"]');
     if (!input || !preview || !img || !empty) return;
 
     const existingUrl = preview.dataset.photoUrl || '';
@@ -139,6 +142,18 @@ document.addEventListener('DOMContentLoaded', () => {
         showEmpty();
     }
 
+    if (uploadBtn) {
+        uploadBtn.addEventListener('click', () => input.click());
+    }
+
+    if (removeBtn) {
+        removeBtn.addEventListener('click', () => {
+            input.value = '';
+            if (removeInput) removeInput.value = '1';
+            showEmpty();
+        });
+    }
+
     input.addEventListener('change', () => {
         const file = input.files?.[0];
         if (!file) {
@@ -149,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return;
         }
+        if (removeInput) removeInput.value = '0';
         const url = URL.createObjectURL(file);
         showImage(url);
     });
