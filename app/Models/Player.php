@@ -35,6 +35,7 @@ class Player extends Model
         'id',
         'name',
         'lastname',
+        'photo',
         'nit',
         'email',
         'phone',

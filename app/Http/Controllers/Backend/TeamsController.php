@@ -10,10 +10,13 @@ use App\Models\SportsVenue;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class TeamsController extends Controller
 {   
+    private bool $storageErrorShown = false;
     /**
      * Display a listing of the resource.
      *
@@ -146,6 +149,7 @@ class TeamsController extends Controller
         unset($data['players']);
 
         $team = Team::create($data);
+        $this->ensureTeamStorage($team->id);
 
         if (!empty($venueIds)) {
             $team->venues()->syncWithPivotValues($venueIds, ['status' => 1]);
@@ -200,9 +204,11 @@ class TeamsController extends Controller
     public function edit($id)
     {
         $team = Team::with(['venues', 'managerRosters', 'playerRosters'])->findOrFail($id);
+
         $coachPrimaryId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_PRIMARY_COACH)
         )->user;
+
         $coachSecondaryId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_ASSISTANT_COACH)
         )->user;
@@ -325,11 +331,21 @@ class TeamsController extends Controller
         return redirect()->route('teams.index');
     }
 
+    /**
+     * Sync the coaches for a team based on the provided primary and secondary coach IDs. This method will first remove any existing coach associations for the team,
+     * and then create new associations based on the provided IDs. If a primary coach ID is provided, it will create an association with the role of primary coach.
+     * If a secondary coach ID is provided, it will create an association with the role of assistant coach.
+     * This method ensures that the team's coaching roster is updated to reflect the current selections made in the team management interface.
+     * @param Team $team The team for which to sync the coaches. This should be an instance of the Team model that has already been created or updated.
+     * @param string|null $coachPrimaryId The ID of the primary coach to associate with the team. If null, no primary coach will be associated.
+     * @param string|null $coachSecondaryId The ID of the secondary coach to associate with the team. If null, no secondary coach will be associated.
+     * @return void 
+    */
     private function syncTeamCoaches(Team $team, ?string $coachPrimaryId, ?string $coachSecondaryId): void
     {
         ManagerRoster::where('team', $team->id)
-            ->whereIn('role', [ManagerRoster::ROLE_PRIMARY_COACH, ManagerRoster::ROLE_ASSISTANT_COACH])
-            ->delete();
+        ->whereIn('role', [ManagerRoster::ROLE_PRIMARY_COACH, ManagerRoster::ROLE_ASSISTANT_COACH])
+        ->delete();
 
         if (!empty($coachPrimaryId)) {
             ManagerRoster::create([
@@ -350,6 +366,20 @@ class TeamsController extends Controller
         }
     }
 
+    /**
+     * Sync the players for a team based on the provided player IDs. 
+     * This method will first update any existing player roster entries for the team to inactive if their player ID is not in the provided list of player IDs.
+     * Then, it will create or update roster entries for each player ID in the provided list, setting their status to active and updating their position
+     * and dorsal information based on the current data in the players table. Additionally, this method will ensure that storage directories exist for each
+     * player under the team's folder in storage, creating them if necessary. This ensures that the team's player roster is accurately reflected in both the
+     * database and the file storage structure.
+     * @param Team $team The team for which to sync the players. This should be an instance of the Team model that has already been created or updated.
+     * @param array $playerIds An array of player IDs that should be associated with the team. 
+     * This should be an array of UUID strings corresponding to the IDs of players in the players table. 
+     * Any player ID in this list that is not currently associated with the team will be added, 
+     * and any player currently associated with the team that is not in this list will be marked as inactive in the roster.
+     * @return void
+    */
     private function syncTeamPlayers(Team $team, array $playerIds): void
     {
         $playerIds = array_values(array_unique(array_filter($playerIds)));
@@ -360,12 +390,13 @@ class TeamsController extends Controller
         }
 
         PlayerRoster::where('team', $team->id)
-            ->whereNotIn('player', $playerIds)
-            ->update(['status' => 0]);
+        ->whereNotIn('player', $playerIds)
+        ->update(['status' => 0]);
 
         $players = Player::whereIn('id', $playerIds)->get(['id', 'position', 'dorsal']);
 
         foreach ($players as $player) {
+
             PlayerRoster::updateOrCreate(
                 ['team' => $team->id, 'player' => $player->id],
                 [
@@ -374,6 +405,185 @@ class TeamsController extends Controller
                     'status' => 1,
                 ]
             );
+
+            $this->ensureTeamPlayerFolder($team->id, $player->id);
+            
         }
+    }
+
+    /**
+     * Ensure that the storage directories for a team exist. This method checks if the storage path is writable and logs an error if it is not. 
+     * It then attempts to create the necessary directories for the team, including folders for players, matches, and trainings. 
+     * If any of the required directories cannot be created, it logs an error for each failure. This method is used when creating or updating a team 
+     * to ensure that the necessary storage structure is in place for storing files related to the team, its players, matches, and trainings.
+     * @param string $teamId The ID of the team for which to ensure storage directories. This should be a UUID string corresponding to the ID 
+     * of a team in the teams table.
+     * @return void
+    */
+    private function ensureTeamStorage(string $teamId): void
+    {
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+
+        foreach (["teams/{$teamId}/players", "teams/{$teamId}/matches", "teams/{$teamId}/trainings"] as $path) {
+
+            if (!$disk->exists($path) && !$disk->makeDirectory($path)) {
+
+                Log::error('Failed to create team folder.', [
+                    'team' => $teamId,
+                    'path' => $path,
+                ]);
+
+                $this->flashStorageError();
+            }
+        }
+
+        $this->ensureTeamMatchSubfolders($disk, $teamId);
+        $this->ensureTeamTrainingSubfolders($disk, $teamId);
+    }
+
+    /**
+     * Ensure that the storage directories for a player within a team exist. This method checks if the storage path is writable and logs an error if it is not.
+     * It then attempts to create the necessary directories for the player under the team's folder in storage, 
+     * including subfolders for photos and documents. If any of the required directories cannot be created, it
+     * logs an error for each failure. This method is used when associating a player with a team to ensure that the necessary 
+     * storage structure is in place for storing files related to the player within the context of the team.
+     * @param string $teamId The ID of the team to which the player is being associated. This should be a UUID string corresponding to the ID of a team in the teams table.
+     * @param string $playerId The ID of the player for which to ensure storage directories. This should be a UUID string corresponding to the ID of a player in the players table.
+     * @return void
+    */
+    private function ensureTeamPlayerFolder(string $teamId, string $playerId): void
+    {
+        $this->ensureStorageWritable();
+
+        $disk = Storage::disk('public');
+        $playerPath = "teams/{$teamId}/players/{$playerId}";
+
+        if (!$disk->makeDirectory($playerPath)) {
+
+            Log::error('Failed to create player folder for team.', [
+                'team' => $teamId,
+                'player' => $playerId,
+                'path' => $playerPath,
+            ]);
+
+        }
+
+        $this->ensurePlayerSubfolders($disk, $playerPath);
+    }
+
+    /**
+     * Ensure that the storage path is writable for creating team and player folders. This method checks if the storage directory exists and is writable,
+     * and logs an error if it is not. If the storage path is not writable, it also flashes an error message to the session to inform the user that some folders
+     * could not be created due to permission issues. This method is called before attempting to create any directories in storage to ensure that the application can properly 
+     * handle cases where the storage configuration may not allow for directory creation.
+     * @return void
+    */
+    private function ensureStorageWritable(): void
+    {
+        $root = storage_path('app/public');
+        if (!is_dir($root) || !is_writable($root)) {
+            Log::error('Storage path is not writable for team/player folders.', [
+                'path' => $root,
+            ]);
+            $this->flashStorageError();
+        }
+    }
+
+    /**
+     * Ensure that the necessary subfolders for a player exist in storage. This method checks for the existence of the 'photos' and 'documents' subfolders
+     * under the player's folder in storage, and attempts to create them if they do not exist. 
+     * If any of the required subfolders cannot be created, it logs an error for each failure.
+     * This method is used to maintain the expected storage structure for players within a team, 
+     * ensuring that there are designated folders for storing player photos and documents.
+     * @param string $playerPath The storage path for the player's folder, which should be in the format "teams/{teamId}/players/{playerId}". 
+     * This path is used to determine where to create the 'photos' and 'documents' subfolders for the player.
+     * @return void
+    */
+    private function ensurePlayerSubfolders($disk, string $playerPath): void
+    {
+        foreach (['photos', 'documents'] as $folder) {
+            $fullPath = "{$playerPath}/{$folder}";
+            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
+                Log::error('Failed to create player subfolder.', [
+                    'path' => $fullPath,
+                ]);
+                $this->flashStorageError();
+            }
+        }
+    }
+
+    /**
+     * Ensure that the necessary subfolders for team matches exist in storage. This method checks for the existence of the 'reports' and 'photos' subfolders
+     * under the team's matches directory in storage, and attempts to create them if they do not exist. 
+     * If any of the required subfolders cannot be created, it logs an error for each failure.
+     * This method is used to maintain the expected storage structure for team matches, 
+     * ensuring that there are designated folders for storing match reports and photos.
+     * @param string $teamId The ID of the team for which to ensure match subfolders. This should be a UUID string corresponding to the ID of a team in the teams table.
+     * @return void
+    */
+    private function ensureTeamMatchSubfolders($disk, string $teamId): void
+    {
+        foreach (['reports', 'photos'] as $folder) {
+
+            $fullPath = "teams/{$teamId}/matches/{$folder}";
+
+            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
+
+                Log::error('Failed to create team match subfolder.', [
+                    'path' => $fullPath,
+                ]);
+
+                $this->flashStorageError();
+
+            }
+
+        }
+    }
+
+    /**
+     * Ensure that the necessary subfolders for team trainings exist in storage. This method checks for the existence of the 'reports' and 'photos' subfolders
+     * under the team's trainings directory in storage, and attempts to create them if they do not exist.
+     * If any of the required subfolders cannot be created, it logs an error for each failure. 
+     * This method is used to maintain the expected storage structure for team trainings, 
+     * ensuring that there are designated folders for storing training reports and photos.
+     * @param string $teamId The ID of the team for which to ensure training subfolders. 
+     * This should be a UUID string corresponding to the ID of a team in the teams table.
+     * @return void
+    */
+    private function ensureTeamTrainingSubfolders($disk, string $teamId): void
+    {
+        foreach (['reports', 'photos'] as $folder) {
+
+            $fullPath = "teams/{$teamId}/trainings/{$folder}";
+
+            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
+
+                Log::error('Failed to create team training subfolder.', [
+                    'path' => $fullPath,
+                ]);
+
+                $this->flashStorageError();
+
+            }
+
+        }
+    }
+
+    /**
+     * Flash an error message to the session indicating that there was an issue with storage permissions. 
+     * This method ensures that the error message is only flashed once per request to avoid duplicate messages in the session. 
+     * It is called whenever there is a failure to create necessary directories in storage, such as when setting up folders for teams or players, 
+     * to inform the user that some folders could not be created due to permission issues.
+     * @return void
+    */
+    private function flashStorageError(): void
+    {
+        if ($this->storageErrorShown) {
+            return;
+        }
+
+        $this->storageErrorShown = true;
+        session()->flash('error', 'No se pudieron crear algunas carpetas en storage. Revisa permisos de escritura.');
     }
 }

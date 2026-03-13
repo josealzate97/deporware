@@ -12,10 +12,13 @@ use App\Models\RivalTeam;
 use App\Models\SportsVenue;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MatchesController extends Controller
 {   
+    private bool $storageErrorShown = false;
     /**
      * Display a listing of the resource.
      *
@@ -29,25 +32,28 @@ class MatchesController extends Controller
         $rival = request('rival');
 
         $matchesQuery = MatchModel::with(['team', 'rival'])
-            ->when($search, function ($query, $searchTerm) {
-                $query->where('match_date', 'like', '%' . $searchTerm . '%')
-                    ->orWhereHas('team', function ($teamQuery) use ($searchTerm) {
-                        $teamQuery->where('name', 'like', '%' . $searchTerm . '%');
-                    })
-                    ->orWhereHas('rival', function ($rivalQuery) use ($searchTerm) {
-                        $rivalQuery->where('name', 'like', '%' . $searchTerm . '%');
-                    });
+
+        ->when($search, function ($query, $searchTerm) {
+            $query->where('match_date', 'like', '%' . $searchTerm . '%')
+            ->orWhereHas('team', function ($teamQuery) use ($searchTerm) {
+                $teamQuery->where('name', 'like', '%' . $searchTerm . '%');
             })
-            ->when($status !== null && $status !== '', function ($query) use ($status) {
-                $query->where('match_status', $status);
-            })
-            ->when($team, function ($query) use ($team) {
-                $query->where('team', $team);
-            })
-            ->when($rival, function ($query) use ($rival) {
-                $query->where('rival', $rival);
-            })
-            ->orderByDesc('match_date');
+            ->orWhereHas('rival', function ($rivalQuery) use ($searchTerm) {
+                $rivalQuery->where('name', 'like', '%' . $searchTerm . '%');
+            });
+        })
+
+        ->when($status !== null && $status !== '', function ($query) use ($status) {
+            $query->where('match_status', $status);
+        })
+
+        ->when($team, function ($query) use ($team) {
+            $query->where('team', $team);
+        })
+
+        ->when($rival, function ($query) use ($rival) {
+            $query->where('rival', $rival);
+        })->orderByDesc('match_date');
 
         $matches = $matchesQuery->paginate(10)->withQueryString();
 
@@ -153,9 +159,12 @@ class MatchesController extends Controller
             }
 
             $match = MatchModel::create($matchData);
+            $this->ensureMatchStorage($match->id, $match->team);
 
             if ($isCompleted) {
+
                 $feedback = $validated['match_feedback'] ?? [];
+
                 MatchFeedback::create([
                     'match' => $match->id,
                     'match_formation' => $feedback['match_formation'],
@@ -167,6 +176,7 @@ class MatchesController extends Controller
                 ]);
 
                 $rating = $validated['match_team_rating'] ?? [];
+
                 MatchTeamRating::create([
                     'match' => $match->id,
                     'referee_rating' => $rating['referee_rating'],
@@ -273,6 +283,9 @@ class MatchesController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $request, $match, $isCompleted) {
+
+            $previousTeamId = $match->team;
+
             $matchData = [
                 'match_date' => $validated['match_date'],
                 'match_round' => $validated['match_round'] ?? null,
@@ -296,9 +309,12 @@ class MatchesController extends Controller
             }
 
             $match->update($matchData);
+            $this->syncMatchStorage($match->id, $match->team, $previousTeamId);
 
             if ($isCompleted) {
+
                 $feedback = $validated['match_feedback'] ?? [];
+
                 MatchFeedback::updateOrCreate(
                     ['match' => $match->id],
                     [
@@ -323,6 +339,7 @@ class MatchesController extends Controller
                         'notes' => $rating['notes'] ?? null,
                     ]
                 );
+
             } else {
                 $match->feedback()->delete();
                 $match->teamRating()->delete();
@@ -330,6 +347,110 @@ class MatchesController extends Controller
         });
 
         return redirect()->route('matches.index');
+    }
+
+    /** 
+     * Ensure that the storage directories for a match exist. If the team ID is empty, it will skip the operation. 
+     * If the storage path is not writable, it will log an error. If any of the required directories cannot be created,
+     *  it will log an error for each failure. This method is used when creating a new match to ensure that the necessary 
+     * storage structure is in place for storing files related to the match.
+     * @param string $matchId The ID of the match for which to ensure storage directories.
+     * @param string|null $teamId The ID of the team associated with the match, if null or empty, 
+     * the method will skip the storage creation since it cannot determine the path.
+     * @return void
+    */
+    private function ensureMatchStorage(string $matchId, string $teamId): void
+    {
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+        $basePath = "teams/{$teamId}/matches/{$matchId}";
+
+        if (!$disk->exists($basePath) && !$disk->makeDirectory($basePath)) {
+
+            Log::error('Failed to create match folder.', [
+                'match' => $matchId,
+                'team' => $teamId,
+                'path' => $basePath,
+            ]);
+
+            $this->flashStorageError();
+            return;
+        }
+
+        foreach (['reports', 'photos'] as $folder) {
+
+            $fullPath = "{$basePath}/{$folder}";
+
+            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
+                Log::error('Failed to create match subfolder.', [
+                    'path' => $fullPath,
+                ]);
+                $this->flashStorageError();
+            }
+
+        }
+    }
+
+    /**
+     * Sync match storage when the team of a match changes.
+     *
+     * @param string $matchId The ID of the match.
+     * @param string $teamId The ID of the new team.
+     * @param string|null $previousTeamId The ID of the previous team, if any.
+     * @return void
+     */
+    private function syncMatchStorage(string $matchId, string $teamId, ?string $previousTeamId): void
+    {
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+        $newPath = "teams/{$teamId}/matches/{$matchId}";
+
+        if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
+
+            $oldPath = "teams/{$previousTeamId}/matches/{$matchId}";
+
+            if ($disk->exists($oldPath)) {
+
+                if ($disk->exists($newPath)) {
+                    $disk->deleteDirectory($newPath);
+                }
+
+                if (!$disk->move($oldPath, $newPath)) {
+                    Log::error('Failed to move match folder to new team.', [
+                        'match' => $matchId,
+                        'from' => $oldPath,
+                        'to' => $newPath,
+                    ]);
+                    $this->flashStorageError();
+                }
+
+                return;
+            }
+        }
+
+        $this->ensureMatchStorage($matchId, $teamId);
+    }
+
+    /**
+     * This method checks if the storage path for matches is writable. If it is not, 
+     * it logs an error and flashes a message to the session to inform the user that there was an issue with storage operations. 
+     * This method should be called before any operations that involve creating, moving, 
+     * or deleting directories for matches to ensure that 
+     * the application can handle storage issues gracefully and provide feedback to the user when necessary.
+     */
+    private function ensureStorageWritable(): void
+    {
+        $root = storage_path('app/public');
+
+        if (!is_dir($root) || !is_writable($root)) {
+
+            Log::error('Storage path is not writable for matches.', [
+                'path' => $root,
+            ]);
+
+            $this->flashStorageError();
+
+        }
     }
 
     /**
@@ -340,6 +461,61 @@ class MatchesController extends Controller
     */
     public function destroy($id)
     {
+        $match = MatchModel::with(['feedback', 'teamRating'])->findOrFail($id);
+        $this->removeMatchStorage($match->id, $match->team);
+
+        $match->feedback()->delete();
+        $match->teamRating()->delete();
+        $match->delete();
+
         return redirect()->route('matches.index');
+    }
+
+    /** 
+     * Remove match storage directory for the given match and team, if it exists.
+     * If the team ID is empty, it will skip the operation. If the storage path is not writable, it will log an error and flash a message to the session.
+     * If the directory exists but cannot be deleted, it will log an error and flash a message to the session.
+     * This method is used when deleting a match or when changing the team of a match to ensure that old storage directories are cleaned up properly.
+     * @param string $matchId The ID of the match whose storage should be removed.
+     * @param string|null $teamId The ID of the team associated with the match,
+     * if null or empty, the method will skip the storage removal since it cannot determine the path.
+     * @return void
+    */
+    private function removeMatchStorage(string $matchId, ?string $teamId): void
+    {
+        if (empty($teamId)) {
+            return;
+        }
+
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+        $path = "teams/{$teamId}/matches/{$matchId}";
+
+        if ($disk->exists($path) && !$disk->deleteDirectory($path)) {
+            
+            Log::error('Failed to delete match folder.', [
+                'match' => $matchId,
+                'team' => $teamId,
+                'path' => $path,
+            ]);
+
+            $this->flashStorageError();
+
+        }
+    }
+
+    /**
+     * Flash a storage error message to the session.
+     * This method is called whenever there is an issue with storage operations, 
+     * such as when the storage path is not writable or when a directory cannot be created or deleted.
+    */
+    private function flashStorageError(): void
+    {
+        if ($this->storageErrorShown) {
+            return;
+        }
+
+        $this->storageErrorShown = true;
+        session()->flash('error', 'No se pudieron crear o mover carpetas de partidos. Revisa permisos de storage.');
     }
 }

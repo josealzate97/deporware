@@ -9,10 +9,14 @@ use App\Models\PlayerRoster;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class PlayersController extends Controller
 {   
+    private bool $storageErrorShown = false;
     /**
      * Display a listing of the resource.
      *
@@ -117,6 +121,7 @@ class PlayersController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png',
             'nit' => 'required|string|max:30',
             'email' => 'nullable|email|max:100',
             'phone' => 'nullable|string|max:20',
@@ -127,7 +132,7 @@ class PlayersController extends Controller
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
             'status' => 'nullable|boolean',
-            'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id')],
+            'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id'), 'required_with:photo'],
             'initial_observation_type' => ['nullable', 'integer', Rule::in(array_keys(PlayerObservation::typeOptions()))],
             'initial_observation_notes' => 'nullable|string',
         ]);
@@ -152,6 +157,7 @@ class PlayersController extends Controller
         }
 
         $this->syncPlayerTeamRoster($player, $teamId);
+        $this->storePlayerPhoto($player, $teamId, $request->file('photo'));
 
         return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
     }
@@ -289,6 +295,7 @@ class PlayersController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png',
             'nit' => 'required|string|max:30',
             'email' => 'nullable|email|max:100',
             'phone' => 'nullable|string|max:20',
@@ -299,7 +306,7 @@ class PlayersController extends Controller
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
             'status' => 'nullable|boolean',
-            'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id')],
+            'team_id' => ['nullable', 'uuid', Rule::exists('teams', 'id'), 'required_with:photo'],
         ]);
 
         $validated['status'] = $request->boolean('status') ? Player::ACTIVE : Player::INACTIVE;
@@ -308,20 +315,35 @@ class PlayersController extends Controller
 
         $player->update($validated);
         $this->syncPlayerTeamRoster($player, $teamId);
+        $this->storePlayerPhoto($player, $teamId, $request->file('photo'));
 
         return redirect()->route('players.edit', ['id' => $player->id, 'step' => 'contacts']);
     }
 
+    /**
+     * Sync the player's team roster based on the provided team ID. This method checks the player's current active roster to determine the previous team association,
+     * and then updates the roster records to reflect the new team association. If the team ID is empty, it will deactivate all active rosters for the player.
+     * If a new team ID is provided, it will update any existing rosters that do not match the new team ID to inactive, and then create or update the roster for the new team ID to active.
+     * After updating the roster records, it will also synchronize the player's storage directories to ensure that
+     * the player's files are organized under the correct team folder in storage. This method is called whenever a player's team association is changed to maintain data consistency and proper file organization.
+     * @param Player $player The player whose team roster is being synchronized. This should be an instance of the Player model that has already been updated with the new team association.
+     * @param string|null $teamId The ID of the team to which the player is being associated. If null or empty, it indicates that the player should not be associated with any team, and all active rosters will be deactivated.
+     * @return void
+    */
     private function syncPlayerTeamRoster(Player $player, ?string $teamId): void
     {
+        $previousTeamId = $player->rosters()
+        ->where('status', PlayerRoster::ACTIVE)
+        ->value('team');
+
         if (empty($teamId)) {
             $player->rosters()->update(['status' => PlayerRoster::INACTIVE]);
             return;
         }
 
         $player->rosters()
-            ->where('team', '!=', $teamId)
-            ->update(['status' => PlayerRoster::INACTIVE]);
+        ->where('team', '!=', $teamId)
+        ->update(['status' => PlayerRoster::INACTIVE]);
 
         PlayerRoster::updateOrCreate(
             [
@@ -334,6 +356,224 @@ class PlayersController extends Controller
                 'status' => PlayerRoster::ACTIVE,
             ]
         );
+
+        $this->syncPlayerStorage($player, $teamId, $previousTeamId);
+    }
+
+    private function syncPlayerStorage(Player $player, string $teamId, ?string $previousTeamId): void
+    {
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+
+        $playerId = $player->id;
+        $disk->makeDirectory("teams/{$teamId}/players");
+        $newPath = "teams/{$teamId}/players/{$playerId}";
+
+        if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
+
+            $oldPath = "teams/{$previousTeamId}/players/{$playerId}";
+
+            if ($disk->exists($oldPath)) {
+
+                if ($disk->exists($newPath)) {
+                    $disk->deleteDirectory($newPath);
+                }
+
+                if (!$disk->move($oldPath, $newPath)) {
+                    Log::error('Failed to move player folder to new team.', [
+                        'player' => $playerId,
+                        'from' => $oldPath,
+                        'to' => $newPath,
+                    ]);
+                    $this->flashStorageError();
+                } else {
+                    $this->syncPlayerPhotoPath($player, $previousTeamId, $teamId);
+                }
+
+                return;
+            }
+        }
+
+        if (!$disk->exists($newPath) && !$disk->makeDirectory($newPath)) {
+
+            Log::error('Failed to create player folder for team.', [
+                'player' => $playerId,
+                'team' => $teamId,
+                'path' => $newPath,
+            ]);
+
+            $this->flashStorageError();
+        }
+
+        $this->ensurePlayerSubfolders($disk, $newPath);
+    }
+
+    /**
+     * Ensure that the storage path for player folders is writable. This method checks if the storage path exists and is writable, 
+     * and if not, it logs an error with details about the path. It also flashes an error message to the session to inform the user of the issue.
+     * This method is called before any operations that involve creating or moving player folders to ensure that the application can perform 
+     * the necessary file system operations without encountering permission issues.
+     * @return void
+    */
+    private function ensureStorageWritable(): void
+    {
+        $root = storage_path('app/public');
+
+        if (!is_dir($root) || !is_writable($root)) {
+
+            Log::error('Storage path is not writable for player folders.', [
+                'path' => $root,
+            ]);
+
+            $this->flashStorageError();
+
+        }
+    }
+
+    /**
+     * Ensure that the necessary subfolders for a player's storage exist. This method checks for the existence of 'photos' and 'documents' 
+     * subfolders within the player's main storage directory, and attempts to create them if they do not exist. If any of the subfolders 
+     * cannot be created, it logs an error with details about the failure and flashes an error message to the session to inform the user of the issue. 
+     * This method is called after ensuring that the main player folder exists to set up the expected directory structure for storing player-related files.
+     * @param \Illuminate\Filesystem\FilesystemAdapter $disk The storage disk instance to use for checking and creating directories.
+     * @param string $playerPath The path to the player's main storage directory, where the subfolders should be located. 
+     * This should be in the format "teams/{teamId}/players/{playerId}".
+     * @return void
+    */
+    private function ensurePlayerSubfolders($disk, string $playerPath): void
+    {
+        foreach (['photos', 'documents'] as $folder) {
+
+            $fullPath = "{$playerPath}/{$folder}";
+
+            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
+
+                Log::error('Failed to create player subfolder.', [
+                    'path' => $fullPath,
+                ]);
+
+                $this->flashStorageError();
+
+            }
+        }
+    }
+
+    private function storePlayerPhoto(Player $player, ?string $teamId, $photo): void
+    {
+        if (!$photo || empty($teamId)) {
+            return;
+        }
+
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+        $folder = "teams/{$teamId}/players/{$player->id}/photos";
+
+        if (!$disk->exists($folder) && !$disk->makeDirectory($folder)) {
+            Log::error('Failed to create player photo folder.', [
+                'player' => $player->id,
+                'team' => $teamId,
+                'path' => $folder,
+            ]);
+            $this->flashStorageError();
+            return;
+        }
+
+        $filename = 'photo-' . Str::uuid() . '.' . $photo->getClientOriginalExtension();
+        $path = $disk->putFileAs($folder, $photo, $filename);
+
+        if (!$path) {
+            Log::error('Failed to store player photo.', [
+                'player' => $player->id,
+                'team' => $teamId,
+            ]);
+            $this->flashStorageError();
+            return;
+        }
+
+        $player->update(['photo' => $path]);
+    }
+
+    private function syncPlayerPhotoPath(Player $player, string $oldTeamId, string $newTeamId): void
+    {
+        if (empty($player->photo)) {
+            return;
+        }
+
+        $oldPrefix = "teams/{$oldTeamId}/players/{$player->id}/";
+        $newPrefix = "teams/{$newTeamId}/players/{$player->id}/";
+
+        if (Str::startsWith($player->photo, $oldPrefix)) {
+            $player->update([
+                'photo' => Str::replaceFirst($oldPrefix, $newPrefix, $player->photo),
+            ]);
+        }
+    }
+
+    /**
+     * Remove the player's storage directory when they are deactivated or deleted. This method retrieves all team IDs associated with 
+     * the player through their rosters and attempts to delete the player's folder from each team's storage. 
+     * If the storage path is not writable or if any deletion fails, it logs an error and flashes a single error 
+     * message to the session to inform the user of the issue.
+     * @param string $playerId The ID of the player whose storage directories should be removed.
+     * @return void
+    */
+    private function removePlayerStorage(string $playerId): void
+    {
+        $this->ensureStorageWritable();
+        $disk = Storage::disk('public');
+        $teamIds = $this->getPlayerTeamIds($playerId);
+
+        foreach ($teamIds as $teamId) {
+
+            $path = "teams/{$teamId}/players/{$playerId}";
+
+            if ($disk->exists($path) && !$disk->deleteDirectory($path)) {
+
+                Log::error('Failed to delete player folder.', [
+                    'player' => $playerId,
+                    'team' => $teamId,
+                    'path' => $path,
+                ]);
+
+                $this->flashStorageError();
+            }
+
+        }
+    }
+
+    /**
+     * Get the IDs of teams that the player is currently or was previously associated with through rosters.
+     * This method queries the PlayerRoster model to find all records for the given player ID
+     * and plucks the team IDs, filtering out any empty values, ensuring uniqueness, and returning them as a simple array.
+     * @param string $playerId The ID of the player for whom to retrieve associated team IDs.
+     * @return array An array of unique team IDs that the player is or was associated with through rosters. 
+     * If the player has no associated teams, it will return an empty array.
+    */
+    private function getPlayerTeamIds(string $playerId): array
+    {
+        return PlayerRoster::where('player', $playerId)
+        ->pluck('team')
+        ->filter()
+        ->unique()
+        ->values()
+        ->all();
+    }
+
+    /** 
+     * Flash an error message to the session if there was an issue with storage operations. 
+     * This method ensures that the error message is only shown once per request to avoid spamming the user
+     * with multiple messages if several storage operations fail. It checks if the storage error has already been shown using a boolean property, and if not,
+     * it sets the property to true and flashes a single error message to the session indicating 
+     * that there was a problem with creating or moving player folders and advising to check storage permissions.
+    */
+    private function flashStorageError(): void
+    {
+        if ($this->storageErrorShown) {
+            return;
+        }
+
+        $this->storageErrorShown = true;
+        session()->flash('error', 'No se pudieron crear o mover carpetas de jugadores. Revisa permisos de storage.');
     }
 
     /**
@@ -406,6 +646,7 @@ class PlayersController extends Controller
         $player->update(['status' => Player::INACTIVE]);
         $player->contacts()->update(['status' => \App\Models\PlayerContact::INACTIVE]);
         $player->observations()->update(['status' => PlayerObservation::INACTIVE]);
+        $this->removePlayerStorage($player->id);
 
         if (request()->expectsJson()) {
             return response()->json(['success' => true]);

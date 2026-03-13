@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Training extends Model
@@ -56,6 +58,55 @@ class Training extends Model
             if (empty($training->id)) {
                 $training->id = (string) Str::uuid();
             }
+        });
+
+        static::created(function (self $training): void {
+
+            $root = storage_path('app/public');
+
+            if (!is_dir($root) || !is_writable($root)) {
+
+                Log::error('Storage path is not writable for trainings.', [
+                    'path' => $root,
+                ]);
+
+                return;
+
+            }
+
+            if (empty($training->team)) {
+                return;
+            }
+
+            $disk = Storage::disk('public');
+            $basePath = "teams/{$training->team}/trainings/{$training->id}";
+
+            if (!$disk->exists($basePath) && !$disk->makeDirectory($basePath)) {
+
+                Log::error('Failed to create training folder.', [
+                    'training' => $training->id,
+                    'team' => $training->team,
+                    'path' => $basePath,
+                ]);
+
+                return;
+
+            }
+
+            foreach (['reports', 'photos'] as $folder) {
+
+                $fullPath = "{$basePath}/{$folder}";
+
+                if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
+
+                    Log::error('Failed to create training subfolder.', [
+                        'path' => $fullPath,
+                    ]);
+
+                }
+
+            }
+            
         });
     }
 
