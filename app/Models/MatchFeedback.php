@@ -29,10 +29,6 @@ class MatchFeedback extends Model
     protected function casts(): array
     {
         return [
-            'attack_strengths' => 'integer',
-            'attack_weaknesses' => 'integer',
-            'defense_strengths' => 'integer',
-            'defense_weaknesses' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -50,5 +46,25 @@ class MatchFeedback extends Model
     public function match()
     {
         return $this->belongsTo(MatchModel::class, 'match');
+    }
+
+    public function attackStrength()
+    {
+        return $this->belongsTo(AttackPoint::class, 'attack_strengths');
+    }
+
+    public function attackWeakness()
+    {
+        return $this->belongsTo(AttackPoint::class, 'attack_weaknesses');
+    }
+
+    public function defenseStrength()
+    {
+        return $this->belongsTo(DefensivePoint::class, 'defense_strengths');
+    }
+
+    public function defenseWeakness()
+    {
+        return $this->belongsTo(DefensivePoint::class, 'defense_weaknesses');
     }
 }
