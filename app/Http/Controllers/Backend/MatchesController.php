@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MatchesController extends Controller
 {   
@@ -150,16 +151,9 @@ class MatchesController extends Controller
                 'match_notes' => $validated['match_notes'] ?? null,
             ];
 
-            if ($request->hasFile('match_file')) {
-                $matchData['match_file'] = file_get_contents($request->file('match_file')->getRealPath());
-            }
-
-            if ($request->hasFile('team_photo')) {
-                $matchData['team_picture'] = file_get_contents($request->file('team_photo')->getRealPath());
-            }
-
             $match = MatchModel::create($matchData);
             $this->ensureMatchStorage($match->id, $match->team);
+            $this->storeMatchFiles($match, $request);
 
             if ($isCompleted) {
 
@@ -300,16 +294,10 @@ class MatchesController extends Controller
                 'match_notes' => $validated['match_notes'] ?? null,
             ];
 
-            if ($request->hasFile('match_file')) {
-                $matchData['match_file'] = file_get_contents($request->file('match_file')->getRealPath());
-            }
-
-            if ($request->hasFile('team_photo')) {
-                $matchData['team_picture'] = file_get_contents($request->file('team_photo')->getRealPath());
-            }
-
             $match->update($matchData);
             $this->syncMatchStorage($match->id, $match->team, $previousTeamId);
+            $this->syncMatchFilePaths($match, $previousTeamId);
+            $this->storeMatchFiles($match, $request);
 
             if ($isCompleted) {
 
@@ -388,6 +376,64 @@ class MatchesController extends Controller
                 $this->flashStorageError();
             }
 
+        }
+    }
+
+    private function storeMatchFiles(MatchModel $match, Request $request): void
+    {
+        $disk = Storage::disk('public');
+        $basePath = "teams/{$match->team}/matches/{$match->id}";
+
+        if ($request->hasFile('match_file')) {
+            $report = $request->file('match_file');
+            $reportName = 'report-' . Str::uuid() . '.' . $report->getClientOriginalExtension();
+            $reportPath = $disk->putFileAs("{$basePath}/reports", $report, $reportName);
+            if ($reportPath) {
+                if (!empty($match->match_file) && $disk->exists($match->match_file)) {
+                    $disk->delete($match->match_file);
+                }
+                $match->update(['match_file' => $reportPath]);
+            } else {
+                Log::error('Failed to store match report.', ['match' => $match->id]);
+                $this->flashStorageError();
+            }
+        }
+
+        if ($request->hasFile('team_photo')) {
+            $photo = $request->file('team_photo');
+            $photoName = 'photo-' . Str::uuid() . '.' . $photo->getClientOriginalExtension();
+            $photoPath = $disk->putFileAs("{$basePath}/photos", $photo, $photoName);
+            if ($photoPath) {
+                if (!empty($match->team_picture) && $disk->exists($match->team_picture)) {
+                    $disk->delete($match->team_picture);
+                }
+                $match->update(['team_picture' => $photoPath]);
+            } else {
+                Log::error('Failed to store match photo.', ['match' => $match->id]);
+                $this->flashStorageError();
+            }
+        }
+    }
+
+    private function syncMatchFilePaths(MatchModel $match, ?string $previousTeamId): void
+    {
+        if (empty($previousTeamId) || $previousTeamId === $match->team) {
+            return;
+        }
+
+        $oldPrefix = "teams/{$previousTeamId}/matches/{$match->id}/";
+        $newPrefix = "teams/{$match->team}/matches/{$match->id}/";
+
+        $updates = [];
+        if (!empty($match->match_file) && Str::startsWith($match->match_file, $oldPrefix)) {
+            $updates['match_file'] = Str::replaceFirst($oldPrefix, $newPrefix, $match->match_file);
+        }
+        if (!empty($match->team_picture) && Str::startsWith($match->team_picture, $oldPrefix)) {
+            $updates['team_picture'] = Str::replaceFirst($oldPrefix, $newPrefix, $match->team_picture);
+        }
+
+        if ($updates) {
+            $match->update($updates);
         }
     }
 

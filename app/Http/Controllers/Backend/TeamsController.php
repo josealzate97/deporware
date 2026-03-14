@@ -438,8 +438,7 @@ class TeamsController extends Controller
             }
         }
 
-        $this->ensureTeamMatchSubfolders($disk, $teamId);
-        $this->ensureTeamTrainingSubfolders($disk, $teamId);
+        // Match/Training subfolders are created per record (by UUID) when they are created.
     }
 
     /**
@@ -510,63 +509,6 @@ class TeamsController extends Controller
                 ]);
                 $this->flashStorageError();
             }
-        }
-    }
-
-    /**
-     * Ensure that the necessary subfolders for team matches exist in storage. This method checks for the existence of the 'reports' and 'photos' subfolders
-     * under the team's matches directory in storage, and attempts to create them if they do not exist. 
-     * If any of the required subfolders cannot be created, it logs an error for each failure.
-     * This method is used to maintain the expected storage structure for team matches, 
-     * ensuring that there are designated folders for storing match reports and photos.
-     * @param string $teamId The ID of the team for which to ensure match subfolders. This should be a UUID string corresponding to the ID of a team in the teams table.
-     * @return void
-    */
-    private function ensureTeamMatchSubfolders($disk, string $teamId): void
-    {
-        foreach (['reports', 'photos'] as $folder) {
-
-            $fullPath = "teams/{$teamId}/matches/{$folder}";
-
-            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
-
-                Log::error('Failed to create team match subfolder.', [
-                    'path' => $fullPath,
-                ]);
-
-                $this->flashStorageError();
-
-            }
-
-        }
-    }
-
-    /**
-     * Ensure that the necessary subfolders for team trainings exist in storage. This method checks for the existence of the 'reports' and 'photos' subfolders
-     * under the team's trainings directory in storage, and attempts to create them if they do not exist.
-     * If any of the required subfolders cannot be created, it logs an error for each failure. 
-     * This method is used to maintain the expected storage structure for team trainings, 
-     * ensuring that there are designated folders for storing training reports and photos.
-     * @param string $teamId The ID of the team for which to ensure training subfolders. 
-     * This should be a UUID string corresponding to the ID of a team in the teams table.
-     * @return void
-    */
-    private function ensureTeamTrainingSubfolders($disk, string $teamId): void
-    {
-        foreach (['reports', 'photos'] as $folder) {
-
-            $fullPath = "teams/{$teamId}/trainings/{$folder}";
-
-            if (!$disk->exists($fullPath) && !$disk->makeDirectory($fullPath)) {
-
-                Log::error('Failed to create team training subfolder.', [
-                    'path' => $fullPath,
-                ]);
-
-                $this->flashStorageError();
-
-            }
-
         }
     }
 
