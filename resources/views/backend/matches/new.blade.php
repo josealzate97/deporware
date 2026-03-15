@@ -244,40 +244,53 @@
                                 </div>
 
                                 <div class="col-12 col-lg-5">
-                                        <div class="match-file-panel">
-                                            <div class="match-file-panel-header">
-                                                <div>
-                                                    <div class="fw-semibold">Archivos del partido</div>
-                                                </div>
+                                    <div class="match-file-panel">
+                                        <div class="match-file-panel-header">
+                                            <div>
+                                                <div class="match-file-title">Archivos del partido</div>
+                                                <p class="match-file-subtitle mb-0">Sube y gestiona evidencia del encuentro para futuras consultas.</p>
                                             </div>
-                                        <div class="row g-3 mt-2">
-                                            <div class="col-12">
-                                                <label class="form-label fw-semibold">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                                <span class="match-file-badge">PDF/DOCX/XLS · Máx 5MB</span>
+                                        </div>
+
+                                        <div class="match-file-grid mt-3">
+                                            <div class="match-file-item">
+                                                <div class="match-file-item-header">
+                                                    <label class="form-label fw-semibold mb-0" for="match_file">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
+                                                    <span class="match-file-badge">PDF/DOCX/XLS · Máx 5MB</span>
+                                                </div>
+
                                                 <input type="file" class="form-control upload-control upload-control-gradient @error('match_file') is-invalid @enderror" name="match_file" id="match_file" x-bind:required="requiresResult && !hasExistingMatchFile" x-bind:disabled="isScheduled" accept=".pdf,.docx,.xls">
+
                                                 @error('match_file')
                                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                                 @enderror
+
                                                 @if($hasExistingMatchFile)
-                                                    <div class="mt-2 d-flex align-items-center gap-2 flex-wrap">
+                                                    <div class="match-file-meta mt-2">
                                                         <span class="status-pill status-pill-success">Informe actual cargado</span>
-                                                        <a href="{{ route('matches.download.report', $match->id) }}" class="btn btn-outline-primary btn-sm">
+                                                        <a href="{{ route('matches.download.report', $match->id) }}" class="btn btn-sm match-file-download-btn">
                                                             <i class="fa-solid fa-download me-1"></i> Descargar informe
                                                         </a>
                                                     </div>
                                                 @endif
                                             </div>
-                                            <div class="col-12">
-                                                <label class="form-label fw-semibold">Foto equipo</label>
-                                                <span class="match-file-badge">JPG/PNG · Máx 5MB</span>
+
+                                            <div class="match-file-item">
+                                                <div class="match-file-item-header">
+                                                    <label class="form-label fw-semibold mb-0" for="team_photo">Foto equipo</label>
+                                                    <span class="match-file-badge">JPG/PNG · Máx 5MB</span>
+                                                </div>
+
                                                 <input type="file" class="form-control upload-control upload-control-gradient @error('team_photo') is-invalid @enderror" name="team_photo" id="team_photo" accept=".jpg,.png">
+
                                                 @error('team_photo')
                                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                                 @enderror
+
                                                 @if($hasExistingTeamPhoto)
-                                                    <div class="mt-2 d-flex align-items-center gap-2 flex-wrap">
+                                                    <div class="match-file-meta mt-2">
                                                         <span class="status-pill status-pill-success">Foto actual cargada</span>
-                                                        <a href="{{ route('matches.download.team-photo', $match->id) }}" class="btn btn-outline-primary btn-sm">
+                                                        <a href="{{ route('matches.download.team-photo', $match->id) }}" class="btn btn-sm match-file-download-btn">
                                                             <i class="fa-solid fa-download me-1"></i> Descargar foto
                                                         </a>
                                                     </div>

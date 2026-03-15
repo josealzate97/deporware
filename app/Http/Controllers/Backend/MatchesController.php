@@ -32,7 +32,7 @@ class MatchesController extends Controller
         $team = request('team');
         $rival = request('rival');
 
-        $matchesQuery = MatchModel::with(['team', 'rival'])
+        $matchesQuery = MatchModel::with(['team', 'rival', 'feedback', 'teamRating'])
 
         ->when($search, function ($query, $searchTerm) {
             $query->where('match_date', 'like', '%' . $searchTerm . '%')
@@ -65,6 +65,8 @@ class MatchesController extends Controller
             'selectedTeam' => $team,
             'selectedRival' => $rival,
             'statusOptions' => MatchModel::statusOptions(),
+            'resultOptions' => MatchModel::resultOptions(),
+            'sideOptions' => MatchModel::sideOptions(),
             'teamOptions' => Team::orderBy('name')->pluck('name', 'id'),
             'rivalOptions' => RivalTeam::orderBy('name')->pluck('name', 'id'),
             'selectedTeamName' => $team ? (Team::whereKey($team)->value('name') ?? '') : '',
@@ -194,11 +196,23 @@ class MatchesController extends Controller
     */
     public function show($id)
     {
-        $match = MatchModel::with(['team', 'rival', 'venue'])->findOrFail($id);
+        $match = MatchModel::with([
+            'team',
+            'rival',
+            'venue',
+            'feedback.attackStrength',
+            'feedback.attackWeakness',
+            'feedback.defenseStrength',
+            'feedback.defenseWeakness',
+            'teamRating',
+        ])->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.matches.show-modal', [
                 'match' => $match,
+                'statusOptions' => MatchModel::statusOptions(),
+                'resultOptions' => MatchModel::resultOptions(),
+                'sideOptions' => MatchModel::sideOptions(),
             ]);
         }
 
