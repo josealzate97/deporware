@@ -245,6 +245,7 @@ class MatchesController extends Controller
         $statusScheduled = MatchModel::STATUS_SCHEDULED;
         $isCompleted = (int) $request->input('match_status') === $statusCompleted;
         $isScheduled = (int) $request->input('match_status') === $statusScheduled;
+        $requiresMatchFile = !$isScheduled && empty($match->match_file);
 
         $validated = $request->validate([
             'match_date' => ['required', 'date'],
@@ -258,7 +259,7 @@ class MatchesController extends Controller
             'match_result' => [$isScheduled ? 'nullable' : 'required', 'integer'],
             'final_score' => [$isScheduled ? 'nullable' : 'required', 'string', 'max:20'],
             'match_notes' => ['nullable', 'string'],
-            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,docx,xls'],
+            'match_file' => [$requiresMatchFile ? 'required' : 'nullable', 'file', 'mimes:pdf,docx,xls'],
             'team_photo' => ['nullable', 'mimes:jpg,png'],
 
             'match_feedback.match_formation' => [$isCompleted ? 'required' : 'nullable', 'string', 'max:20'],
@@ -335,6 +336,36 @@ class MatchesController extends Controller
         });
 
         return redirect()->route('matches.index');
+    }
+
+    public function downloadReport($id)
+    {
+        $match = MatchModel::findOrFail($id);
+        $path = $match->match_file;
+
+        if (empty($path) || !Storage::disk('public')->exists($path)) {
+            return back()->with('error', 'No hay informe disponible para descargar.');
+        }
+
+        $extension = pathinfo($path, PATHINFO_EXTENSION) ?: 'pdf';
+        $fileName = 'informe-partido-' . $match->id . '.' . $extension;
+
+        return response()->download(storage_path('app/public/' . $path), $fileName);
+    }
+
+    public function downloadTeamPhoto($id)
+    {
+        $match = MatchModel::findOrFail($id);
+        $path = $match->team_picture;
+
+        if (empty($path) || !Storage::disk('public')->exists($path)) {
+            return back()->with('error', 'No hay foto de equipo disponible para descargar.');
+        }
+
+        $extension = pathinfo($path, PATHINFO_EXTENSION) ?: 'jpg';
+        $fileName = 'foto-equipo-' . $match->id . '.' . $extension;
+
+        return response()->download(storage_path('app/public/' . $path), $fileName);
     }
 
     /** 

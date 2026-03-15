@@ -81,12 +81,13 @@
             </div>
 
             @if($activeStep === 'player')
-                <form class="info-form" method="POST" action="{{ $isEdit ? route('players.update', $player?->id) : route('players.store') }}" enctype="multipart/form-data">
+                <form class="info-form" data-validate="app" novalidate method="POST" action="{{ $isEdit ? route('players.update', $player?->id) : route('players.store') }}" enctype="multipart/form-data">
                     @csrf
                     @if($isEdit)
                         @method('PUT')
                         <input type="hidden" name="step" value="player">
                     @endif
+                    @include('backend.components.form-errors')
 
                     <div class="row g-4">
 
@@ -380,11 +381,12 @@
                     </div>
 
                     @php($relationshipOptions = \App\Models\PlayerContact::relationshipOptions())
-                    <form class="info-form" method="POST" action="{{ route('players.update', $player->id) }}">
+                    <form class="info-form" data-validate="app" novalidate method="POST" action="{{ route('players.update', $player->id) }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="step" value="contacts">
                         <input type="hidden" name="contact_id" value="{{ $contact?->id }}">
+                        @include('backend.components.form-errors')
 
                         <div class="row g-4">
                             <div class="col-12">
@@ -523,11 +525,12 @@
                         @endif
                     </div>
 
-                    <form class="info-form" method="POST" action="{{ route('players.update', $player->id) }}">
+                    <form class="info-form" data-validate="app" novalidate method="POST" action="{{ route('players.update', $player->id) }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="step" value="observations">
                         <input type="hidden" name="observation_id" value="{{ $observation?->id }}">
+                        @include('backend.components.form-errors')
 
                         <div class="info-section">
                             <div class="info-section-title">

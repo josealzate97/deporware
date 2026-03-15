@@ -62,11 +62,12 @@
                     : ($isEdit ? route('configurations.points.defensive.update', $point->id) : route('configurations.points.defensive.store'));
             @endphp
 
-            <form class="info-form" method="POST" action="{{ $action }}">
+            <form class="info-form" data-validate="app" novalidate method="POST" action="{{ $action }}">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
                 @endif
+                @include('backend.components.form-errors')
 
                 <div class="row g-4">
                     <div class="col-12">

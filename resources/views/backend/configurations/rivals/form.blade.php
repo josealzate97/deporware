@@ -53,11 +53,12 @@
             @endphp
             @include('backend.configurations.partials.tabs')
 
-            <form class="info-form" method="POST" action="{{ $isEdit ? route('configurations.rivals.update', $rival->id) : route('configurations.rivals.store') }}">
+            <form class="info-form" data-validate="app" novalidate method="POST" action="{{ $isEdit ? route('configurations.rivals.update', $rival->id) : route('configurations.rivals.store') }}">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
                 @endif
+                @include('backend.components.form-errors')
 
                 <div class="row g-4">
                     <div class="col-12">

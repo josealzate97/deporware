@@ -133,6 +133,14 @@ document.addEventListener("DOMContentLoaded", () => {
         applyMoneyMasks();
     });
 
+    document.querySelectorAll('form[data-validate="app"]').forEach((form) => {
+        form.addEventListener('submit', (event) => {
+            if (!window.validateForm(form)) {
+                event.preventDefault();
+            }
+        });
+    });
+
 });
 
 /**
@@ -164,31 +172,79 @@ function getActiveNav(currentPath, links) {
  * @returns {boolean} - Devuelve true si el formulario es válido, false si hay campos inválidos
  */
 window.validateForm = function (form) {
+    const fields = Array.from(form.querySelectorAll('input, select, textarea'));
+    let firstInvalid = null;
 
-    let isValid = true;
+    const clearFieldError = (field) => {
+        field.classList.remove('is-invalid');
+        field.classList.remove('invalid-input');
+        field.classList.remove('valid-input');
 
-    // Selecciona todos los inputs, selects y textareas con la clase "form-control" dentro del formulario
-    const inputs = form.querySelectorAll('.form-control');
+        const wrapper = field.closest('.col-12, .col-7, .col-5, .col-12.col-lg-4, .col-12.col-md-4, .col-12.col-md-6, .col-12.col-lg-3, .col-12.col-lg-5') || field.parentElement;
+        if (!wrapper) return;
+        wrapper.querySelectorAll('.client-invalid-feedback').forEach((node) => node.remove());
+    };
 
-    inputs.forEach(input => {
+    const showFieldError = (field) => {
+        clearFieldError(field);
 
-        if (input.value.trim() === '') {
+        field.classList.add('is-invalid');
+        field.classList.add('invalid-input');
 
-            // Si el campo está vacío, agrega la clase "invalid-input" y remueve "valid-input"
-            input.classList.add('invalid-input');
-            input.classList.remove('valid-input');
-            isValid = false;
+        const wrapper = field.closest('.col-12, .col-7, .col-5, .col-12.col-lg-4, .col-12.col-md-4, .col-12.col-md-6, .col-12.col-lg-3, .col-12.col-lg-5') || field.parentElement;
+        if (!wrapper) return;
 
-        } else {
+        const feedback = document.createElement('div');
+        feedback.className = 'invalid-feedback d-block client-invalid-feedback';
+        feedback.textContent = field.validationMessage || 'Completa este campo.';
+        wrapper.appendChild(feedback);
+    };
 
-            // Si el campo tiene valor, agrega la clase "valid-input" y remueve "invalid-input"
-            input.classList.add('valid-input');
-            input.classList.remove('invalid-input');
+    const syncAutocompleteValidity = () => {
+        form.querySelectorAll('[data-autocomplete]').forEach((wrapper) => {
+            const visibleInput = wrapper.querySelector('[data-autocomplete-input]');
+            const hiddenInput = wrapper.querySelector('[data-autocomplete-hidden]');
 
+            if (!visibleInput || !hiddenInput) return;
+
+            if (visibleInput.required && visibleInput.value.trim() !== '' && !hiddenInput.value) {
+                visibleInput.setCustomValidity('Selecciona una opcion valida de la lista.');
+            } else {
+                visibleInput.setCustomValidity('');
+            }
+        });
+    };
+
+    syncAutocompleteValidity();
+
+    fields.forEach((field) => {
+        const isVisible = !!field.offsetParent || field.type === 'hidden';
+        if (!isVisible) {
+            clearFieldError(field);
+            return;
         }
 
+        if (field.checkValidity()) {
+            clearFieldError(field);
+            field.classList.add('valid-input');
+            return;
+        }
+
+        showFieldError(field);
+        if (!firstInvalid) {
+            firstInvalid = field;
+        }
     });
 
-    return isValid; // Devuelve true si todos los campos son válidos, false si hay algún campo inválido
+    if (!firstInvalid) {
+        return true;
+    }
+
+    firstInvalid.reportValidity();
+    if (firstInvalid.type !== 'hidden') {
+        firstInvalid.focus();
+    }
+
+    return false;
 
 }

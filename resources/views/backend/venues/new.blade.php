@@ -54,11 +54,12 @@
         </div>
 
         <div class="card p-4 mt-4 section-card">
-            <form class="info-form" method="POST" action="{{ $isEdit ? route('venues.update', $venue->id) : route('venues.store') }}">
+            <form class="info-form" data-validate="app" novalidate method="POST" action="{{ $isEdit ? route('venues.update', $venue->id) : route('venues.store') }}">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
                 @endif
+                @include('backend.components.form-errors')
 
                 <div class="row g-4">
                     <div class="col-12">

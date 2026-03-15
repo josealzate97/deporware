@@ -149,6 +149,7 @@ window.userForm = function (userData) {
         isSaving: false,
         isPasswordValid: true, // Estado inicial de la validación de la contraseña
         isPasswordMatch: true,
+        validationErrors: [],
         adminRoles: userData.adminRoles || [],
         form: { ...userData, venues: userData.venues || [], new_password: '' },
         original: { ...userData, venues: userData.venues || [], new_password: '' },
@@ -162,6 +163,7 @@ window.userForm = function (userData) {
         },
         enableEdit() {
             this.editMode = true;
+            this.validationErrors = [];
         },
         cancelEdit() {
             this.form = { ...this.original, venues: [...(this.original.venues || [])], new_password: '' };
@@ -169,20 +171,23 @@ window.userForm = function (userData) {
             this.isPasswordValid = true;
             this.isPasswordMatch = true;
             this.confirmNewPassword = '';
+            this.validationErrors = [];
         },
         async saveUser() {
             if (this.isSaving) return;
             this.isSaving = true;
 
-            // const form = document.getElementsByClassName('form')[0];
-
-            /*if (!validateForm(form)) {
-                alert('Por favor, completa todos los campos obligatorios.');
-                return false;
-            }*/
+            const form = document.querySelector('form.user-info-form');
+            if (form && window.validateForm && !window.validateForm(form)) {
+                this.validationErrors = [];
+                this.isSaving = false;
+                return;
+            }
 
             if (this.form.new_password.length > 0 && (!this.isPasswordValid || !this.isPasswordMatch)) {
                 notyf.error('La contraseña no es válida.');
+                this.validationErrors = [];
+                this.isSaving = false;
                 return;
             }
 
@@ -206,12 +211,29 @@ window.userForm = function (userData) {
                     this.original = { ...this.form, new_password: '' };
                     this.form = { ...this.original };
                     this.editMode = false;
+                    this.validationErrors = [];
 
                     notyf.success('Usuario actualizado correctamente');
 
                 } else {
+                    let payload = null;
+                    try {
+                        payload = await response.json();
+                    } catch (e) {
+                        payload = null;
+                    }
 
-                    notyf.error('Error al actualizar');
+                    if (response.status === 422 && payload?.errors) {
+                        this.validationErrors = Object.values(payload.errors).flat();
+                        if (this.validationErrors.length > 0) {
+                            notyf.error(this.validationErrors[0]);
+                        } else {
+                            notyf.error('Hay errores de validación en el formulario.');
+                        }
+                    } else {
+                        this.validationErrors = [];
+                        notyf.error(payload?.message || 'Error al actualizar');
+                    }
 
                 }
                 
@@ -304,11 +326,13 @@ async function deleteUser(userId) {
                 return;
             }
 
-            const badge = document.querySelector(`tr[data-id="${userId}"] .badge`);
-            
-            badge.textContent = 'Inactivo';
-            badge.classList.remove('bg-success');
-            badge.classList.add('bg-danger');
+            const statusPill = document.querySelector(`tr[data-id="${userId}"] .status-pill`);
+
+            if (statusPill) {
+                statusPill.textContent = 'Inactivo';
+                statusPill.classList.remove('status-pill-success');
+                statusPill.classList.add('status-pill-muted');
+            }
             
             setTimeout(() => {
                 location.reload();
@@ -345,14 +369,17 @@ async function activateUser(userId) {
 
         if (response.ok) {
 
-            notyf.success('Usuario activado correctamente');
+            const payload = await response.json();
+            notyf.success(payload.message || 'Usuario activado correctamente');
             
             // Cambia dinámicamente el badge del usuario
-            const badge = document.querySelector(`tr[data-id="${userId}"] .badge`);
+            const statusPill = document.querySelector(`tr[data-id="${userId}"] .status-pill`);
 
-            badge.textContent = 'Activo';
-            badge.classList.remove('bg-danger');
-            badge.classList.add('bg-success');
+            if (statusPill) {
+                statusPill.textContent = 'Activo';
+                statusPill.classList.remove('status-pill-muted');
+                statusPill.classList.add('status-pill-success');
+            }
 
             setTimeout(() => {
                 location.reload();

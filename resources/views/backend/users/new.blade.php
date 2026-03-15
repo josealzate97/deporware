@@ -49,8 +49,9 @@
                 adminRoles: [{{ \App\Models\User::ROLE_ROOT }}, {{ \App\Models\User::ROLE_SPORT_MANAGER }}]
             }"
         >
-            <form class="form user-info-form" method="POST" action="{{ route('users.store') }}" data-user-form="create">
+            <form class="form user-info-form" data-validate="app" novalidate method="POST" action="{{ route('users.store') }}" data-user-form="create">
                 @csrf
+                @include('backend.components.form-errors')
 
                 <div class="row g-4">
 

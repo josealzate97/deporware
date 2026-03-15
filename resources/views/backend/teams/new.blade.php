@@ -61,7 +61,7 @@
             @php($selectedCoachPrimary = old('coach_primary', $coachPrimaryId ?? ''))
             @php($selectedCoachSecondary = old('coach_secondary', $coachSecondaryId ?? ''))
 
-            <form class="info-form" method="POST" action="{{ $isEdit ? route('teams.update', $team?->id) : route('teams.store') }}"
+            <form class="info-form" data-validate="app" novalidate method="POST" action="{{ $isEdit ? route('teams.update', $team?->id) : route('teams.store') }}"
                 x-data="{ coachA: '', coachB: '' }"
                 x-init="coachA = @js($selectedCoachPrimary); coachB = @js($selectedCoachSecondary)"
                 x-effect="if (coachA && coachB && coachA === coachB) { coachB = '' }">
@@ -69,6 +69,7 @@
                 @if($isEdit)
                     @method('PUT')
                 @endif
+                @include('backend.components.form-errors')
 
                 <div class="row g-4 teams-form-layout">
                     <div class="col-12">

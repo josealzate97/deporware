@@ -88,7 +88,16 @@
                 @endif
             </div>
 
-            <form class="form user-info-form" @submit.prevent="saveUser">
+            <form class="form user-info-form" data-validate="app" novalidate @submit.prevent="saveUser">
+
+                <div class="alert alert-danger mb-4" x-show="validationErrors.length" x-cloak>
+                    <div class="fw-bold mb-1">Se encontraron errores en el formulario:</div>
+                    <ul class="mb-0 ps-3">
+                        <template x-for="(error, index) in validationErrors" :key="index">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
 
                 <div class="row g-4">
 
@@ -106,17 +115,17 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Nombre completo <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" x-model="form.name" :disabled="!editMode">
+                                    <input type="text" class="form-control" x-model="form.name" :required="editMode" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" x-model="form.username" :disabled="!editMode">
+                                    <input type="text" class="form-control" x-model="form.username" :required="editMode" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Fecha de contrato <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" x-model="form.hired_date" :disabled="!editMode">
+                                    <input type="date" class="form-control" x-model="form.hired_date" :required="editMode" :disabled="!editMode">
                                 </div>
 
                             </div>
@@ -135,17 +144,17 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mask-phone" x-model="form.phone" :disabled="!editMode">
+                                    <input type="text" class="form-control mask-phone" x-model="form.phone" :required="editMode" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" x-model="form.email" :disabled="!editMode">
+                                    <input type="text" class="form-control" x-model="form.email" :required="editMode" :disabled="!editMode">
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
-                                    <select class="form-select" x-model="form.role" :disabled="!editMode">
+                                    <select class="form-select" x-model="form.role" :required="editMode" :disabled="!editMode">
                                         @foreach($roles as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
                                         @endforeach
