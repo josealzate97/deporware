@@ -141,6 +141,24 @@ label.team-player-card {
     line-height: 1.1;
 }
 
+.team-player-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.team-player-link {
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.team-player-main .team-player-meta {
+    min-width: 0;
+}
+
 .team-player-name {
     font-weight: 700;
     color: #0f172a;
@@ -149,6 +167,13 @@ label.team-player-card {
 .team-player-position {
     font-size: 0.85rem;
     color: #64748b;
+}
+
+.team-empty-players-message {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #475569;
+    padding: 0.45rem 0.2rem;
 }
 
 .team-modal-tabs {

@@ -171,16 +171,52 @@ class PlayersController extends Controller
     */
     public function show($id)
     {
-        $player = Player::with(['contacts', 'observations.user'])->findOrFail($id);
+        $player = Player::with(['contacts', 'observations.user', 'rosters.team'])->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.players.show-modal', [
                 'player' => $player,
                 'observationTypes' => PlayerObservation::typeOptions(),
+                'playerDocuments' => $this->getPlayerDocuments($player),
             ]);
         }
 
         return redirect()->route('players.index');
+    }
+
+    /**
+     * Download a player document file from allowed team/player folders.
+     */
+    public function downloadDocument(Request $request, $id)
+    {
+        $player = Player::findOrFail($id);
+        $encoded = (string) $request->query('file', '');
+
+        $path = base64_decode($encoded, true);
+        if ($path === false || $path === '') {
+            abort(404);
+        }
+
+        $teamIds = $this->getPlayerTeamIds($player->id);
+        if (empty($teamIds)) {
+            abort(404);
+        }
+
+        $allowed = collect($teamIds)->contains(function ($teamId) use ($path, $player) {
+            return Str::startsWith($path, "teams/{$teamId}/players/{$player->id}/documents/")
+                || Str::startsWith($path, "teams/{$teamId}/players/{$player->id}/reports/");
+        });
+
+        if (!$allowed) {
+            abort(403);
+        }
+
+        $disk = Storage::disk('public');
+        if (!$disk->exists($path)) {
+            abort(404);
+        }
+
+        return response()->download(storage_path('app/public/' . $path), basename($path));
     }
 
     /**
@@ -495,6 +531,58 @@ class PlayersController extends Controller
 
             }
         }
+    }
+
+    /**
+     * Collect document files from player storage folders by team.
+     */
+    private function getPlayerDocuments(Player $player): array
+    {
+        $disk = Storage::disk('public');
+
+        $teamNames = $player->rosters
+            ->filter(fn (PlayerRoster $roster) => !empty($roster->team))
+            ->mapWithKeys(function (PlayerRoster $roster) {
+                $teamModel = $roster->relationLoaded('team') ? $roster->getRelation('team') : null;
+                return [$roster->team => $teamModel?->name ?? 'Equipo'];
+            })
+            ->all();
+
+        $teamIds = array_keys($teamNames);
+        if (empty($teamIds)) {
+            $teamIds = $this->getPlayerTeamIds($player->id);
+        }
+
+        if (empty($teamIds)) {
+            return [];
+        }
+
+        $items = [];
+
+        foreach ($teamIds as $teamId) {
+            foreach (['documents', 'reports'] as $folder) {
+                $basePath = "teams/{$teamId}/players/{$player->id}/{$folder}";
+
+                if (!$disk->exists($basePath)) {
+                    continue;
+                }
+
+                foreach ($disk->allFiles($basePath) as $filePath) {
+                    $items[] = [
+                        'name' => basename($filePath),
+                        'path' => $filePath,
+                        'team_id' => $teamId,
+                        'team_name' => $teamNames[$teamId] ?? 'Equipo',
+                        'size' => $disk->size($filePath),
+                        'modified_at' => $disk->lastModified($filePath),
+                    ];
+                }
+            }
+        }
+
+        usort($items, fn ($a, $b) => ($b['modified_at'] ?? 0) <=> ($a['modified_at'] ?? 0));
+
+        return $items;
     }
 
     private function storePlayerPhoto(Player $player, ?string $teamId, $photo): void

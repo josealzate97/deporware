@@ -225,7 +225,7 @@
                                         </label>
                                     </div>
                                 @empty
-                                    <div class="col-12 text-muted">No hay jugadores activos para asignar.</div>
+                                    <div class="col-12 team-empty-players-message">No hay jugadores activos para asignar.</div>
                                 @endforelse
                             </div>
                         </div>

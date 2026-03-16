@@ -143,9 +143,14 @@
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="team-player-card">
                                     <span class="team-player-number">{{ $roster->dorsal ?? '-' }}</span>
-                                    <span class="team-player-meta">
-                                        <span class="team-player-name">{{ $player->name }} {{ $player->lastname }}</span>
-                                        <span class="team-player-position">{{ $positionOptions[$roster->position] ?? 'Sin posición' }}</span>
+                                    <span class="team-player-main">
+                                        <span class="team-player-meta">
+                                            <span class="team-player-name">{{ $player->name }} {{ $player->lastname }}</span>
+                                            <span class="team-player-position">{{ $positionOptions[$roster->position] ?? 'Sin posición' }}</span>
+                                        </span>
+                                        <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-sm btn-outline-success team-player-link" title="Ver más de {{ $player->name }} {{ $player->lastname }}" aria-label="Ver más de {{ $player->name }} {{ $player->lastname }}">
+                                            <i class="fa-solid fa-circle-info me-1"></i> Ver más
+                                        </a>
                                     </span>
                                 </div>
                             </div>

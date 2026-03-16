@@ -15,6 +15,9 @@
         <input type="radio" id="player-tab-general" name="player-tabs" checked>
         <label for="player-tab-general">General</label>
 
+        <input type="radio" id="player-tab-documents" name="player-tabs">
+        <label for="player-tab-documents">Documentos</label>
+
         <input type="radio" id="player-tab-contacts" name="player-tabs">
         <label for="player-tab-contacts">Contactos</label>
 
@@ -38,66 +41,79 @@
                             </div>
                         @endif
                     </div>
-                    <div class="player-profile-meta">
-                        <div class="player-profile-name">{{ $player->name }} {{ $player->lastname }}</div>
-                        <div class="player-profile-sub">
-                            NIT: <span class="player-badge-blue">{{ $player->nit ?? '-' }}</span>
+                    <div class="player-profile-details">
+                        <div class="player-profile-meta">
+                            <div class="player-profile-name">{{ $player->name }} {{ $player->lastname }}</div>
+                            <div class="player-profile-sub">
+                                NIT: <span class="player-badge-blue">{{ $player->nit ?? '-' }}</span>
+                            </div>
+                            <div class="player-profile-sub">
+                                Contacto: <span class="player-badge-blue">{{ $player->phone ?? '-' }}</span>
+                            </div>
+                            <div class="player-profile-sub">
+                                Email: <span class="player-badge-blue">{{ $player->email ?? '-' }}</span>
+                            </div>
                         </div>
-                        <div class="player-profile-sub">
-                            Contacto: <span class="player-badge-blue">{{ $player->phone ?? '-' }}</span>
-                        </div>
-                        <div class="player-profile-sub">
-                            Email: <span class="player-badge-blue">{{ $player->email ?? '-' }}</span>
+                        <div class="player-info-item player-birth-inline-card">
+                            <div class="player-info-label">
+                                <i class="fa-solid fa-cake-candles text-primary me-2"></i>
+                                Nacimiento
+                            </div>
+                            <div class="player-info-value">
+                                {{ $player->birthdate?->format('Y-m-d') ?? '-' }}
+                                @if($player->birthdate)
+                                    <span class="player-badge-green">
+                                        {{ \Carbon\Carbon::parse($player->birthdate)->age }} años
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="player-info-sub">
+                                Nacionalidad:
+                                <span class="player-badge-blue">{{ $nationalityOptions[$player->nacionality] ?? '-' }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="player-info-grid">
-                    <div class="player-info-item">
-                        <div class="player-info-label">
-                            <i class="fa-solid fa-cake-candles text-primary me-2"></i>
-                            Nacimiento
-                        </div>
-                        <div class="player-info-value">
-                            {{ $player->birthdate?->format('Y-m-d') ?? '-' }}
-                            @if($player->birthdate)
-                                <span class="player-badge-green">
-                                    {{ \Carbon\Carbon::parse($player->birthdate)->age }} años
-                                </span>
-                            @endif
-                        </div>
-                        <div class="player-info-sub">
-                            Nacionalidad:
-                            <span class="player-badge-blue">{{ $nationalityOptions[$player->nacionality] ?? '-' }}</span>
-                        </div>
-                    </div>
-                    <div class="player-info-item">
+
+                <div class="player-section-title mb-2">
+                    <i class="fa-solid fa-futbol text-primary me-2"></i>
+                    Información deportiva
+                </div>
+
+                <div class="player-sports-grid">
+                    <div class="player-info-item player-sport-card player-sport-card--wide">
                         <div class="player-info-label">
                             <i class="fa-solid fa-futbol text-primary me-2"></i>
                             Perfil deportivo
                         </div>
-                        <div class="player-info-value">Posición: {{ $positionOptions[$player->position] ?? '-' }}</div>
-                        <div class="player-info-sub">
-                            Pierna hábil:
-                            <span class="player-badge-blue">{{ $footOptions[$player->foot] ?? '-' }}</span>
-                        </div>
-                        <div class="player-info-sub">
-                            Peso:
-                            <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
+                        <div class="player-sport-metrics">
+                            <div class="player-sport-metric">
+                                <span class="player-sport-metric-label">Posición</span>
+                                <span class="player-badge-blue">{{ $positionOptions[$player->position] ?? '-' }}</span>
+                            </div>
+                            <div class="player-sport-metric">
+                                <span class="player-sport-metric-label">Pierna hábil</span>
+                                <span class="player-badge-blue">{{ $footOptions[$player->foot] ?? '-' }}</span>
+                            </div>
+                            <div class="player-sport-metric">
+                                <span class="player-sport-metric-label">Peso</span>
+                                <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="player-info-item">
+                    <div class="player-info-item player-sport-card player-sport-card--compact">
                         <div class="player-info-label">
                             <i class="fa-solid fa-shirt text-primary me-2"></i>
                             Dorsal
                         </div>
-                        <div class="player-info-value">{{ $player->dorsal ?? '-' }}</div>
+                        <div class="player-sport-number">{{ $player->dorsal ?? '-' }}</div>
                     </div>
-                    <div class="player-info-item">
+                    <div class="player-info-item player-sport-card player-sport-card--compact">
                         <div class="player-info-label">
                             <i class="fa-solid fa-toggle-on text-primary me-2"></i>
                             Estado
                         </div>
-                        <div class="player-info-value">
+                        <div class="player-sport-status">
                             @if($player->status == \App\Models\Player::ACTIVE)
                                 <span class="status-pill status-pill-success">Activo</span>
                             @else
@@ -106,6 +122,31 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="player-tab-panel" data-panel="documents">
+                @if(empty($playerDocuments ?? []))
+                    <div class="text-muted">Sin documentos disponibles.</div>
+                @else
+                    <div class="player-reports-list">
+                        @foreach($playerDocuments as $report)
+                            @php($sizeKb = max(1, (int) ceil(($report['size'] ?? 0) / 1024)))
+                            <div class="player-report-card">
+                                <div class="player-report-main">
+                                    <div class="player-report-name">{{ $report['name'] }}</div>
+                                    <div class="player-report-meta">
+                                        <span class="player-badge-blue"><i class="fa-solid fa-shield-halved me-1"></i>{{ $report['team_name'] ?? 'Equipo' }}</span>
+                                        <span class="player-badge-blue"><i class="fa-solid fa-clock me-1"></i>{{ !empty($report['modified_at']) ? \Carbon\Carbon::createFromTimestamp($report['modified_at'])->format('Y-m-d H:i') : '-' }}</span>
+                                        <span class="player-badge-blue"><i class="fa-solid fa-file-lines me-1"></i>{{ $sizeKb }} KB</span>
+                                    </div>
+                                </div>
+                                <a href="{{ route('players.documents.download', ['id' => $player->id, 'file' => base64_encode($report['path'])]) }}" class="btn btn-sm btn-outline-success">
+                                    <i class="fa-solid fa-download me-1"></i> Descargar
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             <div class="player-tab-panel" data-panel="contacts">

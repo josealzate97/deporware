@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class TeamsController extends Controller
 {   
@@ -98,7 +99,7 @@ class TeamsController extends Controller
             'team' => new Team(),
             'venues' => SportsVenue::where('status', true)->orderBy('name')->get(),
             'teamVenueIds' => [],
-            'players' => Player::where('status', Player::ACTIVE)->orderBy('name')->get(),
+            'players' => $this->getAvailablePlayers(),
             'selectedPlayerIds' => [],
             'coaches' => User::where('role', User::ROLE_COACH)->orderBy('name')->get(),
             'coachPrimaryId' => null,
@@ -148,6 +149,8 @@ class TeamsController extends Controller
 
         $playerIds = $data['players'] ?? [];
         unset($data['players']);
+
+        $this->ensurePlayersAreAssignable($playerIds);
 
         $team = Team::create($data);
         $this->ensureTeamStorage($team->id);
@@ -219,7 +222,7 @@ class TeamsController extends Controller
             'team' => $team,
             'venues' => SportsVenue::where('status', true)->orderBy('name')->get(),
             'teamVenueIds' => $team->venues->pluck('id')->all(),
-            'players' => Player::where('status', Player::ACTIVE)->orderBy('name')->get(),
+            'players' => $this->getAvailablePlayers($team->id),
             'selectedPlayerIds' => $team->playerRosters->where('status', 1)->pluck('player')->all(),
             'coaches' => User::where('role', User::ROLE_COACH)->orderBy('name')->get(),
             'coachPrimaryId' => $coachPrimaryId,
@@ -272,6 +275,7 @@ class TeamsController extends Controller
         unset($data['players']);
 
         $team = Team::findOrFail($id);
+        $this->ensurePlayersAreAssignable($playerIds, $team->id);
         $team->update($data);
 
         if (!empty($venueIds)) {
@@ -286,6 +290,65 @@ class TeamsController extends Controller
         $redirectType = ((int) $data['type'] === Team::TYPE_FORMATIVE) ? 'formative' : 'competitive';
 
         return redirect()->route('teams.index', ['type' => $redirectType]);
+    }
+
+    /**
+     * Get players available to be assigned in the team form.
+     */
+    private function getAvailablePlayers(?string $currentTeamId = null)
+    {
+        $occupiedPlayersQuery = PlayerRoster::query()
+            ->where('status', PlayerRoster::ACTIVE);
+
+        if ($currentTeamId) {
+            $occupiedPlayersQuery->where('team', '!=', $currentTeamId);
+        }
+
+        $occupiedPlayerIds = $occupiedPlayersQuery
+            ->select('player')
+            ->distinct()
+            ->pluck('player');
+
+        return Player::query()
+            ->where('status', Player::ACTIVE)
+            ->whereNotIn('id', $occupiedPlayerIds)
+            ->orderBy('name')
+            ->get();
+    }
+
+    /**
+     * Prevent assigning players that already have an active roster in another team.
+     */
+    private function ensurePlayersAreAssignable(array $playerIds, ?string $currentTeamId = null): void
+    {
+        if (empty($playerIds)) {
+            return;
+        }
+
+        $conflicts = PlayerRoster::query()
+            ->where('status', PlayerRoster::ACTIVE)
+            ->whereIn('player', $playerIds)
+            ->when($currentTeamId, fn ($query) => $query->where('team', '!=', $currentTeamId))
+            ->with('player:id,name,lastname')
+            ->get();
+
+        if ($conflicts->isEmpty()) {
+            return;
+        }
+
+        $names = $conflicts
+            ->map(fn (PlayerRoster $roster) => trim((string) optional($roster->player)->name . ' ' . (string) optional($roster->player)->lastname))
+            ->filter()
+            ->unique()
+            ->values()
+            ->take(3)
+            ->implode(', ');
+
+        $suffix = $conflicts->count() > 3 ? ' y otros.' : '.';
+
+        throw ValidationException::withMessages([
+            'players' => 'Uno o más jugadores ya están asociados a otra plantilla activa: ' . $names . $suffix,
+        ]);
     }
 
     /**
