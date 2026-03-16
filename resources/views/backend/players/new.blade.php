@@ -167,7 +167,7 @@
                                             <input type="hidden" name="remove_photo" id="remove_photo" value="0">
                                             <div class="player-photo-preview mt-3" data-photo-preview data-photo-url="{{ $playerPhotoUrl }}">
                                                 <div class="player-photo-frame">
-                                                    <img class="player-photo-img" data-photo-img alt="Foto del jugador">
+                                                    <img class="player-photo-img" data-photo-img data-open-lightbox="true" alt="Foto del jugador" title="Click para ampliar">
                                                     <div class="player-photo-empty" data-photo-empty>No valido por el momento</div>
                                                 </div>
                                                 <div class="player-photo-hint">Vista previa de la foto.</div>

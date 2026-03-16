@@ -113,6 +113,75 @@ document.addEventListener('alpine:init', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    let lightboxRoot = null;
+    let lightboxImage = null;
+
+    const closeLightbox = () => {
+        if (!lightboxRoot) return;
+        lightboxRoot.classList.remove('is-open');
+        lightboxRoot.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('player-lightbox-open');
+    };
+
+    const ensureLightbox = () => {
+        if (lightboxRoot) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'player-lightbox';
+        wrapper.setAttribute('aria-hidden', 'true');
+        wrapper.innerHTML = `
+            <div class="player-lightbox__backdrop" data-lightbox-close></div>
+            <div class="player-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Vista ampliada de imagen">
+                <button type="button" class="player-lightbox__close" data-lightbox-close aria-label="Cerrar imagen">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <img class="player-lightbox__image" alt="Imagen ampliada">
+            </div>
+        `;
+        document.body.appendChild(wrapper);
+        lightboxRoot = wrapper;
+        lightboxImage = wrapper.querySelector('.player-lightbox__image');
+
+        wrapper.addEventListener('click', (event) => {
+            if (event.target.closest('[data-lightbox-close]')) {
+                closeLightbox();
+            }
+        });
+    };
+
+    const openLightbox = (src, alt = 'Imagen') => {
+        if (!src) return;
+        ensureLightbox();
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightboxRoot.classList.add('is-open');
+        lightboxRoot.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('player-lightbox-open');
+    };
+
+    document.addEventListener('click', (event) => {
+        const trigger = event.target.closest('[data-lightbox-src]');
+        if (trigger) {
+            event.preventDefault();
+            const src = trigger.getAttribute('data-lightbox-src') || '';
+            const alt = trigger.getAttribute('data-lightbox-alt') || trigger.getAttribute('alt') || 'Imagen';
+            openLightbox(src, alt);
+            return;
+        }
+
+        const previewImage = event.target.closest('[data-photo-img][data-open-lightbox="true"]');
+        if (!previewImage) return;
+        if (!previewImage.classList.contains('is-visible')) return;
+
+        event.preventDefault();
+        openLightbox(previewImage.currentSrc || previewImage.src, previewImage.getAttribute('alt') || 'Foto del jugador');
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+
     const input = document.getElementById('player_photo');
     const preview = document.querySelector('[data-photo-preview]');
     const img = preview?.querySelector('[data-photo-img]');
@@ -127,11 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const showImage = (url) => {
         img.src = url;
         img.classList.add('is-visible');
+        img.setAttribute('data-lightbox-src', url);
+        img.setAttribute('data-lightbox-alt', img.getAttribute('alt') || 'Foto del jugador');
         empty.style.display = 'none';
     };
 
     const showEmpty = () => {
         img.removeAttribute('src');
+        img.removeAttribute('data-lightbox-src');
+        img.removeAttribute('data-lightbox-alt');
         img.classList.remove('is-visible');
         empty.style.display = 'flex';
     };

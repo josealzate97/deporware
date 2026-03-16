@@ -31,7 +31,7 @@
                 <div class="player-profile-header mb-3">
                     <div class="player-profile-photo">
                         @if($playerPhotoUrl)
-                            <img src="{{ $playerPhotoUrl }}" alt="Foto del jugador" class="player-photo-img is-visible">
+                            <img src="{{ $playerPhotoUrl }}" alt="Foto del jugador" class="player-photo-img is-visible player-lightbox-trigger" data-lightbox-src="{{ $playerPhotoUrl }}" data-lightbox-alt="Foto del jugador" title="Click para ampliar">
                         @else
                             <div class="player-photo-placeholder">
                                 <i class="fa-solid fa-user"></i>
