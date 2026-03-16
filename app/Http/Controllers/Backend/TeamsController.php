@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class TeamsController extends Controller
@@ -396,6 +397,14 @@ class TeamsController extends Controller
         $players = Player::whereIn('id', $playerIds)->get(['id', 'position', 'dorsal']);
 
         foreach ($players as $player) {
+            $previousTeamId = PlayerRoster::where('player', $player->id)
+                ->where('status', 1)
+                ->where('team', '!=', $team->id)
+                ->value('team');
+
+            PlayerRoster::where('player', $player->id)
+                ->where('team', '!=', $team->id)
+                ->update(['status' => 0]);
 
             PlayerRoster::updateOrCreate(
                 ['team' => $team->id, 'player' => $player->id],
@@ -406,8 +415,89 @@ class TeamsController extends Controller
                 ]
             );
 
-            $this->ensureTeamPlayerFolder($team->id, $player->id);
+            $this->syncPlayerFolderAcrossTeams($player->id, $team->id, $previousTeamId);
             
+        }
+    }
+
+    private function syncPlayerFolderAcrossTeams(string $playerId, string $teamId, ?string $previousTeamId): void
+    {
+        $this->ensureStorageWritable();
+
+        $disk = Storage::disk('public');
+        $newPath = "teams/{$teamId}/players/{$playerId}";
+
+        if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
+            $oldPath = "teams/{$previousTeamId}/players/{$playerId}";
+
+            if ($disk->exists($oldPath)) {
+                if ($disk->exists($newPath)) {
+                    $disk->deleteDirectory($newPath);
+                }
+
+                if (!$this->copyDirectory($disk, $oldPath, $newPath)) {
+                    Log::error('Failed to copy player folder to reassigned team.', [
+                        'player' => $playerId,
+                        'from' => $oldPath,
+                        'to' => $newPath,
+                    ]);
+                    $this->flashStorageError();
+                    return;
+                }
+
+                $this->syncPlayerPhotoPath($playerId, $previousTeamId, $teamId);
+                return;
+            }
+        }
+
+        $this->ensureTeamPlayerFolder($teamId, $playerId);
+    }
+
+    private function copyDirectory($disk, string $source, string $destination): bool
+    {
+        if (!$disk->exists($source)) {
+            return false;
+        }
+
+        if (!$disk->exists($destination) && !$disk->makeDirectory($destination)) {
+            return false;
+        }
+
+        foreach ($disk->allDirectories($source) as $directory) {
+            $relative = Str::after($directory, $source . '/');
+            $targetDirectory = $destination . ($relative !== $directory ? '/' . $relative : '');
+
+            if (!$disk->exists($targetDirectory) && !$disk->makeDirectory($targetDirectory)) {
+                return false;
+            }
+        }
+
+        foreach ($disk->allFiles($source) as $file) {
+            $relative = Str::after($file, $source . '/');
+            $targetFile = $destination . '/' . $relative;
+
+            if (!$disk->copy($file, $targetFile)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function syncPlayerPhotoPath(string $playerId, string $oldTeamId, string $newTeamId): void
+    {
+        $player = Player::find($playerId);
+        if (!$player || empty($player->photo)) {
+            return;
+        }
+
+        $oldPrefix = "teams/{$oldTeamId}/players/{$playerId}/";
+        $newPrefix = "teams/{$newTeamId}/players/{$playerId}/";
+
+        if (Str::startsWith($player->photo, $oldPrefix)) {
+            $player->update([
+                'photo' => Str::replaceFirst($oldPrefix, $newPrefix, $player->photo),
+            ]);
         }
     }
 

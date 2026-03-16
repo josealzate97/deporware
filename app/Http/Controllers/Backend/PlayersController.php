@@ -387,8 +387,8 @@ class PlayersController extends Controller
                     $disk->deleteDirectory($newPath);
                 }
 
-                if (!$disk->move($oldPath, $newPath)) {
-                    Log::error('Failed to move player folder to new team.', [
+                if (!$this->copyDirectory($disk, $oldPath, $newPath)) {
+                    Log::error('Failed to copy player folder to new team.', [
                         'player' => $playerId,
                         'from' => $oldPath,
                         'to' => $newPath,
@@ -414,6 +414,37 @@ class PlayersController extends Controller
         }
 
         $this->ensurePlayerSubfolders($disk, $newPath);
+    }
+
+    private function copyDirectory($disk, string $source, string $destination): bool
+    {
+        if (!$disk->exists($source)) {
+            return false;
+        }
+
+        if (!$disk->exists($destination) && !$disk->makeDirectory($destination)) {
+            return false;
+        }
+
+        foreach ($disk->allDirectories($source) as $directory) {
+            $relative = Str::after($directory, $source . '/');
+            $targetDirectory = $destination . ($relative !== $directory ? '/' . $relative : '');
+
+            if (!$disk->exists($targetDirectory) && !$disk->makeDirectory($targetDirectory)) {
+                return false;
+            }
+        }
+
+        foreach ($disk->allFiles($source) as $file) {
+            $relative = Str::after($file, $source . '/');
+            $targetFile = $destination . '/' . $relative;
+
+            if (!$disk->copy($file, $targetFile)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
