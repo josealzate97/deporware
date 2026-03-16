@@ -292,12 +292,7 @@ body.theme-dark .status-pill-muted {
   color: #fca5a5;
 }
 
-body.theme-dark .section-results-meta .text-muted {
-  background: #1c3f68;
-  border-color: #35679b;
-  color: #bfdbfe !important;
-}
-
+body.theme-dark .section-results-meta .text-muted,
 body.theme-dark .players-toolbar-meta .text-muted {
   background: #1c3f68;
   border-color: #35679b;

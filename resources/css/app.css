@@ -241,15 +241,20 @@ textarea.form-control {
   color: #1d4ed8;
 }
 
-.section-results-meta {
+.section-results-meta,
+.players-toolbar-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
   align-items: center;
+}
+
+.section-results-meta {
   padding: 1.1rem 1.25rem 0.5rem;
 }
 
-.section-results-meta .text-muted {
+.section-results-meta .text-muted,
+.players-toolbar-meta .text-muted {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;

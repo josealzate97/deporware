@@ -213,7 +213,6 @@
                     @include('backend.components.pagination', [
                         'paginator' => $players,
                         'ariaLabel' => 'Paginador de jugadores',
-                        'wrapperClass' => 'players-pagination',
                     ])
                 </div>
             </div>

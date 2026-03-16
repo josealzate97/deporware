@@ -178,26 +178,30 @@
                         @foreach($player->contacts as $contact)
                             <div class="col-12 col-lg-6">
                                 <div class="player-contact-card player-contact-card--modern">
-                                    <div class="player-contact-header">
+                                    <div class="player-contact-top">
                                         <span class="player-contact-icon">
                                             <i class="fa-solid fa-user"></i>
                                         </span>
-                                        <div>
-                                            <div class="d-flex flex-wrap align-items-center gap-2">
-                                                <div class="fw-semibold">{{ $contact->name }} {{ $contact->lastname }}</div>
-                                                <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
-                                            </div>
-                                            <div class="player-contact-details">
-                                                <span class="player-contact-email">{{ $contact->email }}</span>
-                                            </div>
-                                            <div class="player-contact-meta">
-                                                <span class="player-badge-blue"><i class="fa-solid fa-phone me-1"></i>{{ $contact->phone }}</span>
-                                                <span class="player-badge-blue"><i class="fa-solid fa-location-dot me-1"></i>{{ $contact->city ?? '-' }}</span>
-                                            </div>
+                                        <div class="player-contact-row player-contact-row--identity">
+                                            <div class="player-contact-name">{{ $contact->name }} {{ $contact->lastname }}</div>
+                                            <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
                                         </div>
-                                    </div>
-                                    <div class="player-contact-address">
-                                        <i class="fa-solid fa-location-dot text-primary me-2"></i>{{ $contact->address ?? '-' }}
+
+                                        <div class="player-contact-row player-contact-row--contact">
+                                            <div class="player-contact-email">
+                                                <i class="fa-solid fa-envelope me-1"></i>{{ $contact->email ?: '-' }}
+                                            </div>
+                                            <span class="player-badge-blue">
+                                                <i class="fa-solid fa-phone me-1"></i>{{ $contact->phone ?? '-' }}
+                                            </span>
+                                        </div>
+
+                                        <div class="player-contact-row player-contact-row--location">
+                                            <div class="player-contact-address">
+                                                <i class="fa-solid fa-location-dot me-1"></i>{{ $contact->address ?? '-' }}
+                                            </div>
+                                            <span class="player-badge-blue"><i class="fa-solid fa-city me-1"></i>{{ $contact->city ?? '-' }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -212,13 +216,16 @@
                 @else
                     <div class="row g-2">
                         @foreach($player->observations as $observation)
+                            @php($observationAuthor = trim((string) ($observation->user?->name ?? '') . ' ' . (string) ($observation->user?->lastname ?? '')))
+                            @php($observationDate = $observation->created_at ? \Illuminate\Support\Str::ucfirst($observation->created_at->locale('es')->translatedFormat('F d del Y')) : '-')
                             <div class="col-12 col-lg-6">
                                 <div class="team-info-item player-observation-card">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
                                         <div class="text-muted small">{{ $observation->notes ?? '-' }}</div>
-                                        <div class="text-muted small">
-                                            {{ $observation->user?->name ?? 'Usuario' }} · {{ $observation->created_at?->format('Y-m-d') }}
+                                        <div class="player-observation-meta">
+                                            <span class="text-muted small">{{ $observationAuthor !== '' ? $observationAuthor : 'Sin autor' }}</span>
+                                            <span class="player-badge-blue">{{ $observationDate }}</span>
                                         </div>
                                     </div>
                                 </div>
