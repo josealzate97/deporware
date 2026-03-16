@@ -82,43 +82,64 @@
 
                 <div class="player-sports-grid">
                     <div class="player-info-item player-sport-card player-sport-card--wide">
-                        <div class="player-info-label">
-                            <i class="fa-solid fa-futbol text-primary me-2"></i>
-                            Perfil deportivo
-                        </div>
                         <div class="player-sport-metrics">
                             <div class="player-sport-metric">
                                 <span class="player-sport-metric-label">Posición</span>
-                                <span class="player-badge-blue">{{ $positionOptions[$player->position] ?? '-' }}</span>
+                                @php($isGoalkeeper = (int) $player->position === \App\Models\Player::POSITION_GOALKEEPER)
+                                @php($isDefender = (int) $player->position === \App\Models\Player::POSITION_DEFENDER)
+                                @php($isMidfielder = (int) $player->position === \App\Models\Player::POSITION_MIDFIELDER)
+                                @php($isForward = (int) $player->position === \App\Models\Player::POSITION_FORWARD)
+                                <div class="player-position-map" aria-label="Posición {{ $positionOptions[$player->position] ?? '-' }}">
+                                    <div class="player-pitch-board {{ $isGoalkeeper ? 'is-gk' : '' }} {{ $isDefender ? 'is-def' : '' }} {{ $isMidfielder ? 'is-mid' : '' }} {{ $isForward ? 'is-fwd' : '' }}">
+                                        <span class="player-pitch-zone zone-fwd-left"></span>
+                                        <span class="player-pitch-zone zone-fwd-center"></span>
+                                        <span class="player-pitch-zone zone-fwd-right"></span>
+
+                                        <span class="player-pitch-zone zone-mid-left"></span>
+                                        <span class="player-pitch-zone zone-mid-center"></span>
+                                        <span class="player-pitch-zone zone-mid-right"></span>
+
+                                        <span class="player-pitch-zone zone-def-left"></span>
+                                        <span class="player-pitch-zone zone-def-center"></span>
+                                        <span class="player-pitch-zone zone-def-right"></span>
+
+                                        <span class="player-pitch-zone zone-gk"></span>
+                                    </div>
+                                    <span class="player-position-caption">{{ $positionOptions[$player->position] ?? '-' }}</span>
+                                </div>
                             </div>
-                            <div class="player-sport-metric">
+                            <div class="player-sport-metric player-sport-metric--foot">
                                 <span class="player-sport-metric-label">Pierna hábil</span>
-                                <span class="player-badge-blue">{{ $footOptions[$player->foot] ?? '-' }}</span>
+                                @php($isLeftFoot = (int) $player->foot === \App\Models\Player::FOOT_LEFT || (int) $player->foot === \App\Models\Player::FOOT_BOTH)
+                                @php($isRightFoot = (int) $player->foot === \App\Models\Player::FOOT_RIGHT || (int) $player->foot === \App\Models\Player::FOOT_BOTH)
+                                @php($leftFootAsset = Vite::asset('resources/images/foots/' . ($isLeftFoot ? 'left_active.png' : 'left.png')))
+                                @php($rightFootAsset = Vite::asset('resources/images/foots/' . ($isRightFoot ? 'right_active.png' : 'right.png')))
+                                <div class="player-foot-selector" aria-label="Pierna hábil {{ $footOptions[$player->foot] ?? '-' }}">
+                                    <span class="player-foot-item {{ $isLeftFoot ? 'is-active' : '' }}" title="Izquierda">
+                                        <img src="{{ $leftFootAsset }}" alt="Pie izquierdo" class="player-foot-icon" loading="lazy">
+                                        <span>Izq</span>
+                                    </span>
+                                    <span class="player-foot-item {{ $isRightFoot ? 'is-active' : '' }}" title="Derecha">
+                                        <img src="{{ $rightFootAsset }}" alt="Pie derecho" class="player-foot-icon" loading="lazy">
+                                        <span>Der</span>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="player-sport-metric">
-                                <span class="player-sport-metric-label">Peso</span>
-                                <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
+                            <div class="player-sport-metric player-sport-metric--dorsal">
+                                <span class="player-sport-metric-label">Dorsal</span>
+                                <div class="player-jersey-number" aria-label="Dorsal {{ $player->dorsal ?? '-' }}">
+                                    <i class="fa-solid fa-shirt player-jersey-icon" aria-hidden="true"></i>
+                                    <span>{{ $player->dorsal ?? '-' }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="player-info-item player-sport-card player-sport-card--compact">
                         <div class="player-info-label">
-                            <i class="fa-solid fa-shirt text-primary me-2"></i>
-                            Dorsal
+                            Peso
                         </div>
-                        <div class="player-sport-number">{{ $player->dorsal ?? '-' }}</div>
-                    </div>
-                    <div class="player-info-item player-sport-card player-sport-card--compact">
-                        <div class="player-info-label">
-                            <i class="fa-solid fa-toggle-on text-primary me-2"></i>
-                            Estado
-                        </div>
-                        <div class="player-sport-status">
-                            @if($player->status == \App\Models\Player::ACTIVE)
-                                <span class="status-pill status-pill-success">Activo</span>
-                            @else
-                                <span class="status-pill status-pill-muted">Inactivo</span>
-                            @endif
+                        <div class="player-sport-weight" aria-label="Peso {{ $player->weight ?? '-' }} kilogramos">
+                            <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
                         </div>
                     </div>
                 </div>
