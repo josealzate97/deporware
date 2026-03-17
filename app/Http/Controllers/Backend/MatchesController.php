@@ -12,6 +12,7 @@ use App\Models\RivalTeam;
 use App\Models\SportsVenue;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -27,10 +28,27 @@ class MatchesController extends Controller
     */
     public function index()
     {
+        $view = request('view', 'list');
+        if (!in_array($view, ['list', 'calendar'], true)) {
+            $view = 'list';
+        }
+
         $search = request('search');
         $status = request('status');
         $team = request('team');
         $rival = request('rival');
+        $month = request('month');
+
+        $monthStart = Carbon::now()->startOfMonth();
+        if (is_string($month) && preg_match('/^\d{4}-\d{2}$/', $month) === 1) {
+            try {
+                $monthStart = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
+            } catch (\Throwable $e) {
+                $monthStart = Carbon::now()->startOfMonth();
+            }
+        }
+
+        $monthEnd = $monthStart->copy()->endOfMonth();
 
         $matchesQuery = MatchModel::with(['team', 'rival', 'feedback', 'teamRating'])
 
@@ -54,16 +72,40 @@ class MatchesController extends Controller
 
         ->when($rival, function ($query) use ($rival) {
             $query->where('rival', $rival);
-        })->orderByDesc('match_date');
+        });
 
-        $matches = $matchesQuery->paginate(10)->withQueryString();
+        $matches = (clone $matchesQuery)
+            ->orderByDesc('match_date')
+            ->paginate(10)
+            ->withQueryString();
+
+        $calendarMatches = (clone $matchesQuery)
+            ->whereBetween('match_date', [$monthStart, $monthEnd])
+            ->orderBy('match_date')
+            ->get();
+
+        $calendarMatchesData = $calendarMatches->map(function (MatchModel $match) {
+            return [
+                'id' => $match->id,
+                'date' => $match->match_date?->format('Y-m-d'),
+                'time' => $match->match_date?->format('H:i') ?? '-',
+                'team' => $match->team?->name ?? 'Sin equipo',
+                'rival' => $match->rival?->name ?? 'Sin rival',
+                'status' => MatchModel::statusOptions()[$match->match_status] ?? 'Sin estado',
+                'score' => $match->final_score ?: '-',
+            ];
+        })->filter(fn ($item) => !empty($item['date']))->values();
 
         return view('backend.matches.index', [
+            'activeView' => $view,
             'matches' => $matches,
             'search' => $search,
             'selectedStatus' => $status,
             'selectedTeam' => $team,
             'selectedRival' => $rival,
+            'calendarMonth' => $monthStart->format('Y-m'),
+            'calendarMonthLabel' => ucfirst($monthStart->locale('es')->isoFormat('MMMM [de] YYYY')),
+            'calendarMatchesData' => $calendarMatchesData,
             'statusOptions' => MatchModel::statusOptions(),
             'resultOptions' => MatchModel::resultOptions(),
             'sideOptions' => MatchModel::sideOptions(),
