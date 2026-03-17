@@ -15,14 +15,14 @@
         <input type="radio" id="player-tab-general" name="player-tabs" checked>
         <label for="player-tab-general">General</label>
 
-        <input type="radio" id="player-tab-documents" name="player-tabs">
-        <label for="player-tab-documents">Documentos</label>
-
         <input type="radio" id="player-tab-contacts" name="player-tabs">
         <label for="player-tab-contacts">Contactos</label>
 
         <input type="radio" id="player-tab-observations" name="player-tabs">
         <label for="player-tab-observations">Ficha Valorativa</label>
+
+        <input type="radio" id="player-tab-documents" name="player-tabs">
+        <label for="player-tab-documents">Documentos</label>
 
         <div class="player-tab-panels w-100">
             @php($nationalityOptions = \App\Models\Player::nationalityOptions())
@@ -167,55 +167,34 @@
                 </div>
             </div>
 
-            <div class="player-tab-panel" data-panel="documents">
-                @if(empty($playerDocuments ?? []))
-                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin documentos disponibles.</div>
-                @else
-                    <div class="player-reports-list">
-                        @foreach($playerDocuments as $report)
-                            @php($sizeKb = max(1, (int) ceil(($report['size'] ?? 0) / 1024)))
-                            <div class="player-report-card">
-                                <div class="player-report-main">
-                                    <div class="player-report-name">{{ $report['name'] }}</div>
-                                    <div class="player-report-meta">
-                                        <span class="player-badge-blue"><i class="fa-solid fa-shield-halved me-1"></i>{{ $report['team_name'] ?? 'Equipo' }}</span>
-                                        <span class="player-badge-blue"><i class="fa-solid fa-clock me-1"></i>{{ !empty($report['modified_at']) ? \Carbon\Carbon::createFromTimestamp($report['modified_at'])->format('Y-m-d H:i') : '-' }}</span>
-                                        <span class="player-badge-blue"><i class="fa-solid fa-file-lines me-1"></i>{{ $sizeKb }} KB</span>
-                                    </div>
-                                </div>
-                                <a href="{{ route('players.documents.download', ['id' => $player->id, 'file' => base64_encode($report['path'])]) }}" class="btn btn-sm btn-outline-success">
-                                    <i class="fa-solid fa-download me-1"></i> Descargar
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-
             <div class="player-tab-panel" data-panel="contacts">
                 @if($player->contacts->isEmpty())
                     <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin contactos registrados.</div>
                 @else
-                    <div class="row g-2">
+                    <div class="row g-2" style="margin-top: 1.5rem;">
                         @foreach($player->contacts as $contact)
                             <div class="col-12 col-lg-6">
                                 <div class="player-contact-card player-contact-card--modern">
-                                    <div class="player-contact-top">
-                                        <span class="player-contact-icon">
-                                            <i class="fa-solid fa-user"></i>
-                                        </span>
-                                        <div class="player-contact-row player-contact-row--identity">
-                                            <div class="player-contact-name">{{ $contact->name }} {{ $contact->lastname }}</div>
-                                            <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
-                                        </div>
-
-                                        <div class="player-contact-row player-contact-row--contact">
-                                            <div class="player-contact-email">
-                                                <i class="fa-solid fa-envelope me-1"></i>{{ $contact->email ?: '-' }}
-                                            </div>
-                                            <span class="player-badge-blue">
-                                                <i class="fa-solid fa-phone me-1"></i>{{ $contact->phone ?? '-' }}
+                                    <div class="player-contact-top player-contact-top--split">
+                                        <div class="player-contact-side">
+                                            <span class="player-contact-icon player-contact-icon--xl">
+                                                <i class="fa-solid fa-user"></i>
                                             </span>
+                                        </div>
+                                        <div class="player-contact-main">
+                                            <div class="player-contact-row player-contact-row--identity">
+                                                <div class="player-contact-name">{{ $contact->name }} {{ $contact->lastname }}</div>
+                                                <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
+                                            </div>
+
+                                            <div class="player-contact-row player-contact-row--contact">
+                                                <div class="player-contact-email">
+                                                    <i class="fa-solid fa-envelope me-1"></i>{{ $contact->email ?: '-' }}
+                                                </div>
+                                                <span class="player-badge-blue">
+                                                    <i class="fa-solid fa-phone me-1"></i>{{ $contact->phone ?? '-' }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -236,21 +215,48 @@
                             @php($observationDate = $observationTimestamp ? \Illuminate\Support\Str::ucfirst($observationTimestamp->locale('es')->isoFormat('D [de] MMMM [de] YYYY')) : '-')
                             <div class="col-12 col-lg-6">
                                 <div class="team-info-item player-observation-card">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-semibold">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
-                                        <div class="text-muted small">{{ $observation->notes ?? '-' }}</div>
-                                        <div class="player-observation-meta">
-                                            <span class="text-muted small">
-                                                @if($observationAuthor !== '')
-                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $observationAuthor }}</span>
-                                                @else
-                                                    Sin autor
-                                                @endif
-                                            </span>
-                                            <span class="player-badge-blue">{{ $observationDate }}</span>
+                                    <div class="row g-0 player-observation-content">
+                                        <div class="col-12 fw-semibold mb-1">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
+                                        <div class="col-12 text-muted small player-observation-notes mb-2">{{ \Illuminate\Support\Str::limit($observation->notes ?? '-', 100, '...') }}</div>
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center player-observation-meta">
+                                                <span class="player-badge-blue">{{ $observationDate }}</span>
+                                                <span class="text-muted small">
+                                                    @if($observationAuthor !== '')
+                                                        <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $observationAuthor }}</span>
+                                                    @else
+                                                        Sin autor
+                                                    @endif
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+
+            <div class="player-tab-panel" data-panel="documents">
+                @if(empty($playerDocuments ?? []))
+                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin documentos disponibles.</div>
+                @else
+                    <div class="player-reports-list">
+                        @foreach($playerDocuments as $report)
+                            @php($sizeKb = max(1, (int) ceil(($report['size'] ?? 0) / 1024)))
+                            <div class="player-report-card">
+                                <div class="player-report-main">
+                                    <div class="player-report-name">{{ $report['name'] }}</div>
+                                    <div class="player-report-meta">
+                                        <span class="player-badge-blue"><i class="fa-solid fa-shield-halved me-1"></i>{{ $report['team_name'] ?? 'Equipo' }}</span>
+                                        <span class="player-badge-blue"><i class="fa-solid fa-clock me-1"></i>{{ !empty($report['modified_at']) ? \Carbon\Carbon::createFromTimestamp($report['modified_at'])->format('Y-m-d H:i') : '-' }}</span>
+                                        <span class="player-badge-blue"><i class="fa-solid fa-file-lines me-1"></i>{{ $sizeKb }} KB</span>
+                                    </div>
+                                </div>
+                                <a href="{{ route('players.documents.download', ['id' => $player->id, 'file' => base64_encode($report['path'])]) }}" class="btn btn-sm btn-outline-success">
+                                    <i class="fa-solid fa-download me-1"></i> Descargar
+                                </a>
                             </div>
                         @endforeach
                     </div>

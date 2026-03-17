@@ -254,6 +254,7 @@ class PlayersController extends Controller
             'teamOptions' => $teamOptions,
             'selectedTeamId' => $selectedTeamId,
             'observationTypes' => PlayerObservation::typeOptions(),
+            'playerDocuments' => $this->getPlayerDocuments($player),
             'step' => request()->query('step', 'player'),
         ]);
     }

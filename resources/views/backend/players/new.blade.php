@@ -2,7 +2,7 @@
 
 @php($isEdit = $isEdit ?? false)
 @php($player = $player ?? null)
-@php($activeStep = in_array($step ?? 'player', ['player', 'contacts', 'observations'], true) ? $step : 'player')
+@php($activeStep = in_array($step ?? 'player', ['player', 'contacts', 'observations', 'documents'], true) ? $step : 'player')
 @php($activeContactId = request()->query('contact_id'))
 @php($contact = $activeContactId ? $player?->contacts?->firstWhere('id', $activeContactId) : null)
 @php($activeObservationId = request()->query('observation_id'))
@@ -75,9 +75,14 @@
                        href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}">
                         3. Ficha Valorativa
                     </a>
+                    <a class="players-tab {{ $activeStep === 'documents' ? 'is-active' : '' }}"
+                       href="{{ route('players.edit', ['id' => $player->id, 'step' => 'documents']) }}">
+                        4. Documentos
+                    </a>
                 @else
                     <span class="players-tab is-disabled">2. Contactos</span>
                     <span class="players-tab is-disabled">3. Ficha Valorativa</span>
+                    <span class="players-tab is-disabled">4. Documentos</span>
                 @endif
             </div>
 
@@ -375,55 +380,66 @@
                                 <div class="row g-2">
                                     @foreach($player->contacts as $listedContact)
                                         <div class="col-12 col-lg-4">
-                                            <div class="player-contact-card h-100">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <div class="fw-semibold">{{ $listedContact->name }} {{ $listedContact->lastname }}</div>
-                                                        <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$listedContact->relationship] ?? '-' }}</span>
+                                            <div class="player-contact-card player-contact-card--modern player-contact-card--editable h-100">
+                                                <div class="player-contact-edit-layout">
+                                                    <div class="contact-actions contact-actions--left">
+                                                        <a class="btn btn-icon btn-icon-edit"
+                                                        href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts', 'contact_id' => $listedContact->id]) }}"
+                                                        title="Editar contacto">
+                                                            <i class="fas fa-edit mt-1"></i>
+                                                        </a>
+                                                        @if($listedContact->status == \App\Models\PlayerContact::ACTIVE)
+                                                            <button type="button" class="btn btn-icon text-danger" title="Desactivar contacto"
+                                                                @click="openConfirm({
+                                                                    title: 'Desactivar contacto',
+                                                                    message: '¿Deseas desactivar este contacto?',
+                                                                    action: '{{ route('players.contacts.destroy', ['id' => $player->id, 'contactId' => $listedContact->id]) }}',
+                                                                    method: 'DELETE',
+                                                                    successMessage: 'Contacto desactivado.'
+                                                                })">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        @else
+                                                            <button type="button" class="btn btn-icon text-success" title="Activar contacto"
+                                                                @click="openConfirm({
+                                                                    title: 'Activar contacto',
+                                                                    message: '¿Deseas activar este contacto?',
+                                                                    action: '{{ route('players.contacts.activate', ['id' => $player->id, 'contactId' => $listedContact->id]) }}',
+                                                                    method: 'POST',
+                                                                    successMessage: 'Contacto activado.'
+                                                                })">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        @endif
                                                     </div>
-                                                    <div class="text-muted small">{{ $listedContact->email ?? '-' }}</div>
-                                                    <div class="text-muted small">
-                                                        <span class="player-badge-blue">{{ $listedContact->phone ?? '-' }}</span>
-                                                        <span class="player-badge-blue">{{ $listedContact->city ?? '-' }}</span>
+                                                    <div class="player-contact-top player-contact-top--split">
+                                                        <div class="player-contact-side">
+                                                            <span class="player-contact-icon player-contact-icon--xl">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="player-contact-main">
+                                                            <div class="player-contact-row player-contact-row--identity">
+                                                                <div class="player-contact-name">{{ $listedContact->name }} {{ $listedContact->lastname }}</div>
+                                                                <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$listedContact->relationship] ?? '-' }}</span>
+                                                            </div>
+                                                            <div class="player-contact-row player-contact-row--contact">
+                                                                <div class="player-contact-email"><i class="fa-solid fa-envelope me-1"></i>{{ $listedContact->email ?? '-' }}</div>
+                                                                <span class="player-badge-blue"><i class="fa-solid fa-phone me-1"></i>{{ $listedContact->phone ?? '-' }}</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="contact-actions">
-                                                    <a class="btn btn-icon btn-icon-edit"
-                                                    href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts', 'contact_id' => $listedContact->id]) }}"
-                                                    title="Editar contacto">
-                                                        <i class="fas fa-edit mt-1"></i>
-                                                    </a>
-                                                    @if($listedContact->status == \App\Models\PlayerContact::ACTIVE)
-                                                        <button type="button" class="btn btn-icon text-danger" title="Desactivar contacto"
-                                                            @click="openConfirm({
-                                                                title: 'Desactivar contacto',
-                                                                message: '¿Deseas desactivar este contacto?',
-                                                                action: '{{ route('players.contacts.destroy', ['id' => $player->id, 'contactId' => $listedContact->id]) }}',
-                                                                method: 'DELETE',
-                                                                successMessage: 'Contacto desactivado.'
-                                                            })">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    @else
-                                                        <button type="button" class="btn btn-icon text-success" title="Activar contacto"
-                                                            @click="openConfirm({
-                                                                title: 'Activar contacto',
-                                                                message: '¿Deseas activar este contacto?',
-                                                                action: '{{ route('players.contacts.activate', ['id' => $player->id, 'contactId' => $listedContact->id]) }}',
-                                                                method: 'POST',
-                                                                successMessage: 'Contacto activado.'
-                                                            })">
-                                                            <i class="fas fa-check"></i>
-                                                        </button>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
 
-                                <div class="mt-3 d-flex align-items-center justify-content-between">
-                                    <div class="text-muted small">Puedes continuar al paso de ficha valorativa.</div>
+                                <div class="player-step-callout mt-3">
+                                    <div class="player-step-callout-content">
+                                        <div class="player-step-callout-title">Siguiente paso recomendado</div>
+                                        <div class="text-muted small">Continua con la ficha valorativa del jugador.</div>
+                                    </div>
                                     <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn btn-outline-primary btn-sm">
                                         Ir a ficha valorativa
                                     </a>
@@ -535,50 +551,68 @@
                             <div class="row g-2 mt-2">
                                 @foreach($player->observations as $listedObservation)
                                     <div class="col-12 col-lg-4">
-                                        <div class="team-info-item h-100">
-                                            <div class="flex-grow-1">
-                                                <div class="fw-semibold">{{ $observationTypes[$listedObservation->type] ?? 'Sin tipo' }}</div>
-                                                <div class="text-muted small">{{ $listedObservation->notes ?? '-' }}</div>
-                                                <div class="text-muted small">
-                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $listedObservation->author?->name ?? 'Usuario' }}</span>
-                                                    <span class="player-badge-blue">{{ $listedObservation->created_at?->format('Y-m-d') ?? '-' }}</span>
+                                        <div class="team-info-item h-100 player-observation-card player-observation-card--editable">
+                                            <div class="player-observation-layout">
+                                                <div class="player-observation-content">
+                                                    <div class="row g-0">
+                                                        <div class="col-12 fw-semibold mb-1">{{ $observationTypes[$listedObservation->type] ?? 'Sin tipo' }}</div>
+                                                        <div class="col-12 text-muted small player-observation-notes mb-2">{{ \Illuminate\Support\Str::limit($listedObservation->notes ?? '-', 100, '...') }}</div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-content-between align-items-center player-observation-meta">
+                                                                <span class="player-badge-blue">{{ $listedObservation->created_at?->format('Y-m-d') ?? '-' }}</span>
+                                                                <span class="text-muted small">
+                                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $listedObservation->author?->name ?? 'Usuario' }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="d-flex flex-column gap-2">
-                                                <a class="btn btn-icon btn-icon-edit"
-                                                   href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations', 'observation_id' => $listedObservation->id]) }}"
-                                                   title="Editar observación">
-                                                    <i class="fas fa-edit mt-1"></i>
-                                                </a>
-                                                @if($listedObservation->status == \App\Models\PlayerObservation::ACTIVE)
-                                                    <button type="button" class="btn btn-icon text-danger" title="Desactivar observación"
-                                                        @click="openConfirm({
-                                                            title: 'Desactivar observación',
-                                                            message: '¿Deseas desactivar esta observación?',
-                                                            action: '{{ route('players.observations.destroy', ['id' => $player->id, 'observationId' => $listedObservation->id]) }}',
-                                                            method: 'DELETE',
-                                                            successMessage: 'Observación desactivada.'
-                                                        })">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn btn-icon text-success" title="Activar observación"
-                                                        @click="openConfirm({
-                                                            title: 'Activar observación',
-                                                            message: '¿Deseas activar esta observación?',
-                                                            action: '{{ route('players.observations.activate', ['id' => $player->id, 'observationId' => $listedObservation->id]) }}',
-                                                            method: 'POST',
-                                                            successMessage: 'Observación activada.'
-                                                        })">
-                                                        <i class="fas fa-check"></i>
-                                                    </button>
-                                                @endif
+                                                <div class="player-observation-actions">
+                                                    <a class="btn btn-icon btn-icon-edit"
+                                                       href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations', 'observation_id' => $listedObservation->id]) }}"
+                                                       title="Editar observación">
+                                                        <i class="fas fa-edit mt-1"></i>
+                                                    </a>
+                                                    @if($listedObservation->status == \App\Models\PlayerObservation::ACTIVE)
+                                                        <button type="button" class="btn btn-icon text-danger" title="Desactivar observación"
+                                                            @click="openConfirm({
+                                                                title: 'Desactivar observación',
+                                                                message: '¿Deseas desactivar esta observación?',
+                                                                action: '{{ route('players.observations.destroy', ['id' => $player->id, 'observationId' => $listedObservation->id]) }}',
+                                                                method: 'DELETE',
+                                                                successMessage: 'Observación desactivada.'
+                                                            })">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-icon text-success" title="Activar observación"
+                                                            @click="openConfirm({
+                                                                title: 'Activar observación',
+                                                                message: '¿Deseas activar esta observación?',
+                                                                action: '{{ route('players.observations.activate', ['id' => $player->id, 'observationId' => $listedObservation->id]) }}',
+                                                                method: 'POST',
+                                                                successMessage: 'Observación activada.'
+                                                            })">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
                         @endif
+
+                        <div class="player-step-callout mt-3">
+                            <div class="player-step-callout-content">
+                                <div class="player-step-callout-title">Paso final</div>
+                                <div class="text-muted small">Revisa y descarga los documentos del jugador en el ultimo tab.</div>
+                            </div>
+                            <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'documents']) }}" class="btn btn-outline-primary btn-sm">
+                                Ir a documentos
+                            </a>
+                        </div>
                     </div>
 
                     <form class="info-form" data-validate="app" novalidate method="POST" action="{{ route('players.update', $player->id) }}">
@@ -631,6 +665,43 @@
                             </button>
                         </div>
                     </form>
+
+                @endif
+            @endif
+
+            @if($activeStep === 'documents')
+                @if(!$isEdit)
+                    <div class="text-muted">Primero guarda los datos del jugador para habilitar documentos.</div>
+                @else
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="fa-solid fa-folder-open me-2 text-primary"></i>
+                            Documentos del jugador
+                        </div>
+
+                        @if(empty($playerDocuments ?? []))
+                            <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin documentos disponibles.</div>
+                        @else
+                            <div class="player-reports-list mt-2">
+                                @foreach($playerDocuments as $report)
+                                    @php($sizeKb = max(1, (int) ceil(($report['size'] ?? 0) / 1024)))
+                                    <div class="player-report-card">
+                                        <div class="player-report-main">
+                                            <div class="player-report-name">{{ $report['name'] }}</div>
+                                            <div class="player-report-meta">
+                                                <span class="player-badge-blue"><i class="fa-solid fa-shield-halved me-1"></i>{{ $report['team_name'] ?? 'Equipo' }}</span>
+                                                <span class="player-badge-blue"><i class="fa-solid fa-clock me-1"></i>{{ !empty($report['modified_at']) ? \Carbon\Carbon::createFromTimestamp($report['modified_at'])->format('Y-m-d H:i') : '-' }}</span>
+                                                <span class="player-badge-blue"><i class="fa-solid fa-file-lines me-1"></i>{{ $sizeKb }} KB</span>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('players.documents.download', ['id' => $player->id, 'file' => base64_encode($report['path'])]) }}" class="btn btn-sm btn-outline-success">
+                                            <i class="fa-solid fa-download me-1"></i> Descargar
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
                 @endif
             @endif
         </div>
