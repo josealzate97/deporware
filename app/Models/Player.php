@@ -22,14 +22,24 @@ class Player extends Model
     public const NATIONALITY_SPAIN = 4;
     public const NATIONALITY_USA = 5;
 
-    public const POSITION_GOALKEEPER = 1;
-    public const POSITION_DEFENDER = 2;
-    public const POSITION_MIDFIELDER = 3;
-    public const POSITION_FORWARD = 4;
+    public const POSICION_ARQUERO = 1;
+    public const POSICION_DEFENSA_CENTRAL = 2;
 
-    public const FOOT_RIGHT = 1;
-    public const FOOT_LEFT = 2;
-    public const FOOT_BOTH = 3;
+    public const POSICION_LATERAL_DERECHO = 3;
+    public const POSICION_LATERAL_IZQUIERDO = 4;
+    public const POSICION_MEDIOCAMPISTA_DEFENSIVO = 5;
+    public const POSICION_MEDIOCAMPISTA_CENTRAL = 6;
+    public const POSICION_MEDIOCAMPISTA_OFENSIVO = 7;
+    public const POSICION_MEDIOCAMPISTA_DERECHO = 8;
+    public const POSICION_MEDIOCAMPISTA_IZQUIERDO = 9;
+    public const POSICION_EXTREMO_DERECHO = 10;
+    public const POSICION_EXTREMO_IZQUIERDO = 11;
+    public const POSICION_DELANTERO_CENTRO = 12;
+    public const POSICION_SEGUNDA_PUNTA = 13;
+
+    public const PIE_DERECHO = 1;
+    public const PIE_IZQUIERDO = 2;
+    public const PIE_AMBOS = 3;
 
     protected $fillable = [
         'id',
@@ -42,6 +52,7 @@ class Player extends Model
         'birthdate',
         'nacionality',
         'position',
+        'positions',
         'dorsal',
         'foot',
         'weight',
@@ -54,6 +65,7 @@ class Player extends Model
             'birthdate' => 'date',
             'nacionality' => 'integer',
             'position' => 'integer',
+            'positions' => 'array',
             'dorsal' => 'integer',
             'foot' => 'integer',
             'weight' => 'integer',
@@ -119,19 +131,72 @@ class Player extends Model
     public static function positionOptions(): array
     {
         return [
-            self::POSITION_GOALKEEPER => 'Arquero',
-            self::POSITION_DEFENDER => 'Defensa',
-            self::POSITION_MIDFIELDER => 'Mediocampo',
-            self::POSITION_FORWARD => 'Delantero',
+            self::POSICION_ARQUERO => 'Arquero',
+            self::POSICION_DEFENSA_CENTRAL => 'Defensa Central',
+            self::POSICION_LATERAL_DERECHO => 'Lat. Derecho',
+            self::POSICION_LATERAL_IZQUIERDO => 'Lat. Izquierdo',
+            self::POSICION_MEDIOCAMPISTA_DEFENSIVO => 'Mediocampista Defensivo',
+            self::POSICION_MEDIOCAMPISTA_CENTRAL => 'Mediocampista Central',
+            self::POSICION_MEDIOCAMPISTA_OFENSIVO => 'Mediocampista Ofensivo',
+            self::POSICION_MEDIOCAMPISTA_DERECHO => 'Mediocampista Derecho',
+            self::POSICION_MEDIOCAMPISTA_IZQUIERDO => 'Mediocampista Izquierdo',
+            self::POSICION_EXTREMO_DERECHO => 'Extremo Derecho',
+            self::POSICION_EXTREMO_IZQUIERDO => 'Extremo Izquierdo',
+            self::POSICION_DELANTERO_CENTRO => 'Delantero Centro',
+            self::POSICION_SEGUNDA_PUNTA => 'Segunda Punta',
         ];
+    }
+
+    public static function normalizePositions(array|int|string|null $positions, ?int $fallback = null): array
+    {
+        $raw = is_array($positions) ? $positions : [$positions];
+
+        if ($fallback !== null) {
+            $raw[] = $fallback;
+        }
+
+        $allowed = array_keys(self::positionOptions());
+
+        return collect($raw)
+            ->map(fn ($value) => is_numeric($value) ? (int) $value : null)
+            ->filter(fn ($value) => $value !== null && in_array($value, $allowed, true))
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    public function getResolvedPositionsAttribute(): array
+    {
+        return self::normalizePositions($this->positions ?? [], $this->position);
+    }
+
+    public function getPrimaryPositionAttribute(): ?int
+    {
+        return $this->resolved_positions[0] ?? null;
+    }
+
+    public function getPositionLabelsAttribute(): array
+    {
+        $options = self::positionOptions();
+
+        return collect($this->resolved_positions)
+            ->map(fn (int $position) => $options[$position] ?? null)
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function hasPosition(int $position): bool
+    {
+        return in_array($position, $this->resolved_positions, true);
     }
 
     public static function footOptions(): array
     {
         return [
-            self::FOOT_RIGHT => 'Derecha',
-            self::FOOT_LEFT => 'Izquierda',
-            self::FOOT_BOTH => 'Ambas',
+            self::PIE_DERECHO => 'Derecha',
+            self::PIE_IZQUIERDO => 'Izquierda',
+            self::PIE_AMBOS => 'Ambas',
         ];
     }
 }

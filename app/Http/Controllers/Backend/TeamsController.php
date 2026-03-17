@@ -457,7 +457,7 @@ class TeamsController extends Controller
         ->whereNotIn('player', $playerIds)
         ->update(['status' => 0]);
 
-        $players = Player::whereIn('id', $playerIds)->get(['id', 'position', 'dorsal']);
+        $players = Player::whereIn('id', $playerIds)->get();
 
         foreach ($players as $player) {
             $previousTeamId = PlayerRoster::where('player', $player->id)
@@ -472,7 +472,7 @@ class TeamsController extends Controller
             PlayerRoster::updateOrCreate(
                 ['team' => $team->id, 'player' => $player->id],
                 [
-                    'position' => $player->position,
+                    'position' => $player->primary_position ?? $player->position,
                     'dorsal' => $player->dorsal,
                     'status' => 1,
                 ]

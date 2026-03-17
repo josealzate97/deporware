@@ -123,8 +123,16 @@
                                         <div class="fw-bold">{{ $player->name }} {{ $player->lastname }}</div>
                                     </td>
                                     <td>
-                                        @if(!empty($positionOptions[$player->position] ?? null))
-                                            <span class="meta-badge">{{ $positionOptions[$player->position] }}</span>
+                                        @php
+                                            $positionLabels = $player->position_labels;
+                                            $primaryPositionLabel = $positionLabels[0] ?? null;
+                                            $extraPositionsCount = max(count($positionLabels) - 1, 0);
+                                        @endphp
+                                        @if($primaryPositionLabel)
+                                            <span class="meta-badge">{{ $primaryPositionLabel }}</span>
+                                            @if($extraPositionsCount > 0)
+                                                <span class="meta-badge">+{{ $extraPositionsCount }}</span>
+                                            @endif
                                         @else
                                             -
                                         @endif

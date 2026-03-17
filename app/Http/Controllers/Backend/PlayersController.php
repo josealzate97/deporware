@@ -58,7 +58,10 @@ class PlayersController extends Controller
         }
 
         if ($position !== '') {
-            $playersQuery->where('position', (int) $position);
+            $playersQuery->where(function ($query) use ($position) {
+                $query->whereJsonContains('positions', (int) $position)
+                    ->orWhere('position', (int) $position);
+            });
         }
 
         if ($team !== '') {
@@ -127,7 +130,8 @@ class PlayersController extends Controller
             'phone' => 'nullable|string|max:20',
             'birthdate' => 'required|date',
             'nacionality' => ['required', 'integer', Rule::in(array_keys(Player::nationalityOptions()))],
-            'position' => ['nullable', 'integer', Rule::in(array_keys(Player::positionOptions()))],
+            'positions' => ['required', 'array', 'min:1'],
+            'positions.*' => ['integer', 'distinct', Rule::in(array_keys(Player::positionOptions()))],
             'dorsal' => 'nullable|integer|min:0',
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
@@ -139,6 +143,8 @@ class PlayersController extends Controller
         ]);
 
         $validated['status'] = $request->boolean('status') ? Player::ACTIVE : Player::INACTIVE;
+        $validated['positions'] = Player::normalizePositions($validated['positions'] ?? []);
+        $validated['position'] = $validated['positions'][0] ?? null;
 
         $initialObservationType = $validated['initial_observation_type'] ?? null;
         $initialObservationNotes = $validated['initial_observation_notes'] ?? null;
@@ -341,7 +347,8 @@ class PlayersController extends Controller
             'phone' => 'nullable|string|max:20',
             'birthdate' => 'required|date',
             'nacionality' => ['required', 'integer', Rule::in(array_keys(Player::nationalityOptions()))],
-            'position' => ['nullable', 'integer', Rule::in(array_keys(Player::positionOptions()))],
+            'positions' => ['required', 'array', 'min:1'],
+            'positions.*' => ['integer', 'distinct', Rule::in(array_keys(Player::positionOptions()))],
             'dorsal' => 'nullable|integer|min:0',
             'foot' => ['required', 'integer', Rule::in(array_keys(Player::footOptions()))],
             'weight' => 'required|integer|min:0',
@@ -350,6 +357,8 @@ class PlayersController extends Controller
         ]);
 
         $validated['status'] = $request->boolean('status') ? Player::ACTIVE : Player::INACTIVE;
+        $validated['positions'] = Player::normalizePositions($validated['positions'] ?? []);
+        $validated['position'] = $validated['positions'][0] ?? null;
         $teamId = $validated['team_id'] ?? null;
         unset($validated['team_id']);
 
@@ -395,7 +404,7 @@ class PlayersController extends Controller
                 'team' => $teamId,
             ],
             [
-                'position' => $player->position ?? 0,
+                'position' => $player->primary_position ?? $player->position ?? 0,
                 'dorsal' => $player->dorsal ?? 0,
                 'status' => PlayerRoster::ACTIVE,
             ]

@@ -222,7 +222,7 @@
                                             <span class="team-player-number">{{ $player->dorsal ?? '-' }}</span>
                                             <span class="team-player-meta">
                                                 <span class="team-player-name">{{ $player->name }} {{ $player->lastname }}</span>
-                                                <span class="team-player-position">{{ $positionOptions[$player->position] ?? 'Sin posición' }}</span>
+                                                <span class="team-player-position">{{ $positionOptions[$player->primary_position] ?? 'Sin posición' }}</span>
                                             </span>
                                         </label>
                                     </div>

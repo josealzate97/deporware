@@ -189,67 +189,123 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeInput = document.getElementById('remove_photo');
     const uploadBtn = document.querySelector('[data-photo-action="upload"]');
     const removeBtn = document.querySelector('[data-photo-action="remove"]');
-    if (!input || !preview || !img || !empty) return;
 
-    const existingUrl = preview.dataset.photoUrl || '';
+    if (input && preview && img && empty) {
+        const existingUrl = preview.dataset.photoUrl || '';
 
-    const showImage = (url) => {
-        img.src = url;
-        img.classList.add('is-visible');
-        img.setAttribute('data-lightbox-src', url);
-        img.setAttribute('data-lightbox-alt', img.getAttribute('alt') || 'Foto del jugador');
-        empty.style.display = 'none';
-    };
+        const showImage = (url) => {
+            img.src = url;
+            img.classList.add('is-visible');
+            img.setAttribute('data-lightbox-src', url);
+            img.setAttribute('data-lightbox-alt', img.getAttribute('alt') || 'Foto del jugador');
+            empty.style.display = 'none';
+        };
 
-    const showEmpty = () => {
-        img.removeAttribute('src');
-        img.removeAttribute('data-lightbox-src');
-        img.removeAttribute('data-lightbox-alt');
-        img.classList.remove('is-visible');
-        empty.style.display = 'flex';
-    };
+        const showEmpty = () => {
+            img.removeAttribute('src');
+            img.removeAttribute('data-lightbox-src');
+            img.removeAttribute('data-lightbox-alt');
+            img.classList.remove('is-visible');
+            empty.style.display = 'flex';
+        };
 
-    if (existingUrl) {
-        showImage(existingUrl);
-    } else {
-        showEmpty();
-    }
-
-    if (uploadBtn) {
-        uploadBtn.addEventListener('click', () => input.click());
-    }
-
-    if (removeBtn) {
-        removeBtn.addEventListener('click', () => {
-            input.value = '';
-            if (removeInput) removeInput.value = '1';
+        if (existingUrl) {
+            showImage(existingUrl);
+        } else {
             showEmpty();
+        }
+
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', () => input.click());
+        }
+
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => {
+                input.value = '';
+                if (removeInput) removeInput.value = '1';
+                showEmpty();
+            });
+        }
+
+        input.addEventListener('change', () => {
+            const file = input.files?.[0];
+            if (!file) {
+                if (existingUrl) {
+                    showImage(existingUrl);
+                } else {
+                    showEmpty();
+                }
+                return;
+            }
+            const ext = file.name.split('.').pop()?.toLowerCase() || '';
+            if (!['jpg', 'jpeg', 'png'].includes(ext)) {
+                if (window.Notyf) {
+                    new window.Notyf().error('Formato no válido para la foto.');
+                } else {
+                    alert('Formato no válido para la foto.');
+                }
+                input.value = '';
+                showEmpty();
+                return;
+            }
+            if (removeInput) removeInput.value = '0';
+            const url = URL.createObjectURL(file);
+            showImage(url);
         });
     }
 
-    input.addEventListener('change', () => {
-        const file = input.files?.[0];
-        if (!file) {
-            if (existingUrl) {
-                showImage(existingUrl);
-            } else {
-                showEmpty();
+    document.querySelectorAll('[data-player-positions]').forEach((root) => {
+        const selectedWrap = root.querySelector('[data-player-positions-selected]');
+        const emptyState = root.querySelector('[data-player-positions-empty]');
+        const select = root.querySelector('[data-player-position-select]');
+        const addButton = root.querySelector('[data-player-position-add]');
+        const template = root.querySelector('[data-player-position-template]');
+
+        if (!selectedWrap || !emptyState || !select || !addButton || !template) return;
+
+        const updateEmptyState = () => {
+            const chips = selectedWrap.querySelectorAll('[data-position-chip]');
+            emptyState.classList.toggle('d-none', chips.length > 0);
+        };
+
+        const addPosition = () => {
+            const value = select.value;
+            const label = select.options[select.selectedIndex]?.textContent?.trim() || 'Posicion';
+
+            if (!value) return;
+            if (selectedWrap.querySelector(`[data-position-chip="${value}"]`)) {
+                if (window.Notyf) {
+                    new window.Notyf().error('Esa posición ya fue agregada.');
+                }
+                return;
             }
-            return;
-        }
-        const ext = file.name.split('.').pop()?.toLowerCase() || '';
-        if (!['jpg', 'jpeg', 'png'].includes(ext)) {
-            if (window.Notyf) {
-                new window.Notyf().error('Formato no válido para la foto.');
-            } else {
-                alert('Formato no válido para la foto.');
+
+            const html = template.innerHTML
+                .replaceAll('__VALUE__', value)
+                .replaceAll('__LABEL__', label);
+
+            emptyState.insertAdjacentHTML('afterend', html.trim());
+            select.value = '';
+            updateEmptyState();
+        };
+
+        addButton.addEventListener('click', addPosition);
+        select.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addPosition();
             }
-            input.value = '';
-            showEmpty();
-            return;
-        }
-        if (removeInput) removeInput.value = '0';
-        const url = URL.createObjectURL(file);
-        showImage(url);
+        });
+
+        selectedWrap.addEventListener('click', (event) => {
+            const remove = event.target.closest('[data-remove-position]');
+            if (!remove) return;
+
+            const value = remove.getAttribute('data-remove-position');
+            selectedWrap.querySelector(`[data-position-chip="${value}"]`)?.remove();
+            updateEmptyState();
+        });
+
+        updateEmptyState();
     });
 });

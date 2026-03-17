@@ -29,6 +29,8 @@
             @php($positionOptions = \App\Models\Player::positionOptions())
             @php($footOptions = \App\Models\Player::footOptions())
             @php($playerPhotoUrl = $player->photo ? \Illuminate\Support\Facades\Storage::url($player->photo) : null)
+            @php($playerPositions = $player->resolved_positions)
+            @php($playerPositionLabels = $player->position_labels)
 
             <div class="player-tab-panel" data-panel="general">
                 <div class="player-profile-header mb-3">
@@ -52,6 +54,15 @@
                             </div>
                             <div class="player-profile-sub">
                                 Email: <span class="player-badge-blue">{{ $player->email ?? '-' }}</span>
+                            </div>
+                        </div>
+                        <div class="player-info-item player-weight-inline-card">
+                            <div class="player-info-label">
+                                <i class="fa-solid fa-weight-scale text-primary me-2"></i>
+                                Peso
+                            </div>
+                            <div class="player-info-value">
+                                <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
                             </div>
                         </div>
                         <div class="player-info-item player-birth-inline-card">
@@ -85,33 +96,52 @@
                         <div class="player-sport-metrics">
                             <div class="player-sport-metric">
                                 <span class="player-sport-metric-label">Posición</span>
-                                @php($isGoalkeeper = (int) $player->position === \App\Models\Player::POSITION_GOALKEEPER)
-                                @php($isDefender = (int) $player->position === \App\Models\Player::POSITION_DEFENDER)
-                                @php($isMidfielder = (int) $player->position === \App\Models\Player::POSITION_MIDFIELDER)
-                                @php($isForward = (int) $player->position === \App\Models\Player::POSITION_FORWARD)
-                                <div class="player-position-map" aria-label="Posición {{ $positionOptions[$player->position] ?? '-' }}">
-                                    <div class="player-pitch-board {{ $isGoalkeeper ? 'is-gk' : '' }} {{ $isDefender ? 'is-def' : '' }} {{ $isMidfielder ? 'is-mid' : '' }} {{ $isForward ? 'is-fwd' : '' }}">
-                                        <span class="player-pitch-zone zone-fwd-left"></span>
-                                        <span class="player-pitch-zone zone-fwd-center"></span>
-                                        <span class="player-pitch-zone zone-fwd-right"></span>
+                                @php($pitchClasses = collect([
+                                    in_array(\App\Models\Player::POSICION_ARQUERO, $playerPositions, true) ? 'is-gk' : '',
+                                    in_array(\App\Models\Player::POSICION_DEFENSA_CENTRAL, $playerPositions, true) ? 'is-def-center' : '',
+                                    in_array(\App\Models\Player::POSICION_LATERAL_DERECHO, $playerPositions, true) ? 'is-def-right' : '',
+                                    in_array(\App\Models\Player::POSICION_LATERAL_IZQUIERDO, $playerPositions, true) ? 'is-def-left' : '',
+                                    in_array(\App\Models\Player::POSICION_MEDIOCAMPISTA_DEFENSIVO, $playerPositions, true) ? 'is-mid-center' : '',
+                                    in_array(\App\Models\Player::POSICION_MEDIOCAMPISTA_CENTRAL, $playerPositions, true) ? 'is-mid-center' : '',
+                                    in_array(\App\Models\Player::POSICION_MEDIOCAMPISTA_OFENSIVO, $playerPositions, true) ? 'is-mid-center' : '',
+                                    in_array(\App\Models\Player::POSICION_MEDIOCAMPISTA_DERECHO, $playerPositions, true) ? 'is-mid-right' : '',
+                                    in_array(\App\Models\Player::POSICION_MEDIOCAMPISTA_IZQUIERDO, $playerPositions, true) ? 'is-mid-left' : '',
+                                    in_array(\App\Models\Player::POSICION_EXTREMO_DERECHO, $playerPositions, true) ? 'is-fwd-right' : '',
+                                    in_array(\App\Models\Player::POSICION_EXTREMO_IZQUIERDO, $playerPositions, true) ? 'is-fwd-left' : '',
+                                    in_array(\App\Models\Player::POSICION_DELANTERO_CENTRO, $playerPositions, true) ? 'is-fwd-center' : '',
+                                    in_array(\App\Models\Player::POSICION_SEGUNDA_PUNTA, $playerPositions, true) ? 'is-fwd-center is-mid-center' : '',
+                                ])->filter()->implode(' '))
+                                <div class="player-position-map" aria-label="Posiciones {{ implode(', ', $playerPositionLabels ?: ['Sin posición']) }}">
+                                    <div class="player-position-layout">
+                                        <div class="player-pitch-board {{ $pitchClasses }}">
+                                            <span class="player-pitch-zone zone-fwd-left"></span>
+                                            <span class="player-pitch-zone zone-fwd-center"></span>
+                                            <span class="player-pitch-zone zone-fwd-right"></span>
 
-                                        <span class="player-pitch-zone zone-mid-left"></span>
-                                        <span class="player-pitch-zone zone-mid-center"></span>
-                                        <span class="player-pitch-zone zone-mid-right"></span>
+                                            <span class="player-pitch-zone zone-mid-left"></span>
+                                            <span class="player-pitch-zone zone-mid-center"></span>
+                                            <span class="player-pitch-zone zone-mid-right"></span>
 
-                                        <span class="player-pitch-zone zone-def-left"></span>
-                                        <span class="player-pitch-zone zone-def-center"></span>
-                                        <span class="player-pitch-zone zone-def-right"></span>
+                                            <span class="player-pitch-zone zone-def-left"></span>
+                                            <span class="player-pitch-zone zone-def-center"></span>
+                                            <span class="player-pitch-zone zone-def-right"></span>
 
-                                        <span class="player-pitch-zone zone-gk"></span>
+                                            <span class="player-pitch-zone zone-gk"></span>
+                                        </div>
+                                        <div class="player-position-caption player-position-caption--stack">
+                                            @forelse($playerPositionLabels as $label)
+                                                <span class="player-badge-blue">{{ $label }}</span>
+                                            @empty
+                                                <span>-</span>
+                                            @endforelse
+                                        </div>
                                     </div>
-                                    <span class="player-position-caption">{{ $positionOptions[$player->position] ?? '-' }}</span>
                                 </div>
                             </div>
                             <div class="player-sport-metric player-sport-metric--foot">
                                 <span class="player-sport-metric-label">Pierna hábil</span>
-                                @php($isLeftFoot = (int) $player->foot === \App\Models\Player::FOOT_LEFT || (int) $player->foot === \App\Models\Player::FOOT_BOTH)
-                                @php($isRightFoot = (int) $player->foot === \App\Models\Player::FOOT_RIGHT || (int) $player->foot === \App\Models\Player::FOOT_BOTH)
+                                @php($isLeftFoot = (int) $player->foot === \App\Models\Player::PIE_IZQUIERDO || (int) $player->foot === \App\Models\Player::PIE_AMBOS)
+                                @php($isRightFoot = (int) $player->foot === \App\Models\Player::PIE_DERECHO || (int) $player->foot === \App\Models\Player::PIE_AMBOS)
                                 @php($leftFootAsset = Vite::asset('resources/images/foots/' . ($isLeftFoot ? 'left_active.png' : 'left.png')))
                                 @php($rightFootAsset = Vite::asset('resources/images/foots/' . ($isRightFoot ? 'right_active.png' : 'right.png')))
                                 <div class="player-foot-selector" aria-label="Pierna hábil {{ $footOptions[$player->foot] ?? '-' }}">
@@ -132,14 +162,6 @@
                                     <span>{{ $player->dorsal ?? '-' }}</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="player-info-item player-sport-card player-sport-card--compact">
-                        <div class="player-info-label">
-                            Peso
-                        </div>
-                        <div class="player-sport-weight" aria-label="Peso {{ $player->weight ?? '-' }} kilogramos">
-                            <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
                         </div>
                     </div>
                 </div>

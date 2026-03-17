@@ -145,7 +145,7 @@
                                     <span class="team-player-main">
                                         <span class="team-player-meta">
                                             <span class="team-player-name">{{ $player->name }} {{ $player->lastname }}</span>
-                                            <span class="meta-badge team-player-position-badge">{{ $positionOptions[$roster->position] ?? 'Sin posición' }}</span>
+                                            <span class="meta-badge team-player-position-badge">{{ $positionOptions[$player->primary_position ?? $roster->position] ?? 'Sin posición' }}</span>
                                         </span>
                                         <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-icon team-player-link" title="Ver más de {{ $player->name }} {{ $player->lastname }}" aria-label="Ver más de {{ $player->name }} {{ $player->lastname }}">
                                             <i class="fa-solid fa-circle-info"></i>

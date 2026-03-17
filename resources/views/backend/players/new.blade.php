@@ -7,6 +7,7 @@
 @php($contact = $activeContactId ? $player?->contacts?->firstWhere('id', $activeContactId) : null)
 @php($activeObservationId = request()->query('observation_id'))
 @php($observation = $activeObservationId ? $player?->observations?->firstWhere('id', $activeObservationId) : null)
+@php($selectedPositions = \App\Models\Player::normalizePositions(old('positions', $player?->resolved_positions ?? [])))
 
 @section('title', $isEdit ? 'Editar Jugadores' : 'Nuevo Jugadores')
 
@@ -190,63 +191,110 @@
                                 </div>
 
                                 <div class="row g-3 mt-1">
-                                    <div class="col-12 col-lg-3">
+                                    <div class="col-12 col-lg-6">
                                         <label class="form-label fw-semibold">Posición <span class="text-danger">*</span></label>
-                                        <select class="form-select" name="position" required>
-                                            <option value="">Selecciona...</option>
-                                            @foreach($positionOptions as $key => $label)
-                                                <option value="{{ $key }}" {{ (string) old('position', $player->position ?? '') === (string) $key ? 'selected' : '' }}>
-                                                    {{ $label }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="player-positions-field player-positions-field--featured" data-player-positions>
+                                            <div class="row g-3 align-items-stretch">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="player-positions-controls player-positions-controls--stack">
+                                                        <select class="form-select" data-player-position-select>
+                                                            <option value="">Selecciona una posición...</option>
+                                                            @foreach($positionOptions as $key => $label)
+                                                                <option value="{{ $key }}">{{ $label }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <button type="button" class="btn btn-success player-position-add-btn" data-player-position-add aria-label="Agregar posición" title="Agregar posición">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6">
+                                                    <div class="player-positions-selected player-positions-selected--panel" data-player-positions-selected>
+                                                        <span class="player-positions-empty {{ count($selectedPositions) ? 'd-none' : '' }}" data-player-positions-empty>Agrega una o varias posiciones.</span>
+                                                        @foreach($selectedPositions as $positionId)
+                                                            <span class="player-position-chip" data-position-chip="{{ $positionId }}">
+                                                                {{ $positionOptions[$positionId] ?? 'Posición' }}
+                                                                <button type="button" class="player-position-chip-remove" data-remove-position="{{ $positionId }}" aria-label="Quitar posición">
+                                                                    <i class="fa-solid fa-xmark"></i>
+                                                                </button>
+                                                                <input type="hidden" name="positions[]" value="{{ $positionId }}">
+                                                            </span>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <template data-player-position-template>
+                                                <span class="player-position-chip" data-position-chip="__VALUE__">
+                                                    __LABEL__
+                                                    <button type="button" class="player-position-chip-remove" data-remove-position="__VALUE__" aria-label="Quitar posición">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                    <input type="hidden" name="positions[]" value="__VALUE__">
+                                                </span>
+                                            </template>
+                                        </div>
+
+                                        @error('positions')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                        @error('positions.*')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                        <div class="form-text">Puedes asignar varias posiciones sin repetirlas.</div>
                                     </div>
 
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Equipo <span class="text-danger">*</span></label>
-                                        <select class="form-select" name="team_id" required>
-                                            <option value="">Selecciona...</option>
-                                            @foreach($teamOptions as $teamId => $teamName)
-                                                <option value="{{ $teamId }}" {{ (string) old('team_id', $selectedTeamId ?? '') === (string) $teamId ? 'selected' : '' }}>
-                                                    {{ $teamName }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="player-sport-side-panel">
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label fw-semibold">Equipo <span class="text-danger">*</span></label>
+                                                    <select class="form-select" name="team_id" required>
+                                                        <option value="">Selecciona...</option>
+                                                        @foreach($teamOptions as $teamId => $teamName)
+                                                            <option value="{{ $teamId }}" {{ (string) old('team_id', $selectedTeamId ?? '') === (string) $teamId ? 'selected' : '' }}>
+                                                                {{ $teamName }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Dorsal</label>
-                                        <input type="number" class="form-control" name="dorsal" min="0" step="1"
-                                            value="{{ old('dorsal', $player->dorsal ?? '') }}">
-                                    </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label fw-semibold">Dorsal</label>
+                                                    <input type="number" class="form-control" name="dorsal" min="0" step="1"
+                                                        value="{{ old('dorsal', $player->dorsal ?? '') }}">
+                                                </div>
 
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Pierna hábil <span class="text-danger">*</span></label>
-                                        <select class="form-select" name="foot" required>
-                                            <option value="">Selecciona...</option>
-                                            @foreach($footOptions as $key => $label)
-                                                <option value="{{ $key }}" {{ (string) old('foot', $player->foot ?? '') === (string) $key ? 'selected' : '' }}>
-                                                    {{ $label }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label fw-semibold">Pierna hábil <span class="text-danger">*</span></label>
+                                                    <select class="form-select" name="foot" required>
+                                                        <option value="">Selecciona...</option>
+                                                        @foreach($footOptions as $key => $label)
+                                                            <option value="{{ $key }}" {{ (string) old('foot', $player->foot ?? '') === (string) $key ? 'selected' : '' }}>
+                                                                {{ $label }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                    <div class="col-12 col-lg-3">
-                                        <label class="form-label fw-semibold">Peso (kg) <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="weight" min="0" step="1"
-                                            value="{{ old('weight', $player->weight ?? '') }}" required>
-                                    </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label fw-semibold">Peso (kg) <span class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control" name="weight" min="0" step="1"
+                                                        value="{{ old('weight', $player->weight ?? '') }}" required>
+                                                </div>
 
-                                    <div class="col-12 col-lg-4">
-                                        <label class="form-label fw-semibold d-block">Estado</label>
-                                        <div class="form-check form-switch form-switch-lg mt-2 player-status-check">
-                                            <input class="form-check-input player-status-switch" id="player-status" type="checkbox" name="status" value="1"
-                                                {{ old('status', $player->status ?? true) ? 'checked' : '' }}>
-                                            <label class="form-check-label fw-semibold player-status-label mt-1" for="player-status">Jugador activo</label>
+                                                <div class="col-12">
+                                                    <label class="form-label fw-semibold d-block">Estado</label>
+                                                    <div class="form-check form-switch form-switch-lg mt-2 player-status-check">
+                                                        <input class="form-check-input player-status-switch" id="player-status" type="checkbox" name="status" value="1"
+                                                            {{ old('status', $player->status ?? true) ? 'checked' : '' }}>
+                                                        <label class="form-check-label fw-semibold player-status-label mt-1" for="player-status">Jugador activo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
                                 </div>
 
                             </div>
