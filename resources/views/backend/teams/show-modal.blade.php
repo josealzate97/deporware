@@ -26,41 +26,42 @@
         <div class="team-modal-panels">
             <div class="team-modal-panel" data-panel="info">
                 <div class="card p-3 section-card">
-                <div class="entity-info-grid">
-                    <div class="entity-info-item">
-                        <div class="entity-info-label">
-                            <i class="fa-solid fa-shield text-primary me-2"></i>
-                            Nombre
+                    <div class="entity-info-grid">
+                        <div class="entity-info-item">
+                            <div class="entity-info-label">
+                                <i class="fa-solid fa-shield text-primary me-2"></i>
+                                Nombre
+                            </div>
+                            <div class="entity-info-value">{{ $team->name }}</div>
+                            <div class="entity-info-sub">
+                                <span class="meta-badge">{{ $typeLabel }}</span>
+                            </div>
                         </div>
-                        <div class="entity-info-value">{{ $team->name }}</div>
-                        <div class="entity-info-sub">
-                            <span class="meta-badge">{{ $typeLabel }}</span>
+                        <div class="entity-info-item">
+                            <div class="entity-info-label">
+                                <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                                Temporada
+                            </div>
+                            <div class="entity-info-value">{{ $team->season }}</div>
                         </div>
-                    </div>
-                    <div class="entity-info-item">
-                        <div class="entity-info-label">
-                            <i class="fa-solid fa-calendar-days text-primary me-2"></i>
-                            Temporada
-                        </div>
-                        <div class="entity-info-value">{{ $team->season }}</div>
-                    </div>
-                    <div class="entity-info-item">
-                        <div class="entity-info-label">
-                            <i class="fa-solid fa-calendar-check text-primary me-2"></i>
-                            Año
-                        </div>
-                        <div class="entity-info-value">{{ $team->year }}</div>
-                        <div class="entity-info-sub">
-                            @if($team->status)
-                                <span class="status-pill status-pill-success">Activa</span>
-                            @else
-                                <span class="status-pill status-pill-muted">Inactiva</span>
-                            @endif
+                        <div class="entity-info-item">
+                            <div class="entity-info-label">
+                                <i class="fa-solid fa-calendar-check text-primary me-2"></i>
+                                Año
+                            </div>
+                            <div class="entity-info-value">{{ $team->year }}</div>
+                            <div class="entity-info-sub">
+                                @if($team->status)
+                                    <span class="status-pill status-pill-success">Activa</span>
+                                @else
+                                    <span class="status-pill status-pill-muted">Inactiva</span>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-3">
+                <div class="card p-3 section-card mt-3">
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <div class="fw-semibold">Sedes asociadas</div>
                         <span class="meta-badge">{{ $team->venues->count() }} sede{{ $team->venues->count() === 1 ? '' : 's' }}</span>
@@ -86,7 +87,7 @@
                     @endif
                 </div>
 
-                <div class="mt-3">
+                <div class="card p-3 section-card mt-3">
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <div class="fw-semibold">Entrenadores</div>
                         <span class="meta-badge">{{ $coachCount }} entrenador{{ $coachCount === 1 ? '' : 'es' }}</span>
@@ -125,8 +126,6 @@
                     @endif
                 </div>
             </div>
-        </div>
-
             <div class="team-modal-panel" data-panel="players">
                 <div class="card p-3 section-card">
                 <div class="d-flex align-items-center justify-content-between gap-2 mb-2">

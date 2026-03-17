@@ -69,62 +69,58 @@
 @endphp
 
     <div class="card p-3 section-card mt-3">
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="d-flex align-items-center justify-content-between gap-2">
-                    <div class="fw-semibold">Sedes asociadas</div>
-                    <span class="meta-badge">{{ $venues->count() }} sede{{ $venues->count() === 1 ? '' : 's' }}</span>
-                </div>
-                @if($venues->isEmpty())
-                    <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>Sin sedes asociadas.</div>
-                @else
-                    <div class="row g-2 mt-2">
-                        @foreach($venues as $venue)
-                            <div class="col-12 col-sm-6 col-lg-4">
-                                <div class="team-info-item user-mint-card h-100">
-                                    <span class="team-avatar-badge">
-                                        <i class="fa-solid fa-building"></i>
+        <div class="d-flex align-items-center justify-content-between gap-2">
+            <div class="fw-semibold">Sedes asociadas</div>
+            <span class="meta-badge">{{ $venues->count() }} sede{{ $venues->count() === 1 ? '' : 's' }}</span>
+        </div>
+        @if($venues->isEmpty())
+            <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>Sin sedes asociadas.</div>
+        @else
+            <div class="row g-2 mt-2">
+                @foreach($venues as $venue)
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="team-info-item user-mint-card h-100">
+                            <span class="team-avatar-badge">
+                                <i class="fa-solid fa-building"></i>
+                            </span>
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold">{{ $venue->name }}</div>
+                                <span class="meta-badge">{{ $venue->city }}</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    @if(in_array($user->role, [\App\Models\User::ROLE_COACH, \App\Models\User::ROLE_COORDINATOR], true))
+        <div class="card p-3 section-card mt-3">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="fw-semibold">Equipos</div>
+                <span class="meta-badge">{{ $teamAssignments->count() }} equipo{{ $teamAssignments->count() === 1 ? '' : 's' }}</span>
+            </div>
+            @if($teamAssignments->isEmpty())
+                <div class="empty-state-soft"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Sin equipos asociados.</div>
+            @else
+                <div class="row g-2 mt-2">
+                    @foreach($teamAssignments as $assignment)
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="team-info-item user-mint-card h-100">
+                                <span class="team-avatar-badge">
+                                    <i class="fa-solid fa-shield"></i>
+                                </span>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">{{ $assignment->teamModel->name }}</div>
+                                    <span class="meta-badge">
+                                        {{ $managerRoleLabels[$assignment->role] ?? 'Rol no definido' }}
                                     </span>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-semibold">{{ $venue->name }}</div>
-                                        <span class="meta-badge">{{ $venue->city }}</span>
-                                    </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-
-            @if(in_array($user->role, [\App\Models\User::ROLE_COACH, \App\Models\User::ROLE_COORDINATOR], true))
-                <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-between gap-2">
-                        <div class="fw-semibold">Equipos</div>
-                        <span class="meta-badge">{{ $teamAssignments->count() }} equipo{{ $teamAssignments->count() === 1 ? '' : 's' }}</span>
-                    </div>
-                    @if($teamAssignments->isEmpty())
-                        <div class="text-muted">Sin equipos asociados.</div>
-                    @else
-                        <div class="row g-2 mt-2">
-                            @foreach($teamAssignments as $assignment)
-                                <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="team-info-item user-mint-card h-100">
-                                        <span class="team-avatar-badge">
-                                            <i class="fa-solid fa-shield"></i>
-                                        </span>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold">{{ $assignment->teamModel->name }}</div>
-                                            <span class="meta-badge">
-                                                {{ $managerRoleLabels[$assignment->role] ?? 'Rol no definido' }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
                         </div>
-                    @endif
+                    @endforeach
                 </div>
             @endif
         </div>
-    </div>
+    @endif
 </div>
