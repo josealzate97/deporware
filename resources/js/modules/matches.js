@@ -39,6 +39,11 @@ const buildMonthDate = (monthValue) => {
     return new Date(year, month - 1, 1);
 };
 
+const capitalizeFirst = (text) => {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
 const initMatchesCalendar = () => {
     const root = document.querySelector('[data-matches-calendar]');
     if (!root) return;
@@ -84,22 +89,35 @@ const initMatchesCalendar = () => {
     const renderDetails = (dayKey) => {
         const dayEvents = eventsByDay[dayKey] || [];
         const dateForTitle = new Date(`${dayKey}T00:00:00`);
-        dayTitleEl.textContent = dayFormatter.format(dateForTitle);
+        dayTitleEl.textContent = capitalizeFirst(dayFormatter.format(dateForTitle));
 
         if (!dayEvents.length) {
-            eventsEl.innerHTML = '<div class="text-muted">No hay partidos para este dia.</div>';
+            eventsEl.innerHTML = '<div class="matches-calendar-empty-state"><i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>No hay partidos para este dia.</div>';
             return;
         }
 
-        eventsEl.innerHTML = dayEvents.map((event) => `
+        eventsEl.innerHTML = dayEvents.map((event) => {
+            const statusClass = event.statusCode === 2
+                ? 'is-completed'
+                : event.statusCode === 3
+                    ? 'is-cancelled'
+                    : 'is-scheduled';
+
+            return `
             <div class="matches-calendar-event-item">
                 <div class="matches-calendar-event-main">
                     <div class="fw-semibold">${event.team} vs ${event.rival}</div>
-                    <div class="text-muted small">${event.time} · ${event.status}</div>
+                    <div class="text-muted small d-flex align-items-center gap-2 flex-wrap">
+                        <span><i class="fa-solid fa-clock me-1"></i>${event.time}</span>
+                        <span class="match-calendar-status-badge ${statusClass}">${event.status}</span>
+                    </div>
                 </div>
-                <span class="meta-badge">${event.score}</span>
+                <div class="matches-calendar-event-badges">
+                    <span class="meta-badge">${event.score}</span>
+                </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
     };
 
     const renderGrid = () => {
@@ -145,7 +163,7 @@ const initMatchesCalendar = () => {
         }
 
         grid.appendChild(daysWrap);
-        titleEl.textContent = monthFormatter.format(monthDate);
+        titleEl.textContent = capitalizeFirst(monthFormatter.format(monthDate));
     };
 
     navButtons.forEach((button) => {

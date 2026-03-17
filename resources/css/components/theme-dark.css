@@ -371,6 +371,603 @@ body.theme-dark .section-clear-btn:hover {
   color: #bfdbfe;
 }
 
+body.theme-dark .matches-view-tab {
+  background: #14233a;
+  border-color: #294a74;
+  color: #bfdbfe;
+}
+
+body.theme-dark .matches-view-tab:hover {
+  background: #193154;
+  border-color: #3b6ea5;
+  color: #dbeafe;
+}
+
+body.theme-dark .matches-view-tab.is-active {
+  background: #173727;
+  border-color: #2f6b49;
+  color: #bbf7d0;
+  box-shadow: 0 8px 16px rgba(20, 83, 45, 0.3);
+}
+
+body.theme-dark .matches-calendar-title {
+  background: #161c24;
+  border-color: #313b4a;
+  color: #e2e8f0;
+}
+
+body.theme-dark .matches-calendar-nav-btn {
+  background: #17243a;
+  border-color: #376198;
+  color: #93c5fd;
+}
+
+body.theme-dark .matches-calendar-nav-btn:hover {
+  background: #1d3252;
+  border-color: #4a78b5;
+  color: #bfdbfe;
+}
+
+body.theme-dark .matches-calendar-today-btn {
+  background: #1a3a2a;
+  border-color: #2f6b49;
+  color: #bbf7d0;
+}
+
+body.theme-dark .matches-calendar-today-btn:hover {
+  background: #235437;
+  border-color: #3f8a5f;
+  color: #dcfce7;
+}
+
+body.theme-dark .matches-calendar-grid {
+  background: #121821;
+  border-color: #2a3443;
+}
+
+body.theme-dark .matches-calendar-weekdays span {
+  color: #8ea2bd;
+}
+
+body.theme-dark .matches-calendar-day {
+  background: #171e27;
+  border-color: #2a3443;
+  color: #dbe4f0;
+}
+
+body.theme-dark .matches-calendar-day.has-events {
+  background: #163025;
+  border-color: #2f6b49;
+  box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.25);
+}
+
+body.theme-dark .matches-calendar-day.is-selected {
+  background: #1a2a42;
+  border-color: #4a78b5;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.24);
+}
+
+body.theme-dark .matches-calendar-day-count {
+  background: #235437;
+  border-color: #3f8a5f;
+  color: #dcfce7;
+}
+
+body.theme-dark .matches-calendar-day-details {
+  background: #121821;
+  border-color: #2a3443;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+}
+
+body.theme-dark .matches-calendar-day-title {
+  color: #e2e8f0;
+  border-bottom-color: #2a3443;
+}
+
+body.theme-dark .matches-calendar-event-item {
+  background: #171e27;
+  border-color: #3a4b60;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.28);
+}
+
+body.theme-dark .matches-calendar-event-main .fw-semibold {
+  color: #e2e8f0;
+}
+
+body.theme-dark .matches-calendar-empty-state {
+  background: #171e27;
+  border-color: #314155;
+  color: #9fb0c5;
+}
+
+body.theme-dark .matches-calendar-empty-state i {
+  color: #93a9c5 !important;
+}
+
+body.theme-dark .match-calendar-status-badge.is-scheduled {
+  background: #1c2f52;
+  border-color: #355b96;
+  color: #bfdbfe;
+}
+
+body.theme-dark .match-calendar-status-badge.is-completed {
+  background: #173727;
+  border-color: #2f6b49;
+  color: #bbf7d0;
+}
+
+body.theme-dark .match-calendar-status-badge.is-cancelled {
+  background: #3a1f22;
+  border-color: #7f2f35;
+  color: #fecaca;
+}
+
+body.theme-dark .info-panel {
+  background: #0f141b;
+  border: 1px solid #2a3443;
+}
+
+body.theme-dark .info-panel .info-header {
+  background: #121821;
+  border-bottom-color: #2a3443;
+  color: #e2e8f0;
+}
+
+body.theme-dark .info-panel .info-close {
+  color: #94a3b8;
+}
+
+body.theme-dark .info-panel .info-body {
+  background: #0e1420;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-hero {
+  background: #101826;
+  border-color: #2a3443;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-hero h3,
+body.theme-dark .info-panel .show-modal-mint .section-hero .text-muted {
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-card {
+  background: #101826;
+  border-color: #2a3443;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-card > .d-flex > .fw-semibold,
+body.theme-dark .info-panel .show-modal-mint .section-card .player-section-title,
+body.theme-dark .info-panel .show-modal-mint .team-modal-panel .fw-semibold,
+body.theme-dark .info-panel .show-modal-mint .entity-info-label,
+body.theme-dark .info-panel .show-modal-mint .user-info-label {
+  color: #cbd5e1;
+}
+
+body.theme-dark .info-panel .show-modal-mint .entity-info-item,
+body.theme-dark .info-panel .show-modal-mint .user-info-item,
+body.theme-dark .info-panel .show-modal-mint .player-info-item,
+body.theme-dark .info-panel .show-modal-mint .player-profile-header,
+body.theme-dark .info-panel .show-modal-mint .player-sport-card,
+body.theme-dark .info-panel .show-modal-mint .player-birth-inline-card {
+  background: #171f2c;
+  border-color: #2f3c4f;
+}
+
+body.theme-dark .info-panel .show-modal-mint .entity-info-value,
+body.theme-dark .info-panel .show-modal-mint .user-info-value,
+body.theme-dark .info-panel .show-modal-mint .player-profile-name,
+body.theme-dark .info-panel .show-modal-mint .player-info-value,
+body.theme-dark .info-panel .show-modal-mint .player-contact-name,
+body.theme-dark .info-panel .show-modal-mint .team-player-name {
+  color: #e2e8f0;
+}
+
+body.theme-dark .info-panel .show-modal-mint .entity-info-sub,
+body.theme-dark .info-panel .show-modal-mint .user-info-sub,
+body.theme-dark .info-panel .show-modal-mint .player-profile-sub,
+body.theme-dark .info-panel .show-modal-mint .player-sport-metric-label,
+body.theme-dark .info-panel .show-modal-mint .player-position-caption,
+body.theme-dark .info-panel .show-modal-mint .team-player-position,
+body.theme-dark .info-panel .show-modal-mint .text-muted {
+  color: #9fb0c5 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .player-tabs label,
+body.theme-dark .team-modal-tab {
+  background: #172131;
+  border-color: #304157;
+  color: #cbd5e1;
+}
+
+body.theme-dark .info-panel .show-modal-mint .player-tabs input[type="radio"]:checked + label,
+body.theme-dark #team-tab-info:checked + .team-modal-tab,
+body.theme-dark #team-tab-players:checked + .team-modal-tab {
+  background: #1e2e49;
+  border-color: #4a78b5;
+  color: #bfdbfe;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+body.theme-dark .info-panel .show-modal-mint .player-empty-state,
+body.theme-dark .info-panel .show-modal-mint .empty-state-soft {
+  background: #2b1e24;
+  border-color: #5a323c;
+  color: #f4b7c0 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .player-empty-state i,
+body.theme-dark .info-panel .show-modal-mint .empty-state-soft i {
+  color: #f5a2af !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card,
+body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card {
+  background: #183327 !important;
+  border-color: #2f6b49 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card .fw-semibold,
+body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card .fw-semibold {
+  color: #dcfce7;
+}
+
+body.theme-dark .info-panel .show-modal-mint .player-contact-card,
+body.theme-dark .info-panel .show-modal-mint .player-observation-card,
+body.theme-dark .info-panel .show-modal-mint .player-report-card,
+body.theme-dark .info-panel .show-modal-mint .team-player-card {
+  background: #171f2c;
+  border-color: #304157;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.32);
+}
+
+body.theme-dark .user-info-card h5,
+body.theme-dark .user-info-card .user-info-section-title,
+body.theme-dark .user-info-card .form-label,
+body.theme-dark .user-info-card .fw-bold {
+  color: #e2e8f0;
+}
+
+body.theme-dark .user-info-subtitle,
+body.theme-dark .user-info-card .text-muted,
+body.theme-dark .user-info-card .form-text,
+body.theme-dark .user-info-card .small {
+  color: #9fb0c5 !important;
+}
+
+body.theme-dark .user-info-card .user-info-section,
+body.theme-dark .user-info-card .password-checklist {
+  background: #141c29;
+  border-color: #2a3443;
+}
+
+body.theme-dark .user-info-card .alert-danger {
+  background: #3b1f24;
+  border-color: #7f2f35;
+  color: #fecaca;
+}
+
+body.theme-dark .players-wizard-tabs .players-tab,
+body.theme-dark .players-tab {
+  background: #172131;
+  border-color: #304157;
+  color: #cbd5e1;
+}
+
+body.theme-dark .players-wizard-tabs .players-tab.is-active,
+body.theme-dark .players-tab.is-active {
+  background: #1e2e49;
+  border-color: #4a78b5;
+  color: #bfdbfe;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+body.theme-dark .player-contact-card,
+body.theme-dark .team-info-item {
+  background: #171f2c;
+  border-color: #304157;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.28);
+}
+
+body.theme-dark .player-contact-card .fw-semibold,
+body.theme-dark .team-info-item .fw-semibold,
+body.theme-dark .info-section-title,
+body.theme-dark .player-info-label,
+body.theme-dark .player-status-label {
+  color: #e2e8f0;
+}
+
+body.theme-dark .player-contact-card .text-muted,
+body.theme-dark .team-info-item .text-muted,
+body.theme-dark .player-contact-email,
+body.theme-dark .player-contact-address,
+body.theme-dark .player-contact-name,
+body.theme-dark .player-contact-row,
+body.theme-dark .player-info-sub,
+body.theme-dark .player-sport-metric-label {
+  color: #9fb0c5 !important;
+}
+
+body.theme-dark .player-empty-state {
+  background: #2b1e24;
+  border-color: #5a323c;
+  color: #f4b7c0 !important;
+}
+
+body.theme-dark .player-empty-state i {
+  color: #f5a2af !important;
+}
+
+body.theme-dark .player-photo-panel {
+  background: #171f2c;
+  border-color: #304157;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.28);
+}
+
+body.theme-dark .player-photo-panel .fw-semibold {
+  color: #e2e8f0;
+}
+
+body.theme-dark .player-photo-frame,
+body.theme-dark .player-profile-photo {
+  background: #101826;
+  border-color: #3f5472;
+}
+
+body.theme-dark .player-photo-empty,
+body.theme-dark .player-photo-hint {
+  color: #9fb0c5;
+}
+
+body.theme-dark .player-photo-placeholder {
+  color: #93a9c5;
+}
+
+body.theme-dark .player-photo-actions .btn-outline-primary {
+  background: #17243a;
+  border-color: #3b6ea5;
+  color: #bfdbfe;
+}
+
+body.theme-dark .player-photo-actions .btn-outline-primary:hover {
+  background: #1d3252;
+  border-color: #4a78b5;
+  color: #dbeafe;
+}
+
+body.theme-dark .player-photo-actions .btn-outline-danger {
+  background: #3a1f22;
+  border-color: #7f2f35;
+  color: #fecaca;
+}
+
+body.theme-dark .player-photo-actions .btn-outline-danger:hover {
+  background: #4a2429;
+  border-color: #9b3740;
+  color: #fee2e2;
+}
+
+body.theme-dark .match-tabs label {
+  background: #172131;
+  border-color: #304157;
+  color: #cbd5e1;
+}
+
+body.theme-dark #match-tab-info:checked + label,
+body.theme-dark #match-tab-technical:checked + label,
+body.theme-dark #match-tab-aptitudinal:checked + label {
+  background: #1e2e49;
+  border-color: #4a78b5;
+  color: #bfdbfe;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+body.theme-dark .match-tabs label.is-disabled {
+  background: #202737;
+  border-color: #34465f;
+  color: #7f8fa7;
+}
+
+body.theme-dark .match-info-item {
+  background: #171f2c;
+  border-color: #304157;
+}
+
+body.theme-dark .match-info-label,
+body.theme-dark .match-info-value {
+  color: #e2e8f0;
+}
+
+body.theme-dark .match-info-sub,
+body.theme-dark .match-tab-panel .text-muted {
+  color: #9fb0c5 !important;
+}
+
+body.theme-dark .match-file-panel {
+  background: #171f2c;
+  border-color: #304157;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
+body.theme-dark .match-file-title {
+  color: #e2e8f0;
+}
+
+body.theme-dark .match-file-subtitle,
+body.theme-dark .match-file-panel .form-label,
+body.theme-dark .match-file-panel .text-muted {
+  color: #9fb0c5 !important;
+}
+
+body.theme-dark .match-file-item {
+  background: #121a27;
+  border-color: #2f3f55;
+}
+
+body.theme-dark .upload-control {
+  background: #0f1724;
+  border-color: #3b506e;
+  color: #dbe4f0;
+}
+
+body.theme-dark .upload-control:focus {
+  border-color: #4a78b5;
+  box-shadow: 0 0 0 0.2rem rgba(74, 120, 181, 0.22);
+}
+
+body.theme-dark .match-file-download-btn {
+  background: #17243a;
+  border-color: #3b6ea5;
+  color: #bfdbfe;
+}
+
+body.theme-dark .match-file-download-btn:hover {
+  background: #1d3252;
+  border-color: #4a78b5;
+  color: #dbeafe;
+}
+
+body.theme-dark .teams-tab,
+body.theme-dark .players-tab,
+body.theme-dark .player-tabs label,
+body.theme-dark .team-modal-tab,
+body.theme-dark .match-tabs label,
+body.theme-dark .matches-view-tab {
+  background: #172131 !important;
+  border-color: #304157 !important;
+  color: #cbd5e1 !important;
+}
+
+body.theme-dark .teams-tab.is-active,
+body.theme-dark .players-tab.is-active,
+body.theme-dark .player-tabs input[type="radio"]:checked + label,
+body.theme-dark #team-tab-info:checked + .team-modal-tab,
+body.theme-dark #team-tab-players:checked + .team-modal-tab,
+body.theme-dark #match-tab-info:checked + label,
+body.theme-dark #match-tab-technical:checked + label,
+body.theme-dark #match-tab-aptitudinal:checked + label,
+body.theme-dark .matches-view-tab.is-active {
+  background: #1e2e49 !important;
+  border-color: #4a78b5 !important;
+  color: #bfdbfe !important;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22) !important;
+}
+
+body.theme-dark .players-tab.is-disabled,
+body.theme-dark .match-tabs label.is-disabled,
+body.theme-dark .team-modal-tab.is-disabled {
+  background: #202737 !important;
+  border-color: #34465f !important;
+  color: #7f8fa7 !important;
+  opacity: 0.75;
+}
+
+body.theme-dark .meta-badge,
+body.theme-dark .player-badge-blue,
+body.theme-dark .player-badge-green,
+body.theme-dark .match-results-badge,
+body.theme-dark .match-file-badge,
+body.theme-dark .team-player-position-badge,
+body.theme-dark .matches-calendar-day-count {
+  background: #1a2940 !important;
+  border-color: #355b96 !important;
+  color: #bfdbfe !important;
+}
+
+body.theme-dark .status-pill-success {
+  background: #173727 !important;
+  border-color: #2f6b49 !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .status-pill-muted {
+  background: #3a1f22 !important;
+  border-color: #7f2f35 !important;
+  color: #fecaca !important;
+}
+
+body.theme-dark .match-result-pill-win {
+  background: #173727 !important;
+  border-color: #2f6b49 !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .match-result-pill-draw,
+body.theme-dark .match-result-pill-pending {
+  background: #3a1f22 !important;
+  border-color: #7f2f35 !important;
+  color: #fecaca !important;
+}
+
+body.theme-dark .match-result-pill-loss {
+  background: #3f2a10 !important;
+  border-color: #7a4a12 !important;
+  color: #fde68a !important;
+}
+
+body.theme-dark .info-panel .player-tabs label {
+  background: #172131;
+  border-color: #304157;
+  color: #cbd5e1;
+}
+
+body.theme-dark .info-panel .player-tabs input[type="radio"]:checked + label {
+  background: #1e2e49;
+  border-color: #4a78b5;
+  color: #bfdbfe;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+body.theme-dark .info-panel .player-profile-header,
+body.theme-dark .info-panel .player-info-item,
+body.theme-dark .info-panel .player-sport-card,
+body.theme-dark .info-panel .player-birth-inline-card,
+body.theme-dark .info-panel .player-contact-card,
+body.theme-dark .info-panel .player-observation-card,
+body.theme-dark .info-panel .player-report-card,
+body.theme-dark .info-panel .player-photo-card,
+body.theme-dark .info-panel .player-photo-panel {
+  background: #171f2c !important;
+  border-color: #2f3c4f !important;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
+body.theme-dark .info-panel .player-profile-name,
+body.theme-dark .info-panel .player-info-value,
+body.theme-dark .info-panel .player-contact-name,
+body.theme-dark .info-panel .player-report-name,
+body.theme-dark .info-panel .player-section-title,
+body.theme-dark .info-panel .player-sport-weight,
+body.theme-dark .info-panel .player-jersey-number {
+  color: #e2e8f0;
+}
+
+body.theme-dark .info-panel .player-profile-sub,
+body.theme-dark .info-panel .player-info-sub,
+body.theme-dark .info-panel .player-sport-metric-label,
+body.theme-dark .info-panel .player-position-caption,
+body.theme-dark .info-panel .player-contact-email,
+body.theme-dark .info-panel .player-contact-address,
+body.theme-dark .info-panel .player-report-meta,
+body.theme-dark .info-panel .player-observation-meta,
+body.theme-dark .info-panel .text-muted {
+  color: #9fb0c5 !important;
+}
+
+body.theme-dark .info-panel .player-photo-placeholder {
+  color: #93a9c5;
+}
+
+body.theme-dark .info-panel .player-empty-state {
+  background: #2b1e24;
+  border-color: #5a323c;
+  color: #f4b7c0 !important;
+}
+
+body.theme-dark .info-panel .player-empty-state i {
+  color: #f5a2af !important;
+}
+
 body.theme-dark .pagination .page-item .page-link {
   background: #11161e;
   border-color: #2b3340;

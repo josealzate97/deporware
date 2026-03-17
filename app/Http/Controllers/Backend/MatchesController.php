@@ -85,12 +85,15 @@ class MatchesController extends Controller
             ->get();
 
         $calendarMatchesData = $calendarMatches->map(function (MatchModel $match) {
+            $teamModel = $match->relationLoaded('team') ? $match->getRelation('team') : null;
+            $rivalModel = $match->relationLoaded('rival') ? $match->getRelation('rival') : null;
             return [
                 'id' => $match->id,
                 'date' => $match->match_date?->format('Y-m-d'),
                 'time' => $match->match_date?->format('H:i') ?? '-',
-                'team' => $match->team?->name ?? 'Sin equipo',
-                'rival' => $match->rival?->name ?? 'Sin rival',
+                'team' => $teamModel?->name ?? ($match->team ? 'Sin equipo vinculado' : 'Sin equipo'),
+                'rival' => $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : 'Sin rival'),
+                'statusCode' => (int) $match->match_status,
                 'status' => MatchModel::statusOptions()[$match->match_status] ?? 'Sin estado',
                 'score' => $match->final_score ?: '-',
             ];

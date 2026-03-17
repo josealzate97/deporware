@@ -3,12 +3,12 @@
     gap: 12px;
     padding: 0 24px 0;
     margin-bottom: 16px;
-    border-bottom: 1px solid #e6e8ec;
+    border-bottom: 0;
 }
 
 .teams-tab {
     padding: 8px 14px;
-    border-radius: 10px 10px 0 0;
+    border-radius: 8px;
     color: #6c757d;
     text-decoration: none;
     font-weight: 600;
@@ -19,7 +19,6 @@
     color: #0d6efd;
     background: #ffffff;
     border: 1px solid #e6e8ec;
-    border-bottom-color: #ffffff;
 }
 
 .teams-table th {
@@ -232,7 +231,7 @@ label.team-player-card {
 
 .team-modal-tab {
     padding: 0.5rem 0.9rem;
-    border-radius: 12px;
+    border-radius: 8px;
     border: 1px solid #e6e8ec;
     background: #f8f9fa;
     color: #6c757d;
