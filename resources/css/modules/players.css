@@ -824,8 +824,26 @@ body.theme-dark .player-foot-item.is-active {
 }
 
 .info-panel .player-contact-card {
-  background: linear-gradient(180deg, #e3f4ea 0%, #d8efe3 100%);
-  border-color: #bcd9c7;
+  position: relative;
+  background: #ffffff;
+  border-color: #d7e6ff;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.info-panel .player-contact-card::before {
+  content: "";
+  position: absolute;
+  left: 0.65rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+}
+
+.info-panel .player-contact-card .player-contact-top {
+  padding-left: 0.5rem;
 }
 
 .info-panel .player-contact-row--contact,
@@ -839,9 +857,9 @@ body.theme-dark .player-foot-item.is-active {
 }
 
 .info-panel .player-contact-icon {
-  background: #e9f9f0;
-  color: #15803d;
-  border-color: #cfeedd;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
 }
 
 .info-panel .player-contact-meta {

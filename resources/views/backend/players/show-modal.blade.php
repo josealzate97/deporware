@@ -195,13 +195,6 @@
                                                 <i class="fa-solid fa-phone me-1"></i>{{ $contact->phone ?? '-' }}
                                             </span>
                                         </div>
-
-                                        <div class="player-contact-row player-contact-row--location">
-                                            <div class="player-contact-address">
-                                                <i class="fa-solid fa-location-dot me-1"></i>{{ $contact->address ?? '-' }}
-                                            </div>
-                                            <span class="player-badge-blue"><i class="fa-solid fa-city me-1"></i>{{ $contact->city ?? '-' }}</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
