@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Training;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,13 +19,55 @@ class TrainingsController extends Controller
     */
     public function index()
     {
-        $trainings = Training::with('team')
+        $view = request('view', 'list');
+        if (!in_array($view, ['list', 'calendar'], true)) {
+            $view = 'list';
+        }
+
+        $month = request('month');
+        $monthStart = Carbon::now()->startOfMonth();
+        if (is_string($month) && preg_match('/^\d{4}-\d{2}$/', $month) === 1) {
+            try {
+                $monthStart = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
+            } catch (\Throwable $e) {
+                $monthStart = Carbon::now()->startOfMonth();
+            }
+        }
+
+        $monthEnd = $monthStart->copy()->endOfMonth();
+
+        $trainingsQuery = Training::with('team')
             ->orderByDesc('status')
-            ->orderBy('name')
+            ->orderBy('name');
+
+        $trainings = (clone $trainingsQuery)->get();
+
+        $calendarTrainings = (clone $trainingsQuery)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->orderBy('created_at')
             ->get();
 
+        $calendarTrainingsData = $calendarTrainings->map(function (Training $training) {
+            $teamModel = $training->relationLoaded('team') ? $training->getRelation('team') : null;
+
+            return [
+                'id' => $training->id,
+                'date' => $training->created_at?->format('Y-m-d'),
+                'time' => $training->created_at?->format('H:i') ?? '-',
+                'name' => $training->name ?: 'Entrenamiento',
+                'team' => $teamModel?->name ?? ($training->team ? 'Sin equipo vinculado' : 'Sin equipo'),
+                'statusCode' => (int) $training->status,
+                'status' => (int) $training->status === Training::ACTIVE ? 'Activo' : 'Inactivo',
+                'duration' => $training->duration ? $training->duration . ' min' : '-',
+            ];
+        })->filter(fn ($item) => !empty($item['date']))->values();
+
         return view('backend.trainings.index', [
+            'activeView' => $view,
             'trainings' => $trainings,
+            'calendarMonth' => $monthStart->format('Y-m'),
+            'calendarMonthLabel' => ucfirst($monthStart->locale('es')->isoFormat('MMMM [de] YYYY')),
+            'calendarTrainingsData' => $calendarTrainingsData,
         ]);
     }
 

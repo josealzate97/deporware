@@ -157,7 +157,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Equipo <span class="text-danger">*</span></label>
                                     <div class="autocomplete" data-autocomplete='@json($teams->map(fn($team) => ['id' => $team->id, 'name' => $team->name])->values())'>
                                         <input type="text" class="form-control" data-autocomplete-input
@@ -170,7 +170,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Rival <span class="text-danger">*</span></label>
                                     <div class="autocomplete" data-autocomplete='@json($rivals->map(fn($rival) => ['id' => $rival->id, 'name' => $rival->name])->values())'>
                                         <input type="text" class="form-control" data-autocomplete-input
@@ -183,7 +183,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Sede</label>
                                     <select class="form-select" name="venue">
                                         <option value="">Selecciona...</option>
@@ -195,13 +195,13 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Locacion</label>
                                     <input type="text" class="form-control" name="location"
                                         value="{{ old('location', $match->location ?? '') }}">
                                 </div>
 
-                                <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                     <label class="form-label fw-semibold">Local / Visitante <span class="text-danger">*</span></label>
                                     <select class="form-select @error('side') is-invalid @enderror" name="side" required>
                                         <option value="">Selecciona...</option>
@@ -216,7 +216,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                     <label class="form-label fw-semibold">Resultado Juego <span class="text-danger" x-show="requiresResult">*</span></label>
                                     <select class="form-select @error('match_result') is-invalid @enderror" name="match_result" x-bind:required="requiresResult" x-bind:disabled="isScheduled">
                                         <option value="">Selecciona...</option>
@@ -231,7 +231,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                     <label class="form-label fw-semibold">Marcador <span class="text-danger" x-show="requiresResult">*</span></label>
                                     <input type="text" class="form-control @error('final_score') is-invalid @enderror" name="final_score"
                                         value="{{ old('final_score', $match->final_score ?? '') }}"
@@ -465,19 +465,25 @@
                                     <label class="form-label fw-semibold">Notas</label>
                                     <textarea class="form-control" name="match_feedback[notes]" rows="5">{{ old('match_feedback.notes', $match?->feedback?->notes ?? '') }}</textarea>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
 
                     <div class="col-12" x-show="isCompleted" x-cloak>
+
                         <div class="info-section">
+
                             <div class="info-section-title">
                                 <i class="fa-solid fa-user-check me-2 text-primary"></i>
                                 Feedback del tecnico
                             </div>
 
                             <div class="row g-3 mt-1">
+
                                 <div class="col-12 col-md-4">
+
                                     <label class="form-label fw-semibold">Equipo con arbitro <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control @error('match_team_rating.referee_rating') is-invalid @enderror"
                                         name="match_team_rating[referee_rating]" x-bind:required="isCompleted"
@@ -486,6 +492,7 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con companeros <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control @error('match_team_rating.teammates_rating') is-invalid @enderror"
@@ -495,6 +502,7 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con rivales <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control @error('match_team_rating.opponents_rating') is-invalid @enderror"
@@ -504,6 +512,7 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con grada <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control @error('match_team_rating.fans_rating') is-invalid @enderror"
@@ -513,6 +522,7 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                                 <div class="col-12 col-md-4">
                                     <label class="form-label fw-semibold">Equipo con tecnico <span class="text-danger">*</span></label>
                                     <input type="number" min="1" max="10" class="form-control @error('match_team_rating.coach_rating') is-invalid @enderror"
@@ -522,24 +532,34 @@
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
                                 </div>
+
                                 <div class="col-12">
                                     <label class="form-label fw-semibold">Notas</label>
                                     <textarea class="form-control" name="match_team_rating[notes]" rows="5">{{ old('match_team_rating.notes', $match?->teamRating?->notes ?? '') }}</textarea>
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <div class="col-12 d-flex justify-content-end gap-2">
+
                         <a href="{{ route('matches.index') }}" class="btn btn-danger btn-action">
                             <i class="fa-solid fa-xmark me-2"></i>Cancelar
                         </a>
+
                         <button type="submit" class="btn btn-success btn-action">
                             <i class="fa-solid fa-floppy-disk me-2"></i>Guardar
                         </button>
+
                     </div>
+
                 </div>
+
             </form>
+
         </div>
 
     </div>

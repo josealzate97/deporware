@@ -73,7 +73,12 @@ const initMatchesCalendar = () => {
     if (!grid || !titleEl || !dayTitleEl || !eventsEl) return;
 
     const monthDate = buildMonthDate(root.dataset.month);
-    let selectedKey = toKey(new Date(monthDate.getFullYear(), monthDate.getMonth(), 1));
+    const today = new Date();
+    const todayKey = toKey(today);
+    const isCurrentMonth = monthDate.getFullYear() === today.getFullYear() && monthDate.getMonth() === today.getMonth();
+    let selectedKey = isCurrentMonth
+        ? todayKey
+        : toKey(new Date(monthDate.getFullYear(), monthDate.getMonth(), 1));
 
     const monthFormatter = new Intl.DateTimeFormat('es-CO', {
         month: 'long',
@@ -180,9 +185,11 @@ const initMatchesCalendar = () => {
 
             const button = document.createElement('button');
             button.type = 'button';
-            button.className = `matches-calendar-day ${count ? 'has-events' : ''} ${key === selectedKey ? 'is-selected' : ''}`.trim();
+            const isToday = key === todayKey;
+            button.className = `matches-calendar-day ${count ? 'has-events' : ''} ${key === selectedKey ? 'is-selected' : ''} ${isToday ? 'is-today' : ''}`.trim();
             button.innerHTML = `
                 <span class="matches-calendar-day-number">${day}</span>
+                ${isToday ? '<span class="matches-calendar-day-today-badge">Hoy</span>' : ''}
                 ${count ? `<span class="matches-calendar-day-count">${count}</span>` : ''}
                 ${resultBadges ? `<span class="matches-calendar-day-results">${resultBadges}</span>` : ''}
             `;
@@ -219,7 +226,9 @@ const initMatchesCalendar = () => {
 
     renderGrid();
     if (!(eventsByDay[selectedKey] || []).length) {
-        selectedKey = `${monthDate.getFullYear()}-${pad2(monthDate.getMonth() + 1)}-01`;
+        selectedKey = isCurrentMonth
+            ? todayKey
+            : `${monthDate.getFullYear()}-${pad2(monthDate.getMonth() + 1)}-01`;
     }
     renderDetails(selectedKey);
 };

@@ -271,6 +271,23 @@
   right: 4px;
 }
 
+.matches-calendar-day-today-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  padding: 0 0.42rem;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
 .matches-calendar-day.has-events {
   border-color: #4ade80;
   background: #f0fdf4;
@@ -278,6 +295,12 @@
 }
 
 .matches-calendar-day.is-selected {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.12);
+}
+
+.matches-calendar-day.is-today {
   border-color: #93c5fd;
   background: #eff6ff;
   box-shadow: 0 8px 16px rgba(37, 99, 235, 0.12);

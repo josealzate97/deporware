@@ -52,51 +52,29 @@
         <div x-data="infoModal()">
         <div class="card p-0 mt-4 section-card">
             @php($trainingsTotal = $trainings->count())
-            <div class="section-results-meta">
-                <span class="fw-bold">Resultados</span>
-                <span class="text-muted">
-                    Mostrando {{ $trainingsTotal > 0 ? 1 : 0 }}-{{ $trainingsTotal }} de {{ $trainingsTotal }}
-                </span>
+            @php($trainingsBaseQuery = request()->except('page'))
+            <div class="section-results-meta trainings-results-meta">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="fw-bold">Resultados</span>
+                    <span class="text-muted">
+                        Mostrando {{ $trainingsTotal > 0 ? 1 : 0 }}-{{ $trainingsTotal }} de {{ $trainingsTotal }}
+                    </span>
+                </div>
+                <div class="matches-view-switch" role="tablist" aria-label="Cambiar vista de entrenamientos">
+                    <a href="{{ route('trainings.index', array_merge($trainingsBaseQuery, ['view' => 'list'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'list' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'list' ? 'true' : 'false' }}">
+                        <i class="fa-solid fa-table-list me-1"></i> Listado
+                    </a>
+                    <a href="{{ route('trainings.index', array_merge($trainingsBaseQuery, ['view' => 'calendar'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'calendar' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'calendar' ? 'true' : 'false' }}">
+                        <i class="fa-regular fa-calendar me-1"></i> Calendario
+                    </a>
+                </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-borderless align-middle section-table">
-                    <thead>
-                        <tr>
-                            <th>Entrenamiento</th>
-                            <th>Equipo</th>
-                            <th>Estado</th>
-                            <th class="text-end">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($trainings as $training)
-                            <tr data-id="{{ $training->id }}">
-                                <td class="fw-bold">{{ $training->name }}</td>
-                                <td>{{ $training->team?->name ?? '-' }}</td>
-                                <td>
-                                    @if($training->status == \App\Models\Training::ACTIVE)
-                                        <span class="status-pill status-pill-success">Activo</span>
-                                    @else
-                                        <span class="status-pill status-pill-muted">Inactivo</span>
-                                    @endif
-                                </td>
-                                <td class="text-end">
-                                    <button type="button" class="btn btn-icon text-primary"
-                                        @click="openModal('{{ route('trainings.show', $training->id) }}?modal=1')"
-                                        aria-label="Ver información de {{ $training->name }}" title="Ver información">
-                                        <i class="fas fa-circle-info"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center text-muted py-4">No hay entrenamientos registrados.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+            @if(($activeView ?? 'list') === 'calendar')
+                @include('backend.trainings.calendar')
+            @else
+                @include('backend.trainings.table')
+            @endif
         </div>
 
         </div>
