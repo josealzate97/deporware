@@ -12,3 +12,38 @@
   margin-left: 0;
   margin-top: 0;
 }
+
+.venue-empty-associations {
+  margin: 0.75rem 0 0.15rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid #d7e6f7;
+  background: linear-gradient(180deg, #f8fbff 0%, #f2f8ff 100%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.venue-empty-associations-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6f0ff;
+  border: 1px solid #c9dcfb;
+  color: #1d4ed8;
+  flex-shrink: 0;
+}
+
+.venue-empty-associations-title {
+  font-weight: 800;
+  color: #1e3a8a;
+  line-height: 1.2;
+}
+
+.venue-empty-associations-text {
+  color: #475569;
+  font-size: 0.9rem;
+}

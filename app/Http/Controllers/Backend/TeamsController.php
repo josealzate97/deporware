@@ -175,7 +175,20 @@ class TeamsController extends Controller
     */
     public function show($id)
     {
-        $team = Team::with(['venues', 'managerRosters.user', 'playerRosters.player'])->findOrFail($id);
+        $team = Team::with([
+            'venues',
+            'managerRosters.user',
+            'playerRosters.player',
+            'matches' => function ($query) {
+                $query->with('rival')
+                    ->orderByDesc('match_date')
+                    ->limit(10);
+            },
+            'trainings' => function ($query) {
+                $query->orderByDesc('created_at')
+                    ->limit(10);
+            },
+        ])->findOrFail($id);
         
         $primaryCoachId = optional(
             $team->managerRosters->firstWhere('role', ManagerRoster::ROLE_PRIMARY_COACH)

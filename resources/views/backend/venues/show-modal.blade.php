@@ -45,7 +45,15 @@
                 <span class="meta-badge">{{ $venue->teams->count() }} equipo{{ $venue->teams->count() === 1 ? '' : 's' }}</span>
             </div>
             @if($venue->teams->isEmpty())
-                <div class="text-muted">Sin equipos asociados.</div>
+                <div class="venue-empty-associations mt-2">
+                    <span class="venue-empty-associations-icon" aria-hidden="true">
+                        <i class="fa-solid fa-shield"></i>
+                    </span>
+                    <div>
+                        <div class="venue-empty-associations-title">Sin equipos asociados</div>
+                        <div class="venue-empty-associations-text">Esta sede aun no tiene equipos vinculados.</div>
+                    </div>
+                </div>
             @else
                 <div class="row g-2 mt-2">
                     @foreach($venue->teams as $team)

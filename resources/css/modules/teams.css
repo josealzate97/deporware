@@ -240,7 +240,9 @@ label.team-player-card {
 }
 
 #team-tab-info:checked + .team-modal-tab,
-#team-tab-players:checked + .team-modal-tab {
+#team-tab-players:checked + .team-modal-tab,
+#team-tab-matches:checked + .team-modal-tab,
+#team-tab-trainings:checked + .team-modal-tab {
     background: #ffffff;
     color: #0d6efd;
     border-color: #bfdbfe;
@@ -263,4 +265,70 @@ label.team-player-card {
 
 #team-tab-players:checked ~ .team-modal-panels [data-panel="players"] {
     display: block;
+}
+
+#team-tab-matches:checked ~ .team-modal-panels [data-panel="matches"] {
+    display: block;
+}
+
+#team-tab-trainings:checked ~ .team-modal-panels [data-panel="trainings"] {
+    display: block;
+}
+
+.info-panel .show-modal-mint .team-info-item.team-match-card--completed {
+    background: #ffffff !important;
+    border: 1px solid #dbe7f5 !important;
+}
+
+.team-match-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.team-match-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.14rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.team-match-badge--status {
+    background: #eaf3ff;
+    color: #1e3a8a;
+    border-color: #d3e4ff;
+}
+
+.team-match-badge--score {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #dbe7f5;
+}
+
+.team-match-badge--result-win {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
+}
+
+.team-match-badge--result-loss {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+.team-match-badge--result-draw {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fcd34d;
+}
+
+.team-match-badge--result-neutral {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
 }

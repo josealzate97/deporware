@@ -305,6 +305,13 @@
   padding: 0.95rem;
   border-radius: 16px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.player-positions-field--featured > .row {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .player-positions-selected {
@@ -323,6 +330,7 @@
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.82);
   border: 1px dashed #d3e4ff;
+  min-width: 0;
 }
 
 .player-positions-empty {

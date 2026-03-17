@@ -197,8 +197,8 @@
 
                                 <div class="row g-3 mt-1">
                                     <div class="col-12 col-lg-6">
-                                        <label class="form-label fw-semibold">Posición <span class="text-danger">*</span></label>
                                         <div class="player-positions-field player-positions-field--featured" data-player-positions>
+                                            <label class="form-label fw-semibold mb-2">Posición <span class="text-danger">*</span></label>
                                             <div class="row g-3 align-items-stretch">
                                                 <div class="col-12 col-md-6">
                                                     <div class="player-positions-controls player-positions-controls--stack">
