@@ -149,6 +149,11 @@
   flex-wrap: wrap;
 }
 
+.match-results-meta {
+  display: inline-flex;
+  align-items: center;
+}
+
 .match-results-badge {
   display: inline-flex;
   align-items: center;

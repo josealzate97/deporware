@@ -58,7 +58,7 @@
                     <div class="players-toolbar-meta p-3">
 
                         <span class="fw-bold">Resultados</span>
-                    <span class="text-muted">
+                    <span class="match-results-meta">
                         @if($matches->total() > 0)
                             <span class="match-results-badge">Mostrando {{ $matches->firstItem() }}-{{ $matches->lastItem() }} de {{ $matches->total() }}</span>
                         @else

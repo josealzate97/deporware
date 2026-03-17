@@ -486,16 +486,17 @@
                         @else
                             <div class="row g-2 mt-2">
                                 @foreach($player->observations as $listedObservation)
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-4">
                                         <div class="team-info-item h-100">
                                             <div class="flex-grow-1">
                                                 <div class="fw-semibold">{{ $observationTypes[$listedObservation->type] ?? 'Sin tipo' }}</div>
                                                 <div class="text-muted small">{{ $listedObservation->notes ?? '-' }}</div>
                                                 <div class="text-muted small">
-                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $listedObservation->author?->name ?? 'Usuario' }}</span> · {{ $listedObservation->created_at?->format('Y-m-d') }}
+                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $listedObservation->author?->name ?? 'Usuario' }}</span>
+                                                    <span class="player-badge-blue">{{ $listedObservation->created_at?->format('Y-m-d') ?? '-' }}</span>
                                                 </div>
                                             </div>
-                                            <div class="d-flex gap-2">
+                                            <div class="d-flex flex-column gap-2">
                                                 <a class="btn btn-icon btn-icon-edit"
                                                    href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations', 'observation_id' => $listedObservation->id]) }}"
                                                    title="Editar observación">
