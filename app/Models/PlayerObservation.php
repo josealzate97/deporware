@@ -60,6 +60,11 @@ class PlayerObservation extends Model
         return $this->belongsTo(User::class, 'user');
     }
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user');
+    }
+
     public static function typeOptions(): array
     {
         return [

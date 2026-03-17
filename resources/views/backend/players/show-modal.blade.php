@@ -147,7 +147,7 @@
 
             <div class="player-tab-panel" data-panel="documents">
                 @if(empty($playerDocuments ?? []))
-                    <div class="text-muted">Sin documentos disponibles.</div>
+                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin documentos disponibles.</div>
                 @else
                     <div class="player-reports-list">
                         @foreach($playerDocuments as $report)
@@ -172,7 +172,7 @@
 
             <div class="player-tab-panel" data-panel="contacts">
                 @if($player->contacts->isEmpty())
-                    <div class="text-muted">Sin contactos registrados.</div>
+                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin contactos registrados.</div>
                 @else
                     <div class="row g-2">
                         @foreach($player->contacts as $contact)
@@ -205,19 +205,26 @@
 
             <div class="player-tab-panel" data-panel="observations">
                 @if($player->observations->isEmpty())
-                    <div class="text-muted">Sin ficha valorativa registrada.</div>
+                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin ficha valorativa registrada.</div>
                 @else
                     <div class="row g-2">
                         @foreach($player->observations as $observation)
-                            @php($observationAuthor = trim((string) ($observation->user?->name ?? '') . ' ' . (string) ($observation->user?->lastname ?? '')))
-                            @php($observationDate = $observation->created_at ? \Illuminate\Support\Str::ucfirst($observation->created_at->locale('es')->translatedFormat('F d del Y')) : '-')
+                            @php($observationAuthor = trim((string) ($observation->author?->name ?? '')))
+                            @php($observationTimestamp = $observation->updated_at ?? $observation->created_at)
+                            @php($observationDate = $observationTimestamp ? \Illuminate\Support\Str::ucfirst($observationTimestamp->locale('es')->isoFormat('D [de] MMMM [de] YYYY')) : '-')
                             <div class="col-12 col-lg-6">
                                 <div class="team-info-item player-observation-card">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
                                         <div class="text-muted small">{{ $observation->notes ?? '-' }}</div>
                                         <div class="player-observation-meta">
-                                            <span class="text-muted small">{{ $observationAuthor !== '' ? $observationAuthor : 'Sin autor' }}</span>
+                                            <span class="text-muted small">
+                                                @if($observationAuthor !== '')
+                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $observationAuthor }}</span>
+                                                @else
+                                                    Sin autor
+                                                @endif
+                                            </span>
                                             <span class="player-badge-blue">{{ $observationDate }}</span>
                                         </div>
                                     </div>

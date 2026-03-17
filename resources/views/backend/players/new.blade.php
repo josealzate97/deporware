@@ -294,6 +294,12 @@
                     </div>
 
                     <div class="mt-4 text-end">
+                        @if($isEdit)
+                            <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
+                                <i class="fa-solid fa-times me-2"></i>
+                                Cancelar
+                            </a>
+                        @endif
                         <button type="submit" class="btn btn-success px-4 fw-bold">
                             <i class="fa fa-save me-2"></i>
                             {{ $isEdit ? 'Guardar y continuar' : 'Guardar jugador' }}
@@ -315,7 +321,7 @@
                         <div class="fw-semibold mb-2">Contactos registrados</div>
                         
                             @if($player->contacts->isEmpty())
-                                <div class="text-muted">Sin contactos registrados.</div>
+                                <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin contactos registrados.</div>
                             @else
 
                                 <div class="row g-2">
@@ -452,7 +458,8 @@
                         </div>
 
                         <div class="mt-4 text-end">
-                            <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts']) }}" class="btn btn-outline-secondary px-4 fw-bold me-2">
+                            <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
+                                <i class="fa-solid fa-times me-2"></i>
                                 Cancelar
                             </a>
                             <button type="submit" class="btn btn-success px-4 fw-bold">
@@ -475,7 +482,7 @@
                         </div>
 
                         @if($player->observations->isEmpty())
-                            <div class="text-muted">Sin ficha valorativa registrada.</div>
+                            <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin ficha valorativa registrada.</div>
                         @else
                             <div class="row g-2 mt-2">
                                 @foreach($player->observations as $listedObservation)
@@ -485,7 +492,7 @@
                                                 <div class="fw-semibold">{{ $observationTypes[$listedObservation->type] ?? 'Sin tipo' }}</div>
                                                 <div class="text-muted small">{{ $listedObservation->notes ?? '-' }}</div>
                                                 <div class="text-muted small">
-                                                    {{ $listedObservation->user?->name ?? 'Usuario' }} · {{ $listedObservation->created_at?->format('Y-m-d') }}
+                                                    <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $listedObservation->author?->name ?? 'Usuario' }}</span> · {{ $listedObservation->created_at?->format('Y-m-d') }}
                                                 </div>
                                             </div>
                                             <div class="d-flex gap-2">
@@ -565,7 +572,8 @@
                         </div>
 
                         <div class="mt-4 text-end">
-                            <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn btn-outline-secondary px-4 fw-bold me-2">
+                            <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
+                                <i class="fa-solid fa-times me-2"></i>
                                 Cancelar
                             </a>
                             <button type="submit" class="btn btn-success px-4 fw-bold">

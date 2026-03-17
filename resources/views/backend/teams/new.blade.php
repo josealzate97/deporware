@@ -148,7 +148,9 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <div class="col-12 text-muted">No hay sedes registradas.</div>
+                                    <div class="col-12">
+                                        <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>No hay sedes registradas.</div>
+                                    </div>
                                 @endforelse
                             </div>
                         </div>
@@ -225,7 +227,9 @@
                                         </label>
                                     </div>
                                 @empty
-                                    <div class="col-12 team-empty-players-message">No hay jugadores activos para asignar.</div>
+                                    <div class="col-12">
+                                        <div class="empty-state-soft"><i class="fa-solid fa-users-slash" aria-hidden="true"></i>No hay jugadores activos para asignar.</div>
+                                    </div>
                                 @endforelse
                             </div>
                         </div>

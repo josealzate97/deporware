@@ -66,7 +66,7 @@
                         <span class="meta-badge">{{ $team->venues->count() }} sede{{ $team->venues->count() === 1 ? '' : 's' }}</span>
                     </div>
                     @if($team->venues->isEmpty())
-                        <div class="text-muted">Sin sedes asociadas.</div>
+                        <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>Sin sedes asociadas.</div>
                     @else
                         <div class="row g-2 mt-2">
                             @foreach($team->venues as $venue)
@@ -92,12 +92,12 @@
                         <span class="meta-badge">{{ $coachCount }} entrenador{{ $coachCount === 1 ? '' : 'es' }}</span>
                     </div>
                     @if(!$primaryCoach && !$assistantCoach)
-                        <div class="text-muted">Sin entrenadores asignados.</div>
+                        <div class="empty-state-soft"><i class="fa-solid fa-user-slash" aria-hidden="true"></i>Sin entrenadores asignados.</div>
                     @else
                         <div class="row g-2 mt-2">
                             @if($primaryCoach)
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="team-info-item h-100">
+                                    <div class="team-info-item team-coach-card h-100">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-user-tie"></i>
                                         </span>
@@ -110,7 +110,7 @@
                             @endif
                             @if($assistantCoach)
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="team-info-item h-100">
+                                    <div class="team-info-item team-coach-card h-100">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-user"></i>
                                         </span>
@@ -135,7 +135,7 @@
                 </div>
 
                 @if($activePlayers->isEmpty())
-                    <div class="text-muted">No hay jugadores asignados.</div>
+                    <div class="empty-state-soft"><i class="fa-solid fa-users-slash" aria-hidden="true"></i>No hay jugadores asignados.</div>
                 @else
                     <div class="row g-2">
                         @foreach($activePlayers as $roster)
@@ -146,10 +146,10 @@
                                     <span class="team-player-main">
                                         <span class="team-player-meta">
                                             <span class="team-player-name">{{ $player->name }} {{ $player->lastname }}</span>
-                                            <span class="team-player-position">{{ $positionOptions[$roster->position] ?? 'Sin posición' }}</span>
+                                            <span class="meta-badge team-player-position-badge">{{ $positionOptions[$roster->position] ?? 'Sin posición' }}</span>
                                         </span>
-                                        <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-sm btn-outline-success team-player-link" title="Ver más de {{ $player->name }} {{ $player->lastname }}" aria-label="Ver más de {{ $player->name }} {{ $player->lastname }}">
-                                            <i class="fa-solid fa-circle-info me-1"></i> Ver más
+                                        <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn btn-icon team-player-link" title="Ver más de {{ $player->name }} {{ $player->lastname }}" aria-label="Ver más de {{ $player->name }} {{ $player->lastname }}">
+                                            <i class="fa-solid fa-circle-info"></i>
                                         </a>
                                     </span>
                                 </div>

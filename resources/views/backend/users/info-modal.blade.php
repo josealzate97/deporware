@@ -76,12 +76,12 @@
                     <span class="meta-badge">{{ $venues->count() }} sede{{ $venues->count() === 1 ? '' : 's' }}</span>
                 </div>
                 @if($venues->isEmpty())
-                    <div class="text-muted">Sin sedes asociadas.</div>
+                    <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>Sin sedes asociadas.</div>
                 @else
                     <div class="row g-2 mt-2">
                         @foreach($venues as $venue)
                             <div class="col-12 col-sm-6 col-lg-4">
-                                <div class="team-info-item h-100">
+                                <div class="team-info-item user-mint-card h-100">
                                     <span class="team-avatar-badge">
                                         <i class="fa-solid fa-building"></i>
                                     </span>
@@ -108,7 +108,7 @@
                         <div class="row g-2 mt-2">
                             @foreach($teamAssignments as $assignment)
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="team-info-item h-100">
+                                    <div class="team-info-item user-mint-card h-100">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-shield"></i>
                                         </span>

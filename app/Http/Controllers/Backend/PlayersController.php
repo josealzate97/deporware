@@ -171,7 +171,7 @@ class PlayersController extends Controller
     */
     public function show($id)
     {
-        $player = Player::with(['contacts', 'observations.user', 'rosters.team'])->findOrFail($id);
+        $player = Player::with(['contacts', 'observations.author', 'rosters.team'])->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.players.show-modal', [
@@ -227,7 +227,7 @@ class PlayersController extends Controller
     */
     public function edit($id)
     {
-        $player = Player::with(['contacts', 'observations.user', 'rosters'])->findOrFail($id);
+        $player = Player::with(['contacts', 'observations.author', 'rosters'])->findOrFail($id);
 
         $teamOptions = Team::query()
             ->where('status', Team::ACTIVE)
