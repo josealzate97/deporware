@@ -199,6 +199,49 @@
   color: #334155;
 }
 
+.matches-calendar-day-results {
+  position: absolute;
+  left: 6px;
+  bottom: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.matches-calendar-day-result {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  border: 1px solid transparent;
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  letter-spacing: 0;
+  transform: translateX(0.4px);
+}
+
+.matches-calendar-day-result.is-win {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.matches-calendar-day-result.is-loss {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.matches-calendar-day-result.is-draw {
+  background: #fef3c7;
+  border-color: #fcd34d;
+  color: #92400e;
+}
+
 .matches-calendar-day.is-empty {
   border: 0;
   background: transparent;
@@ -210,12 +253,15 @@
 }
 
 .matches-calendar-day-count {
-  min-width: 20px;
-  border-radius: 999px;
-  font-size: 0.7rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.72rem;
   font-weight: 800;
   line-height: 1;
-  padding: 0.15rem 0.35rem;
+  padding: 0;
   text-align: center;
   background: #bbf7d0;
   color: #166534;
@@ -331,6 +377,35 @@
   background: #fef2f2;
   color: #991b1b;
   border-color: #fecaca;
+}
+
+.match-calendar-result-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  border: 1px solid transparent;
+  line-height: 1.1;
+}
+
+.match-calendar-result-badge.is-win {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+
+.match-calendar-result-badge.is-loss {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+
+.match-calendar-result-badge.is-draw {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fcd34d;
 }
 
 @media (max-width: 1200px) {

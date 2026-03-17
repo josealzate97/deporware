@@ -95,6 +95,8 @@ class MatchesController extends Controller
                 'rival' => $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : 'Sin rival'),
                 'statusCode' => (int) $match->match_status,
                 'status' => MatchModel::statusOptions()[$match->match_status] ?? 'Sin estado',
+                'resultCode' => $match->match_result ? (int) $match->match_result : null,
+                'resultLabel' => MatchModel::resultOptions()[$match->match_result] ?? null,
                 'score' => $match->final_score ?: '-',
             ];
         })->filter(fn ($item) => !empty($item['date']))->values();

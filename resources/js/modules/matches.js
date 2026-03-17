@@ -103,6 +103,18 @@ const initMatchesCalendar = () => {
                     ? 'is-cancelled'
                     : 'is-scheduled';
 
+            const resultClass = event.resultCode === 1
+                ? 'is-win'
+                : event.resultCode === 2
+                    ? 'is-loss'
+                    : event.resultCode === 3
+                        ? 'is-draw'
+                        : '';
+
+            const resultBadge = event.statusCode === 2 && resultClass !== ''
+                ? `<span class="match-calendar-result-badge ${resultClass}">${event.resultLabel || '-'}</span>`
+                : '';
+
             return `
             <div class="matches-calendar-event-item">
                 <div class="matches-calendar-event-main">
@@ -113,6 +125,7 @@ const initMatchesCalendar = () => {
                     </div>
                 </div>
                 <div class="matches-calendar-event-badges">
+                    ${resultBadge}
                     <span class="meta-badge">${event.score}</span>
                 </div>
             </div>
@@ -145,7 +158,25 @@ const initMatchesCalendar = () => {
         for (let day = 1; day <= daysInMonth; day += 1) {
             const date = new Date(year, month, day);
             const key = toKey(date);
-            const count = (eventsByDay[key] || []).length;
+            const dayEvents = eventsByDay[key] || [];
+            const count = dayEvents.length;
+            const resultBadges = dayEvents
+                .filter((event) => event.statusCode === 2 && [1, 2, 3].includes(Number(event.resultCode)))
+                .slice(0, 2)
+                .map((event) => {
+                    const cls = Number(event.resultCode) === 1
+                        ? 'is-win'
+                        : Number(event.resultCode) === 2
+                            ? 'is-loss'
+                            : 'is-draw';
+                    const letter = Number(event.resultCode) === 1
+                        ? 'G'
+                        : Number(event.resultCode) === 2
+                            ? 'P'
+                            : 'E';
+                    return `<span class="matches-calendar-day-result ${cls}">${letter}</span>`;
+                })
+                .join('');
 
             const button = document.createElement('button');
             button.type = 'button';
@@ -153,6 +184,7 @@ const initMatchesCalendar = () => {
             button.innerHTML = `
                 <span class="matches-calendar-day-number">${day}</span>
                 ${count ? `<span class="matches-calendar-day-count">${count}</span>` : ''}
+                ${resultBadges ? `<span class="matches-calendar-day-results">${resultBadges}</span>` : ''}
             `;
             button.addEventListener('click', () => {
                 selectedKey = key;

@@ -607,6 +607,30 @@ body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card {
   border-color: #2f6b49 !important;
 }
 
+body.theme-dark .info-panel .show-modal-mint .section-card .team-info-item,
+body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card {
+  background: #1a2433 !important;
+  border-color: #33485f !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.34);
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-card .team-info-item:hover,
+body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card:hover {
+  background: #1d2b3d !important;
+  border-color: #3f5d7e !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-card .team-avatar-badge {
+  background: #13273f;
+  border-color: #325581;
+  color: #93c5fd;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-card .team-player-number {
+  background: #173727;
+  color: #bbf7d0;
+}
+
 body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card .fw-semibold,
 body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card .fw-semibold {
   color: #dcfce7;
@@ -901,6 +925,37 @@ body.theme-dark .match-result-pill-pending {
 
 body.theme-dark .match-result-pill-loss {
   background: #3f2a10 !important;
+  border-color: #7a4a12 !important;
+  color: #fde68a !important;
+}
+
+body.theme-dark .players-toolbar-meta .fw-bold,
+body.theme-dark .section-results-meta .fw-bold {
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .matches-calendar-event-main .text-muted,
+body.theme-dark .matches-calendar-event-main .text-muted i {
+  color: #c7d2e2 !important;
+}
+
+body.theme-dark .matches-calendar-day-result.is-win,
+body.theme-dark .match-calendar-result-badge.is-win {
+  background: #173727 !important;
+  border-color: #2f6b49 !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .matches-calendar-day-result.is-loss,
+body.theme-dark .match-calendar-result-badge.is-loss {
+  background: #3a1f22 !important;
+  border-color: #7f2f35 !important;
+  color: #fecaca !important;
+}
+
+body.theme-dark .matches-calendar-day-result.is-draw,
+body.theme-dark .match-calendar-result-badge.is-draw {
+  background: #3a2b12 !important;
   border-color: #7a4a12 !important;
   color: #fde68a !important;
 }
