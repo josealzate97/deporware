@@ -291,6 +291,51 @@ const initAutocomplete = (wrapper) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    let lightboxRoot = null;
+    let lightboxImage = null;
+
+    const closeLightbox = () => {
+        if (!lightboxRoot) return;
+        lightboxRoot.classList.remove('is-open');
+        lightboxRoot.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('match-lightbox-open');
+    };
+
+    const ensureLightbox = () => {
+        if (lightboxRoot) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'match-lightbox';
+        wrapper.setAttribute('aria-hidden', 'true');
+        wrapper.innerHTML = `
+            <div class="match-lightbox__backdrop" data-lightbox-close></div>
+            <div class="match-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Vista ampliada de archivo">
+                <button type="button" class="match-lightbox__close" data-lightbox-close aria-label="Cerrar vista previa">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <img class="match-lightbox__image" alt="Imagen ampliada">
+            </div>
+        `;
+        document.body.appendChild(wrapper);
+        lightboxRoot = wrapper;
+        lightboxImage = wrapper.querySelector('.match-lightbox__image');
+
+        wrapper.addEventListener('click', (event) => {
+            if (event.target.closest('[data-lightbox-close]')) {
+                closeLightbox();
+            }
+        });
+    };
+
+    const openLightbox = (src, alt = 'Imagen') => {
+        if (!src) return;
+        ensureLightbox();
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightboxRoot.classList.add('is-open');
+        lightboxRoot.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('match-lightbox-open');
+    };
+
     document.querySelectorAll('[data-autocomplete]').forEach(initAutocomplete);
     initMatchesCalendar();
 
@@ -329,6 +374,107 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    validateFileInput(document.getElementById('match_file'), ['pdf', 'docx', 'xls', 'xlsx'], 'el informe del partido');
-    validateFileInput(document.getElementById('team_photo'), ['jpg', 'png'], 'la foto del equipo');
+    const matchFileInput = document.getElementById('match_file');
+    const teamPhotoInput = document.getElementById('team_photo');
+
+    validateFileInput(matchFileInput, ['pdf', 'docx', 'xls', 'xlsx'], 'el informe del partido');
+    validateFileInput(teamPhotoInput, ['jpg', 'jpeg', 'png'], 'la foto del equipo');
+
+    document.addEventListener('click', (event) => {
+        const trigger = event.target.closest('[data-match-photo-trigger], [data-lightbox-src]');
+        if (trigger) {
+            const src = trigger.getAttribute('data-lightbox-src') || '';
+            if (src) {
+                event.preventDefault();
+                openLightbox(src, trigger.getAttribute('data-lightbox-alt') || 'Foto del equipo');
+            }
+            return;
+        }
+
+        const removeBtn = event.target.closest('[data-match-remove]');
+        if (!removeBtn) return;
+
+        const assetCard = removeBtn.closest('[data-match-asset]');
+        if (!assetCard) return;
+
+        const assetType = assetCard.getAttribute('data-match-asset');
+        const uploadWrap = document.querySelector(`[data-match-upload="${assetType}"]`);
+        const hiddenRemove = document.getElementById(assetType === 'report' ? 'remove_match_file' : 'remove_team_photo');
+        const input = document.getElementById(assetType === 'report' ? 'match_file' : 'team_photo');
+        const replacementHint = uploadWrap?.querySelector('[data-match-replacement-label]');
+        const alpineState = input?.closest('form')?._x_dataStack?.[0];
+
+        assetCard.classList.add('d-none');
+        uploadWrap?.classList.remove('d-none');
+
+        if (hiddenRemove) hiddenRemove.value = '1';
+        if (alpineState) {
+            if (assetType === 'report') alpineState.hasExistingMatchFile = false;
+            if (assetType === 'photo') alpineState.hasExistingTeamPhoto = false;
+        }
+        if (input) {
+            input.value = '';
+            input.dispatchEvent(new Event('change'));
+        }
+
+        if (replacementHint) {
+            replacementHint.textContent = assetType === 'report'
+                ? 'Selecciona el nuevo informe para reemplazar el anterior.'
+                : 'Selecciona la nueva foto para reemplazar la anterior.';
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+
+    if (teamPhotoInput) {
+        const photoStage = document.querySelector('[data-match-photo-stage]');
+        const photoPreview = document.querySelector('[data-match-photo-preview]');
+        const removePhotoInput = document.getElementById('remove_team_photo');
+
+        const showPreview = (src) => {
+            if (!photoStage || !photoPreview) return;
+            photoPreview.src = src;
+            photoStage.classList.remove('d-none');
+        };
+
+        const hidePreview = () => {
+            if (!photoStage || !photoPreview) return;
+            photoPreview.removeAttribute('src');
+            photoStage.classList.add('d-none');
+        };
+
+        teamPhotoInput.addEventListener('change', () => {
+            const file = teamPhotoInput.files?.[0];
+            if (!file) {
+                hidePreview();
+                return;
+            }
+
+            const ext = file.name.split('.').pop()?.toLowerCase() || '';
+            if (!['jpg', 'jpeg', 'png'].includes(ext)) {
+                hidePreview();
+                return;
+            }
+
+            if (removePhotoInput) removePhotoInput.value = '0';
+            showPreview(URL.createObjectURL(file));
+        });
+    }
+
+    if (matchFileInput) {
+        const removeMatchFileInput = document.getElementById('remove_match_file');
+        matchFileInput.addEventListener('change', () => {
+            if (matchFileInput.files?.length && removeMatchFileInput) {
+                removeMatchFileInput.value = '0';
+            }
+            const alpineState = matchFileInput.closest('form')?._x_dataStack?.[0];
+            if (alpineState && matchFileInput.files?.length) {
+                alpineState.hasExistingMatchFile = false;
+            }
+        });
+    }
 });

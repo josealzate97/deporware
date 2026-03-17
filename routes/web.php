@@ -92,6 +92,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/', 'store')->name('store');
         Route::get('/{id}', 'show')->name('show');
         Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::get('/{id}/view/report', 'viewReport')->name('view.report');
+        Route::get('/{id}/view/team-photo', 'viewTeamPhoto')->name('view.team-photo');
         Route::get('/{id}/download/report', 'downloadReport')->name('download.report');
         Route::get('/{id}/download/team-photo', 'downloadTeamPhoto')->name('download.team-photo');
         Route::put('/{id}', 'update')->name('update');

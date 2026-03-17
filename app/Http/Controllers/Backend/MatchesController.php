@@ -167,8 +167,8 @@ class MatchesController extends Controller
             'match_result' => [$isScheduled ? 'nullable' : 'required', 'integer'],
             'final_score' => [$isScheduled ? 'nullable' : 'required', 'string', 'max:20'],
             'match_notes' => ['nullable', 'string'],
-            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,docx,xls'],
-            'team_photo' => ['nullable', 'mimes:jpg,png'],
+            'match_file' => [$isScheduled ? 'nullable' : 'required', 'file', 'mimes:pdf,docx,xls,xlsx'],
+            'team_photo' => ['nullable', 'mimes:jpg,jpeg,png'],
 
             'match_feedback.match_formation' => [$isCompleted ? 'required' : 'nullable', 'string', 'max:20'],
             'match_feedback.attack_strengths' => [$isCompleted ? 'required' : 'nullable', 'uuid', 'exists:attack_points,id'],
@@ -306,7 +306,8 @@ class MatchesController extends Controller
         $statusScheduled = MatchModel::STATUS_SCHEDULED;
         $isCompleted = (int) $request->input('match_status') === $statusCompleted;
         $isScheduled = (int) $request->input('match_status') === $statusScheduled;
-        $requiresMatchFile = !$isScheduled && empty($match->match_file);
+        $removingMatchFile = $request->boolean('remove_match_file');
+        $requiresMatchFile = !$isScheduled && ($removingMatchFile || empty($match->match_file)) && !$request->hasFile('match_file');
 
         $validated = $request->validate([
             'match_date' => ['required', 'date'],
@@ -320,8 +321,10 @@ class MatchesController extends Controller
             'match_result' => [$isScheduled ? 'nullable' : 'required', 'integer'],
             'final_score' => [$isScheduled ? 'nullable' : 'required', 'string', 'max:20'],
             'match_notes' => ['nullable', 'string'],
-            'match_file' => [$requiresMatchFile ? 'required' : 'nullable', 'file', 'mimes:pdf,docx,xls'],
-            'team_photo' => ['nullable', 'mimes:jpg,png'],
+            'match_file' => [$requiresMatchFile ? 'required' : 'nullable', 'file', 'mimes:pdf,docx,xls,xlsx'],
+            'team_photo' => ['nullable', 'mimes:jpg,jpeg,png'],
+            'remove_match_file' => ['nullable', 'boolean'],
+            'remove_team_photo' => ['nullable', 'boolean'],
 
             'match_feedback.match_formation' => [$isCompleted ? 'required' : 'nullable', 'string', 'max:20'],
             'match_feedback.attack_strengths' => [$isCompleted ? 'required' : 'nullable', 'uuid', 'exists:attack_points,id'],
@@ -355,6 +358,14 @@ class MatchesController extends Controller
                 'final_score' => $validated['final_score'] ?? null,
                 'match_notes' => $validated['match_notes'] ?? null,
             ];
+
+            if ($request->boolean('remove_match_file')) {
+                $this->removeStoredMatchAsset($match, 'match_file');
+            }
+
+            if ($request->boolean('remove_team_photo')) {
+                $this->removeStoredMatchAsset($match, 'team_picture');
+            }
 
             $match->update($matchData);
             $this->syncMatchStorage($match->id, $match->team, $previousTeamId);
@@ -414,6 +425,13 @@ class MatchesController extends Controller
         return response()->download(storage_path('app/public/' . $path), $fileName);
     }
 
+    public function viewReport($id)
+    {
+        $match = MatchModel::findOrFail($id);
+
+        return $this->streamMatchAssetInline($match->match_file, 'No hay informe disponible para visualizar.');
+    }
+
     public function downloadTeamPhoto($id)
     {
         $match = MatchModel::findOrFail($id);
@@ -427,6 +445,13 @@ class MatchesController extends Controller
         $fileName = 'foto-equipo-' . $match->id . '.' . $extension;
 
         return response()->download(storage_path('app/public/' . $path), $fileName);
+    }
+
+    public function viewTeamPhoto($id)
+    {
+        $match = MatchModel::findOrFail($id);
+
+        return $this->streamMatchAssetInline($match->team_picture, 'No hay foto de equipo disponible para visualizar.');
     }
 
     /** 
@@ -505,6 +530,46 @@ class MatchesController extends Controller
                 $this->flashStorageError();
             }
         }
+    }
+
+    private function removeStoredMatchAsset(MatchModel $match, string $attribute): void
+    {
+        $path = $match->{$attribute};
+
+        if (empty($path)) {
+            $match->update([$attribute => null]);
+            return;
+        }
+
+        $disk = Storage::disk('public');
+
+        if ($disk->exists($path) && !$disk->delete($path)) {
+            Log::error('Failed to delete match asset.', [
+                'match' => $match->id,
+                'attribute' => $attribute,
+                'path' => $path,
+            ]);
+            $this->flashStorageError();
+            return;
+        }
+
+        $match->update([$attribute => null]);
+    }
+
+    private function streamMatchAssetInline(?string $path, string $missingMessage)
+    {
+        if (empty($path) || !Storage::disk('public')->exists($path)) {
+            return back()->with('error', $missingMessage);
+        }
+
+        $fullPath = storage_path('app/public/' . $path);
+        $mimeType = Storage::disk('public')->mimeType($path) ?: 'application/octet-stream';
+
+        return response()->file($fullPath, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . basename($path) . '"',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     private function syncMatchFilePaths(MatchModel $match, ?string $previousTeamId): void

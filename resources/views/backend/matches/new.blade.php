@@ -16,6 +16,12 @@
 @php($statusScheduled = \App\Models\MatchModel::STATUS_SCHEDULED)
 @php($hasExistingMatchFile = $isEdit && !empty($match?->match_file))
 @php($hasExistingTeamPhoto = $isEdit && !empty($match?->team_picture))
+@php($showExistingMatchFile = $hasExistingMatchFile && old('remove_match_file', '0') !== '1')
+@php($showExistingTeamPhoto = $hasExistingTeamPhoto && old('remove_team_photo', '0') !== '1')
+@php($existingMatchFilePath = $hasExistingMatchFile ? $match->match_file : '')
+@php($existingMatchFileExtension = $existingMatchFilePath ? strtoupper(pathinfo($existingMatchFilePath, PATHINFO_EXTENSION)) : '')
+@php($existingMatchFileIsPdf = strtolower(pathinfo($existingMatchFilePath, PATHINFO_EXTENSION)) === 'pdf')
+@php($existingTeamPhotoUrl = $hasExistingTeamPhoto ? \Illuminate\Support\Facades\Storage::url($match->team_picture) : '')
 
 @section('title', $isEdit ? 'Editar Partido' : 'Nuevo Partido')
 
@@ -74,7 +80,8 @@
                 enctype="multipart/form-data"
                 x-data="{
                     status: @js(old('match_status', $match->match_status ?? $defaultStatus)),
-                    hasExistingMatchFile: @js($hasExistingMatchFile),
+                    hasExistingMatchFile: @js($showExistingMatchFile),
+                    hasExistingTeamPhoto: @js($showExistingTeamPhoto),
                     get isCompleted() { return Number(this.status) === {{ $statusCompleted }} },
                     get isScheduled() { return Number(this.status) === {{ $statusScheduled }} },
                     get requiresResult() { return !this.isScheduled },
@@ -256,45 +263,115 @@
                                             <div class="match-file-item">
                                                 <div class="match-file-item-header">
                                                     <label class="form-label fw-semibold mb-0" for="match_file">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                                    <span class="match-file-badge">PDF/DOCX/XLS · Máx 5MB</span>
+                                                    <span class="match-file-badge">PDF/DOCX/XLS/XLSX · Máx 5MB</span>
                                                 </div>
 
-                                                <input type="file" class="form-control upload-control upload-control-gradient @error('match_file') is-invalid @enderror" name="match_file" id="match_file" x-bind:required="requiresResult && !hasExistingMatchFile" x-bind:disabled="isScheduled" accept=".pdf,.docx,.xls">
+                                                <input type="hidden" name="remove_match_file" id="remove_match_file" value="{{ old('remove_match_file', '0') }}">
+
+                                                @if($hasExistingMatchFile)
+                                                    <div
+                                                        class="match-file-preview-card mt-3 {{ $showExistingMatchFile ? '' : 'd-none' }}"
+                                                        data-match-asset="report"
+                                                        data-has-existing="{{ $showExistingMatchFile ? '1' : '0' }}">
+                                                        <div class="match-file-preview-main">
+                                                            <div class="match-file-thumb match-file-thumb-document">
+                                                                <span>{{ $existingMatchFileExtension ?: 'FILE' }}</span>
+                                                            </div>
+                                                            <div class="match-file-preview-copy">
+                                                                <div class="match-file-preview-title">Informe</div>
+                                                                <div class="match-file-preview-text">
+                                                                    {{ $existingMatchFileIsPdf ? 'Vista previa disponible en el navegador.' : 'Se abrira en una nueva pestana si el navegador soporta este formato.' }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="match-file-meta mt-3">
+                                                            <span class="status-pill status-pill-success">Informe actual cargado</span>
+                                                            <a href="{{ route('matches.view.report', $match->id) }}" target="_blank" rel="noopener" class="btn btn-sm match-file-action-btn" data-match-view>
+                                                                <i class="fa-solid fa-eye me-1"></i> Visualizar
+                                                            </a>
+                                                            <a href="{{ route('matches.download.report', $match->id) }}" class="btn btn-sm match-file-download-btn">
+                                                                <i class="fa-solid fa-download me-1"></i> Descargar
+                                                            </a>
+                                                            <button type="button" class="btn btn-sm match-file-remove-btn" data-match-remove>
+                                                                <i class="fa-solid fa-trash me-1"></i> Quitar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <div
+                                                    class="match-file-upload-wrap mt-3 {{ $showExistingMatchFile ? 'd-none' : '' }}"
+                                                    data-match-upload="report">
+                                                    <input type="file" class="form-control upload-control upload-control-gradient @error('match_file') is-invalid @enderror" name="match_file" id="match_file" x-bind:required="requiresResult && !hasExistingMatchFile" x-bind:disabled="isScheduled" accept=".pdf,.docx,.xls,.xlsx">
+                                                    <div class="match-file-upload-hint mt-2" data-match-replacement-label>
+                                                        {{ $showExistingMatchFile ? 'Selecciona el nuevo informe para reemplazar el actual.' : 'Selecciona el archivo del informe.' }}
+                                                    </div>
+                                                </div>
 
                                                 @error('match_file')
                                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                                 @enderror
-
-                                                @if($hasExistingMatchFile)
-                                                    <div class="match-file-meta mt-2">
-                                                        <span class="status-pill status-pill-success">Informe actual cargado</span>
-                                                        <a href="{{ route('matches.download.report', $match->id) }}" class="btn btn-sm match-file-download-btn">
-                                                            <i class="fa-solid fa-download me-1"></i> Descargar informe
-                                                        </a>
-                                                    </div>
-                                                @endif
                                             </div>
 
                                             <div class="match-file-item">
                                                 <div class="match-file-item-header">
                                                     <label class="form-label fw-semibold mb-0" for="team_photo">Foto equipo</label>
-                                                    <span class="match-file-badge">JPG/PNG · Máx 5MB</span>
+                                                    <span class="match-file-badge">JPG/JPEG/PNG · Máx 5MB</span>
                                                 </div>
 
-                                                <input type="file" class="form-control upload-control upload-control-gradient @error('team_photo') is-invalid @enderror" name="team_photo" id="team_photo" accept=".jpg,.png">
+                                                <input type="hidden" name="remove_team_photo" id="remove_team_photo" value="{{ old('remove_team_photo', '0') }}">
+
+                                                @if($hasExistingTeamPhoto)
+                                                    <div
+                                                        class="match-file-preview-card match-file-preview-card-photo mt-3 {{ $showExistingTeamPhoto ? '' : 'd-none' }}"
+                                                        data-match-asset="photo"
+                                                        data-has-existing="{{ $showExistingTeamPhoto ? '1' : '0' }}">
+                                                        <div class="match-file-preview-main">
+                                                            <button
+                                                                type="button"
+                                                                class="match-file-thumb match-file-thumb-photo"
+                                                                data-match-photo-trigger
+                                                                data-lightbox-src="{{ $existingTeamPhotoUrl }}"
+                                                                data-lightbox-alt="Foto del equipo">
+                                                                <img src="{{ $existingTeamPhotoUrl }}" alt="Foto del equipo" class="match-file-thumb-image">
+                                                            </button>
+                                                            <div class="match-file-preview-copy">
+                                                                <div class="match-file-preview-title">Foto del equipo actual</div>
+                                                                <div class="match-file-preview-text">Se muestra una miniatura. Puedes abrirla en grande o descargarla.</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="match-file-meta mt-3">
+                                                            <span class="status-pill status-pill-success">Foto actual cargada</span>
+                                                            <a href="{{ route('matches.view.team-photo', $match->id) }}" target="_blank" rel="noopener" class="btn btn-sm match-file-action-btn">
+                                                                <i class="fa-solid fa-eye me-1"></i> Visualizar
+                                                            </a>
+                                                            <a href="{{ route('matches.download.team-photo', $match->id) }}" class="btn btn-sm match-file-download-btn">
+                                                                <i class="fa-solid fa-download me-1"></i> Descargar
+                                                            </a>
+                                                            <button type="button" class="btn btn-sm match-file-remove-btn" data-match-remove>
+                                                                <i class="fa-solid fa-trash me-1"></i> Quitar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <div
+                                                    class="match-file-upload-wrap mt-3 {{ $showExistingTeamPhoto ? 'd-none' : '' }}"
+                                                    data-match-upload="photo">
+                                                    <input type="file" class="form-control upload-control upload-control-gradient @error('team_photo') is-invalid @enderror" name="team_photo" id="team_photo" accept=".jpg,.jpeg,.png">
+                                                    <div class="match-file-upload-hint mt-2" data-match-replacement-label>
+                                                        {{ $showExistingTeamPhoto ? 'Selecciona la nueva foto para reemplazar la actual.' : 'Selecciona la foto del equipo.' }}
+                                                    </div>
+                                                    <div class="match-file-photo-stage d-none" data-match-photo-stage>
+                                                        <img src="" alt="Vista previa de la nueva foto" class="match-file-photo-preview" data-match-photo-preview>
+                                                    </div>
+                                                </div>
 
                                                 @error('team_photo')
                                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                                 @enderror
-
-                                                @if($hasExistingTeamPhoto)
-                                                    <div class="match-file-meta mt-2">
-                                                        <span class="status-pill status-pill-success">Foto actual cargada</span>
-                                                        <a href="{{ route('matches.download.team-photo', $match->id) }}" class="btn btn-sm match-file-download-btn">
-                                                            <i class="fa-solid fa-download me-1"></i> Descargar foto
-                                                        </a>
-                                                    </div>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
