@@ -120,20 +120,20 @@ const initMatchesCalendar = () => {
                 ? `<span class="match-calendar-result-badge ${resultClass}">${event.resultLabel || '-'}</span>`
                 : '';
 
+            const scoreBadge = `<span class="match-calendar-score-badge">${event.score}</span>`;
+
             return `
             <div class="matches-calendar-event-item">
                 <div class="matches-calendar-event-main">
-                    <div class="fw-semibold">${event.team} vs ${event.rival}</div>
-                    <div class="text-muted small d-flex align-items-center gap-2 flex-wrap">
-                        <span><i class="fa-solid fa-clock me-1"></i>${event.time}</span>
+                    <div class="matches-calendar-event-title">${event.team} vs ${event.rival}</div>
+                    <div class="matches-calendar-event-meta">
+                        <span class="matches-calendar-time"><i class="fa-solid fa-clock me-1"></i>${event.time}</span>
                         <span class="match-calendar-status-badge ${statusClass}">${event.status}</span>
+                        ${resultBadge}
+                        ${scoreBadge}
                     </div>
                 </div>
                 <div class="matches-calendar-event-side">
-                    <div class="matches-calendar-event-badges">
-                    ${resultBadge}
-                    <span class="meta-badge">${event.score}</span>
-                    </div>
                     <button type="button" class="btn btn-icon text-primary"
                         data-match-modal-url="${event.modalUrl || ''}"
                         aria-label="Ver información del partido"
