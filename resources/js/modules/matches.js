@@ -129,9 +129,17 @@ const initMatchesCalendar = () => {
                         <span class="match-calendar-status-badge ${statusClass}">${event.status}</span>
                     </div>
                 </div>
-                <div class="matches-calendar-event-badges">
+                <div class="matches-calendar-event-side">
+                    <div class="matches-calendar-event-badges">
                     ${resultBadge}
                     <span class="meta-badge">${event.score}</span>
+                    </div>
+                    <button type="button" class="btn btn-icon text-primary"
+                        data-match-modal-url="${event.modalUrl || ''}"
+                        aria-label="Ver información del partido"
+                        title="Ver información">
+                        <i class="fas fa-circle-info"></i>
+                    </button>
                 </div>
             </div>
         `;
@@ -347,6 +355,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-autocomplete]').forEach(initAutocomplete);
     initMatchesCalendar();
+
+    document.addEventListener('click', (event) => {
+        const modalTrigger = event.target.closest('[data-match-modal-url]');
+        if (modalTrigger) {
+            const url = modalTrigger.getAttribute('data-match-modal-url');
+            const alpineRoot = modalTrigger.closest('[x-data]');
+            const alpineState = alpineRoot?._x_dataStack?.[0];
+
+            if (url && alpineState?.openModal) {
+                event.preventDefault();
+                alpineState.openModal(url);
+            }
+        }
+    });
 
     const dateInput = document.getElementById('match_date_date');
     const timeInput = document.getElementById('match_date_time');

@@ -93,6 +93,7 @@ class MatchesController extends Controller
                 'time' => $match->match_date?->format('H:i') ?? '-',
                 'team' => $teamModel?->name ?? ($match->team ? 'Sin equipo vinculado' : 'Sin equipo'),
                 'rival' => $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : 'Sin rival'),
+                'modalUrl' => route('matches.show', $match->id) . '?modal=1',
                 'statusCode' => (int) $match->match_status,
                 'status' => MatchModel::statusOptions()[$match->match_status] ?? 'Sin estado',
                 'resultCode' => $match->match_result ? (int) $match->match_result : null,

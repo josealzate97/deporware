@@ -345,6 +345,13 @@
   min-width: 0;
 }
 
+.matches-calendar-event-side {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
 .matches-calendar-empty-state {
   grid-column: 1 / -1;
   display: flex;

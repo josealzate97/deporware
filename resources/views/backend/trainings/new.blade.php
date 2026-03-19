@@ -286,21 +286,23 @@
 
                             @foreach($teams as $team)
                                 @php($teamPlayers = $playersByTeam[$team->id] ?? [])
-                                <div class="training-attendance-grid mt-3" x-show="selectedTeam === '{{ $team->id }}'" x-cloak>
+                                <div class="row g-3 mt-3" x-show="selectedTeam === '{{ $team->id }}'" x-cloak>
                                     @forelse($teamPlayers as $player)
-                                        <label class="training-attendance-card">
-                                            <input class="form-check-input training-attendance-check" type="checkbox" name="attendance[]"
-                                                value="{{ $player['id'] }}"
-                                                x-bind:disabled="selectedTeam !== '{{ $team->id }}'"
-                                                {{ in_array((string) $player['id'], $selectedAttendance, true) ? 'checked' : '' }}>
-                                            <div class="training-attendance-content">
-                                                <div class="training-attendance-name">{{ $player['name'] }}</div>
-                                                <div class="training-attendance-meta">
-                                                    <span>#{{ $player['dorsal'] ?: '-' }}</span>
-                                                    <span>{{ $player['position'] ?: 'Sin posición' }}</span>
+                                        <div class="col-12 col-md-6 col-lg-3">
+                                            <label class="training-attendance-card h-100">
+                                                <input class="form-check-input training-attendance-check" type="checkbox" name="attendance[]"
+                                                    value="{{ $player['id'] }}"
+                                                    x-bind:disabled="selectedTeam !== '{{ $team->id }}'"
+                                                    {{ in_array((string) $player['id'], $selectedAttendance, true) ? 'checked' : '' }}>
+                                                <div class="training-attendance-content">
+                                                    <div class="training-attendance-name">{{ $player['name'] }}</div>
+                                                    <div class="training-attendance-meta">
+                                                        <span>#{{ $player['dorsal'] ?: '-' }}</span>
+                                                        <span>{{ $player['position'] ?: 'Sin posición' }}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </label>
+                                            </label>
+                                        </div>
                                     @empty
                                         <div class="training-attendance-empty">
                                             Este equipo no tiene jugadores activos en su roster.
@@ -312,12 +314,15 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="{{ route('trainings.index') }}" class="btn btn-danger btn-action">Cancelar</a>
-                    <button type="submit" class="btn btn-primary btn-action">
-                        <i class="fa-solid fa-floppy-disk me-2"></i>
-                        {{ $isEdit ? 'Actualizar entrenamiento' : 'Guardar entrenamiento' }}
-                    </button>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                        <a href="{{ route('trainings.index') }}" class="btn btn-danger btn-action">
+                            <i class="fa-solid fa-xmark me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success btn-action">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>Guardar
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
