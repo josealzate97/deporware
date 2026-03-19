@@ -452,3 +452,137 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+body.theme-dark .dashboard-hero {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%);
+  border-color: #263041;
+}
+
+body.theme-dark .dashboard-eyebrow {
+  background: #1b2a40;
+  color: #9cc8ff;
+}
+
+body.theme-dark .dashboard-hero-badge {
+  background: #1b212b;
+  border-color: #2b3442;
+}
+
+body.theme-dark .dashboard-hero-badge__label,
+body.theme-dark .dashboard-summary-card__label,
+body.theme-dark .dashboard-panel__subtitle,
+body.theme-dark .dashboard-list-item__meta,
+body.theme-dark .dashboard-agenda-item__subtitle,
+body.theme-dark .dashboard-agenda-item__meta,
+body.theme-dark .dashboard-team-load__meta,
+body.theme-dark .dashboard-activity-bar__label,
+body.theme-dark .dashboard-activity__legend,
+body.theme-dark .dashboard-summary-card__meta {
+  color: #94a3b8;
+}
+
+body.theme-dark .dashboard-hero-badge strong,
+body.theme-dark .dashboard-summary-card__value,
+body.theme-dark .dashboard-panel__title,
+body.theme-dark .dashboard-list-item__title,
+body.theme-dark .dashboard-agenda-item__title,
+body.theme-dark .dashboard-team-load__name {
+  color: #e2e8f0;
+}
+
+body.theme-dark .dashboard-summary-card,
+body.theme-dark .dashboard-panel {
+  background: #141a22;
+  border-color: #263041;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34);
+}
+
+body.theme-dark .dashboard-summary-card__icon {
+  background: #1b2532;
+  color: #9cc8ff;
+}
+
+body.theme-dark .dashboard-summary-card--success .dashboard-summary-card__icon {
+  background: #10251a;
+  color: #6ee7b7;
+}
+
+body.theme-dark .dashboard-summary-card--warning .dashboard-summary-card__icon {
+  background: #2b2112;
+  color: #fbbf24;
+}
+
+body.theme-dark .dashboard-summary-card--accent .dashboard-summary-card__icon {
+  background: #102428;
+  color: #67e8f9;
+}
+
+body.theme-dark .dashboard-panel__eyebrow {
+  color: #8fbfff;
+}
+
+body.theme-dark .dashboard-panel__link {
+  background: #1b2a40;
+  color: #9cc8ff;
+}
+
+body.theme-dark .dashboard-panel__link:hover {
+  background: #22344f;
+  color: #dbeafe;
+}
+
+body.theme-dark .dashboard-list-item,
+body.theme-dark .dashboard-agenda-item,
+body.theme-dark .dashboard-team-load {
+  background: #1a2029;
+  border-color: #2b3442;
+}
+
+body.theme-dark .dashboard-list-item:hover,
+body.theme-dark .dashboard-agenda-item:hover {
+  border-color: #3b4a5f;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+}
+
+body.theme-dark .dashboard-list-item__icon--match,
+body.theme-dark .dashboard-agenda-item--match .dashboard-agenda-item__icon {
+  background: #1a2940;
+  color: #93c5fd;
+}
+
+body.theme-dark .dashboard-list-item__icon--training,
+body.theme-dark .dashboard-agenda-item--training .dashboard-agenda-item__icon {
+  background: #12281b;
+  color: #86efac;
+}
+
+body.theme-dark .dashboard-list-item__pill,
+body.theme-dark .dashboard-agenda-item__badge {
+  background: #202a3a;
+  color: #bfdbfe;
+}
+
+body.theme-dark .dashboard-team-load__count {
+  color: #9cc8ff;
+}
+
+body.theme-dark .dashboard-team-load__bar {
+  background: #0f141b;
+}
+
+body.theme-dark .dashboard-empty-state {
+  background: #1a2029;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+body.theme-dark .dashboard-activity-bar__track--matches {
+  background: linear-gradient(180deg, #93c5fd 0%, #3b82f6 100%);
+}
+
+body.theme-dark .dashboard-activity-bar__track--trainings {
+  background: linear-gradient(180deg, #86efac 0%, #22c55e 100%);
+}

@@ -355,3 +355,106 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+body.theme-dark .trainings-calendar-title {
+	background: #1b212b;
+	border-color: #2b3442;
+	color: #e2e8f0;
+}
+
+body.theme-dark .trainings-calendar-nav-btn {
+	background: #1b2a40;
+	border-color: #34507a;
+	color: #9cc8ff;
+}
+
+body.theme-dark .trainings-calendar-nav-btn:hover {
+	background: #22344f;
+	border-color: #4b6b97;
+	color: #dbeafe;
+}
+
+body.theme-dark .trainings-calendar-today-btn {
+	background: #1b3325;
+	border-color: #2d5a3e;
+	color: #bbf7d0;
+}
+
+body.theme-dark .trainings-calendar-today-btn:hover {
+	background: #22402d;
+	border-color: #3d7150;
+	color: #dcfce7;
+}
+
+body.theme-dark .trainings-calendar-grid,
+body.theme-dark .trainings-calendar-day-details {
+	background: #141a22;
+	border-color: #263041;
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+}
+
+body.theme-dark .trainings-calendar-weekdays span,
+body.theme-dark .training-attendance-helper,
+body.theme-dark .training-attendance-meta,
+body.theme-dark .trainings-calendar-empty-state {
+	color: #94a3b8;
+}
+
+body.theme-dark .trainings-calendar-day {
+	background: #1a2029;
+	border-color: #2b3442;
+	color: #dbe5f1;
+}
+
+body.theme-dark .trainings-calendar-day.has-events {
+	background: #13251a;
+	border-color: #2f6b45;
+	box-shadow: inset 0 0 0 1px rgba(74, 222, 128, 0.2);
+}
+
+body.theme-dark .trainings-calendar-day.is-selected,
+body.theme-dark .trainings-calendar-day.is-today {
+	background: #1a2940;
+	border-color: #4b8df8;
+	box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+}
+
+body.theme-dark .trainings-calendar-day-today-badge {
+	background: #22344f;
+	border-color: #4b6b97;
+	color: #bfdbfe;
+}
+
+body.theme-dark .trainings-calendar-day-title,
+body.theme-dark .training-attendance-name {
+	color: #e2e8f0;
+}
+
+body.theme-dark .trainings-calendar-day-title {
+	border-bottom-color: #2b3442;
+}
+
+body.theme-dark .trainings-calendar-event-item,
+body.theme-dark .training-attendance-card,
+body.theme-dark .training-attendance-empty {
+	background: #1a2029;
+	border-color: #2b3442;
+	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+body.theme-dark .training-attendance-card:hover {
+	border-color: #4b6b97;
+	box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
+}
+
+body.theme-dark .trainings-calendar-status-badge.is-active {
+	background: #12311f;
+	color: #86efac;
+	border-color: #24553a;
+}
+
+body.theme-dark .trainings-calendar-status-badge.is-inactive {
+	background: #1f2732;
+	color: #cbd5e1;
+	border-color: #344256;
+}
