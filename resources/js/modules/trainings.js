@@ -204,4 +204,20 @@ const initTrainingsCalendar = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     initTrainingsCalendar();
+
+    const dateInput = document.getElementById('training_date_date');
+    const timeInput = document.getElementById('training_date_time');
+    const hiddenInput = document.getElementById('training_date');
+
+    if (dateInput && timeInput && hiddenInput) {
+        const sync = () => {
+            if (dateInput.value && timeInput.value) {
+                hiddenInput.value = `${dateInput.value} ${timeInput.value}`;
+            }
+        };
+
+        dateInput.addEventListener('input', sync);
+        timeInput.addEventListener('input', sync);
+        sync();
+    }
 });

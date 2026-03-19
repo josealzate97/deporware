@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Player;
+use App\Models\PlayerRoster;
+use App\Models\SportsVenue;
+use App\Models\Team;
 use App\Models\Training;
+use App\Models\TrainingAttendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class TrainingsController extends Controller
 {   
@@ -78,9 +85,7 @@ class TrainingsController extends Controller
     */
     public function create()
     {
-        return view('backend.trainings.new', [
-            'isEdit' => false,
-        ]);
+        return view('backend.trainings.new', $this->buildFormViewData());
     }
 
     /**
@@ -91,6 +96,41 @@ class TrainingsController extends Controller
     */
     public function store(Request $request)
     {
+        $validated = $this->validateTraining($request);
+        $scheduledAt = Carbon::parse($validated['training_date']);
+        $selectedAttendance = $this->sanitizeAttendancePlayers(
+            $validated['team'],
+            $validated['attendance'] ?? []
+        );
+
+        DB::transaction(function () use ($validated, $request, $scheduledAt, $selectedAttendance) {
+            $training = new Training([
+                'name' => $validated['name'],
+                'team' => $validated['team'],
+                'venue' => $validated['venue'] ?? null,
+                'location' => $validated['location'] ?? null,
+                'duration' => $validated['duration'],
+                'notes' => $validated['notes'] ?? null,
+                'principal_obj' => $validated['principal_obj'] ?? null,
+                'tactic_obj' => $validated['tactic_obj'] ?? null,
+                'fisic_obj' => $validated['fisic_obj'] ?? null,
+                'tecnic_obj' => $validated['tecnic_obj'] ?? null,
+                'pyscho_obj' => $validated['pyscho_obj'] ?? null,
+                'moment' => $validated['moment'] ?? null,
+                'status' => $validated['status'],
+            ]);
+
+            if ($request->hasFile('document')) {
+                $training->document = file_get_contents($request->file('document')->getRealPath());
+            }
+
+            $training->created_at = $scheduledAt;
+            $training->save();
+
+            $this->ensureTrainingStorage($training->id, $training->team);
+            $this->syncTrainingAttendance($training, $selectedAttendance, $scheduledAt);
+        });
+
         return redirect()->route('trainings.index');
     }
 
@@ -121,9 +161,9 @@ class TrainingsController extends Controller
     */
     public function edit($id)
     {
-        return view('backend.trainings.new', [
-            'isEdit' => true,
-        ]);
+        $training = Training::with('attendance')->findOrFail($id);
+
+        return view('backend.trainings.new', $this->buildFormViewData($training));
     }
 
     /**
@@ -135,6 +175,44 @@ class TrainingsController extends Controller
     */
     public function update(Request $request, $id)
     {
+        $training = Training::with('attendance')->findOrFail($id);
+        $validated = $this->validateTraining($request);
+        $scheduledAt = Carbon::parse($validated['training_date']);
+        $selectedAttendance = $this->sanitizeAttendancePlayers(
+            $validated['team'],
+            $validated['attendance'] ?? []
+        );
+
+        DB::transaction(function () use ($validated, $request, $training, $scheduledAt, $selectedAttendance) {
+            $previousTeamId = $training->team;
+
+            $training->fill([
+                'name' => $validated['name'],
+                'team' => $validated['team'],
+                'venue' => $validated['venue'] ?? null,
+                'location' => $validated['location'] ?? null,
+                'duration' => $validated['duration'],
+                'notes' => $validated['notes'] ?? null,
+                'principal_obj' => $validated['principal_obj'] ?? null,
+                'tactic_obj' => $validated['tactic_obj'] ?? null,
+                'fisic_obj' => $validated['fisic_obj'] ?? null,
+                'tecnic_obj' => $validated['tecnic_obj'] ?? null,
+                'pyscho_obj' => $validated['pyscho_obj'] ?? null,
+                'moment' => $validated['moment'] ?? null,
+                'status' => $validated['status'],
+            ]);
+
+            if ($request->hasFile('document')) {
+                $training->document = file_get_contents($request->file('document')->getRealPath());
+            }
+
+            $training->created_at = $scheduledAt;
+            $training->save();
+
+            $this->syncTrainingStorage($training->id, $training->team, $previousTeamId);
+            $this->syncTrainingAttendance($training, $selectedAttendance, $scheduledAt);
+        });
+
         return redirect()->route('trainings.index');
     }
 
@@ -195,6 +273,205 @@ class TrainingsController extends Controller
 
             $this->flashStorageError();
         }
+    }
+
+    private function validateTraining(Request $request): array
+    {
+        return $request->validate([
+            'training_date' => ['required', 'date'],
+            'name' => ['required', 'string', 'max:250'],
+            'team' => ['required', 'uuid', 'exists:teams,id'],
+            'venue' => ['nullable', 'uuid', 'exists:sports_venues,id'],
+            'location' => ['nullable', 'string', 'max:250'],
+            'duration' => ['required', 'integer', 'min:1'],
+            'notes' => ['nullable', 'string'],
+            'principal_obj' => ['nullable', 'integer', 'min:0'],
+            'tactic_obj' => ['nullable', 'integer', 'min:0'],
+            'fisic_obj' => ['nullable', 'integer', 'min:0'],
+            'tecnic_obj' => ['nullable', 'integer', 'min:0'],
+            'pyscho_obj' => ['nullable', 'integer', 'min:0'],
+            'moment' => ['nullable', 'integer', 'min:0'],
+            'status' => ['required', 'integer', 'in:' . implode(',', array_keys(Training::statusOptions()))],
+            'document' => ['nullable', 'file', 'mimes:pdf,doc,docx,xls,xlsx'],
+            'attendance' => ['nullable', 'array'],
+            'attendance.*' => ['uuid', 'exists:players,id'],
+        ]);
+    }
+
+    private function buildFormViewData(?Training $training = null): array
+    {
+        return [
+            'isEdit' => $training !== null,
+            'training' => $training,
+            'teams' => Team::orderBy('name')->get(),
+            'venues' => SportsVenue::orderBy('name')->get(),
+            'statusOptions' => Training::statusOptions(),
+            'playersByTeam' => $this->getPlayersByTeam(),
+            'selectedAttendance' => $training?->attendance?->pluck('player')->values()->all() ?? [],
+        ];
+    }
+
+    private function getPlayersByTeam(): array
+    {
+        $positions = Player::positionOptions();
+
+        return PlayerRoster::with('player')
+            ->where('status', PlayerRoster::ACTIVE)
+            ->get()
+            ->filter(function (PlayerRoster $roster) {
+                $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+
+                return $player && (int) $player->status === Player::ACTIVE;
+            })
+            ->sortBy([
+                ['team', 'asc'],
+                [fn (PlayerRoster $roster) => $roster->dorsal ?? 999, 'asc'],
+                [function (PlayerRoster $roster) {
+                    $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+
+                    return strtolower(trim(($player?->name ?? '') . ' ' . ($player?->lastname ?? '')));
+                }, 'asc'],
+            ])
+            ->groupBy('team')
+            ->map(function ($rosters) use ($positions) {
+                return $rosters->map(function (PlayerRoster $roster) use ($positions) {
+                    $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+
+                    return [
+                        'id' => $player?->id,
+                        'name' => trim(($player?->name ?? '') . ' ' . ($player?->lastname ?? '')),
+                        'dorsal' => $roster->dorsal,
+                        'position' => $positions[$roster->position] ?? ($positions[$player?->primary_position] ?? null),
+                    ];
+                })->filter(fn (array $player) => !empty($player['id']))->values()->all();
+            })
+            ->all();
+    }
+
+    private function sanitizeAttendancePlayers(string $teamId, array $attendance): array
+    {
+        $allowedPlayerIds = PlayerRoster::where('team', $teamId)
+            ->where('status', PlayerRoster::ACTIVE)
+            ->pluck('player')
+            ->map(fn ($playerId) => (string) $playerId)
+            ->all();
+
+        $selectedAttendance = collect($attendance)
+            ->map(fn ($playerId) => (string) $playerId)
+            ->unique()
+            ->values()
+            ->all();
+
+        $invalidPlayers = array_diff($selectedAttendance, $allowedPlayerIds);
+
+        if (!empty($invalidPlayers)) {
+            throw ValidationException::withMessages([
+                'attendance' => 'Solo puedes seleccionar jugadores que pertenezcan al equipo del entrenamiento.',
+            ]);
+        }
+
+        return $selectedAttendance;
+    }
+
+    private function syncTrainingAttendance(Training $training, array $selectedAttendance, Carbon $attendanceTime): void
+    {
+        $training->attendance()->delete();
+
+        foreach ($selectedAttendance as $playerId) {
+            TrainingAttendance::create([
+                'training' => $training->id,
+                'player' => $playerId,
+                'created_at' => $attendanceTime->copy(),
+            ]);
+        }
+    }
+
+    private function ensureTrainingStorage(string $trainingId, ?string $teamId): void
+    {
+        if (empty($teamId) || !$this->ensureStorageWritable()) {
+            return;
+        }
+
+        $disk = Storage::disk('public');
+        $basePath = "teams/{$teamId}/trainings/{$trainingId}";
+
+        if (!$disk->exists($basePath) && !$disk->makeDirectory($basePath)) {
+            Log::error('Failed to create training folder.', [
+                'training' => $trainingId,
+                'team' => $teamId,
+                'path' => $basePath,
+            ]);
+
+            $this->flashStorageError();
+            return;
+        }
+
+        foreach (['reports', 'photos'] as $folder) {
+            $folderPath = "{$basePath}/{$folder}";
+
+            if (!$disk->exists($folderPath) && !$disk->makeDirectory($folderPath)) {
+                Log::error('Failed to create training subfolder.', [
+                    'training' => $trainingId,
+                    'team' => $teamId,
+                    'path' => $folderPath,
+                ]);
+
+                $this->flashStorageError();
+            }
+        }
+    }
+
+    private function syncTrainingStorage(string $trainingId, ?string $teamId, ?string $previousTeamId): void
+    {
+        if (empty($teamId)) {
+            return;
+        }
+
+        if (!$this->ensureStorageWritable()) {
+            return;
+        }
+
+        $disk = Storage::disk('public');
+        $newPath = "teams/{$teamId}/trainings/{$trainingId}";
+
+        if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
+            $previousPath = "teams/{$previousTeamId}/trainings/{$trainingId}";
+
+            if ($disk->exists($previousPath)) {
+                if ($disk->exists($newPath)) {
+                    $disk->deleteDirectory($newPath);
+                }
+
+                if (!$disk->move($previousPath, $newPath)) {
+                    Log::error('Failed to move training folder.', [
+                        'training' => $trainingId,
+                        'from_team' => $previousTeamId,
+                        'to_team' => $teamId,
+                    ]);
+
+                    $this->flashStorageError();
+                }
+            }
+        }
+
+        $this->ensureTrainingStorage($trainingId, $teamId);
+    }
+
+    private function ensureStorageWritable(): bool
+    {
+        $root = storage_path('app/public');
+
+        if (is_dir($root) && is_writable($root)) {
+            return true;
+        }
+
+        Log::error('Storage path is not writable for trainings.', [
+            'path' => $root,
+        ]);
+
+        $this->flashStorageError();
+
+        return false;
     }
 
     /**

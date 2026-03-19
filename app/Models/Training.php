@@ -125,4 +125,12 @@ class Training extends Model
     {
         return $this->belongsTo(SportsVenue::class, 'venue');
     }
+
+    public static function statusOptions(): array
+    {
+        return [
+            self::ACTIVE => 'Activo',
+            self::INACTIVE => 'Inactivo',
+        ];
+    }
 }

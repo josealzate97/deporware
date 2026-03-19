@@ -259,6 +259,72 @@
 	border-color: #cbd5e1;
 }
 
+[x-cloak] {
+	display: none !important;
+}
+
+.training-attendance-helper {
+	margin-top: 0.9rem;
+	color: #64748b;
+	font-size: 0.92rem;
+}
+
+.training-attendance-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 0.85rem;
+}
+
+.training-attendance-card {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.8rem;
+	padding: 0.95rem 1rem;
+	border: 1px solid #dbe7f5;
+	border-radius: 14px;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+	box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+	cursor: pointer;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.training-attendance-card:hover {
+	border-color: #93c5fd;
+	box-shadow: 0 14px 28px rgba(37, 99, 235, 0.1);
+	transform: translateY(-1px);
+}
+
+.training-attendance-check {
+	margin-top: 0.2rem;
+	flex-shrink: 0;
+}
+
+.training-attendance-content {
+	min-width: 0;
+}
+
+.training-attendance-name {
+	font-weight: 800;
+	color: #0f172a;
+}
+
+.training-attendance-meta {
+	display: flex;
+	gap: 0.6rem;
+	flex-wrap: wrap;
+	margin-top: 0.18rem;
+	font-size: 0.85rem;
+	color: #64748b;
+}
+
+.training-attendance-empty {
+	border: 1px dashed #cbd5e1;
+	border-radius: 14px;
+	background: #f8fafc;
+	padding: 1rem 1.1rem;
+	color: #64748b;
+}
+
 .trainings-calendar-empty-state {
 	grid-column: 1 / -1;
 	display: flex;
