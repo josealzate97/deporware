@@ -88,7 +88,7 @@
                 @endif
 
                 <div class="row g-4">
-                    <div class="col-12">
+                    <div class="col-12 col-lg-7">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-circle-info me-2 text-primary"></i>
@@ -239,21 +239,6 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-lg-6">
-                                    <label class="form-label fw-semibold">Documento</label>
-                                    <input type="file" class="form-control @error('document') is-invalid @enderror" name="document" id="training_document" accept=".pdf,.doc,.docx,.xls,.xlsx">
-                                    <div class="form-text">
-                                        @if($isEdit && !empty($training?->document))
-                                            Ya existe un documento guardado. Si subes uno nuevo, reemplazará el actual.
-                                        @else
-                                            Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX.
-                                        @endif
-                                    </div>
-                                    @error('document')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
                                 <div class="col-12">
                                     <label class="form-label fw-semibold">Notas</label>
                                     <textarea class="form-control @error('notes') is-invalid @enderror" name="notes" rows="5">{{ old('notes', $training?->notes ?? '') }}</textarea>
@@ -265,51 +250,81 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
-                        <div class="info-section">
-                            <div class="info-section-title">
-                                <i class="fa-solid fa-user-check me-2 text-primary"></i>
-                                Asistencia al entrenamiento
-                            </div>
-
-                            <div class="training-attendance-helper">
-                                Marca los jugadores que asistirán. Los que queden sin marcar se tomarán como ausentes.
-                            </div>
-
-                            @error('attendance')
-                                <div class="alert alert-danger py-2 px-3 mt-3 mb-0">{{ $message }}</div>
-                            @enderror
-
-                            <div class="training-attendance-empty mt-3" x-show="!selectedTeam">
-                                Selecciona primero el equipo para habilitar la lista de jugadores.
-                            </div>
-
-                            @foreach($teams as $team)
-                                @php($teamPlayers = $playersByTeam[$team->id] ?? [])
-                                <div class="row g-3 mt-3" x-show="selectedTeam === '{{ $team->id }}'" x-cloak>
-                                    @forelse($teamPlayers as $player)
-                                        <div class="col-12 col-md-6 col-lg-3">
-                                            <label class="training-attendance-card h-100">
-                                                <input class="form-check-input training-attendance-check" type="checkbox" name="attendance[]"
-                                                    value="{{ $player['id'] }}"
-                                                    x-bind:disabled="selectedTeam !== '{{ $team->id }}'"
-                                                    {{ in_array((string) $player['id'], $selectedAttendance, true) ? 'checked' : '' }}>
-                                                <div class="training-attendance-content">
-                                                    <div class="training-attendance-name">{{ $player['name'] }}</div>
-                                                    <div class="training-attendance-meta">
-                                                        <span>#{{ $player['dorsal'] ?: '-' }}</span>
-                                                        <span>{{ $player['position'] ?: 'Sin posición' }}</span>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    @empty
-                                        <div class="training-attendance-empty">
-                                            Este equipo no tiene jugadores activos en su roster.
-                                        </div>
-                                    @endforelse
+                    <div class="col-12 col-lg-5">
+                        <div class="training-side-panel">
+                            <div class="training-side-panel-item">
+                                <div class="training-side-panel-header">
+                                    <div>
+                                        <div class="training-side-panel-title">Archivos del entrenamiento</div>
+                                        <p class="training-side-panel-subtitle mb-0">Sube la planificacion o evidencia de la sesion.</p>
+                                    </div>
                                 </div>
-                            @endforeach
+
+                                <div class="training-side-panel-body mt-3">
+                                    <label class="form-label fw-semibold">Documento</label>
+                                    <input type="file" class="form-control upload-control upload-control-gradient @error('document') is-invalid @enderror" name="document" id="training_document" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                                    <div class="form-text">
+                                        @if($isEdit && !empty($training?->document))
+                                            Ya existe un documento guardado. Si subes uno nuevo, reemplazara el actual.
+                                        @else
+                                            Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX.
+                                        @endif
+                                    </div>
+                                    @error('document')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="training-side-panel-item">
+                                <div class="training-side-panel-header">
+                                    <div>
+                                        <div class="training-side-panel-title">Asistencia al entrenamiento</div>
+                                        <p class="training-side-panel-subtitle mb-0">Marca los jugadores convocados.</p>
+                                    </div>
+                                </div>
+
+                                <div class="training-side-panel-body">
+                                    <div class="training-attendance-helper">
+                                        Marca los jugadores que asistiran. Los que queden sin marcar se tomaran como ausentes.
+                                    </div>
+
+                                    @error('attendance')
+                                        <div class="alert alert-danger py-2 px-3 mt-3 mb-0">{{ $message }}</div>
+                                    @enderror
+
+                                    <div class="training-attendance-empty mt-3" x-show="!selectedTeam">
+                                        Selecciona primero el equipo para habilitar la lista de jugadores.
+                                    </div>
+
+                                    @foreach($teams as $team)
+                                        @php($teamPlayers = $playersByTeam[$team->id] ?? [])
+                                        <div class="row g-3 mt-3" x-show="selectedTeam === '{{ $team->id }}'" x-cloak>
+                                            @forelse($teamPlayers as $player)
+                                                <div class="col-12 col-md-6">
+                                                    <label class="training-attendance-card h-100">
+                                                        <input class="form-check-input training-attendance-check" type="checkbox" name="attendance[]"
+                                                            value="{{ $player['id'] }}"
+                                                            x-bind:disabled="selectedTeam !== '{{ $team->id }}'"
+                                                            {{ in_array((string) $player['id'], $selectedAttendance, true) ? 'checked' : '' }}>
+                                                        <div class="training-attendance-content">
+                                                            <div class="training-attendance-name">{{ $player['name'] }}</div>
+                                                            <div class="training-attendance-meta">
+                                                                <span>#{{ $player['dorsal'] ?: '-' }}</span>
+                                                                <span>{{ $player['position'] ?: 'Sin posición' }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            @empty
+                                                <div class="training-attendance-empty">
+                                                    Este equipo no tiene jugadores activos en su roster.
+                                                </div>
+                                            @endforelse
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
