@@ -682,6 +682,41 @@
   border: 1px solid #c5d8ef;
 }
 
+body.theme-dark .match-file-panel {
+  background: linear-gradient(180deg, #141a22 0%, #111826 100%);
+  border-color: #2a3444;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.theme-dark .match-file-item {
+  background: #151c28;
+  border-color: #2a3444;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+body.theme-dark .match-file-title,
+body.theme-dark .match-file-preview-title {
+  color: #e2e8f0;
+}
+
+body.theme-dark .match-file-subtitle,
+body.theme-dark .match-file-preview-text,
+body.theme-dark .match-file-upload-hint {
+  color: #94a3b8;
+}
+
+body.theme-dark .match-file-badge {
+  background: #1e293b;
+  color: #cbd5f5;
+  border-color: #334155;
+}
+
+body.theme-dark .match-file-panel .upload-control {
+  background: #101827;
+  border-color: #2a3444;
+  color: #e2e8f0;
+}
+
 .match-file-download-btn {
   border: 1px solid #8ec5ff;
   background: #edf6ff;

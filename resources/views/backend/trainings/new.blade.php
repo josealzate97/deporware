@@ -176,7 +176,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Duración (min) <span class="text-danger">*</span></label>
                                     <input type="number" min="1" class="form-control @error('duration') is-invalid @enderror" name="duration"
                                         value="{{ old('duration', $training?->duration ?? '') }}" required>
@@ -185,7 +185,11 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12">
+                                    <div class="divider my-2"></div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo principal</label>
                                     <input type="number" min="0" class="form-control @error('principal_obj') is-invalid @enderror" name="principal_obj"
                                         value="{{ old('principal_obj', $training?->principal_obj ?? '') }}">
@@ -194,7 +198,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo táctico</label>
                                     <input type="number" min="0" class="form-control @error('tactic_obj') is-invalid @enderror" name="tactic_obj"
                                         value="{{ old('tactic_obj', $training?->tactic_obj ?? '') }}">
@@ -203,7 +207,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 col-lg-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo físico</label>
                                     <input type="number" min="0" class="form-control @error('fisic_obj') is-invalid @enderror" name="fisic_obj"
                                         value="{{ old('fisic_obj', $training?->fisic_obj ?? '') }}">
