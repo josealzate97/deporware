@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
 
 class TrainingsController extends Controller
@@ -43,7 +44,8 @@ class TrainingsController extends Controller
 
         $monthEnd = $monthStart->copy()->endOfMonth();
 
-        $trainingsQuery = Training::with('team')
+        $trainingsQuery = Training::with(['team', 'venue'])
+            ->withCount('attendance')
             ->orderByDesc('status')
             ->orderBy('name');
 
@@ -120,14 +122,17 @@ class TrainingsController extends Controller
                 'status' => $validated['status'],
             ]);
 
-            if ($request->hasFile('document')) {
-                $training->document = file_get_contents($request->file('document')->getRealPath());
-            }
-
             $training->created_at = $scheduledAt;
             $training->save();
 
             $this->ensureTrainingStorage($training->id, $training->team);
+
+            if ($request->hasFile('document')) {
+                $documentPath = $this->storeTrainingDocument($training, $request->file('document'));
+                if ($documentPath) {
+                    $training->update(['document' => $documentPath]);
+                }
+            }
             $this->syncTrainingAttendance($training, $selectedAttendance, $scheduledAt);
         });
 
@@ -142,6 +147,16 @@ class TrainingsController extends Controller
     */
     public function show($id)
     {
+        $modal = request('modal');
+
+        if ($modal === 'attendance') {
+            $training = Training::with(['team', 'attendance.player'])->findOrFail($id);
+
+            return view('backend.trainings.attendance-modal', [
+                'training' => $training,
+            ]);
+        }
+
         $training = Training::with('team')->findOrFail($id);
 
         if (request()->boolean('modal')) {
@@ -151,6 +166,28 @@ class TrainingsController extends Controller
         }
 
         return redirect()->route('trainings.index');
+    }
+
+    public function viewDocument($id)
+    {
+        $training = Training::findOrFail($id);
+
+        if (empty($training->document) || !Storage::disk('public')->exists($training->document)) {
+            abort(404);
+        }
+
+        return response()->file(Storage::disk('public')->path($training->document));
+    }
+
+    public function downloadDocument($id)
+    {
+        $training = Training::findOrFail($id);
+
+        if (empty($training->document) || !Storage::disk('public')->exists($training->document)) {
+            abort(404);
+        }
+
+        return response()->download(Storage::disk('public')->path($training->document));
     }
 
     /**
@@ -202,14 +239,21 @@ class TrainingsController extends Controller
                 'status' => $validated['status'],
             ]);
 
-            if ($request->hasFile('document')) {
-                $training->document = file_get_contents($request->file('document')->getRealPath());
-            }
-
             $training->created_at = $scheduledAt;
             $training->save();
 
             $this->syncTrainingStorage($training->id, $training->team, $previousTeamId);
+
+            if ($request->input('remove_document') === '1') {
+                $this->removeTrainingDocument($training);
+            }
+
+            if ($request->hasFile('document')) {
+                $documentPath = $this->storeTrainingDocument($training, $request->file('document'));
+                if ($documentPath) {
+                    $training->update(['document' => $documentPath]);
+                }
+            }
             $this->syncTrainingAttendance($training, $selectedAttendance, $scheduledAt);
         });
 
@@ -293,6 +337,7 @@ class TrainingsController extends Controller
             'moment' => ['nullable', 'integer', 'min:0'],
             'status' => ['required', 'integer', 'in:' . implode(',', array_keys(Training::statusOptions()))],
             'document' => ['nullable', 'file', 'mimes:pdf,doc,docx,xls,xlsx'],
+            'remove_document' => ['nullable', 'in:0,1'],
             'attendance' => ['nullable', 'array'],
             'attendance.*' => ['uuid', 'exists:players,id'],
         ]);
@@ -455,6 +500,41 @@ class TrainingsController extends Controller
         }
 
         $this->ensureTrainingStorage($trainingId, $teamId);
+    }
+
+    private function storeTrainingDocument(Training $training, UploadedFile $document): ?string
+    {
+        if (empty($training->team) || !$this->ensureStorageWritable()) {
+            return null;
+        }
+
+        $disk = Storage::disk('public');
+        $basePath = "teams/{$training->team}/trainings/{$training->id}/reports";
+        $extension = strtolower($document->getClientOriginalExtension());
+        $suffix = $extension ? ".{$extension}" : '';
+        $filename = 'documento-' . now()->format('YmdHis') . $suffix;
+
+        if (!empty($training->document) && $disk->exists($training->document)) {
+            $disk->delete($training->document);
+        }
+
+        $storedPath = $disk->putFileAs($basePath, $document, $filename);
+
+        return $storedPath ?: null;
+    }
+
+    private function removeTrainingDocument(Training $training): void
+    {
+        if (empty($training->document)) {
+            return;
+        }
+
+        $disk = Storage::disk('public');
+        if ($disk->exists($training->document)) {
+            $disk->delete($training->document);
+        }
+
+        $training->update(['document' => null]);
     }
 
     private function ensureStorageWritable(): bool

@@ -15,6 +15,11 @@
 @php($trainingDateValue = old('training_date', $training?->created_at?->format('Y-m-d H:i') ?? ''))
 @php($trainingDateDate = $trainingDateValue ? \Carbon\Carbon::parse($trainingDateValue)->format('Y-m-d') : '')
 @php($trainingDateTime = $trainingDateValue ? \Carbon\Carbon::parse($trainingDateValue)->format('H:i') : '')
+@php($hasExistingDocument = $isEdit && !empty($training?->document))
+@php($showExistingDocument = $hasExistingDocument && old('remove_document', '0') !== '1')
+@php($existingDocumentPath = $hasExistingDocument ? $training->document : '')
+@php($existingDocumentExtension = $existingDocumentPath ? strtoupper(pathinfo($existingDocumentPath, PATHINFO_EXTENSION)) : '')
+@php($existingDocumentIsPdf = strtolower(pathinfo($existingDocumentPath, PATHINFO_EXTENSION)) === 'pdf')
 
 @section('title', $isEdit ? 'Editar Entrenamiento' : 'Nuevo Entrenamiento')
 
@@ -300,18 +305,61 @@
                                 </div>
 
                                 <div class="training-side-panel-body mt-3">
-                                    <label class="form-label fw-semibold">Documento</label>
-                                    <input type="file" class="form-control upload-control upload-control-gradient @error('document') is-invalid @enderror" name="document" id="training_document" accept=".pdf,.doc,.docx,.xls,.xlsx">
-                                    <div class="form-text">
-                                        @if($isEdit && !empty($training?->document))
-                                            Ya existe un documento guardado. Si subes uno nuevo, reemplazara el actual.
-                                        @else
-                                            Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX.
+                                    <div class="match-file-item">
+                                        <div class="match-file-item-header">
+                                            <label class="form-label fw-semibold mb-0" for="training_document">Informe Entrenamiento</label>
+                                            <div class="d-flex align-items-center gap-2 ms-auto">
+                                                @if($showExistingDocument)
+                                                    <span class="status-pill status-pill-success">Informe actual cargado</span>
+                                                @endif
+                                                <span class="match-file-badge">PDF/DOCX/XLS/XLSX · Máx 5MB</span>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="remove_document" id="remove_document" value="{{ old('remove_document', '0') }}">
+
+                                        @if($hasExistingDocument)
+                                            <div
+                                                class="match-file-preview-card mt-3 {{ $showExistingDocument ? '' : 'd-none' }}"
+                                                data-training-asset="document"
+                                                data-has-existing="{{ $showExistingDocument ? '1' : '0' }}">
+                                                <div class="match-file-preview-main">
+                                                    <div class="match-file-thumb match-file-thumb-document">
+                                                        <span>{{ $existingDocumentExtension ?: 'FILE' }}</span>
+                                                    </div>
+                                                    <div class="match-file-preview-copy">
+                                                        <div class="match-file-preview-title">Informe</div>
+                                                        <div class="match-file-preview-text">
+                                                            {{ $existingDocumentIsPdf ? 'Vista previa disponible en el navegador.' : 'Se abrira en una nueva pestana si el navegador soporta este formato.' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="match-file-meta mt-3">
+                                                    <button type="button" class="btn btn-sm match-file-remove-btn" data-training-remove>
+                                                        <i class="fa-solid fa-trash me-1"></i> Quitar
+                                                    </button>
+                                                    <a href="{{ route('trainings.view.document', $training->id) }}" target="_blank" rel="noopener" class="btn btn-sm match-file-action-btn">
+                                                        <i class="fa-solid fa-eye me-1"></i> Visualizar
+                                                    </a>
+                                                    <a href="{{ route('trainings.download.document', $training->id) }}" class="btn btn-sm match-file-download-btn">
+                                                        <i class="fa-solid fa-download me-1"></i> Descargar
+                                                    </a>
+                                                </div>
+                                            </div>
                                         @endif
+
+                                        <div class="match-file-upload-wrap mt-3 {{ $showExistingDocument ? 'd-none' : '' }}" data-training-upload="document">
+                                            <input type="file" class="form-control upload-control upload-control-gradient @error('document') is-invalid @enderror" name="document" id="training_document" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                                            <div class="match-file-upload-hint mt-2" data-training-replacement-label>
+                                                {{ $showExistingDocument ? 'Selecciona el nuevo informe para reemplazar el actual.' : 'Selecciona el archivo del informe.' }}
+                                            </div>
+                                        </div>
+
+                                        @error('document')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
                                     </div>
-                                    @error('document')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
 

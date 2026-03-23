@@ -263,7 +263,12 @@
                                             <div class="match-file-item">
                                                 <div class="match-file-item-header">
                                                     <label class="form-label fw-semibold mb-0" for="match_file">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                                    <span class="match-file-badge">PDF/DOCX/XLS/XLSX · Máx 5MB</span>
+                                                    <div class="d-flex align-items-center gap-2 ms-auto">
+                                                        @if($showExistingMatchFile)
+                                                            <span class="status-pill status-pill-success">Informe actual cargado</span>
+                                                        @endif
+                                                        <span class="match-file-badge">PDF/DOCX/XLS/XLSX · Máx 5MB</span>
+                                                    </div>
                                                 </div>
 
                                                 <input type="hidden" name="remove_match_file" id="remove_match_file" value="{{ old('remove_match_file', '0') }}">
@@ -286,16 +291,15 @@
                                                         </div>
 
                                                         <div class="match-file-meta mt-3">
-                                                            <span class="status-pill status-pill-success">Informe actual cargado</span>
+                                                            <button type="button" class="btn btn-sm match-file-remove-btn" data-match-remove>
+                                                                <i class="fa-solid fa-trash me-1"></i> Quitar
+                                                            </button>
                                                             <a href="{{ route('matches.view.report', $match->id) }}" target="_blank" rel="noopener" class="btn btn-sm match-file-action-btn" data-match-view>
                                                                 <i class="fa-solid fa-eye me-1"></i> Visualizar
                                                             </a>
                                                             <a href="{{ route('matches.download.report', $match->id) }}" class="btn btn-sm match-file-download-btn">
                                                                 <i class="fa-solid fa-download me-1"></i> Descargar
                                                             </a>
-                                                            <button type="button" class="btn btn-sm match-file-remove-btn" data-match-remove>
-                                                                <i class="fa-solid fa-trash me-1"></i> Quitar
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 @endif

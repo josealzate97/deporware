@@ -109,6 +109,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/', 'store')->name('store');
         Route::get('/{id}', 'show')->name('show');
         Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::get('/{id}/view/document', 'viewDocument')->name('view.document');
+        Route::get('/{id}/download/document', 'downloadDocument')->name('download.document');
         Route::put('/{id}', 'update')->name('update');
         Route::delete('/{id}', 'destroy')->name('destroy');
     });

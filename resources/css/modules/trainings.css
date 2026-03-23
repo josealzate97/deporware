@@ -359,6 +359,177 @@
 	background: linear-gradient(135deg, #15803d 0%, #1d4ed8 100%);
 }
 
+.match-file-panel {
+	border-radius: 18px;
+	border: 1px solid #dbe4f0;
+	background: linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+	padding: 1.1rem;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.match-file-panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+.match-file-title {
+	font-size: 1.06rem;
+	font-weight: 800;
+	color: #1e293b;
+}
+
+.match-file-subtitle {
+	font-size: 0.84rem;
+	color: #64748b;
+}
+
+.match-file-grid {
+	display: grid;
+	gap: 0.85rem;
+}
+
+.match-file-item {
+	border: 1px solid #d8e2ef;
+	border-radius: 14px;
+	background: #ffffff;
+	padding: 0.8rem;
+}
+
+.match-file-item-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.6rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.55rem;
+}
+
+.match-file-meta {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.match-file-preview-card {
+	border: 1px solid #d9e6f5;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+	border-radius: 16px;
+	padding: 1rem;
+	box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+}
+
+.match-file-preview-main {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+}
+
+.match-file-thumb {
+	width: 88px;
+	height: 88px;
+	border-radius: 18px;
+	border: 1px solid #cfe0f3;
+	background: #edf5ff;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	overflow: hidden;
+}
+
+.match-file-thumb-document {
+	background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+	color: #1d4ed8;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+}
+
+.match-file-preview-copy {
+	min-width: 0;
+}
+
+.match-file-preview-title {
+	font-weight: 800;
+	color: #0f172a;
+	word-break: break-word;
+}
+
+.match-file-preview-text {
+	color: #64748b;
+	font-size: 0.92rem;
+	margin-top: 0.15rem;
+}
+
+.match-file-upload-wrap {
+	display: block;
+}
+
+.match-file-upload-hint {
+	color: #64748b;
+	font-size: 0.9rem;
+}
+
+.match-file-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.22rem 0.62rem;
+	border-radius: 999px;
+	font-size: 0.74rem;
+	font-weight: 700;
+	background: #e7f0fb;
+	color: #224b89;
+	border: 1px solid #c5d8ef;
+}
+
+.match-file-download-btn {
+	border: 1px solid #86efac;
+	background: #dcfce7;
+	color: #166534;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 0.3rem 0.68rem;
+}
+
+.match-file-download-btn:hover {
+	background: #bbf7d0;
+	border-color: #4ade80;
+	color: #14532d;
+}
+
+.match-file-action-btn {
+	border: 1px solid #c7d2fe;
+	background: #eef2ff;
+	color: #3730a3;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 0.3rem 0.68rem;
+}
+
+.match-file-action-btn:hover {
+	background: #e0e7ff;
+	border-color: #a5b4fc;
+	color: #312e81;
+}
+
+.match-file-remove-btn {
+	border: 1px solid #fecaca;
+	background: #fef2f2;
+	color: #b91c1c;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 0.3rem 0.68rem;
+}
+
+.match-file-remove-btn:hover {
+	background: #fee2e2;
+	border-color: #fca5a5;
+	color: #991b1b;
+}
+
 .trainings-calendar-empty-state {
 	grid-column: 1 / -1;
 	display: flex;
@@ -520,6 +691,35 @@ body.theme-dark .upload-control {
 
 body.theme-dark .training-side-panel .form-text {
 	color: #94a3b8;
+}
+
+body.theme-dark .match-file-panel {
+	background: linear-gradient(180deg, #141a22 0%, #111826 100%);
+	border-color: #2a3444;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.theme-dark .match-file-item {
+	background: #151c28;
+	border-color: #2a3444;
+	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+body.theme-dark .match-file-title,
+body.theme-dark .match-file-preview-title {
+	color: #e2e8f0;
+}
+
+body.theme-dark .match-file-subtitle,
+body.theme-dark .match-file-preview-text,
+body.theme-dark .match-file-upload-hint {
+	color: #94a3b8;
+}
+
+body.theme-dark .match-file-badge {
+	background: #1e293b;
+	color: #cbd5f5;
+	border-color: #334155;
 }
 
 body.theme-dark .trainings-calendar-weekdays span,
