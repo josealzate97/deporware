@@ -133,4 +133,92 @@ class Training extends Model
             self::INACTIVE => 'Inactivo',
         ];
     }
+
+    public static function tacticObjectivesOptions(): array
+    {
+
+        return [
+            1 => 'Anticipacion',
+            2 => 'Apoyos',
+            3 => 'Ataque',
+            4 => 'Ayuda Permanente',
+            5 => 'Cambio de orientacion',
+            6 => 'Cambio de ritmo',
+            7 => 'Coberturas',
+            8 => 'Control del juego',
+            9 => 'Contraataque',
+            10 => 'Desdoblamientos',
+            11 => 'Desmarques',
+            12 => 'Espacios Libres',
+            13 => 'Marcaje',
+            14 => 'Paredes',
+            15 => 'Permutas',
+            16 => 'Presion',
+            17 => 'Progresion del juego',
+            18 => 'Repliegue',
+            19 => 'Ritmo de juego',
+            20 => 'Temporizaciones',
+            21 => 'Velocidad de juego',
+            22 => 'Vigilancias',
+
+        ];
+    }
+
+    public static function psychoObjectivesOptions(): array
+    {
+
+        return [
+            1 => 'Cohesion',
+            2 => 'Compañerismo',
+            3 => 'Comunicacion',
+            4 => 'Concentracion',
+            5 => 'Confianza',
+            6 => 'Deportividad',
+            7 => 'Disciplina',
+            8 => 'Gestion del estres',
+            9 => 'Gestion emocional',
+            10 => 'Respeto',
+            11 => 'Tolerancia a la frustracion',
+        ];
+    }
+
+    public static function tecnichObjectivesOptions(): array
+    {
+
+        return [
+            1 => 'Conduccion',
+            2 => 'Control / Control Orientado',
+            3 => 'Despeje',
+            4 => 'Entrada',
+            5 => 'Golpeo',
+            6 => 'Interceptacion',
+            7 => 'Juego Aereo',
+            8 => 'Pases',
+            9 => 'Perfiles',
+            10 => 'Regate',
+            11 => 'Tiros',
+        ];
+    }
+
+    public static function fisicObjectivesOptions(): array
+    {
+
+        return [
+            1 => 'Coodinación',
+            2 => 'Fuerza',
+            3 => 'Resistencia',
+            4 => 'Velocidad',
+        ];
+    }
+
+    public static function momentOptions(): array
+    {
+        return [
+            1 => 'Pretemporada',
+            2 => 'Temporada',
+            3 => 'Postemporada',
+        ];
+    }
 }
+
+

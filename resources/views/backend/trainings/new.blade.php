@@ -5,6 +5,11 @@
 @php($teams = $teams ?? collect())
 @php($venues = $venues ?? collect())
 @php($statusOptions = $statusOptions ?? \App\Models\Training::statusOptions())
+@php($tacticObjectives = $tacticObjectives ?? \App\Models\Training::tacticObjectivesOptions())
+@php($fisicObjectives = $fisicObjectives ?? \App\Models\Training::fisicObjectivesOptions())
+@php($tecnicObjectives = $tecnicObjectives ?? \App\Models\Training::tecnichObjectivesOptions())
+@php($psychoObjectives = $psychoObjectives ?? \App\Models\Training::psychoObjectivesOptions())
+@php($momentOptions = $momentOptions ?? \App\Models\Training::momentOptions())
 @php($playersByTeam = $playersByTeam ?? [])
 @php($selectedAttendance = collect(old('attendance', $selectedAttendance ?? []))->map(fn($value) => (string) $value)->all())
 @php($trainingDateValue = old('training_date', $training?->created_at?->format('Y-m-d H:i') ?? ''))
@@ -200,8 +205,14 @@
 
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo táctico</label>
-                                    <input type="number" min="0" class="form-control @error('tactic_obj') is-invalid @enderror" name="tactic_obj"
-                                        value="{{ old('tactic_obj', $training?->tactic_obj ?? '') }}">
+                                    <select class="form-select @error('tactic_obj') is-invalid @enderror" name="tactic_obj">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($tacticObjectives as $value => $label)
+                                            <option value="{{ $value }}" {{ (string) old('tactic_obj', $training?->tactic_obj ?? '') === (string) $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     @error('tactic_obj')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
@@ -209,8 +220,14 @@
 
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo físico</label>
-                                    <input type="number" min="0" class="form-control @error('fisic_obj') is-invalid @enderror" name="fisic_obj"
-                                        value="{{ old('fisic_obj', $training?->fisic_obj ?? '') }}">
+                                    <select class="form-select @error('fisic_obj') is-invalid @enderror" name="fisic_obj">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($fisicObjectives as $value => $label)
+                                            <option value="{{ $value }}" {{ (string) old('fisic_obj', $training?->fisic_obj ?? '') === (string) $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     @error('fisic_obj')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
@@ -218,8 +235,14 @@
 
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo técnico</label>
-                                    <input type="number" min="0" class="form-control @error('tecnic_obj') is-invalid @enderror" name="tecnic_obj"
-                                        value="{{ old('tecnic_obj', $training?->tecnic_obj ?? '') }}">
+                                    <select class="form-select @error('tecnic_obj') is-invalid @enderror" name="tecnic_obj">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($tecnicObjectives as $value => $label)
+                                            <option value="{{ $value }}" {{ (string) old('tecnic_obj', $training?->tecnic_obj ?? '') === (string) $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     @error('tecnic_obj')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
@@ -227,8 +250,14 @@
 
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo psicológico</label>
-                                    <input type="number" min="0" class="form-control @error('pyscho_obj') is-invalid @enderror" name="pyscho_obj"
-                                        value="{{ old('pyscho_obj', $training?->pyscho_obj ?? '') }}">
+                                    <select class="form-select @error('pyscho_obj') is-invalid @enderror" name="pyscho_obj">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($psychoObjectives as $value => $label)
+                                            <option value="{{ $value }}" {{ (string) old('pyscho_obj', $training?->pyscho_obj ?? '') === (string) $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     @error('pyscho_obj')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
@@ -236,8 +265,14 @@
 
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Momento</label>
-                                    <input type="number" min="0" class="form-control @error('moment') is-invalid @enderror" name="moment"
-                                        value="{{ old('moment', $training?->moment ?? '') }}">
+                                    <select class="form-select @error('moment') is-invalid @enderror" name="moment">
+                                        <option value="">Selecciona...</option>
+                                        @foreach($momentOptions as $value => $label)
+                                            <option value="{{ $value }}" {{ (string) old('moment', $training?->moment ?? '') === (string) $value ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     @error('moment')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                     @enderror
