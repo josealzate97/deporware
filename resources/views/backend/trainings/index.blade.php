@@ -77,8 +77,6 @@
             @endif
         </div>
 
-        </div>
-
         <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
             <div class="info-panel" :class="open ? 'is-open' : ''" x-show="open" x-transition>
                 <div class="info-header">

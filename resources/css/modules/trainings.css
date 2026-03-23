@@ -530,6 +530,115 @@
 	color: #991b1b;
 }
 
+.match-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.match-tabs input[type="radio"] {
+	display: none;
+}
+
+.match-tabs label {
+	padding: 0.45rem 0.85rem;
+	border-radius: 10px;
+	border: 1px solid #e2e8f0;
+	background: #f8fafc;
+	color: #64748b;
+	font-weight: 700;
+	font-size: 0.88rem;
+	cursor: pointer;
+}
+
+.match-tabs label.is-disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+#training-tab-info:checked + label,
+#training-tab-goals:checked + label,
+#training-tab-attendance:checked + label,
+#training-tab-documents:checked + label {
+	color: #1d4ed8;
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+}
+
+.match-tab-panels .match-tab-panel {
+	display: none;
+}
+
+#training-tab-info:checked ~ .match-tab-panels [data-panel="training-info"],
+#training-tab-goals:checked ~ .match-tab-panels [data-panel="training-goals"],
+#training-tab-attendance:checked ~ .match-tab-panels [data-panel="training-attendance"],
+#training-tab-documents:checked ~ .match-tab-panels [data-panel="training-documents"] {
+	display: block;
+}
+
+.match-info-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 0.75rem;
+}
+
+.match-info-item {
+	border: 1px solid #e2e8f0;
+	background: #f8fafc;
+	border-radius: 12px;
+	padding: 0.72rem 0.8rem;
+}
+
+.match-info-label {
+	font-weight: 800;
+	font-size: 0.82rem;
+	color: #334155;
+	margin-bottom: 0.2rem;
+}
+
+.match-info-value {
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.match-info-sub {
+	color: #64748b;
+	font-size: 0.84rem;
+}
+
+body.theme-dark .match-tabs label {
+	background: #141a22;
+	border-color: #2a3444;
+	color: #94a3b8;
+}
+
+body.theme-dark #training-tab-info:checked + label,
+body.theme-dark #training-tab-goals:checked + label,
+body.theme-dark #training-tab-attendance:checked + label,
+body.theme-dark #training-tab-documents:checked + label {
+	background: #1e293b;
+	border-color: #334155;
+	color: #e2e8f0;
+}
+
+body.theme-dark .match-info-item {
+	background: #111826;
+	border-color: #2a3444;
+}
+
+body.theme-dark .match-info-label {
+	color: #cbd5f5;
+}
+
+body.theme-dark .match-info-value {
+	color: #e2e8f0;
+}
+
+body.theme-dark .match-info-sub {
+	color: #94a3b8;
+}
+
 .trainings-calendar-empty-state {
 	grid-column: 1 / -1;
 	display: flex;

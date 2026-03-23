@@ -150,14 +150,14 @@ class TrainingsController extends Controller
         $modal = request('modal');
 
         if ($modal === 'attendance') {
-            $training = Training::with(['team', 'attendance.player'])->findOrFail($id);
+            $training = Training::with(['team', 'attendance.player.activeRoster'])->findOrFail($id);
 
             return view('backend.trainings.attendance-modal', [
                 'training' => $training,
             ]);
         }
 
-        $training = Training::with('team')->findOrFail($id);
+        $training = Training::with(['team', 'venue', 'attendance.player.activeRoster'])->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.trainings.show-modal', [

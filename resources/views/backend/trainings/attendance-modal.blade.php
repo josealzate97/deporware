@@ -10,6 +10,8 @@
     </div>
 </div>
 
+@php($positionOptions = \App\Models\Player::positionOptions())
+
 <div class="card p-3 section-card">
     <div class="row g-3">
         <div class="col-md-6">
@@ -34,15 +36,20 @@
 
     <div class="row g-3">
         @forelse(($training->attendance ?? []) as $attendance)
+            @php($player = $attendance->getRelationValue('player'))
+            @php($roster = $player?->getRelationValue('activeRoster'))
+            @php($dorsal = $roster?->dorsal ?? $player?->dorsal)
+            @php($positionId = $roster?->position ?? $player?->primary_position ?? $player?->position)
+            @php($positionLabel = $positionOptions[$positionId] ?? '-')
             <div class="col-12 col-md-6">
                 <div class="training-attendance-card h-100">
                     <div class="training-attendance-content">
                         <div class="training-attendance-name">
-                            {{ $attendance->player?->name ?? 'Jugador' }} {{ $attendance->player?->lastname ?? '' }}
+                            {{ $player?->name ?? 'Jugador' }} {{ $player?->lastname ?? '' }}
                         </div>
                         <div class="training-attendance-meta">
-                            <span>#{{ $attendance->player?->dorsal ?? '-' }}</span>
-                            <span>{{ $attendance->player?->position ?? '-' }}</span>
+                            <span>#{{ $dorsal ?? '-' }}</span>
+                            <span>{{ $positionLabel }}</span>
                         </div>
                     </div>
                 </div>

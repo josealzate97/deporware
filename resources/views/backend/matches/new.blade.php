@@ -263,12 +263,7 @@
                                             <div class="match-file-item">
                                                 <div class="match-file-item-header">
                                                     <label class="form-label fw-semibold mb-0" for="match_file">Informe Partido <span class="text-danger" x-show="requiresResult">*</span></label>
-                                                    <div class="d-flex align-items-center gap-2 ms-auto">
-                                                        @if($showExistingMatchFile)
-                                                            <span class="status-pill status-pill-success">Informe actual cargado</span>
-                                                        @endif
-                                                        <span class="match-file-badge">PDF/DOCX/XLS/XLSX · Máx 5MB</span>
-                                                    </div>
+                                                    <span class="match-file-badge">PDF/DOCX/XLS/XLSX · Máx 5MB</span>
                                                 </div>
 
                                                 <input type="hidden" name="remove_match_file" id="remove_match_file" value="{{ old('remove_match_file', '0') }}">
@@ -283,7 +278,10 @@
                                                                 <span>{{ $existingMatchFileExtension ?: 'FILE' }}</span>
                                                             </div>
                                                             <div class="match-file-preview-copy">
-                                                                <div class="match-file-preview-title">Informe</div>
+                                                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                                    <div class="match-file-preview-title">Informe</div>
+                                                                    <span class="status-pill status-pill-success">Informe actual cargado</span>
+                                                                </div>
                                                                 <div class="match-file-preview-text">
                                                                     {{ $existingMatchFileIsPdf ? 'Vista previa disponible en el navegador.' : 'Se abrira en una nueva pestana si el navegador soporta este formato.' }}
                                                                 </div>
