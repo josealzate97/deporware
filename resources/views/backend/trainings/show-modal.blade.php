@@ -80,10 +80,6 @@
             <div class="match-tab-panel" data-panel="training-goals">
                 <div class="match-info-grid">
                     <div class="match-info-item">
-                        <div class="match-info-label">Objetivo principal</div>
-                        <div class="match-info-value">{{ $training->principal_obj ?? '-' }}</div>
-                    </div>
-                    <div class="match-info-item">
                         <div class="match-info-label">Objetivo táctico</div>
                         <div class="match-info-value">{{ $tacticOptions[$training->tactic_obj] ?? '-' }}</div>
                     </div>

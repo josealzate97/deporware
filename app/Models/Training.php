@@ -26,7 +26,6 @@ class Training extends Model
         'location',
         'duration',
         'notes',
-        'principal_obj',
         'tactic_obj',
         'fisic_obj',
         'tecnic_obj',
@@ -40,7 +39,6 @@ class Training extends Model
     {
         return [
             'duration' => 'integer',
-            'principal_obj' => 'integer',
             'tactic_obj' => 'integer',
             'fisic_obj' => 'integer',
             'tecnic_obj' => 'integer',
@@ -214,11 +212,11 @@ class Training extends Model
     public static function momentOptions(): array
     {
         return [
-            1 => 'Pretemporada',
-            2 => 'Temporada',
-            3 => 'Postemporada',
+            1 => 'Ataque',
+            2 => 'Defensa',
+            3 => 'Transicion Defensa-Ataque',
+            4 => 'Transicion Ataque-Defensa',
         ];
     }
 }
-
 

@@ -200,15 +200,6 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 col-lg-4">
-                                    <label class="form-label fw-semibold">Objetivo principal</label>
-                                    <input type="number" min="0" class="form-control @error('principal_obj') is-invalid @enderror" name="principal_obj"
-                                        value="{{ old('principal_obj', $training?->principal_obj ?? '') }}">
-                                    @error('principal_obj')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-12 col-md-6 col-lg-4">
                                     <label class="form-label fw-semibold">Objetivo táctico</label>
                                     <select class="form-select @error('tactic_obj') is-invalid @enderror" name="tactic_obj">
                                         <option value="">Selecciona...</option>

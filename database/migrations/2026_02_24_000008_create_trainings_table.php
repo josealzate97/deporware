@@ -17,7 +17,6 @@ return new class extends Migration
             $table->uuid('team');
             $table->integer('duration');
             $table->text('notes')->nullable();
-            $table->integer('principal_obj')->nullable();
             $table->integer('tactic_obj')->nullable();
             $table->integer('fisic_obj')->nullable();
             $table->integer('tecnic_obj')->nullable();
