@@ -171,6 +171,112 @@
   gap: 0.45rem;
 }
 
+#user-tab-info:checked + .team-modal-tab,
+#user-tab-venues:checked + .team-modal-tab,
+#user-tab-teams:checked + .team-modal-tab,
+#user-tab-matches:checked + .team-modal-tab,
+#user-tab-trainings:checked + .team-modal-tab {
+  background: #ffffff;
+  color: #0d6efd;
+  border-color: #bfdbfe;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+}
+
+#user-tab-info:checked ~ .team-modal-panels [data-panel="user-info"],
+#user-tab-venues:checked ~ .team-modal-panels [data-panel="user-venues"],
+#user-tab-teams:checked ~ .team-modal-panels [data-panel="user-teams"],
+#user-tab-matches:checked ~ .team-modal-panels [data-panel="user-matches"],
+#user-tab-trainings:checked ~ .team-modal-panels [data-panel="user-trainings"] {
+  display: block;
+}
+
+.user-match-badges {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.info-panel .show-modal-mint .team-info-item.user-match-card--scheduled {
+  background: #d8efe3 !important;
+  border-color: #bcd9c7 !important;
+}
+
+.info-panel .show-modal-mint .team-info-item.user-match-card--played {
+  background: #ffffff !important;
+  border-color: #dbe7f5 !important;
+}
+
+.user-match-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  padding: 0.16rem 0.58rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+}
+
+.user-match-badge--status-scheduled {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.user-match-badge--status-completed {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+
+.user-match-badge--status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.user-match-badge--status-neutral {
+  background: #e2e8f0;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.user-match-badge--result-win {
+  background: #bbf7d0;
+  color: #14532d;
+  border-color: #86efac;
+}
+
+.user-match-badge--result-loss {
+  background: #fecaca;
+  color: #7f1d1d;
+  border-color: #fca5a5;
+}
+
+.user-match-badge--result-draw {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.user-match-badge--result-neutral {
+  background: #f1f5f9;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.user-match-badge--score {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #bfdbfe;
+}
+
+.user-match-badge--score i {
+  font-size: 0.68rem;
+}
+
 @media (max-width: 849.98px) {
   .user-info-card {
     border-radius: 14px;

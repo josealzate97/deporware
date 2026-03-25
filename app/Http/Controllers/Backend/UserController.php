@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ManagerRoster;
+use App\Models\MatchModel;
 use App\Models\SportsVenue;
+use App\Models\Training;
 use App\Models\User;
 
 /**
@@ -93,21 +95,57 @@ class UserController extends Controller {
         $user = User::with('venues')->findOrFail($id);
 
         if (request()->boolean('modal')) {
+            $showVenueTab = (int) $user->role !== User::ROLE_ROOT;
+            $showCoachTabs = in_array($user->role, [User::ROLE_COACH, User::ROLE_COORDINATOR], true);
+
             $venues = $user->venues
                 ->where('pivot.status', 1)
                 ->values();
 
             $teamAssignments = collect();
-            if (in_array($user->role, [User::ROLE_COACH, User::ROLE_COORDINATOR], true)) {
+            $userMatches = collect();
+            $userTrainings = collect();
+
+            if ($showCoachTabs) {
                 $teamAssignments = ManagerRoster::with('teamModel')
                     ->where('user', $user->id)
+                    ->where('status', 1)
                     ->get()
                     ->filter(fn ($assignment) => $assignment->teamModel)
                     ->sortBy(fn ($assignment) => $assignment->teamModel->name ?? '')
                     ->values();
+
+                $teamIds = $teamAssignments
+                    ->pluck('team')
+                    ->filter()
+                    ->unique()
+                    ->values()
+                    ->all();
+
+                if (!empty($teamIds)) {
+                    $userMatches = MatchModel::with(['team', 'rival'])
+                        ->whereIn('team', $teamIds)
+                        ->orderByDesc('match_date')
+                        ->limit(20)
+                        ->get();
+
+                    $userTrainings = Training::with(['team', 'venue'])
+                        ->whereIn('team', $teamIds)
+                        ->orderByDesc('created_at')
+                        ->limit(20)
+                        ->get();
+                }
             }
 
-            return view('backend.users.info-modal', compact('user', 'venues', 'teamAssignments'));
+            return view('backend.users.info-modal', compact(
+                'user',
+                'venues',
+                'teamAssignments',
+                'userMatches',
+                'userTrainings',
+                'showVenueTab',
+                'showCoachTabs'
+            ));
         }
 
         // Roles
