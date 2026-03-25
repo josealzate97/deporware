@@ -47,13 +47,13 @@
                         <div class="player-profile-meta">
                             <div class="player-profile-name">{{ $player->name }} {{ $player->lastname }}</div>
                             <div class="player-profile-sub">
-                                NIT: <span class="player-badge-blue">{{ $player->nit ?? '-' }}</span>
+                                NIT: <span class="player-badge-slate">{{ $player->nit ?? '-' }}</span>
                             </div>
                             <div class="player-profile-sub">
-                                Contacto: <span class="player-badge-blue">{{ $player->phone ?? '-' }}</span>
+                                Contacto: <span class="player-badge-emerald">{{ $player->phone ?? '-' }}</span>
                             </div>
                             <div class="player-profile-sub">
-                                Email: <span class="player-badge-blue">{{ $player->email ?? '-' }}</span>
+                                Email: <span class="player-badge-violet">{{ $player->email ?? '-' }}</span>
                             </div>
                         </div>
                         <div class="player-info-item player-weight-inline-card">
@@ -184,14 +184,14 @@
                                         <div class="player-contact-main">
                                             <div class="player-contact-row player-contact-row--identity">
                                                 <div class="player-contact-name">{{ $contact->name }} {{ $contact->lastname }}</div>
-                                                <span class="player-badge-blue">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
+                                                <span class="player-badge-amber">{{ \App\Models\PlayerContact::relationshipOptions()[$contact->relationship] ?? '-' }}</span>
                                             </div>
 
                                             <div class="player-contact-row player-contact-row--contact">
                                                 <div class="player-contact-email">
                                                     <i class="fa-solid fa-envelope me-1"></i>{{ $contact->email ?: '-' }}
                                                 </div>
-                                                <span class="player-badge-blue">
+                                                <span class="player-badge-emerald">
                                                     <i class="fa-solid fa-phone me-1"></i>{{ $contact->phone ?? '-' }}
                                                 </span>
                                             </div>
@@ -220,7 +220,7 @@
                                         <div class="col-12 text-muted small player-observation-notes mb-2">{{ \Illuminate\Support\Str::limit($observation->notes ?? '-', 100, '...') }}</div>
                                         <div class="col-12">
                                             <div class="d-flex justify-content-between align-items-center player-observation-meta">
-                                                <span class="player-badge-blue">{{ $observationDate }}</span>
+                                                <span class="player-badge-violet">{{ $observationDate }}</span>
                                                 <span class="text-muted small">
                                                     @if($observationAuthor !== '')
                                                         <span class="fw-semibold"><i class="fa-solid fa-user me-1"></i>{{ $observationAuthor }}</span>
@@ -249,9 +249,9 @@
                                 <div class="player-report-main">
                                     <div class="player-report-name">{{ $report['name'] }}</div>
                                     <div class="player-report-meta">
-                                        <span class="player-badge-blue"><i class="fa-solid fa-shield-halved me-1"></i>{{ $report['team_name'] ?? 'Equipo' }}</span>
-                                        <span class="player-badge-blue"><i class="fa-solid fa-clock me-1"></i>{{ !empty($report['modified_at']) ? \Carbon\Carbon::createFromTimestamp($report['modified_at'])->format('Y-m-d H:i') : '-' }}</span>
-                                        <span class="player-badge-blue"><i class="fa-solid fa-file-lines me-1"></i>{{ $sizeKb }} KB</span>
+                                        <span class="player-badge-cyan"><i class="fa-solid fa-shield-halved me-1"></i>{{ $report['team_name'] ?? 'Equipo' }}</span>
+                                        <span class="player-badge-violet"><i class="fa-solid fa-clock me-1"></i>{{ !empty($report['modified_at']) ? \Carbon\Carbon::createFromTimestamp($report['modified_at'])->format('Y-m-d H:i') : '-' }}</span>
+                                        <span class="player-badge-slate"><i class="fa-solid fa-file-lines me-1"></i>{{ $sizeKb }} KB</span>
                                     </div>
                                 </div>
                                 <a href="{{ route('players.documents.download', ['id' => $player->id, 'file' => base64_encode($report['path'])]) }}" class="btn btn-sm btn-outline-success">

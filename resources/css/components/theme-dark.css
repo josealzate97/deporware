@@ -1014,6 +1014,11 @@ body.theme-dark .team-modal-tab.is-disabled {
 body.theme-dark .meta-badge,
 body.theme-dark .player-badge-blue,
 body.theme-dark .player-badge-green,
+body.theme-dark .player-badge-amber,
+body.theme-dark .player-badge-emerald,
+body.theme-dark .player-badge-violet,
+body.theme-dark .player-badge-slate,
+body.theme-dark .player-badge-cyan,
 body.theme-dark .match-results-badge,
 body.theme-dark .match-file-badge,
 body.theme-dark .team-player-position-badge,
@@ -1021,6 +1026,36 @@ body.theme-dark .matches-calendar-day-count {
   background: #1a2940 !important;
   border-color: #355b96 !important;
   color: #bfdbfe !important;
+}
+
+body.theme-dark .player-badge-amber {
+  background: #4a3515 !important;
+  border-color: #a47a2f !important;
+  color: #fde68a !important;
+}
+
+body.theme-dark .player-badge-emerald {
+  background: #1b3d2a !important;
+  border-color: #2f6b49 !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .player-badge-violet {
+  background: #35215b !important;
+  border-color: #7c5ac8 !important;
+  color: #ddd6fe !important;
+}
+
+body.theme-dark .player-badge-slate {
+  background: #1f2937 !important;
+  border-color: #475569 !important;
+  color: #cbd5e1 !important;
+}
+
+body.theme-dark .player-badge-cyan {
+  background: #103841 !important;
+  border-color: #1e7490 !important;
+  color: #a5f3fc !important;
 }
 
 body.theme-dark .info-panel .show-modal-mint .team-modal-panel[data-panel="user-venues"] .team-info-item.user-mint-card .meta-badge {
