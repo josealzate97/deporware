@@ -41,52 +41,104 @@
         <div class="team-modal-panels">
             <div class="team-modal-panel" data-panel="user-info">
                 <div class="card p-3 section-card">
+                    <div class="user-profile-header mb-3">
+                        <div class="user-profile-photo">
+                            <div class="user-profile-photo-placeholder">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="user-profile-details">
+                            <div class="user-profile-meta">
+                                <div class="user-profile-name">{{ $user->name }} {{ $user->lastname }}</div>
+                                <div class="user-profile-sub">
+                                    Username:
+                                    <span class="meta-badge">{{ $user->username }}</span>
+                                </div>
+                                <div class="user-profile-sub">
+                                    Contacto:
+                                    <span class="meta-badge">{{ $user->email }}</span>
+                                </div>
+                                <div class="user-profile-sub">
+                                    Teléfono:
+                                    <span class="meta-badge">{{ $user->phone }}</span>
+                                </div>
+                            </div>
+
+                            <div class="user-info-item user-profile-inline-card">
+                                <div class="user-info-label">
+                                    <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                                    Fecha de contrato
+                                </div>
+                                <div class="user-info-value">{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</div>
+                            </div>
+
+                            <div class="user-info-item user-profile-inline-card">
+                                <div class="user-info-label">
+                                    <i class="fa-solid fa-id-badge text-primary me-2"></i>
+                                    Rol y estado
+                                </div>
+                                <div class="user-info-value">{{ $user->role_label }}</div>
+                                <div class="user-info-sub">
+                                    @if($user->status == \App\Models\User::ACTIVE)
+                                        <span class="status-pill status-pill-success">Activo</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactivo</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-profile-section-title mb-2">
+                        <i class="fa-solid fa-address-card text-primary me-2"></i>
+                        Resumen del perfil
+                    </div>
+
                     <div class="user-info-grid">
                         <div class="user-info-item">
                             <div class="user-info-label">
-                                <i class="fa-solid fa-user text-primary me-2"></i>
-                                Nombre
+                                <i class="fa-solid fa-map-location-dot text-primary me-2"></i>
+                                Sedes asociadas
                             </div>
-                            <div class="user-info-value">{{ $user->name }} {{ $user->lastname }}</div>
+                            <div class="user-info-value">{{ $showVenueTab ? $venues->count() : 0 }}</div>
                             <div class="user-info-sub">
-                                <span class="meta-badge">{{ $user->username }}</span>
-                            </div>
-                        </div>
-                        <div class="user-info-item">
-                            <div class="user-info-label">
-                                <i class="fa-solid fa-phone text-primary me-2"></i>
-                                Contacto
-                            </div>
-                            <div class="user-info-value">{{ $user->email }}</div>
-                            <div class="user-info-sub">{{ $user->phone }}</div>
-                        </div>
-                        <div class="user-info-item">
-                            <div class="user-info-label">
-                                <i class="fa-solid fa-calendar-days text-primary me-2"></i>
-                                Fecha de contrato
-                            </div>
-                            <div class="user-info-value">{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</div>
-                        </div>
-                        <div class="user-info-item">
-                            <div class="user-info-label">
-                                <i class="fa-solid fa-id-badge text-primary me-2"></i>
-                                Rol
-                            </div>
-                            <div class="user-info-value">{{ $user->role_label }}</div>
-                        </div>
-                        <div class="user-info-item">
-                            <div class="user-info-label">
-                                <i class="fa-solid fa-toggle-on text-primary me-2"></i>
-                                Estado
-                            </div>
-                            <div class="user-info-value">
-                                @if($user->status == \App\Models\User::ACTIVE)
-                                    <span class="status-pill status-pill-success">Activo</span>
+                                @if($showVenueTab)
+                                    {{ $venues->count() === 1 ? 'Sede activa' : 'Sedes activas' }}
                                 @else
-                                    <span class="status-pill status-pill-muted">Inactivo</span>
+                                    No aplica para Super Admin
                                 @endif
                             </div>
                         </div>
+
+                        @if($showCoachTabs)
+                            <div class="user-info-item">
+                                <div class="user-info-label">
+                                    <i class="fa-solid fa-shield-halved text-primary me-2"></i>
+                                    Equipos
+                                </div>
+                                <div class="user-info-value">{{ $teamAssignments->count() }}</div>
+                                <div class="user-info-sub">{{ $teamAssignments->count() === 1 ? 'Equipo asignado' : 'Equipos asignados' }}</div>
+                            </div>
+
+                            <div class="user-info-item">
+                                <div class="user-info-label">
+                                    <i class="fa-solid fa-futbol text-primary me-2"></i>
+                                    Partidos
+                                </div>
+                                <div class="user-info-value">{{ $userMatches->count() }}</div>
+                                <div class="user-info-sub">Registros recientes</div>
+                            </div>
+
+                            <div class="user-info-item">
+                                <div class="user-info-label">
+                                    <i class="fa-solid fa-dumbbell text-primary me-2"></i>
+                                    Entrenamientos
+                                </div>
+                                <div class="user-info-value">{{ $userTrainings->count() }}</div>
+                                <div class="user-info-sub">Registros recientes</div>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

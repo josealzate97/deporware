@@ -925,14 +925,21 @@ body.theme-dark .players-tab.is-active,
 body.theme-dark .player-tabs input[type="radio"]:checked + label,
 body.theme-dark #team-tab-info:checked + .team-modal-tab,
 body.theme-dark #team-tab-players:checked + .team-modal-tab,
+body.theme-dark #team-tab-matches:checked + .team-modal-tab,
+body.theme-dark #team-tab-trainings:checked + .team-modal-tab,
+body.theme-dark #user-tab-info:checked + .team-modal-tab,
+body.theme-dark #user-tab-venues:checked + .team-modal-tab,
+body.theme-dark #user-tab-teams:checked + .team-modal-tab,
+body.theme-dark #user-tab-matches:checked + .team-modal-tab,
+body.theme-dark #user-tab-trainings:checked + .team-modal-tab,
 body.theme-dark #match-tab-info:checked + label,
 body.theme-dark #match-tab-technical:checked + label,
 body.theme-dark #match-tab-aptitudinal:checked + label,
 body.theme-dark .matches-view-tab.is-active {
-  background: #1e2e49 !important;
-  border-color: #4a78b5 !important;
-  color: #bfdbfe !important;
-  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22) !important;
+  background: linear-gradient(180deg, #213759 0%, #1d304f 100%) !important;
+  border-color: #5f8fcb !important;
+  color: #dbeafe !important;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.28), inset 0 1px 0 rgba(191, 219, 254, 0.22) !important;
 }
 
 body.theme-dark .players-tab.is-disabled,
@@ -954,6 +961,77 @@ body.theme-dark .matches-calendar-day-count {
   background: #1a2940 !important;
   border-color: #355b96 !important;
   color: #bfdbfe !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-modal-panel[data-panel="user-venues"] .team-info-item.user-mint-card .meta-badge {
+  background: #123a73 !important;
+  border-color: #3b82f6 !important;
+  color: #dbeafe !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-modal-panel[data-panel="user-venues"] > .section-card > .d-flex .meta-badge {
+  background: #0f2f5f !important;
+  border-color: #3b82f6 !important;
+  color: #dbeafe !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge {
+  border-width: 1px !important;
+  box-shadow: none !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--status-scheduled {
+  background: #132b4f !important;
+  border-color: #2f5f9c !important;
+  color: #cfe3ff !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--status-completed {
+  background: #173727 !important;
+  border-color: #2f6b49 !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--status-cancelled {
+  background: #3f1f25 !important;
+  border-color: #8f3a45 !important;
+  color: #fecdd3 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--status-neutral {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--result-win {
+  background: #1b3d2a !important;
+  border-color: #2f6b49 !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--result-loss {
+  background: #4a2228 !important;
+  border-color: #a33a44 !important;
+  color: #fecdd3 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--result-draw {
+  background: #4a3515 !important;
+  border-color: #a47a2f !important;
+  color: #fde68a !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--result-neutral {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .user-match-badge--score {
+  background: #16263d !important;
+  border-color: #355b96 !important;
+  color: #dbeafe !important;
 }
 
 body.theme-dark .status-pill-success {
@@ -1045,6 +1123,13 @@ body.theme-dark .info-panel .player-photo-panel {
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
 }
 
+body.theme-dark .info-panel .user-profile-header,
+body.theme-dark .info-panel .user-profile-inline-card {
+  background: #171f2c !important;
+  border-color: #2f3c4f !important;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
 body.theme-dark .info-panel .player-profile-name,
 body.theme-dark .info-panel .player-info-value,
 body.theme-dark .info-panel .player-contact-name,
@@ -1053,6 +1138,11 @@ body.theme-dark .info-panel .player-section-title,
 body.theme-dark .info-panel .player-sport-weight,
 body.theme-dark .info-panel .player-jersey-number {
   color: #e2e8f0;
+}
+
+body.theme-dark .info-panel .user-profile-name,
+body.theme-dark .info-panel .user-profile-section-title {
+  color: #e2e8f0 !important;
 }
 
 body.theme-dark .info-panel .player-profile-sub,
@@ -1067,8 +1157,21 @@ body.theme-dark .info-panel .text-muted {
   color: #9fb0c5 !important;
 }
 
+body.theme-dark .info-panel .user-profile-sub {
+  color: #9fb0c5 !important;
+}
+
 body.theme-dark .info-panel .player-photo-placeholder {
   color: #93a9c5;
+}
+
+body.theme-dark .info-panel .user-profile-photo {
+  background: #122033;
+  border-color: #355b96;
+}
+
+body.theme-dark .info-panel .user-profile-photo-placeholder {
+  color: #9fb7d6;
 }
 
 body.theme-dark .info-panel .player-empty-state {
