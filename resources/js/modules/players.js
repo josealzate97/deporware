@@ -1,4 +1,9 @@
-document.addEventListener('alpine:init', () => {
+const registerPlayersAlpine = () => {
+    if (!window.Alpine || window.__playersAlpineRegistered === true) {
+        return;
+    }
+    window.__playersAlpineRegistered = true;
+
     const observationModal = () => ({
         observationOpen: false,
         observationPlayerId: null,
@@ -110,7 +115,10 @@ document.addEventListener('alpine:init', () => {
             }
         },
     }));
-});
+};
+
+document.addEventListener('alpine:init', registerPlayersAlpine);
+registerPlayersAlpine();
 
 document.addEventListener('DOMContentLoaded', () => {
     let lightboxRoot = null;

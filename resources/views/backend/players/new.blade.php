@@ -706,32 +706,32 @@
             @endif
         </div>
 
-    </div>
-
-    <div class="info-overlay" x-show="confirmOpen" x-transition.opacity x-cloak @click.self="closeConfirm">
-        <div class="info-panel" :class="confirmOpen ? 'is-open' : ''" x-show="confirmOpen" x-transition>
-            <div class="info-header">
-                <span x-text="confirmTitle"></span>
-                <button type="button" class="info-close" @click="closeConfirm">&times;</button>
-            </div>
-            <div class="info-body">
-                <div class="info-section">
-                    <div class="info-section-title">
-                        <i class="fa-solid fa-circle-question me-2 text-primary"></i>
-                        Confirmación
-                    </div>
-                    <p class="mb-0" x-text="confirmMessage"></p>
+        <div class="info-overlay" x-show="confirmOpen" x-transition.opacity x-cloak @click.self="closeConfirm">
+            <div class="info-panel" :class="confirmOpen ? 'is-open' : ''" x-show="confirmOpen" x-transition>
+                <div class="info-header">
+                    <span x-text="confirmTitle"></span>
+                    <button type="button" class="info-close" @click="closeConfirm">&times;</button>
                 </div>
-                <div class="mt-4 text-end">
-                    <button type="button" class="btn btn-outline-secondary px-4 fw-bold me-2" @click="closeConfirm">
-                        Cancelar
-                    </button>
-                    <button type="button" class="btn btn-danger px-4 fw-bold" @click="runConfirm">
-                        Confirmar
-                    </button>
+                <div class="info-body">
+                    <div class="info-section">
+                        <div class="info-section-title">
+                            <i class="fa-solid fa-circle-question me-2 text-primary"></i>
+                            Confirmación
+                        </div>
+                        <p class="mb-0" x-text="confirmMessage"></p>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="button" class="btn btn-outline-secondary px-4 fw-bold me-2" @click="closeConfirm">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn btn-danger px-4 fw-bold" @click="runConfirm">
+                            Confirmar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
 @endsection
