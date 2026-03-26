@@ -88,7 +88,7 @@
 
             <form class="info-form" @submit.prevent="save">
                 <div class="row g-4">
-                    <div class="col-12">
+                    <div class="col-12 col-lg-6">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-list me-2 text-primary"></i>
@@ -96,40 +96,82 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Nombre comercial</label>
                                     <input type="text" class="form-control" x-model="form.name" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Razon social</label>
                                     <input type="text" class="form-control" x-model="form.legal_name" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Identificacion legal</label>
                                     <input type="text" class="form-control" x-model="form.legal_id" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Telefono</label>
                                     <input type="text" class="form-control mask-phone" x-model="form.phone" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Email</label>
                                     <input type="email" class="form-control" x-model="form.email" :disabled="!isEditing">
-                                </div>
-
-                                <div class="col-12 col-lg-4">
-                                    <label class="form-label fw-semibold">Sitio web</label>
-                                    <input type="text" class="form-control" x-model="form.website" :disabled="!isEditing">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12 col-lg-6">
+                        <div class="info-section h-100">
+                            <div class="info-section-title">
+                                <i class="fa-solid fa-image me-2 text-primary"></i>
+                                Logo
+                            </div>
+
+                            <div class="config-logo-panel">
+                                <div class="config-logo-panel-header">
+                                    <div>
+                                        <div class="fw-semibold">Logo de la configuracion</div>
+                                        <span class="config-logo-badge">JPG o PNG · Máx 5MB</span>
+                                    </div>
+                                    <div class="config-logo-actions">
+                                        <label for="configuration_logo_file" class="btn btn-outline-primary btn-sm" :class="{ 'disabled': !isEditing }">
+                                            <i class="fa-solid fa-upload me-1"></i> Subir
+                                        </label>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" @click="removeLogo()" :disabled="!isEditing">
+                                            <i class="fa-solid fa-trash me-1"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <input
+                                    id="configuration_logo_file"
+                                    type="file"
+                                    class="d-none"
+                                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                                    @change="onLogoSelected($event)"
+                                    :disabled="!isEditing"
+                                >
+
+                                <div class="config-logo-preview mt-3">
+                                    <div class="config-logo-frame">
+                                        <template x-if="logoPreviewUrl">
+                                            <img :src="logoPreviewUrl" alt="Logo de la configuración" class="config-logo-image">
+                                        </template>
+                                        <template x-if="!logoPreviewUrl">
+                                            <div class="config-logo-placeholder">No válido por el momento</div>
+                                        </template>
+                                    </div>
+                                    <div class="config-logo-hint">Vista previa del logo.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-location-dot me-2 text-primary"></i>
@@ -137,12 +179,12 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Direccion</label>
                                     <input type="text" class="form-control" x-model="form.address" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Pais</label>
                                     <select class="form-select" x-model="form.country" :disabled="!isEditing">
                                         <option value="">Selecciona un pais</option>
@@ -152,7 +194,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Ciudad</label>
                                     <input type="text" class="form-control" x-model="form.city" :disabled="!isEditing">
                                 </div>
@@ -160,7 +202,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12 col-lg-6">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-cog me-2 text-primary"></i>
@@ -168,12 +210,12 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-12 col-lg-4">
-                                    <label class="form-label fw-semibold">Logo (URL o ruta)</label>
-                                    <input type="text" class="form-control" x-model="form.logo" :disabled="!isEditing">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Sitio web</label>
+                                    <input type="text" class="form-control" x-model="form.website" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Deporte principal</label>
                                     <select class="form-select" x-model="form.sport" :disabled="!isEditing">
                                         <option value="">Selecciona un deporte</option>
@@ -183,7 +225,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Moneda</label>
                                     <select class="form-select" x-model="form.currency" :disabled="!isEditing">
                                         <option value="">Selecciona una moneda</option>
@@ -193,7 +235,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Zona horaria</label>
                                     <select class="form-select" x-model="form.timezone" :disabled="!isEditing">
                                         <option value="">Selecciona una zona horaria</option>
@@ -203,7 +245,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12">
                                     <label class="form-label fw-semibold">Locale</label>
                                     <select class="form-select" x-model="form.locale" :disabled="!isEditing">
                                         <option value="">Selecciona un locale</option>

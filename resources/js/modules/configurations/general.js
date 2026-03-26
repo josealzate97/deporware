@@ -4,6 +4,9 @@ document.addEventListener('alpine:init', () => {
         isEditing: !hasConfig,
         isLoading: false,
         isSaving: false,
+        logoFile: null,
+        logoPreviewUrl: '',
+        logoObjectUrl: null,
         form: {},
         original: {},
 
@@ -40,12 +43,16 @@ document.addEventListener('alpine:init', () => {
                 this.form = { ...base };
                 this.original = { ...this.form };
                 this.hasConfig = false;
+                this.resetLogoState();
                 return;
             }
 
             this.form = { ...base, ...config };
             this.original = { ...this.form };
             this.hasConfig = true;
+            this.revokeLogoObjectUrl();
+            this.logoFile = null;
+            this.logoPreviewUrl = this.resolveLogoUrl(this.form.logo);
         },
 
         async fetchConfig(url) {
@@ -79,6 +86,9 @@ document.addEventListener('alpine:init', () => {
 
         cancelEdit() {
             this.form = { ...this.original };
+            this.revokeLogoObjectUrl();
+            this.logoFile = null;
+            this.logoPreviewUrl = this.resolveLogoUrl(this.form.logo);
             this.isEditing = !this.hasConfig;
         },
 
@@ -91,6 +101,10 @@ document.addEventListener('alpine:init', () => {
                 Object.entries(this.form).forEach(([key, value]) => {
                     formData.append(key, value ?? '');
                 });
+                formData.append('remove_logo', this.form.logo === '' ? '1' : '0');
+                if (this.logoFile) {
+                    formData.append('logo_file', this.logoFile);
+                }
 
                 formData.append('_method', 'PUT');
 
@@ -119,6 +133,48 @@ document.addEventListener('alpine:init', () => {
             } finally {
                 this.isSaving = false;
             }
+        },
+
+        onLogoSelected(event) {
+            const file = event?.target?.files?.[0];
+            if (!file) return;
+
+            this.logoFile = file;
+            this.form.logo = file.name;
+            this.revokeLogoObjectUrl();
+            this.logoObjectUrl = URL.createObjectURL(file);
+            this.logoPreviewUrl = this.logoObjectUrl;
+        },
+
+        removeLogo() {
+            this.logoFile = null;
+            this.form.logo = '';
+            this.revokeLogoObjectUrl();
+            this.logoPreviewUrl = '';
+
+            const input = document.getElementById('configuration_logo_file');
+            if (input) input.value = '';
+        },
+
+        resolveLogoUrl(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return '';
+            if (/^https?:\/\//i.test(raw)) return raw;
+            if (raw.startsWith('/')) return raw;
+            return `/storage/${raw}`;
+        },
+
+        revokeLogoObjectUrl() {
+            if (this.logoObjectUrl) {
+                URL.revokeObjectURL(this.logoObjectUrl);
+                this.logoObjectUrl = null;
+            }
+        },
+
+        resetLogoState() {
+            this.logoFile = null;
+            this.logoPreviewUrl = '';
+            this.revokeLogoObjectUrl();
         },
 
         updateAppConfig() {
