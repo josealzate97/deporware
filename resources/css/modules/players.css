@@ -1127,6 +1127,24 @@ body.theme-dark .player-sport-side-panel {
   border-color: #a5f3fc;
 }
 
+.players-index-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  flex-wrap: wrap;
+}
+
+.players-index-badge-green {
+  margin-left: 0;
+}
+
+.players-index-badges .player-badge-slate {
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .player-contact-card {
   border: 1px solid #e2e8f0;
   background: #ffffff;
@@ -1214,7 +1232,7 @@ body.theme-dark .player-sport-side-panel {
 }
 
 .info-panel .player-contact-card .player-contact-top {
-  padding-left: 0.5rem;
+  padding-left: 0.2rem;
 }
 
 .info-panel .player-contact-row--contact,
@@ -1224,6 +1242,22 @@ body.theme-dark .player-sport-side-panel {
 
 .info-panel .player-contact-top--split {
   padding-left: 0;
+}
+
+.info-panel .player-tab-panel[data-panel="contacts"] .player-contact-top--split {
+  grid-template-columns: minmax(76px, 22%) minmax(0, 1fr);
+  column-gap: 0.42rem;
+}
+
+.info-panel .player-tab-panel[data-panel="contacts"] .player-contact-side {
+  padding-right: 0;
+}
+
+.info-panel .player-tab-panel[data-panel="contacts"] .player-contact-icon--xl {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  font-size: 1.55rem;
 }
 
 .info-panel .player-contact-top--split .player-contact-row--identity,

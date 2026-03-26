@@ -16,7 +16,7 @@
                 <tr data-id="{{ $match->id }}">
                     <td>
                         <div class="fw-semibold">{{ $match->match_date?->format('Y-m-d') ?? '-' }}</div>
-                        <div class="text-muted small">{{ $match->match_date?->format('H:i') ?? '-' }}</div>
+                        <div class="text-muted small fw-semibold">{{ $match->match_date?->format('H:i') ?? '-' }}</div>
                     </td>
                     @php($teamModel = $match->relationLoaded('team') ? $match->getRelation('team') : null)
                     @php($rivalModel = $match->relationLoaded('rival') ? $match->getRelation('rival') : null)
@@ -24,11 +24,11 @@
                     @php($ratingModel = $match->relationLoaded('teamRating') ? $match->getRelation('teamRating') : null)
                     <td>
                         <div class="fw-semibold">{{ $teamModel?->name ?? ($match->team ? 'Sin equipo vinculado' : '-') }}</div>
-                        <div class="text-muted small">vs {{ $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : '-') }}</div>
+                        <div class="text-muted small fw-semibold">vs {{ $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : '-') }}</div>
                     </td>
                     <td>
                         <div><span class="meta-badge">{{ $sideOptions[$match->side] ?? '-' }}</span></div>
-                        <div class="text-muted small mt-1">Jornada: {{ $match->match_round ?: '-' }}</div>
+                        <div class="text-muted small fw-semibold mt-1">{{ $match->match_round ?: '-' }}</div>
                     </td>
                     <td>
                         @if($match->match_status === \App\Models\MatchModel::STATUS_SCHEDULED)

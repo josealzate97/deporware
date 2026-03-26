@@ -110,8 +110,6 @@
                                 <th>Posición</th>
                                 <th>Equipo</th>
                                 <th>Edad - Año</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
                                 <th>Estado</th>
                                 <th class="text-end">Acciones</th>
                             </tr>
@@ -121,6 +119,14 @@
                                 <tr data-id="{{ $player->id }}">
                                     <td>
                                         <div class="fw-bold">{{ $player->name }} {{ $player->lastname }}</div>
+                                        <div class="players-index-badges mt-1">
+                                            <span class="player-badge-slate">
+                                                <i class="fa-solid fa-envelope me-1"></i>{{ $player->email ?? '-' }}
+                                            </span>
+                                            <span class="player-badge-slate">
+                                                <i class="fa-solid fa-phone me-1"></i>{{ $player->phone ?? '-' }}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td>
                                         @php
@@ -129,10 +135,12 @@
                                             $extraPositionsCount = max(count($positionLabels) - 1, 0);
                                         @endphp
                                         @if($primaryPositionLabel)
-                                            <span class="meta-badge">{{ $primaryPositionLabel }}</span>
-                                            @if($extraPositionsCount > 0)
-                                                <span class="meta-badge">+{{ $extraPositionsCount }}</span>
-                                            @endif
+                                            <div class="players-index-badges">
+                                                <span class="player-badge-green players-index-badge-green">{{ $primaryPositionLabel }}</span>
+                                                @if($extraPositionsCount > 0)
+                                                    <span class="player-badge-green players-index-badge-green">+{{ $extraPositionsCount }}</span>
+                                                @endif
+                                            </div>
                                         @else
                                             -
                                         @endif
@@ -150,17 +158,21 @@
                                                 $teamName = $teamModel?->name;
                                             }
                                         @endphp
-                                        {{ $teamName ?? '-' }}
-                                    </td>
-                                    <td>
-                                        @if($player->birthdate)
-                                            {{ \Carbon\Carbon::parse($player->birthdate)->age }} - {{ $player->birthdate->format('Y') }}
+                                        @if($teamName)
+                                            <span class="player-badge-blue">{{ $teamName }}</span>
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td>{{ $player->email ?? '-' }}</td>
-                                    <td>{{ $player->phone ?? '-' }}</td>
+                                    <td>
+                                        @if($player->birthdate)
+                                            <span class="player-badge-violet">
+                                                {{ $player->birthdate->format('Y') }} - {{ \Carbon\Carbon::parse($player->birthdate)->age }} años
+                                            </span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($player->status == \App\Models\Player::ACTIVE)
                                             <span class="status-pill status-pill-success">Activo</span>
@@ -212,7 +224,7 @@
                             </tr>
                         @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">No hay jugadores registrados.</td>
+                                    <td colspan="6" class="text-center text-muted py-4">No hay jugadores registrados.</td>
                                 </tr>
                         @endforelse
                         </tbody>

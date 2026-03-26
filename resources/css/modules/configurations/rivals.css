@@ -5,6 +5,9 @@
 }
 
 .config-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
   padding: 0.45rem 0.85rem;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
@@ -13,6 +16,35 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;
+}
+
+.config-tab-icon {
+  color: #1d4ed8;
+  font-size: 0.8rem;
+}
+
+.config-edit-btn {
+  background: #dcfce7 !important;
+  border-color: #86efac !important;
+  color: #166534 !important;
+  font-weight: 800 !important;
+}
+
+.config-edit-btn:hover {
+  background: #bbf7d0 !important;
+  border-color: #4ade80 !important;
+  color: #14532d !important;
+}
+
+.btn.btn-icon.config-edit-btn {
+  width: 36px;
+  height: 36px;
+}
+
+.btn.btn-icon.config-edit-btn i {
+  font-size: 0.95rem;
+  line-height: 1;
+  transform: translateY(0);
 }
 
 .config-tab.is-active {

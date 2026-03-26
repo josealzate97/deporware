@@ -7,12 +7,20 @@
 }
 
 .teams-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     padding: 8px 14px;
     border-radius: 8px;
     color: #6c757d;
     text-decoration: none;
     font-weight: 600;
     background: #f8f9fa;
+}
+
+.teams-tab-icon {
+    color: #1d4ed8;
+    font-size: 0.8rem;
 }
 
 .teams-tab.is-active {

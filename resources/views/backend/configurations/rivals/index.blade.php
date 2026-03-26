@@ -102,8 +102,8 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <a href="{{ route('configurations.rivals.edit', $rival->id) }}" class="btn btn-icon btn-icon-edit" title="Editar rival {{ $rival->name }}">
-                                        <i class="fas fa-edit mt-1"></i>
+                                    <a href="{{ route('configurations.rivals.edit', $rival->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn" title="Editar rival {{ $rival->name }}">
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     @if((int) $rival->status === \App\Models\RivalTeam::ACTIVE)
                                         <form method="POST" action="{{ route('configurations.rivals.destroy', $rival->id) }}" class="d-inline">

@@ -123,12 +123,14 @@
                     href="{{ route('teams.index', array_merge(['type' => 'competitive'], $baseFilters)) }}"
                     class="teams-tab {{ $activeType === 'competitive' ? 'is-active' : '' }}"
                 >
+                    <i class="fa-solid fa-trophy teams-tab-icon"></i>
                     Competitivo
                 </a>
                 <a
                     href="{{ route('teams.index', array_merge(['type' => 'formative'], $baseFilters)) }}"
                     class="teams-tab {{ $activeType === 'formative' ? 'is-active' : '' }}"
                 >
+                    <i class="fa-solid fa-seedling teams-tab-icon"></i>
                     Formativo
                 </a>
             </div>

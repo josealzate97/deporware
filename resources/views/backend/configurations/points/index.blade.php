@@ -112,25 +112,27 @@
                                                 @endif
                                             </td>
                                             <td class="text-end">
-                                                <a href="{{ route('configurations.points.attack.edit', $point->id) }}" class="btn btn-icon btn-icon-edit" title="Editar punto">
-                                                    <i class="fas fa-edit mt-1"></i>
-                                                </a>
-                                                @if((int) $point->status === \App\Models\AttackPoint::ACTIVE)
-                                                    <form method="POST" action="{{ route('configurations.points.attack.destroy', $point->id) }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-icon text-danger" title="Desactivar punto">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <form method="POST" action="{{ route('configurations.points.attack.activate', $point->id) }}" class="d-inline">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-icon text-success" title="Activar punto">
-                                                            <i class="fas fa-check"></i>
-                                                        </button>
-                                                    </form>
-                                                @endif
+                                                <div class="config-points-actions">
+                                                    <a href="{{ route('configurations.points.attack.edit', $point->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn config-point-action-btn" title="Editar punto">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    @if((int) $point->status === \App\Models\AttackPoint::ACTIVE)
+                                                        <form method="POST" action="{{ route('configurations.points.attack.destroy', $point->id) }}" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-icon config-point-action-btn config-point-action-danger" title="Desactivar punto">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <form method="POST" action="{{ route('configurations.points.attack.activate', $point->id) }}" class="d-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-icon config-point-action-btn config-point-action-success" title="Activar punto">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @empty
@@ -217,25 +219,27 @@
                                                 @endif
                                             </td>
                                             <td class="text-end">
-                                                <a href="{{ route('configurations.points.defensive.edit', $point->id) }}" class="btn btn-icon btn-icon-edit" title="Editar punto">
-                                                    <i class="fas fa-edit mt-1"></i>
-                                                </a>
-                                                @if((int) $point->status === \App\Models\DefensivePoint::ACTIVE)
-                                                    <form method="POST" action="{{ route('configurations.points.defensive.destroy', $point->id) }}" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-icon text-danger" title="Desactivar punto">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <form method="POST" action="{{ route('configurations.points.defensive.activate', $point->id) }}" class="d-inline">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-icon text-success" title="Activar punto">
-                                                            <i class="fas fa-check"></i>
-                                                        </button>
-                                                    </form>
-                                                @endif
+                                                <div class="config-points-actions">
+                                                    <a href="{{ route('configurations.points.defensive.edit', $point->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn config-point-action-btn" title="Editar punto">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    @if((int) $point->status === \App\Models\DefensivePoint::ACTIVE)
+                                                        <form method="POST" action="{{ route('configurations.points.defensive.destroy', $point->id) }}" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-icon config-point-action-btn config-point-action-danger" title="Desactivar punto">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <form method="POST" action="{{ route('configurations.points.defensive.activate', $point->id) }}" class="d-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-icon config-point-action-btn config-point-action-success" title="Activar punto">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @empty

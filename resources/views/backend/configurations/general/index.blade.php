@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-primary" x-show="!isEditing" @click="enableEdit" :disabled="isLoading">
+                    <button type="button" class="btn btn-primary config-edit-btn" x-show="!isEditing" @click="enableEdit" :disabled="isLoading">
                         <i class="fa fa-edit"></i> Editar
                     </button>
 
