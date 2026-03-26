@@ -888,6 +888,9 @@ body.match-lightbox-open {
 }
 
 .match-tabs label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
   padding: 0.45rem 0.85rem;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
@@ -935,11 +938,26 @@ body.match-lightbox-open {
   padding: 0.72rem 0.8rem;
 }
 
+@media (min-width: 992px) {
+  .match-info-item-venue {
+    grid-column: span 2;
+  }
+}
+
 .match-info-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.36rem;
   font-weight: 800;
   font-size: 0.82rem;
   color: #334155;
   margin-bottom: 0.2rem;
+}
+
+.match-tab-label-icon,
+.match-info-label-icon {
+  color: #1d4ed8;
+  font-size: 0.8rem;
 }
 
 .match-info-value {
@@ -950,6 +968,48 @@ body.match-lightbox-open {
 .match-info-sub {
   color: #64748b;
   font-size: 0.84rem;
+}
+
+.match-info-inline-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.match-info-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.58rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  border: 1px solid transparent;
+  line-height: 1.2;
+}
+
+.match-info-pill-success {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+
+.match-info-pill-muted {
+  background: #eef2ff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.match-info-pill-coach {
+  background: #f1f5f9;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.match-info-pill-score {
+  background: #e0f2fe;
+  color: #075985;
+  border-color: #bae6fd;
 }
 
 .match-result-pill {

@@ -246,6 +246,7 @@ class MatchesController extends Controller
     {
         $match = MatchModel::with([
             'team',
+            'team.managerRosters.user',
             'rival',
             'venue',
             'feedback.attackStrength',
