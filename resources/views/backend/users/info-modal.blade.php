@@ -20,22 +20,22 @@
 
     <div class="team-modal-tabs user-modal-tabs">
         <input type="radio" id="user-tab-info" name="user-tab" checked>
-        <label class="team-modal-tab" for="user-tab-info">Información general</label>
+        <label class="team-modal-tab" for="user-tab-info"><i class="fa-solid fa-circle-info user-tab-label-icon"></i>Información general</label>
 
         @if($showVenueTab)
             <input type="radio" id="user-tab-venues" name="user-tab">
-            <label class="team-modal-tab" for="user-tab-venues">Sedes ({{ $venues->count() }})</label>
+            <label class="team-modal-tab" for="user-tab-venues"><i class="fa-solid fa-location-dot user-tab-label-icon"></i>Sedes ({{ $venues->count() }})</label>
         @endif
 
         @if($showCoachTabs)
             <input type="radio" id="user-tab-teams" name="user-tab">
-            <label class="team-modal-tab" for="user-tab-teams">Equipos ({{ $teamAssignments->count() }})</label>
+            <label class="team-modal-tab" for="user-tab-teams"><i class="fa-solid fa-shield-halved user-tab-label-icon"></i>Equipos ({{ $teamAssignments->count() }})</label>
 
             <input type="radio" id="user-tab-matches" name="user-tab">
-            <label class="team-modal-tab" for="user-tab-matches">Partidos ({{ $userMatches->count() }})</label>
+            <label class="team-modal-tab" for="user-tab-matches"><i class="fa-solid fa-futbol user-tab-label-icon"></i>Partidos ({{ $userMatches->count() }})</label>
 
             <input type="radio" id="user-tab-trainings" name="user-tab">
-            <label class="team-modal-tab" for="user-tab-trainings">Entrenamientos ({{ $userTrainings->count() }})</label>
+            <label class="team-modal-tab" for="user-tab-trainings"><i class="fa-solid fa-dumbbell user-tab-label-icon"></i>Entrenamientos ({{ $userTrainings->count() }})</label>
         @endif
 
         <div class="team-modal-panels">

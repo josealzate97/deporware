@@ -645,6 +645,25 @@ body.theme-dark .info-panel .show-modal-mint .team-player-card {
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.32);
 }
 
+body.theme-dark .info-panel .show-modal-mint .team-player-link {
+  background: #1e293b;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-player-link i {
+  color: #bfdbfe !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-player-link:hover {
+  background: #273449;
+  border-color: #64748b;
+}
+
+body.theme-dark .info-panel .show-modal-mint .team-player-link:hover i {
+  color: #dbeafe !important;
+}
+
 body.theme-dark .user-info-card h5,
 body.theme-dark .user-info-card .user-info-section-title,
 body.theme-dark .user-info-card .form-label,

@@ -13,16 +13,16 @@
 <div class="card p-3 section-card">
     <div class="player-tabs">
         <input type="radio" id="player-tab-general" name="player-tabs" checked>
-        <label for="player-tab-general">General</label>
+        <label for="player-tab-general"><i class="fa-solid fa-circle-info player-tab-label-icon"></i>General</label>
 
         <input type="radio" id="player-tab-contacts" name="player-tabs">
-        <label for="player-tab-contacts">Contactos</label>
+        <label for="player-tab-contacts"><i class="fa-solid fa-address-book player-tab-label-icon"></i>Contactos</label>
 
         <input type="radio" id="player-tab-observations" name="player-tabs">
-        <label for="player-tab-observations">Ficha Valorativa</label>
+        <label for="player-tab-observations"><i class="fa-solid fa-clipboard-check player-tab-label-icon"></i>Ficha Valorativa</label>
 
         <input type="radio" id="player-tab-documents" name="player-tabs">
-        <label for="player-tab-documents">Documentos</label>
+        <label for="player-tab-documents"><i class="fa-solid fa-folder-open player-tab-label-icon"></i>Documentos</label>
 
         <div class="player-tab-panels w-100">
             @php($nationalityOptions = \App\Models\Player::nationalityOptions())

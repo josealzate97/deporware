@@ -638,6 +638,9 @@ textarea.form-control {
 }
 
 .info-panel .show-modal-mint .team-modal-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
   padding: 0.5rem 0.9rem;
   border-radius: 8px;
   border: 1px solid #e6e8ec;
@@ -645,6 +648,16 @@ textarea.form-control {
   color: #6c757d;
   font-weight: 600;
   cursor: pointer;
+}
+
+.info-panel .show-modal-mint .user-tab-label-icon {
+  color: #1d4ed8;
+  font-size: 0.8rem;
+}
+
+.info-panel .show-modal-mint .team-tab-label-icon {
+  color: #1d4ed8;
+  font-size: 0.8rem;
 }
 
 .info-panel .show-modal-mint #team-tab-info:checked + .team-modal-tab,
@@ -672,6 +685,26 @@ textarea.form-control {
 .info-panel .show-modal-mint #team-tab-matches:checked ~ .team-modal-panels [data-panel="matches"],
 .info-panel .show-modal-mint #team-tab-trainings:checked ~ .team-modal-panels [data-panel="trainings"] {
   display: block;
+}
+
+.info-panel .show-modal-mint .team-player-link {
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.info-panel .show-modal-mint .team-player-link i {
+  color: #1e3a8a !important;
+}
+
+.info-panel .show-modal-mint .team-player-link:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.info-panel .show-modal-mint .team-player-link:hover i {
+  color: #1d4ed8 !important;
 }
 
 .empty-state-soft {

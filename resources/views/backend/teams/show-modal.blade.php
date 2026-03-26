@@ -20,16 +20,16 @@
 
     <div class="team-modal-tabs">
         <input type="radio" id="team-tab-info" name="team-tab" checked>
-        <label class="team-modal-tab" for="team-tab-info">Información general</label>
+        <label class="team-modal-tab" for="team-tab-info"><i class="fa-solid fa-circle-info team-tab-label-icon"></i>Información general</label>
 
         <input type="radio" id="team-tab-players" name="team-tab">
-        <label class="team-modal-tab" for="team-tab-players">Jugadores ({{ $activePlayers->count() }})</label>
+        <label class="team-modal-tab" for="team-tab-players"><i class="fa-solid fa-users team-tab-label-icon"></i>Jugadores ({{ $activePlayers->count() }})</label>
 
         <input type="radio" id="team-tab-matches" name="team-tab">
-        <label class="team-modal-tab" for="team-tab-matches">Partidos ({{ $latestMatches->count() }})</label>
+        <label class="team-modal-tab" for="team-tab-matches"><i class="fa-solid fa-futbol team-tab-label-icon"></i>Partidos ({{ $latestMatches->count() }})</label>
 
         <input type="radio" id="team-tab-trainings" name="team-tab">
-        <label class="team-modal-tab" for="team-tab-trainings">Entrenamientos ({{ $latestTrainings->count() }})</label>
+        <label class="team-modal-tab" for="team-tab-trainings"><i class="fa-solid fa-dumbbell team-tab-label-icon"></i>Entrenamientos ({{ $latestTrainings->count() }})</label>
 
         <div class="team-modal-panels">
             <div class="team-modal-panel" data-panel="info">
