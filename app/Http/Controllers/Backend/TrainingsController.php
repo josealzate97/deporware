@@ -45,11 +45,23 @@ class TrainingsController extends Controller
         $monthEnd = $monthStart->copy()->endOfMonth();
 
         $trainingsQuery = Training::with(['team', 'venue'])
-            ->withCount('attendance')
+            ->withCount([
+                'attendance',
+                'teamRosters as called_up_count' => function ($query) {
+                    $query->where('status', PlayerRoster::ACTIVE)
+                        ->whereHas('player', function ($playerQuery) {
+                            $playerQuery->where('status', Player::ACTIVE);
+                        });
+                },
+            ])
             ->orderByDesc('status')
             ->orderBy('name');
 
-        $trainings = (clone $trainingsQuery)->get();
+        $trainings = (clone $trainingsQuery)
+            ->get()
+            ->each(function (Training $training): void {
+                $training->setAttribute('duration_label', $this->formatDurationLabel($training->duration));
+            });
 
         $calendarTrainings = (clone $trainingsQuery)
             ->whereBetween('created_at', [$monthStart, $monthEnd])
@@ -67,7 +79,7 @@ class TrainingsController extends Controller
                 'team' => $teamModel?->name ?? ($training->team ? 'Sin equipo vinculado' : 'Sin equipo'),
                 'statusCode' => (int) $training->status,
                 'status' => (int) $training->status === Training::ACTIVE ? 'Activo' : 'Inactivo',
-                'duration' => $training->duration ? $training->duration . ' min' : '-',
+                'duration' => $this->formatDurationLabel($training->duration),
             ];
         })->filter(fn ($item) => !empty($item['date']))->values();
 
@@ -78,6 +90,19 @@ class TrainingsController extends Controller
             'calendarMonthLabel' => ucfirst($monthStart->locale('es')->isoFormat('MMMM [de] YYYY')),
             'calendarTrainingsData' => $calendarTrainingsData,
         ]);
+    }
+
+    private function formatDurationLabel(?int $durationMinutes): string
+    {
+        $minutes = (int) $durationMinutes;
+
+        if ($minutes <= 0) {
+            return '-';
+        }
+
+        $hours = intdiv($minutes, 60);
+        $remainingMinutes = $minutes % 60;
+        return sprintf('%d h %02d min', $hours, $remainingMinutes);
     }
 
     /**
@@ -149,10 +174,14 @@ class TrainingsController extends Controller
         $modal = request('modal');
 
         if ($modal === 'attendance') {
-            $training = Training::with(['team', 'attendance.player.activeRoster'])->findOrFail($id);
+            $training = Training::with(['team.playerRosters.player', 'attendance.player.activeRoster'])->findOrFail($id);
+            $activeRosters = $training->activeTeamRosters();
+            $absentRosters = $training->absentPlayerRosters();
 
             return view('backend.trainings.attendance-modal', [
                 'training' => $training,
+                'activeRosters' => $activeRosters,
+                'absentRosters' => $absentRosters,
             ]);
         }
 

@@ -259,6 +259,164 @@
 	border-color: #cbd5e1;
 }
 
+.training-attendance-open-btn {
+	border: 1px solid #93c5fd;
+	background: #eff6ff;
+	color: #1d4ed8;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 0.24rem 0.65rem;
+}
+
+.training-attendance-open-btn:hover {
+	background: #dbeafe;
+	border-color: #60a5fa;
+	color: #1e40af;
+}
+
+.training-attendance-stack {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3rem;
+}
+
+.training-attendance-ratio {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.14rem 0.55rem;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 800;
+	color: #14532d;
+	background: #dcfce7;
+	border: 1px solid #86efac;
+}
+
+.training-team-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.32rem;
+	padding: 0.14rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.76rem;
+	font-weight: 700;
+	color: #1e3a8a;
+	background: #eaf3ff;
+	border: 1px solid #c7dcff;
+}
+
+.training-team-badge i {
+	color: #1d4ed8;
+	font-size: 0.72rem;
+}
+
+.training-venue-link {
+	border: 1px solid #bfdbfe;
+	background: #eff6ff;
+	color: #1d4ed8;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 0.24rem 0.62rem;
+}
+
+.training-venue-link:hover {
+	background: #dbeafe;
+	border-color: #93c5fd;
+	color: #1e40af;
+}
+
+.training-venue-fallback {
+	color: #475569;
+	font-size: 0.9rem;
+}
+
+.training-main-cell {
+	min-width: 230px;
+}
+
+.training-main-name {
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.2;
+}
+
+.training-main-meta {
+	display: flex;
+	align-items: center;
+	gap: 0.42rem;
+	flex-wrap: wrap;
+	margin-top: 0.3rem;
+}
+
+.training-main-date {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.26rem;
+	padding: 0.14rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: #475569;
+	background: #f8fafc;
+	border: 1px solid #dbe7f5;
+}
+
+.training-main-date i {
+	color: #1d4ed8;
+	font-size: 0.72rem;
+}
+
+.training-actions-group .training-action-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 9px;
+	border: 1px solid transparent;
+}
+
+.training-actions-group .training-action-btn i {
+	font-size: 0.9rem;
+	line-height: 1;
+	transform: translateY(0);
+}
+
+.training-actions-group .training-action-btn-info {
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	color: #1d4ed8;
+}
+
+.training-actions-group .training-action-btn-info:hover {
+	background: #dbeafe;
+	border-color: #93c5fd;
+	color: #1e40af;
+}
+
+.training-actions-group .training-action-btn-edit {
+	background: #ecfdf3;
+	border-color: #bbf7d0;
+	color: #15803d;
+}
+
+.training-actions-group .training-action-btn-edit:hover {
+	background: #dcfce7;
+	border-color: #86efac;
+	color: #166534;
+}
+
+.training-actions-group .training-action-btn-danger {
+	background: #fef2f2;
+	border-color: #fecaca;
+	color: #b91c1c;
+}
+
+.training-actions-group .training-action-btn-danger:hover {
+	background: #fee2e2;
+	border-color: #fca5a5;
+	color: #991b1b;
+}
+
 [x-cloak] {
 	display: none !important;
 }
@@ -323,6 +481,180 @@
 	background: #f8fafc;
 	padding: 1rem 1.1rem;
 	color: #64748b;
+}
+
+.training-attendance-modal-card .training-attendance-overview {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.75rem;
+}
+
+.training-attendance-modal-card .training-attendance-stat {
+	border: 1px solid #dbe7f5;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+	border-radius: 12px;
+	padding: 0.72rem 0.8rem;
+}
+
+.training-attendance-modal-card .training-attendance-stat-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.36rem;
+	font-weight: 800;
+	font-size: 0.82rem;
+	color: #334155;
+	margin-bottom: 0.18rem;
+}
+
+.training-attendance-modal-card .training-attendance-stat-label i {
+	color: #1d4ed8;
+	font-size: 0.8rem;
+}
+
+.training-attendance-modal-card .training-attendance-stat-value {
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.training-attendance-modal-card .training-attendance-list-title {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	font-size: 1.04rem;
+	font-weight: 800;
+	color: #1e293b;
+	margin-bottom: 0.75rem;
+}
+
+.training-attendance-modal-card .training-attendance-list-title i {
+	color: #1d4ed8;
+	font-size: 0.96rem;
+}
+
+.training-attendance-modal-card .training-attendance-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.training-attendance-modal-card .training-attendance-tabs input[type="radio"] {
+	display: none;
+}
+
+.training-attendance-modal-card .training-attendance-tabs label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.38rem;
+	padding: 0.45rem 0.85rem;
+	border-radius: 10px;
+	border: 1px solid #e2e8f0;
+	background: #f8fafc;
+	color: #64748b;
+	font-weight: 700;
+	font-size: 0.88rem;
+	cursor: pointer;
+}
+
+.training-attendance-modal-card .training-attendance-tabs label i {
+	color: #1d4ed8;
+	font-size: 0.8rem;
+}
+
+#attendance-tab-present:checked + label,
+#attendance-tab-absent:checked + label {
+	color: #1d4ed8;
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+}
+
+.training-attendance-modal-card .training-attendance-tab-panels {
+	width: 100%;
+	margin-top: 0.75rem;
+}
+
+.training-attendance-modal-card .training-attendance-tab-panel {
+	display: none;
+}
+
+#attendance-tab-present:checked ~ .training-attendance-tab-panels [data-panel="present"],
+#attendance-tab-absent:checked ~ .training-attendance-tab-panels [data-panel="absent"] {
+	display: block;
+}
+
+.training-attendance-modal-card .training-attendance-card {
+	align-items: center;
+	cursor: default;
+}
+
+.training-attendance-modal-card .training-attendance-card:hover {
+	transform: none;
+}
+
+.training-attendance-modal-card .training-attendance-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #eaf2ff;
+	border: 1px solid #c7dcff;
+	flex-shrink: 0;
+}
+
+.training-attendance-modal-card .training-attendance-avatar i {
+	color: #1d4ed8;
+	font-size: 0.95rem;
+}
+
+.training-attendance-modal-card .training-attendance-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.14rem 0.48rem;
+	border-radius: 999px;
+	font-size: 0.74rem;
+	font-weight: 700;
+	border: 1px solid #dbe7f5;
+	background: #f8fafc;
+	color: #475569;
+}
+
+.training-attendance-modal-card .training-attendance-chip i {
+	color: #1d4ed8;
+	font-size: 0.7rem;
+}
+
+.training-attendance-modal-card .training-attendance-chip-number {
+	background: #eaf5ee;
+	border-color: #cde7d7;
+	color: #166534;
+}
+
+.training-attendance-modal-card .training-attendance-state {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.2rem 0.58rem;
+	border-radius: 999px;
+	border: 1px solid #86efac;
+	background: #dcfce7;
+	color: #166534;
+	font-size: 0.72rem;
+	font-weight: 800;
+	flex-shrink: 0;
+}
+
+.training-attendance-modal-card .training-attendance-card-absent {
+	border-color: #fecaca;
+	background: linear-gradient(180deg, #ffffff 0%, #fff7f7 100%);
+}
+
+.training-attendance-modal-card .training-attendance-state-absent {
+	border-color: #fecaca;
+	background: #fef2f2;
+	color: #b91c1c;
 }
 
 .upload-control {
@@ -885,6 +1217,72 @@ body.theme-dark .training-attendance-card:hover {
 	box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
 }
 
+body.theme-dark .training-attendance-modal-card .training-attendance-stat {
+	background: #1a2029;
+	border-color: #2b3442;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-stat-label {
+	color: #cbd5e1;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-stat-value,
+body.theme-dark .training-attendance-modal-card .training-attendance-list-title {
+	color: #e2e8f0;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-tabs label {
+	background: #172131;
+	border-color: #304157;
+	color: #cbd5e1;
+}
+
+body.theme-dark #attendance-tab-present:checked + label,
+body.theme-dark #attendance-tab-absent:checked + label {
+	background: #1e2e49;
+	border-color: #4a78b5;
+	color: #bfdbfe;
+	box-shadow: 0 8px 16px rgba(37, 99, 235, 0.22);
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-avatar {
+	background: #13273f;
+	border-color: #325581;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-avatar i {
+	color: #93c5fd;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-chip {
+	background: #1e293b;
+	border-color: #334155;
+	color: #cbd5e1;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-chip-number {
+	background: #12311f;
+	border-color: #24553a;
+	color: #86efac;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-state {
+	background: #12311f;
+	border-color: #24553a;
+	color: #86efac;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-card-absent {
+	background: #2a1820;
+	border-color: #5f2a37;
+}
+
+body.theme-dark .training-attendance-modal-card .training-attendance-state-absent {
+	background: #3b1f24;
+	border-color: #7f2f35;
+	color: #fecaca;
+}
+
 body.theme-dark .trainings-calendar-status-badge.is-active {
 	background: #12311f;
 	color: #86efac;
@@ -895,4 +1293,98 @@ body.theme-dark .trainings-calendar-status-badge.is-inactive {
 	background: #1f2732;
 	color: #cbd5e1;
 	border-color: #344256;
+}
+
+body.theme-dark .training-attendance-open-btn {
+	background: #1b2a40;
+	border-color: #34507a;
+	color: #9cc8ff;
+}
+
+body.theme-dark .training-attendance-open-btn:hover {
+	background: #22344f;
+	border-color: #4b6b97;
+	color: #dbeafe;
+}
+
+body.theme-dark .training-attendance-ratio {
+	background: #12311f;
+	border-color: #24553a;
+	color: #86efac;
+}
+
+body.theme-dark .training-team-badge {
+	background: #1b2a40;
+	border-color: #34507a;
+	color: #9cc8ff;
+}
+
+body.theme-dark .training-team-badge i {
+	color: #bfdbfe;
+}
+
+body.theme-dark .training-venue-link {
+	background: #1b2a40;
+	border-color: #34507a;
+	color: #9cc8ff;
+}
+
+body.theme-dark .training-venue-link:hover {
+	background: #22344f;
+	border-color: #4b6b97;
+	color: #dbeafe;
+}
+
+body.theme-dark .training-venue-fallback {
+	color: #94a3b8;
+}
+
+body.theme-dark .training-main-name {
+	color: #e2e8f0;
+}
+
+body.theme-dark .training-main-date {
+	background: #1e293b;
+	border-color: #334155;
+	color: #cbd5e1;
+}
+
+body.theme-dark .training-main-date i {
+	color: #93c5fd;
+}
+
+body.theme-dark .training-actions-group .training-action-btn-info {
+	background: #1b2a40;
+	border-color: #34507a;
+	color: #9cc8ff;
+}
+
+body.theme-dark .training-actions-group .training-action-btn-info:hover {
+	background: #22344f;
+	border-color: #4b6b97;
+	color: #dbeafe;
+}
+
+body.theme-dark .training-actions-group .training-action-btn-edit {
+	background: #143126;
+	border-color: #24553a;
+	color: #86efac;
+}
+
+body.theme-dark .training-actions-group .training-action-btn-edit:hover {
+	background: #194031;
+	border-color: #2f6b45;
+	color: #bbf7d0;
+}
+
+body.theme-dark .training-actions-group .training-action-btn-danger {
+	background: #3b1f24;
+	border-color: #7f2f35;
+	color: #fecaca;
+}
+
+body.theme-dark .training-actions-group .training-action-btn-danger:hover {
+	background: #4a232b;
+	border-color: #9f3a44;
+	color: #fee2e2;
 }

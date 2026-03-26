@@ -3,29 +3,57 @@
         <thead>
             <tr>
                 <th>Entrenamiento</th>
-                <th>Equipo</th>
-                <th>Fecha</th>
                 <th>Duración</th>
-                <th>Sede</th>
-                <th>Asistentes</th>
+                <th class="text-center">Sede</th>
+                <th class="text-center">Asistentes</th>
                 <th>Estado</th>
                 <th class="text-end">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @forelse($trainings as $training)
+                @php($attendanceCount = (int) ($training->attendance_count ?? 0))
+                @php($calledUpCount = (int) ($training->called_up_count ?? 0))
+                @php($teamName = $training->getRelationValue('team')?->name ?? 'Sin equipo')
+                @php($venueModel = $training->getRelationValue('venue'))
                 <tr data-id="{{ $training->id }}">
-                    <td class="fw-bold">{{ $training->name }}</td>
-                    <td>{{ $training->getRelationValue('team')?->name ?? '-' }}</td>
-                    <td>{{ $training->created_at?->format('d/m/Y H:i') ?? '-' }}</td>
-                    <td>{{ $training->duration ? $training->duration . ' min' : '-' }}</td>
-                    <td>{{ $training->venue?->name ?? '-' }}</td>
                     <td>
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="fw-semibold">{{ $training->attendance_count ?? 0 }}</span>
-                            <button type="button" class="btn btn-sm btn-outline-primary"
+                        <div class="training-main-cell">
+                            <div class="training-main-name">{{ $training->name }}</div>
+                            <div class="training-main-meta">
+                                <span class="training-team-badge">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    {{ $teamName }}
+                                </span>
+                                <span class="training-main-date">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    {{ $training->created_at?->format('d/m/Y H:i') ?? '-' }}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ $training->duration_label ?? '-' }}</td>
+                    <td class="text-center">
+                        @if($venueModel)
+                            <button type="button" class="btn btn-sm training-venue-link"
+                                @click="openModal('{{ route('venues.show', $venueModel->id) }}?modal=1')"
+                                aria-label="Ver sede {{ $venueModel->name }}">
+                                <i class="fa-solid fa-location-dot me-1"></i>
+                                {{ $venueModel->name }}
+                            </button>
+                        @elseif(!empty($training->location))
+                            <span class="training-venue-fallback">{{ $training->location }}</span>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        <div class="training-attendance-stack">
+                            <span class="training-attendance-ratio">{{ $attendanceCount }}/{{ $calledUpCount }}</span>
+                            <button type="button" class="btn btn-sm training-attendance-open-btn"
                                 @click="openModal('{{ route('trainings.show', $training->id) }}?modal=attendance')"
                                 aria-label="Ver asistentes de {{ $training->name }}">
+                                <i class="fa-solid fa-user-check me-1"></i>
                                 Ver más
                             </button>
                         </div>
@@ -38,23 +66,23 @@
                         @endif
                     </td>
                     <td class="text-end">
-                        <div class="d-inline-flex align-items-center gap-1">
-                            <button type="button" class="btn btn-icon text-primary"
+                        <div class="d-inline-flex align-items-center gap-1 training-actions-group">
+                            <button type="button" class="btn btn-icon training-action-btn training-action-btn-info"
                                 @click="openModal('{{ route('trainings.show', $training->id) }}?modal=1')"
                                 aria-label="Ver información de {{ $training->name }}" title="Ver información">
                                 <i class="fas fa-circle-info"></i>
                             </button>
-                            <a href="{{ route('trainings.edit', $training->id) }}" class="btn btn-icon text-success"
+                            <a href="{{ route('trainings.edit', $training->id) }}" class="btn btn-icon training-action-btn training-action-btn-edit"
                                 aria-label="Editar {{ $training->name }}" title="Editar">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                             <form method="POST" action="{{ route('trainings.destroy', $training->id) }}" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-icon text-danger"
+                                <button type="submit" class="btn btn-icon training-action-btn training-action-btn-danger"
                                     onclick="return confirm('¿Deseas desactivar este entrenamiento?')"
                                     aria-label="Desactivar {{ $training->name }}" title="Desactivar">
-                                    <i class="fa-solid fa-ban"></i>
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
                         </div>
@@ -62,7 +90,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-center text-muted py-4">No hay entrenamientos registrados.</td>
+                    <td colspan="6" class="text-center text-muted py-4">No hay entrenamientos registrados.</td>
                 </tr>
             @endforelse
         </tbody>

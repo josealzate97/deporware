@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -118,10 +121,127 @@ class Training extends Model
         return $this->hasMany(TrainingAttendance::class, 'training');
     }
 
+    public function teamRosters()
+    {
+        return $this->hasMany(PlayerRoster::class, 'team', 'team');
+    }
+
     // Sede donde se realiza el entrenamiento (si aplica)
     public function venue()
     {
         return $this->belongsTo(SportsVenue::class, 'venue');
+    }
+
+    public function presentPlayerIds(): Collection
+    {
+        $attendanceItems = $this->relationLoaded('attendance')
+            ? $this->getRelation('attendance')
+            : $this->attendance()->get(['player']);
+
+        return collect($attendanceItems)
+            ->pluck('player')
+            ->map(fn ($playerId) => (string) $playerId)
+            ->unique()
+            ->values();
+    }
+
+    public function activeTeamRosters(): Collection
+    {
+        if ($this->relationLoaded('team')) {
+            $team = $this->getRelation('team');
+
+            if ($team && $team->relationLoaded('playerRosters')) {
+                return $team->getRelation('playerRosters')
+                    ->filter(function (PlayerRoster $roster) {
+                        $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+
+                        return (int) $roster->status === PlayerRoster::ACTIVE
+                            && $player
+                            && (int) $player->status === Player::ACTIVE;
+                    })
+                    ->values();
+            }
+        }
+
+        return PlayerRoster::with('player')
+            ->where('team', $this->team)
+            ->where('status', PlayerRoster::ACTIVE)
+            ->get()
+            ->filter(function (PlayerRoster $roster) {
+                $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+
+                return $player && (int) $player->status === Player::ACTIVE;
+            })
+            ->values();
+    }
+
+    public function absentPlayerRosters(): Collection
+    {
+        $presentIds = $this->presentPlayerIds()->flip();
+
+        return $this->activeTeamRosters()
+            ->filter(fn (PlayerRoster $roster) => !$presentIds->has((string) $roster->player))
+            ->values();
+    }
+
+    public static function absenceSummaryByPlayer(string $teamId, ?Carbon $from = null, ?Carbon $to = null): Collection
+    {
+        $trainingsQuery = static::query()
+            ->where('team', $teamId);
+
+        if ($from) {
+            $trainingsQuery->where('created_at', '>=', $from);
+        }
+
+        if ($to) {
+            $trainingsQuery->where('created_at', '<=', $to);
+        }
+
+        $trainingIds = (clone $trainingsQuery)->pluck('id');
+        $totalTrainings = $trainingIds->count();
+
+        if ($totalTrainings === 0) {
+            return collect();
+        }
+
+        $attendedByPlayer = TrainingAttendance::query()
+            ->select('player', DB::raw('COUNT(DISTINCT training) AS attended_count'))
+            ->whereIn('training', $trainingIds)
+            ->groupBy('player')
+            ->pluck('attended_count', 'player');
+
+        return PlayerRoster::with('player')
+            ->where('team', $teamId)
+            ->where('status', PlayerRoster::ACTIVE)
+            ->get()
+            ->filter(function (PlayerRoster $roster) {
+                $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+
+                return $player && (int) $player->status === Player::ACTIVE;
+            })
+            ->map(function (PlayerRoster $roster) use ($attendedByPlayer, $totalTrainings) {
+                $player = $roster->relationLoaded('player') ? $roster->getRelation('player') : null;
+                $playerId = (string) $roster->player;
+                $attended = (int) ($attendedByPlayer[$playerId] ?? 0);
+                $absences = max(0, $totalTrainings - $attended);
+                $attendanceRate = $totalTrainings > 0
+                    ? round(($attended / $totalTrainings) * 100, 2)
+                    : 0.0;
+
+                return [
+                    'player_id' => $playerId,
+                    'player' => $player,
+                    'dorsal' => $roster->dorsal,
+                    'position' => $roster->position,
+                    'total_trainings' => $totalTrainings,
+                    'attended_trainings' => $attended,
+                    'absences' => $absences,
+                    'attendance_rate' => $attendanceRate,
+                ];
+            })
+            ->filter(fn (array $item) => $item['absences'] > 0)
+            ->sortByDesc('absences')
+            ->values();
     }
 
     public static function statusOptions(): array
@@ -219,4 +339,3 @@ class Training extends Model
         ];
     }
 }
-
