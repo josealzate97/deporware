@@ -9,6 +9,7 @@
 @php($primaryCoach = $primaryCoachRoster && $primaryCoachRoster->relationLoaded('user') ? $primaryCoachRoster->getRelation('user') : null)
 @php($assistantCoach = $assistantCoachRoster && $assistantCoachRoster->relationLoaded('user') ? $assistantCoachRoster->getRelation('user') : null)
 @php($isScheduled = (int) $match->match_status === \App\Models\MatchModel::STATUS_SCHEDULED)
+@php($hasMatchReport = !empty($match->match_file))
 
 <div class="section-hero mb-3">
     <div class="d-flex align-items-start gap-3">
@@ -85,6 +86,22 @@
                 <div class="match-info-item mt-3">
                     <div class="match-info-label"><i class="fa-solid fa-note-sticky match-info-label-icon"></i>Notas del partido</div>
                     <div class="match-info-sub">{{ $match->match_notes ?: 'Sin notas registradas.' }}</div>
+                </div>
+
+                <div class="match-info-item mt-3">
+                    <div class="match-info-label"><i class="fa-solid fa-file-lines match-info-label-icon"></i>Ficha del partido</div>
+                    @if($hasMatchReport)
+                        <div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+                            <a href="{{ route('matches.view.report', $match->id) }}" target="_blank" rel="noopener" class="btn btn-sm match-file-action-btn">
+                                <i class="fa-solid fa-eye me-1"></i> Visualizar
+                            </a>
+                            <a href="{{ route('matches.download.report', $match->id) }}" class="btn btn-sm match-file-download-btn">
+                                <i class="fa-solid fa-download me-1"></i> Descargar ficha
+                            </a>
+                        </div>
+                    @else
+                        <div class="match-info-sub">No hay ficha de partido cargada.</div>
+                    @endif
                 </div>
             </div>
 
