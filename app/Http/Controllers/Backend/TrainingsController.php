@@ -25,14 +25,17 @@ class TrainingsController extends Controller
      *
      * @return \Illuminate\Http\Response
     */
-    public function index()
+    public function index(Request $request)
     {
-        $view = request('view', 'list');
+        $view = $request->input('view', 'list');
         if (!in_array($view, ['list', 'calendar'], true)) {
             $view = 'list';
         }
 
-        $month = request('month');
+        $month = $request->input('month');
+        $search = trim((string) $request->input('search', ''));
+        $selectedStatus = $request->input('status', '');
+        $selectedTeam = trim((string) $request->input('team', ''));
         $monthStart = Carbon::now()->startOfMonth();
         if (is_string($month) && preg_match('/^\d{4}-\d{2}$/', $month) === 1) {
             try {
@@ -45,6 +48,7 @@ class TrainingsController extends Controller
         $monthEnd = $monthStart->copy()->endOfMonth();
 
         $trainingsQuery = Training::with(['team', 'venue'])
+            ->with(['team.managerRosters.user'])
             ->withCount([
                 'attendance',
                 'teamRosters as called_up_count' => function ($query) {
@@ -54,6 +58,24 @@ class TrainingsController extends Controller
                         });
                 },
             ])
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($searchQuery) use ($search) {
+                    $searchQuery->where('name', 'like', "%{$search}%")
+                        ->orWhere('location', 'like', "%{$search}%")
+                        ->orWhereHas('team', function ($teamQuery) use ($search) {
+                            $teamQuery->where('name', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('venue', function ($venueQuery) use ($search) {
+                            $venueQuery->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->when($selectedStatus !== '' && is_numeric($selectedStatus), function ($query) use ($selectedStatus) {
+                $query->where('status', (int) $selectedStatus);
+            })
+            ->when($selectedTeam !== '', function ($query) use ($selectedTeam) {
+                $query->where('team', $selectedTeam);
+            })
             ->orderByDesc('status')
             ->orderBy('name');
 
@@ -86,6 +108,11 @@ class TrainingsController extends Controller
         return view('backend.trainings.index', [
             'activeView' => $view,
             'trainings' => $trainings,
+            'search' => $search,
+            'statusOptions' => Training::statusOptions(),
+            'selectedStatus' => $selectedStatus,
+            'teamOptions' => Team::orderBy('name')->pluck('name', 'id'),
+            'selectedTeam' => $selectedTeam,
             'calendarMonth' => $monthStart->format('Y-m'),
             'calendarMonthLabel' => ucfirst($monthStart->locale('es')->isoFormat('MMMM [de] YYYY')),
             'calendarTrainingsData' => $calendarTrainingsData,
@@ -185,7 +212,7 @@ class TrainingsController extends Controller
             ]);
         }
 
-        $training = Training::with(['team', 'venue', 'attendance.player.activeRoster'])->findOrFail($id);
+        $training = Training::with(['team.managerRosters.user', 'venue', 'attendance.player.activeRoster'])->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.trainings.show-modal', [

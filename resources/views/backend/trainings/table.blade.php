@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th>Entrenamiento</th>
+                <th>Entrenador</th>
                 <th>Duración</th>
                 <th class="text-center">Sede</th>
                 <th class="text-center">Asistentes</th>
@@ -16,6 +17,12 @@
                 @php($calledUpCount = (int) ($training->called_up_count ?? 0))
                 @php($teamName = $training->getRelationValue('team')?->name ?? 'Sin equipo')
                 @php($venueModel = $training->getRelationValue('venue'))
+                @php($teamModel = $training->getRelationValue('team'))
+                @php($managerRosters = collect($teamModel?->getRelationValue('managerRosters') ?? []))
+                @php($coachRoster = $managerRosters->firstWhere('role', \App\Models\ManagerRoster::ROLE_PRIMARY_COACH))
+                @php($assistantCoachRoster = $managerRosters->firstWhere('role', \App\Models\ManagerRoster::ROLE_ASSISTANT_COACH))
+                @php($selectedCoach = $coachRoster ?: $assistantCoachRoster)
+                @php($coachName = $selectedCoach?->getRelationValue('user')?->name)
                 <tr data-id="{{ $training->id }}">
                     <td>
                         <div class="training-main-cell">
@@ -31,6 +38,16 @@
                                 </span>
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        @if(!empty($coachName))
+                            <span class="training-coach-badge">
+                                <i class="fa-solid fa-user-tie"></i>
+                                {{ $coachName }}
+                            </span>
+                        @else
+                            -
+                        @endif
                     </td>
                     <td>{{ $training->duration_label ?? '-' }}</td>
                     <td class="text-center">
@@ -90,7 +107,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center text-muted py-4">No hay entrenamientos registrados.</td>
+                    <td colspan="7" class="text-center text-muted py-4">No hay entrenamientos registrados.</td>
                 </tr>
             @endforelse
         </tbody>

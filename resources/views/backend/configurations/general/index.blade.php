@@ -184,7 +184,7 @@
                                     <input type="text" class="form-control" x-model="form.address" :disabled="!isEditing">
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12 col-lg-6">
                                     <label class="form-label fw-semibold">Pais</label>
                                     <select class="form-select" x-model="form.country" :disabled="!isEditing">
                                         <option value="">Selecciona un pais</option>
@@ -194,9 +194,39 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12 col-lg-6">
                                     <label class="form-label fw-semibold">Ciudad</label>
                                     <input type="text" class="form-control" x-model="form.city" :disabled="!isEditing">
+                                </div>
+
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Moneda</label>
+                                    <select class="form-select" x-model="form.currency" :disabled="!isEditing">
+                                        <option value="">Selecciona una moneda</option>
+                                        @foreach ($currencies as $code => $label)
+                                            <option value="{{ $code }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Zona horaria</label>
+                                    <select class="form-select" x-model="form.timezone" :disabled="!isEditing">
+                                        <option value="">Selecciona una zona horaria</option>
+                                        @foreach ($timezones as $value => $label)
+                                            <option value="{{ $value }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-lg-6">
+                                    <label class="form-label fw-semibold">Locale</label>
+                                    <select class="form-select" x-model="form.locale" :disabled="!isEditing">
+                                        <option value="">Selecciona un locale</option>
+                                        @foreach ($locales as $value => $label)
+                                            <option value="{{ $value }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -221,36 +251,6 @@
                                         <option value="">Selecciona un deporte</option>
                                         @foreach ($sports as $id => $label)
                                             <option value="{{ $id }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Moneda</label>
-                                    <select class="form-select" x-model="form.currency" :disabled="!isEditing">
-                                        <option value="">Selecciona una moneda</option>
-                                        @foreach ($currencies as $code => $label)
-                                            <option value="{{ $code }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Zona horaria</label>
-                                    <select class="form-select" x-model="form.timezone" :disabled="!isEditing">
-                                        <option value="">Selecciona una zona horaria</option>
-                                        @foreach ($timezones as $value => $label)
-                                            <option value="{{ $value }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Locale</label>
-                                    <select class="form-select" x-model="form.locale" :disabled="!isEditing">
-                                        <option value="">Selecciona un locale</option>
-                                        @foreach ($locales as $value => $label)
-                                            <option value="{{ $value }}">{{ $label }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -311,6 +311,24 @@
 	font-size: 0.72rem;
 }
 
+.training-coach-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.16rem 0.55rem;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: #334155;
+	background: #f1f5f9;
+	border: 1px solid #cbd5e1;
+}
+
+.training-coach-badge i {
+	color: #1d4ed8;
+	font-size: 0.72rem;
+}
+
 .training-venue-link {
 	border: 1px solid #bfdbfe;
 	background: #eff6ff;
@@ -343,9 +361,9 @@
 
 .training-main-meta {
 	display: flex;
-	align-items: center;
-	gap: 0.42rem;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.28rem;
 	margin-top: 0.3rem;
 }
 
@@ -873,6 +891,9 @@
 }
 
 .match-tabs label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
 	padding: 0.45rem 0.85rem;
 	border-radius: 10px;
 	border: 1px solid #e2e8f0;
@@ -881,6 +902,11 @@
 	font-weight: 700;
 	font-size: 0.88rem;
 	cursor: pointer;
+}
+
+.match-tab-label-icon {
+	color: #1d4ed8;
+	font-size: 0.8rem;
 }
 
 .match-tabs label.is-disabled {
@@ -923,10 +949,18 @@
 }
 
 .match-info-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.32rem;
 	font-weight: 800;
 	font-size: 0.82rem;
 	color: #334155;
 	margin-bottom: 0.2rem;
+}
+
+.match-info-label-icon {
+	color: #1d4ed8;
+	font-size: 0.76rem;
 }
 
 .match-info-value {
@@ -961,6 +995,14 @@ body.theme-dark .match-info-item {
 
 body.theme-dark .match-info-label {
 	color: #cbd5f5;
+}
+
+body.theme-dark .match-tab-label-icon {
+	color: #93c5fd;
+}
+
+body.theme-dark .match-info-label-icon {
+	color: #93c5fd;
 }
 
 body.theme-dark .match-info-value {
