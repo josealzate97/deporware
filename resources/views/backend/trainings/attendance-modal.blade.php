@@ -43,24 +43,10 @@
         </div>
         <div class="training-attendance-stat">
             <div class="training-attendance-stat-label">
-                <i class="fa-solid fa-user-check"></i>
-                Asistentes
-            </div>
-            <div class="training-attendance-stat-value">{{ $attendanceCount }}</div>
-        </div>
-        <div class="training-attendance-stat">
-            <div class="training-attendance-stat-label">
                 <i class="fa-solid fa-users"></i>
                 Convocados
             </div>
             <div class="training-attendance-stat-value">{{ $totalCallUp }}</div>
-        </div>
-        <div class="training-attendance-stat">
-            <div class="training-attendance-stat-label">
-                <i class="fa-solid fa-user-xmark"></i>
-                Inasistentes
-            </div>
-            <div class="training-attendance-stat-value">{{ $absentCount }}</div>
         </div>
     </div>
 

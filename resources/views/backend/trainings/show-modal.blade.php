@@ -24,6 +24,7 @@
 @php($assistantCoachRoster = $coachRosters->firstWhere('role', \App\Models\ManagerRoster::ROLE_ASSISTANT_COACH))
 @php($selectedCoach = $primaryCoachRoster ?: $assistantCoachRoster)
 @php($coachName = $selectedCoach?->getRelationValue('user')?->name)
+@php($venueModel = $training->getRelationValue('venue'))
 
 <div class="card p-3 section-card">
     <div class="match-tabs">
@@ -75,8 +76,8 @@
                         <div class="match-info-value">{{ $training->duration ? $training->duration . ' min' : '-' }}</div>
                     </div>
                     <div class="match-info-item">
-                        <div class="match-info-label"><i class="fa-solid fa-location-dot match-info-label-icon"></i>Sede</div>
-                        <div class="match-info-value">{{ $training->venue?->name ?? '-' }}</div>
+                        <div class="match-info-label">Sede</div>
+                        <div class="match-info-value">{{ $venueModel?->name ?? '-' }}</div>
                         <div class="match-info-sub">Locación: {{ $training->location ?? '-' }}</div>
                     </div>
                     <div class="match-info-item">
