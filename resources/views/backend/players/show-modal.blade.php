@@ -206,7 +206,7 @@
 
             <div class="player-tab-panel" data-panel="observations">
                 <div class="d-flex justify-content-end mb-3">
-                    <a href="{{ asset('docs/ficha-valorativa.pdf') }}" class="btn btn-sm player-btn-download" download>
+                    <a href="{{ route('players.scouting-report', $player->id) }}" class="btn btn-sm player-btn-download">
                         <i class="fa-solid fa-file-arrow-down me-1"></i> Descargar ficha valorativa
                     </a>
                 </div>

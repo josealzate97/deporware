@@ -545,7 +545,7 @@
                             Ficha valorativa registrada
                         </div>
                         <div class="d-flex justify-content-end mt-2">
-                            <a href="{{ asset('docs/ficha-valorativa.pdf') }}" class="btn btn-sm player-btn-download" download>
+                            <a href="{{ route('players.scouting-report', $player->id) }}" class="btn btn-sm player-btn-download">
                                 <i class="fa-solid fa-file-arrow-down me-1"></i> Descargar ficha valorativa
                             </a>
                         </div>

@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\PlayerObservation;
 use App\Models\PlayerRoster;
 use App\Models\Team;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -223,6 +224,30 @@ class PlayersController extends Controller
         }
 
         return response()->download(storage_path('app/public/' . $path), basename($path));
+    }
+
+    public function downloadScoutingReport($id)
+    {
+        $player = Player::findOrFail($id);
+
+        $defensivePositions = [
+            Player::POSICION_ARQUERO,
+            Player::POSICION_DEFENSA_CENTRAL,
+            Player::POSICION_LATERAL_DERECHO,
+            Player::POSICION_LATERAL_IZQUIERDO,
+            Player::POSICION_MEDIOCAMPISTA_DEFENSIVO,
+        ];
+        $primaryPositionValue = $player->primary_position ?? $player->position;
+        $mentalidad = in_array($primaryPositionValue, $defensivePositions, true) ? 'defensiva' : 'ofensiva';
+
+        $pdf = Pdf::loadView('backend.templates.scouting-report', [
+            'player'    => $player,
+            'mentalidad' => $mentalidad,
+        ])->setPaper('a4', 'portrait');
+
+        $filename = Str::slug(trim(($player->name ?? '') . ' ' . ($player->lastname ?? ''))) . '-ficha-valorativa.pdf';
+
+        return $pdf->download($filename);
     }
 
     /**

@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/new', 'create')->name('new');
         Route::post('/', 'store')->name('store');
         Route::get('/{id}/documents/download', 'downloadDocument')->name('documents.download');
+        Route::get('/{id}/scouting-report', 'downloadScoutingReport')->name('scouting-report');
         Route::get('/{id}', 'show')->name('show');
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
