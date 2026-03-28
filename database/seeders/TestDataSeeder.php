@@ -39,8 +39,7 @@ class TestDataSeeder extends Seeder
     ];
 
     private array $playerPhotos = [
-        'images/dp_1.png',
-        'images/dp_2.png',
+        'images/branding/logo_half.png',
     ];
 
     private array $matchFormations = [
