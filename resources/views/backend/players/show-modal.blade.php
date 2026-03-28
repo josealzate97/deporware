@@ -205,6 +205,11 @@
             </div>
 
             <div class="player-tab-panel" data-panel="observations">
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ asset('docs/ficha-valorativa.pdf') }}" class="btn btn-sm player-btn-download" download>
+                        <i class="fa-solid fa-file-arrow-down me-1"></i> Descargar ficha valorativa
+                    </a>
+                </div>
                 @if($player->observations->isEmpty())
                     <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin ficha valorativa registrada.</div>
                 @else

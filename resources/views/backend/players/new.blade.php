@@ -544,6 +544,11 @@
                             <i class="fa-solid fa-clipboard-list me-2 text-primary"></i>
                             Ficha valorativa registrada
                         </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <a href="{{ asset('docs/ficha-valorativa.pdf') }}" class="btn btn-sm player-btn-download" download>
+                                <i class="fa-solid fa-file-arrow-down me-1"></i> Descargar ficha valorativa
+                            </a>
+                        </div>
 
                         @if($player->observations->isEmpty())
                             <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin ficha valorativa registrada.</div>

@@ -113,6 +113,20 @@
   box-shadow: 0 8px 18px rgba(127, 29, 29, 0.12);
 }
 
+.player-btn-download {
+  color: #6d28d9;
+  border: 1px solid #c4b5fd;
+  background: linear-gradient(180deg, #f8f5ff 0%, #f1ebff 100%);
+}
+
+.player-btn-download:hover,
+.player-btn-download:focus {
+  color: #5b21b6;
+  border-color: #a78bfa;
+  background: linear-gradient(180deg, #efe9ff 0%, #e5dbff 100%);
+  box-shadow: 0 8px 18px rgba(91, 33, 182, 0.15);
+}
+
 .player-info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
