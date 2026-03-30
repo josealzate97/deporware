@@ -64,11 +64,43 @@
                     </div>
                 </div>
 
-                <div class="section-hero-actions mt-2 mt-lg-0">
+                <div class="section-hero-actions mt-2 mt-lg-0 d-flex gap-2">
+                    <a id="btn-download-match-template"
+                       href="{{ asset('docs/plantilla-partido.docx') }}"
+                       download
+                       class="btn btn-download-template"
+                       style="background-color:#ede9fe;border:1.5px solid #c4b5fd;color:#7c3aed;border-radius:50px;font-weight:600;transition:background-color .25s ease,transform .2s ease,box-shadow .2s ease;">
+                        <i class="fa-solid fa-file-arrow-down me-2"></i> Descargar Plantilla
+                    </a>
                     <a href="{{ route('matches.index') }}" class="btn btn-primary">
                         <i class="fa-solid fa-arrow-left me-2"></i> Volver
                     </a>
                 </div>
+
+                @push('scripts')
+                <script>
+                    (function () {
+                        const btn = document.getElementById('btn-download-match-template');
+                        if (!btn) return;
+                        btn.addEventListener('mouseenter', () => {
+                            btn.style.backgroundColor = '#ddd6fe';
+                            btn.style.borderColor = '#a78bfa';
+                            btn.style.transform = 'translateY(-2px)';
+                            btn.style.boxShadow = '0 6px 16px rgba(124,58,237,.2)';
+                        });
+                        btn.addEventListener('mouseleave', () => {
+                            btn.style.backgroundColor = '#ede9fe';
+                            btn.style.borderColor = '#c4b5fd';
+                            btn.style.transform = 'translateY(0)';
+                            btn.style.boxShadow = 'none';
+                        });
+                        btn.addEventListener('click', function (e) {
+                            btn.style.transform = 'scale(.95)';
+                            setTimeout(() => { btn.style.transform = 'translateY(-2px)'; }, 150);
+                        });
+                    })();
+                </script>
+                @endpush
 
             </div>
 

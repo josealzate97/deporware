@@ -30,14 +30,6 @@ Route::get('/templates/scouting-report', function () {
     return view('backend.templates.scouting-report');
 })->name('templates.scouting-report');
 
-Route::get('/templates/training-document', function () {
-    return view('backend.templates.training-document');
-})->name('templates.training-document');
-
-Route::get('/templates/match-report', function () {
-    return view('backend.templates.match-report');
-})->name('templates.match-report');
-
 
 /**
  *  ✅ Rutas para autenticacion
