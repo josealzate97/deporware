@@ -58,7 +58,7 @@
                 <div class="row g-2 mt-2">
                     @foreach($venue->teams as $team)
                         <div class="col-12 col-sm-6 col-lg-3">
-                            <div class="team-info-item h-100">
+                            <div class="team-info-item h-100 surface-gradient-day">
                                 <span class="team-avatar-badge">
                                     <i class="fa-solid fa-shield"></i>
                                 </span>

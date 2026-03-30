@@ -1,4 +1,4 @@
-<div class="section-hero mb-3">
+<div class="section-hero mb-3 bg-light-accent">
     <div class="d-flex align-items-start gap-3">
         <div class="section-hero-icon">
             <i class="fa-solid fa-people-group"></i>
@@ -56,7 +56,7 @@
                                 Email: <span class="player-badge-violet">{{ $player->email ?? '-' }}</span>
                             </div>
                         </div>
-                        <div class="player-info-item player-weight-inline-card">
+                        <div class="player-info-item player-weight-inline-card surface-gradient-day">
                             <div class="player-info-label">
                                 <i class="fa-solid fa-weight-scale text-primary me-2"></i>
                                 Peso
@@ -65,7 +65,7 @@
                                 <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
                             </div>
                         </div>
-                        <div class="player-info-item player-birth-inline-card">
+                        <div class="player-info-item player-birth-inline-card surface-gradient-day">
                             <div class="player-info-label">
                                 <i class="fa-solid fa-cake-candles text-primary me-2"></i>
                                 Nacimiento
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="player-sports-grid">
-                    <div class="player-info-item player-sport-card player-sport-card--wide">
+                    <div class="player-info-item player-sport-card player-sport-card--wide surface-gradient-day">
                         <div class="player-sport-metrics">
                             <div class="player-sport-metric">
                                 <span class="player-sport-metric-label">Posición</span>
@@ -174,7 +174,7 @@
                     <div class="row g-2" style="margin-top: 1.5rem;">
                         @foreach($player->contacts as $contact)
                             <div class="col-12 col-lg-6">
-                                <div class="player-contact-card player-contact-card--modern">
+                                <div class="player-contact-card player-contact-card--modern surface-gradient-day">
                                     <div class="player-contact-top player-contact-top--split">
                                         <div class="player-contact-side">
                                             <span class="player-contact-icon player-contact-icon--xl">
@@ -219,7 +219,7 @@
                             @php($observationTimestamp = $observation->updated_at ?? $observation->created_at)
                             @php($observationDate = $observationTimestamp ? \Illuminate\Support\Str::ucfirst($observationTimestamp->locale('es')->isoFormat('D [de] MMMM [de] YYYY')) : '-')
                             <div class="col-12 col-lg-6">
-                                <div class="team-info-item player-observation-card">
+                                <div class="team-info-item player-observation-card surface-gradient-day">
                                     <div class="row g-0 player-observation-content">
                                         <div class="col-12 fw-semibold mb-1">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
                                         <div class="col-12 text-muted small player-observation-notes mb-2">{{ \Illuminate\Support\Str::limit($observation->notes ?? '-', 100, '...') }}</div>

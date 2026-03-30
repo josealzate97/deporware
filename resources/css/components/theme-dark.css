@@ -626,17 +626,23 @@ body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card:hov
   border-color: #3f5d7e !important;
 }
 
+body.theme-dark .info-panel .show-modal-mint .user-info-item.surface-gradient-day,
+body.theme-dark .info-panel .show-modal-mint .entity-info-item.surface-gradient-day,
+body.theme-dark .info-panel .show-modal-mint .player-info-item.surface-gradient-day,
 body.theme-dark .info-panel .show-modal-mint .section-card .team-info-item.surface-gradient-day,
 body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card.surface-gradient-day,
 body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card.surface-gradient-day,
 body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card.surface-gradient-day {
   background:
-    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
-    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
-    linear-gradient(135deg, #161b22 0%, #121720 100%) !important;
-  border-color: #3f5d7e !important;
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.18), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.16), transparent 28%),
+    linear-gradient(135deg, #1a2230 0%, #121720 100%) !important;
+  box-shadow: 0 2px 12px 0 rgba(16,24,40,0.12);
 }
 
+body.theme-dark .info-panel .show-modal-mint .user-info-item.surface-gradient-day:hover,
+body.theme-dark .info-panel .show-modal-mint .entity-info-item.surface-gradient-day:hover,
+body.theme-dark .info-panel .show-modal-mint .player-info-item.surface-gradient-day:hover,
 body.theme-dark .info-panel .show-modal-mint .section-card .team-info-item.surface-gradient-day:hover,
 body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card.surface-gradient-day:hover,
 body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card.surface-gradient-day:hover,
@@ -1172,8 +1178,8 @@ body.theme-dark .info-panel .show-modal-mint .user-match-badge--result-neutral {
 
 body.theme-dark .info-panel .show-modal-mint .user-match-badge--score {
   background: #16263d !important;
-  border-color: #355b96 !important;
   color: #dbeafe !important;
+  border-color: #355b96 !important;
 }
 
 body.theme-dark .status-pill-success {
@@ -1566,4 +1572,45 @@ body.theme-dark .form-modal .btn-outline-secondary {
 body.theme-dark .form-modal .btn-outline-secondary:hover {
   background: #1f2430;
   color: #e2e8f0;
+}
+
+body.theme-dark .team-match-badge--status {
+  background: #132b4f !important;
+  color: #cfe3ff !important;
+  border-color: #2f5f9c !important;
+}
+
+body.theme-dark .team-match-badge--score {
+  background: #16263d !important;
+  color: #dbeafe !important;
+  border-color: #355b96 !important;
+}
+
+body.theme-dark .team-match-badge--result-win {
+  background: #1b3d2a !important;
+  color: #bbf7d0 !important;
+  border-color: #2f6b49 !important;
+}
+
+body.theme-dark .team-match-badge--result-loss {
+  background: #4a2228 !important;
+  color: #fecdd3 !important;
+  border-color: #a33a44 !important;
+}
+
+body.theme-dark .team-match-badge--result-draw {
+  background: #4a3515 !important;
+  color: #fde68a !important;
+  border-color: #a47a2f !important;
+}
+
+body.theme-dark .team-match-badge--result-neutral {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+body.theme-dark .bg-light-accent {
+  background-color: #172131 !important;
+  color: #e2e8f0 !important;
 }

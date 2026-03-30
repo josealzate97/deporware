@@ -80,7 +80,7 @@
                         <div class="row g-2 mt-2">
                             @foreach($team->venues as $venue)
                                 <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="team-info-item h-100">
+                                    <div class="team-info-item h-100 surface-gradient-day">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-building"></i>
                                         </span>
@@ -106,7 +106,7 @@
                         <div class="row g-2 mt-2">
                             @if($primaryCoach)
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="team-info-item team-coach-card h-100">
+                                    <div class="team-info-item team-coach-card h-100 surface-gradient-day">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-user-tie"></i>
                                         </span>
@@ -119,7 +119,7 @@
                             @endif
                             @if($assistantCoach)
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="team-info-item team-coach-card h-100">
+                                    <div class="team-info-item team-coach-card h-100 surface-gradient-day">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-user"></i>
                                         </span>
@@ -148,7 +148,7 @@
                         @foreach($activePlayers as $roster)
                             @php($player = $roster->getRelation('player'))
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div class="team-player-card">
+                                <div class="team-player-card surface-gradient-day">
                                     <span class="team-player-number">{{ $roster->dorsal ?? '-' }}</span>
                                     <span class="team-player-main">
                                         <span class="team-player-meta">
@@ -188,7 +188,7 @@
                                     default => 'team-match-badge--result-neutral',
                                 })
                                 <div class="col-12 col-lg-6">
-                                    <div class="team-info-item team-match-card {{ $isCompletedMatch ? 'team-match-card--completed' : '' }} h-100">
+                                    <div class="team-info-item team-match-card {{ $isCompletedMatch ? 'team-match-card--completed' : '' }} h-100 surface-gradient-day">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-futbol"></i>
                                         </span>
@@ -224,7 +224,7 @@
                         <div class="row g-2">
                             @foreach($latestTrainings as $training)
                                 <div class="col-12 col-lg-6">
-                                    <div class="team-info-item h-100">
+                                    <div class="team-info-item h-100 surface-gradient-day">
                                         <span class="team-avatar-badge">
                                             <i class="fa-solid fa-dumbbell"></i>
                                         </span>

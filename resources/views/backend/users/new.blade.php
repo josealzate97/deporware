@@ -121,9 +121,9 @@
                                             <i class="fa-regular fa-eye"></i>
                                         </button>
                                     </div>
-                                    <div class="form-text">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
+                                    <div class="form-text surface-gradient-day">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
                                     <small class="text-danger" id="user-password-message"></small>
-                                    <ul class="password-checklist mt-2" id="user-password-checklist">
+                                    <ul class="password-checklist surface-gradient-day mt-2" id="user-password-checklist">
                                         <li data-rule="length">Mínimo 8 caracteres</li>
                                         <li data-rule="letter">Al menos una letra</li>
                                         <li data-rule="number">Al menos un número</li>
@@ -140,7 +140,7 @@
                                         </button>
                                     </div>
                                     <small class="text-danger" id="user-password-confirm-message"></small>
-                                    <ul class="password-checklist mt-2" id="user-password-confirm-checklist">
+                                    <ul class="password-checklist surface-gradient-day mt-2" id="user-password-confirm-checklist">
                                         <li data-rule="match">Las contraseñas coinciden</li>
                                     </ul>
                                 </div>
