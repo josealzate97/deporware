@@ -1,4 +1,4 @@
-<div class="section-hero mb-3 surface-gradient-day">
+<div class="section-hero mb-3">
     <div class="d-flex align-items-start gap-3">
         <div class="section-hero-icon">
             <i class="fas fa-dumbbell"></i>

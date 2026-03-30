@@ -68,8 +68,7 @@
                     <a id="btn-download-match-template"
                        href="{{ asset('docs/plantilla-partido.docx') }}"
                        download
-                       class="btn btn-download-template"
-                       style="background-color:#ede9fe;border:1.5px solid #c4b5fd;color:#7c3aed;border-radius:50px;font-weight:600;transition:background-color .25s ease,transform .2s ease,box-shadow .2s ease;">
+                       class="btn btn-download-template">
                         <i class="fa-solid fa-file-arrow-down me-2"></i> Descargar Plantilla
                     </a>
                     <a href="{{ route('matches.index') }}" class="btn btn-primary">

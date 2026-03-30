@@ -732,6 +732,23 @@ body.theme-dark .match-file-panel .upload-control {
   color: #14532d;
 }
 
+.btn-download-template {
+  background: linear-gradient(180deg, #f8f5ff 0%, #ede9fe 100%);
+  border: 1.5px solid #c4b5fd;
+  color: #7c3aed;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: background-color .25s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-download-template:hover,
+.btn-download-template:focus {
+  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+  border-color: #a78bfa;
+  color: #5b21b6;
+  box-shadow: 0 6px 14px rgba(109, 40, 217, 0.18);
+}
+
 .match-file-action-btn {
   border: 1px solid #c7d2fe;
   background: #eef2ff;

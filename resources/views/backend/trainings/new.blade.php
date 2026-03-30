@@ -66,8 +66,7 @@
                     <a id="btn-download-training-template"
                        href="{{ asset('docs/plantilla-entrenamientos.xlsx') }}"
                        download
-                       class="btn btn-download-template"
-                       style="background-color:#ede9fe;border:1.5px solid #c4b5fd;color:#7c3aed;border-radius:50px;font-weight:600;transition:background-color .25s ease,transform .2s ease,box-shadow .2s ease;">
+                       class="btn btn-download-template">
                         <i class="fa-solid fa-file-arrow-down me-2"></i> Descargar Plantilla
                     </a>
                     <a href="{{ route('trainings.index') }}" class="btn btn-primary">
@@ -75,30 +74,7 @@
                     </a>
                 </div>
 
-                @push('scripts')
-                <script>
-                    (function () {
-                        const btn = document.getElementById('btn-download-training-template');
-                        if (!btn) return;
-                        btn.addEventListener('mouseenter', () => {
-                            btn.style.backgroundColor = '#ddd6fe';
-                            btn.style.borderColor = '#a78bfa';
-                            btn.style.transform = 'translateY(-2px)';
-                            btn.style.boxShadow = '0 6px 16px rgba(124,58,237,.2)';
-                        });
-                        btn.addEventListener('mouseleave', () => {
-                            btn.style.backgroundColor = '#ede9fe';
-                            btn.style.borderColor = '#c4b5fd';
-                            btn.style.transform = 'translateY(0)';
-                            btn.style.boxShadow = 'none';
-                        });
-                        btn.addEventListener('click', function (e) {
-                            btn.style.transform = 'scale(.95)';
-                            setTimeout(() => { btn.style.transform = 'translateY(-2px)'; }, 150);
-                        });
-                    })();
-                </script>
-                @endpush
+
 
             </div>
 
@@ -319,7 +295,7 @@
 
                     <div class="col-12 col-lg-5">
                         <div class="training-side-panel">
-                            <div class="training-side-panel-item">
+                            <div class="training-side-panel-item surface-gradient-day">
                                 <div class="training-side-panel-header">
                                     <div>
                                         <div class="training-side-panel-title">Archivos del entrenamiento</div>
@@ -384,7 +360,7 @@
                                 </div>
                             </div>
 
-                            <div class="training-side-panel-item">
+                            <div class="training-side-panel-item surface-gradient-day">
                                 <div class="training-side-panel-header">
                                     <div>
                                         <div class="training-side-panel-title">Asistencia al entrenamiento</div>
