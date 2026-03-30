@@ -26,7 +26,7 @@
             @include('backend.components.breadcrumb')
         @endpush
 
-        <div class="card p-4 section-hero dashboard-hero">
+        <div class="card p-4 section-hero dashboard-hero surface-gradient-day">
             <div class="d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between gap-4">
                 <div class="d-flex align-items-start gap-3">
                     <div class="section-hero-icon dashboard-hero-icon">
@@ -99,7 +99,7 @@
                                 <div class="dashboard-panel__eyebrow">Reciente</div>
                                 <h3 class="dashboard-panel__title">Últimos partidos</h3>
                             </div>
-                            <a href="{{ route('matches.index') }}" class="dashboard-panel__link">Ver todos</a>
+                            <a href="{{ route('matches.index') }}" class="dashboard-panel__link dashboard-panel__link--purple">Ver todos</a>
                         </div>
 
                         <div class="dashboard-list">
@@ -131,7 +131,7 @@
                                 <div class="dashboard-panel__eyebrow">Reciente</div>
                                 <h3 class="dashboard-panel__title">Últimos entrenamientos</h3>
                             </div>
-                            <a href="{{ route('trainings.index') }}" class="dashboard-panel__link">Ver todos</a>
+                            <a href="{{ route('trainings.index') }}" class="dashboard-panel__link dashboard-panel__link--purple">Ver todos</a>
                         </div>
 
                         <div class="dashboard-list">
@@ -159,7 +159,7 @@
             </div>
 
             <div class="dashboard-side-column">
-                <div class="dashboard-panel">
+                <div class="dashboard-panel surface-gradient-day">
                     <div class="dashboard-panel__header">
                         <div>
                             <div class="dashboard-panel__eyebrow">Agenda</div>

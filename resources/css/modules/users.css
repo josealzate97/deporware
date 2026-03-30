@@ -268,7 +268,10 @@
 }
 
 .info-panel .show-modal-mint .team-info-item.user-match-card--scheduled {
-  background: #d8efe3 !important;
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%) !important;
   border-color: #bcd9c7 !important;
 }
 

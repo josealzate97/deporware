@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="user-info-grid">
-                        <div class="user-info-item">
+                        <div class="user-info-item surface-gradient-day">
                             <div class="user-info-label">
                                 <i class="fa-solid fa-map-location-dot text-primary me-2"></i>
                                 Sedes asociadas
@@ -111,7 +111,7 @@
                         </div>
 
                         @if($showCoachTabs)
-                            <div class="user-info-item">
+                            <div class="user-info-item surface-gradient-day">
                                 <div class="user-info-label">
                                     <i class="fa-solid fa-shield-halved text-primary me-2"></i>
                                     Equipos
@@ -120,7 +120,7 @@
                                 <div class="user-info-sub">{{ $teamAssignments->count() === 1 ? 'Equipo asignado' : 'Equipos asignados' }}</div>
                             </div>
 
-                            <div class="user-info-item">
+                            <div class="user-info-item surface-gradient-day">
                                 <div class="user-info-label">
                                     <i class="fa-solid fa-futbol text-primary me-2"></i>
                                     Partidos
@@ -129,7 +129,7 @@
                                 <div class="user-info-sub">Registros recientes</div>
                             </div>
 
-                            <div class="user-info-item">
+                            <div class="user-info-item surface-gradient-day">
                                 <div class="user-info-label">
                                     <i class="fa-solid fa-dumbbell text-primary me-2"></i>
                                     Entrenamientos
@@ -156,7 +156,7 @@
                             <div class="row g-2 mt-2">
                                 @foreach($venues as $venue)
                                     <div class="col-12 col-sm-6 col-lg-4">
-                                        <div class="team-info-item user-mint-card h-100">
+                                        <div class="team-info-item user-mint-card surface-gradient-day h-100">
                                             <span class="team-avatar-badge">
                                                 <i class="fa-solid fa-building"></i>
                                             </span>
@@ -186,7 +186,7 @@
                             <div class="row g-2 mt-2">
                                 @foreach($teamAssignments as $assignment)
                                     <div class="col-12 col-sm-6 col-lg-4">
-                                        <div class="team-info-item user-mint-card h-100">
+                                        <div class="team-info-item user-mint-card surface-gradient-day h-100">
                                             <span class="team-avatar-badge">
                                                 <i class="fa-solid fa-shield"></i>
                                             </span>
@@ -240,7 +240,7 @@
                                         default => 'user-match-badge--result-neutral',
                                     })
                                     <div class="col-12 col-lg-6">
-                                        <div class="team-info-item team-match-card {{ $cardClass }} h-100">
+                                        <div class="team-info-item team-match-card {{ $cardClass }} {{ ((int) $match->match_status === \App\Models\MatchModel::STATUS_SCHEDULED) ? 'surface-gradient-day' : '' }} h-100">
                                             <span class="team-avatar-badge">
                                                 <i class="fa-solid fa-futbol"></i>
                                             </span>
@@ -281,7 +281,7 @@
                                     @php($teamModel = $training->relationLoaded('team') ? $training->getRelation('team') : null)
                                     @php($venueModel = $training->relationLoaded('venue') ? $training->getRelation('venue') : null)
                                     <div class="col-12 col-lg-6">
-                                        <div class="team-info-item h-100">
+                                        <div class="team-info-item surface-gradient-day h-100">
                                             <span class="team-avatar-badge">
                                                 <i class="fa-solid fa-dumbbell"></i>
                                             </span>

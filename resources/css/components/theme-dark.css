@@ -626,6 +626,28 @@ body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card:hov
   border-color: #3f5d7e !important;
 }
 
+body.theme-dark .info-panel .show-modal-mint .section-card .team-info-item.surface-gradient-day,
+body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card.surface-gradient-day,
+body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card.surface-gradient-day,
+body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card.surface-gradient-day {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%) !important;
+  border-color: #3f5d7e !important;
+}
+
+body.theme-dark .info-panel .show-modal-mint .section-card .team-info-item.surface-gradient-day:hover,
+body.theme-dark .info-panel .show-modal-mint .section-card .team-player-card.surface-gradient-day:hover,
+body.theme-dark .info-panel .show-modal-mint .team-info-item.user-mint-card.surface-gradient-day:hover,
+body.theme-dark .info-panel .show-modal-mint .team-info-item.team-coach-card.surface-gradient-day:hover {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.14), transparent 34%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.14), transparent 30%),
+    linear-gradient(135deg, #1a2230 0%, #141b27 100%) !important;
+  border-color: #4a78b5 !important;
+}
+
 body.theme-dark .info-panel .show-modal-mint .section-card .team-avatar-badge {
   background: #13273f;
   border-color: #325581;
