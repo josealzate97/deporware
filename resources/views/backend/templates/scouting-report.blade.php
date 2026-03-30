@@ -5,44 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ficha de jugador</title>
     <style>
-        :root {
-            --brand-blue: #1b77d3;
-            --brand-blue-dark: #0b4e91;
-            --brand-blue-soft: #e8f1ff;
-            --brand-green: #16a34a;
-            --brand-green-soft: #e6f6ed;
-            --ink: #0f172a;
-            --muted: #6b7280;
-            --line: #d7e4f6;
-            --card: #f8fbff;
-            --shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
-        }
         * {
             box-sizing: border-box;
         }
         body {
             margin: 0;
             padding: 24px;
-            font-family: "Arial", sans-serif;
-            color: var(--ink);
+            font-family: Arial, sans-serif;
+            color: #0f172a;
             background: #f5f7fb;
         }
         .sheet {
             max-width: 980px;
             margin: 0 auto;
             background: #ffffff;
-            border-radius: 18px;
+            border-radius: 14px;
             padding: 18px 22px 26px;
-            box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
         }
         .watermark {
             position: absolute;
-            inset: 0;
-            background: url("{{ asset('images/branding/logo_full.png') }}") center/60% no-repeat;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-image: url("file://{{ public_path('images/branding/logo_full.png') }}");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 60%;
             opacity: 0.12;
-            pointer-events: none;
             z-index: 0;
         }
         .content {
@@ -52,49 +44,65 @@
         .header {
             margin-bottom: 18px;
         }
+
+        /* ── Header bar: tabla HTML ── */
         .header-bar {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            align-items: stretch;
-            min-height: 90px;
-            background: #0b4e91;
+            width: 100%;
+            border-collapse: collapse;
         }
         .header-logo {
+            width: 200px;
             background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            vertical-align: middle;
             padding: 14px 18px;
         }
         .logo {
             width: 140px;
             height: auto;
             display: block;
+            margin: 0 auto;
         }
         .title-bar {
             background: #0b4e91;
             color: #ffffff;
             font-weight: 800;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 24px;
+            vertical-align: middle;
+            padding: 20px 24px;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
         }
+
+        /* ── Info grid: tabla HTML 2 col ── */
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px 14px;
-            margin-bottom: 14px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin-bottom: 4px;
         }
+        .info-td {
+            width: 50%;
+            vertical-align: middle;
+        }
+        .info-td-left {
+            padding-right: 7px;
+        }
+        .info-td-right {
+            padding-left: 7px;
+        }
+
+        /* ── Field: tabla HTML real ── */
         .field {
-            display: grid;
-            grid-template-columns: 32px 1fr;
-            gap: 10px;
-            align-items: center;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .field-icon-cell {
+            width: 32px;
+            vertical-align: middle;
+            padding-right: 10px;
         }
         .icon {
             width: 30px;
@@ -102,161 +110,130 @@
             border-radius: 8px;
             background: #dbeafe;
             border: 1px solid #c7ddfb;
-            display: grid;
-            place-items: center;
-            color: var(--brand-blue-dark);
-            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+            text-align: center;
+            padding-top: 7px;
         }
-        .icon svg {
-            width: 16px;
-            height: 16px;
-            display: block;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+        .field-body-cell {
+            vertical-align: top;
         }
         .field-body {
-            background: var(--brand-blue-soft);
-            border: 1px solid var(--line);
+            background: #e8f1ff;
+            border: 1px solid #d7e4f6;
             border-radius: 10px;
             padding: 6px 10px;
         }
         .field-label {
             font-size: 11px;
-            color: var(--muted);
+            color: #6b7280;
             text-transform: uppercase;
             letter-spacing: 0.4px;
             margin-bottom: 4px;
         }
         .field-value {
-            min-height: 16px;
             font-size: 13px;
             font-weight: 600;
         }
-        .chips-row {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
+
+        /* ── Chips row: tabla HTML 2 col ── */
+        .chips-row-table {
+            width: 100%;
+            border-collapse: collapse;
             margin-bottom: 14px;
         }
-        .chip-group {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
+        .chip-group-cell {
+            width: 50%;
+            vertical-align: top;
+            padding-right: 14px;
+        }
+        .chip-group-cell-last {
+            padding-right: 0;
         }
         .chip-title {
             font-size: 12px;
             font-weight: 700;
-            color: var(--ink);
-            white-space: nowrap;
+            color: #0f172a;
+            margin-bottom: 6px;
         }
-        .chips {
-            display: inline-flex;
-            align-items: center;
-            background: #ffffff;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            overflow: hidden;
+        .chips-table {
+            border-collapse: collapse;
+            border: 1px solid #d7e4f6;
+            border-radius: 8px;
         }
         .chip {
-            border-right: 1px solid var(--line);
+            border-right: 1px solid #d7e4f6;
             background: #ffffff;
-            color: var(--muted);
+            color: #6b7280;
             font-size: 12px;
             padding: 4px 14px;
             font-weight: 700;
+            vertical-align: middle;
         }
-        .chip:last-child {
+        .chip-last {
             border-right: none;
         }
         .chip.is-active {
-            background: var(--brand-blue);
-            border-color: var(--brand-blue-dark);
+            background: #1b77d3;
+            border-color: #0b4e91;
             color: #ffffff;
         }
         .chip.is-active.is-green {
-            background: var(--brand-green);
-            border-color: var(--brand-green);
+            background: #16a34a;
+            border-color: #16a34a;
+            color: #ffffff;
         }
-        .cards {
-            display: grid;
-            gap: 12px;
-        }
-        .cards.full-width {
-            grid-template-columns: 1fr;
-        }
+
+        /* ── Cards ── */
         .card {
-            background: var(--card);
-            border-radius: 14px;
-            border: 1px solid var(--line);
+            background: #f8fbff;
+            border-radius: 12px;
+            border: 1px solid #d7e4f6;
             padding: 10px 12px 12px;
-            box-shadow: 0 6px 12px rgba(15, 23, 42, 0.06);
+            margin-bottom: 12px;
         }
         .card-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
+            display: table;
+            width: auto;
+            border-collapse: separate;
+            border-spacing: 8px 0;
             margin-bottom: 6px;
+            font-weight: 700;
         }
-        .card-title span {
+        .card-title-icon {
+            display: table-cell;
             width: 22px;
             height: 22px;
             border-radius: 7px;
-            display: grid;
-            place-items: center;
+            text-align: center;
+            vertical-align: middle;
             color: #ffffff;
-            font-size: 12px;
+            padding: 4px;
         }
-        .card-title span svg {
+        .card-title-icon svg {
             width: 13px;
             height: 13px;
             display: block;
-            fill: currentColor;
+            margin: 0 auto;
         }
-        .card-title strong {
+        .card-title-text {
+            display: table-cell;
+            vertical-align: middle;
             font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
         }
         .card-body {
             font-size: 12px;
-            color: var(--muted);
+            color: #6b7280;
             min-height: 48px;
-        }
-        .card-success span {
-            background: var(--brand-green);
-        }
-        .card-danger span {
-            background: #ef4444;
-        }
-        .card-warning span {
-            background: #f59e0b;
-        }
-        .card-info span {
-            background: #6366f1;
-        }
-        .card-note span {
-            background: #fbbf24;
         }
         .card.full .card-body {
             min-height: 58px;
         }
-        @media (max-width: 860px) {
-            .header {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .logo {
-                margin: 0 auto;
-            }
-            .info-grid,
-            .chips-row,
-            .cards.full-width {
-                grid-template-columns: 1fr;
-            }
-        }
+        .card-success .card-title-icon { background: #16a34a; }
+        .card-danger  .card-title-icon { background: #ef4444; }
+        .card-warning .card-title-icon { background: #f59e0b; }
+        .card-info    .card-title-icon { background: #6366f1; }
+        .card-note    .card-title-icon { background: #fbbf24; }
     </style>
 </head>
 <body>
@@ -285,156 +262,213 @@
     <div class="sheet">
         <div class="watermark" aria-hidden="true"></div>
         <div class="content">
+
+            {{-- ── Header ── --}}
             <div class="header">
-                <div class="header-bar">
-                    <div class="header-logo">
-                        <img src="{{ asset('images/branding/logo_half.png') }}" alt="Deporware" class="logo">
-                    </div>
-                    <div class="title-bar">Ficha de jugador</div>
-                </div>
+                <table class="header-bar" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="header-logo">
+                            <img src="file://{{ public_path('images/branding/logo_half.png') }}" alt="Deporware" class="logo">
+                        </td>
+                        <td class="title-bar">Ficha de jugador</td>
+                    </tr>
+                </table>
             </div>
 
-            <div class="info-grid">
+            {{-- ── Campos de información ── --}}
+            <table class="info-grid" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="info-td info-td-left">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Nombre completo</div>
+                                    <div class="field-value">{{ $fullName }}</div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                    <td class="info-td info-td-right">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M20 3h-1V1h-2v2H7V1H5v2H4C2.9 3 2 3.9 2 5v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13zM8 13h2v-2H8v2zm4 0h2v-2h-2v2zm4 0h2v-2h-2v2zm-8 4h2v-2H8v2zm4 0h2v-2h-2v2z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Fecha de nacimiento</div>
+                                    <div class="field-value">{{ $birthdate }}</div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-td info-td-left">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2V6h2v8zm0 4h-2v-2h2v2z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Numero del jugador</div>
+                                    <div class="field-value">{{ $dorsal }}</div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                    <td class="info-td info-td-right">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Demarcacion principal</div>
+                                    <div class="field-value">{{ $primaryPosition }}</div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-td info-td-left">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Demarcacion secundaria</div>
+                                    <div class="field-value">{{ $secondaryPosition }}</div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                    <td class="info-td info-td-right">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Club de origen</div>
+                                    <div class="field-value"></div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-td info-td-left">
+                        <table class="field" cellspacing="0" cellpadding="0"><tr>
+                            <td class="field-icon-cell">
+                                <div class="icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5C3.89 3 3.01 3.9 3.01 5L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                                </div>
+                            </td>
+                            <td class="field-body-cell">
+                                <div class="field-body">
+                                    <div class="field-label">Fecha de incorporacion</div>
+                                    <div class="field-value"></div>
+                                </div>
+                            </td>
+                        </tr></table>
+                    </td>
+                    <td class="info-td info-td-right"></td>
+                </tr>
+            </table>
 
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div> 
-                    <div class="field-body">
-                        <div class="field-label">Nombre completo</div>
-                        <div class="field-value">{{ $fullName }}</div>
-                    </div>
-                </div>
+            {{-- ── Chips ── --}}
+            <table class="chips-row-table" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="chip-group-cell">
+                        <div class="chip-title">Lateralidad dominante</div>
+                        <table class="chips-table" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="chip {{ $footValue === \App\Models\Player::PIE_DERECHO ? 'is-active' : '' }}">Diestro</td>
+                                <td class="chip {{ $footValue === \App\Models\Player::PIE_IZQUIERDO ? 'is-active' : '' }}">Zurdo</td>
+                                <td class="chip chip-last {{ $footValue === \App\Models\Player::PIE_AMBOS ? 'is-active' : '' }}">Ambos</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="chip-group-cell chip-group-cell-last">
+                        <div class="chip-title">Mentalidad</div>
+                        <table class="chips-table" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="chip is-green {{ $mentalidad === 'ofensiva' ? 'is-active' : '' }}">Ofensiva</td>
+                                <td class="chip chip-last {{ $mentalidad === 'defensiva' ? 'is-active' : '' }}">Defensiva</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
 
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+            {{-- ── Cards ── --}}
+            <div class="card card-success">
+                <div class="card-title">
+                    <div class="card-title-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83V19c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-6.9z"/></svg>
                     </div>
-                    <div class="field-body">
-                        <div class="field-label">Fecha de nacimiento</div>
-                        <div class="field-value">{{ $birthdate }}</div>
-                    </div>
+                    <div class="card-title-text">Puntos fuertes</div>
                 </div>
-
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M8 3v3M16 3v3"/><path d="M3 8h18"/><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M8 13h8"/></svg>
-                    </div>
-                    <div class="field-body">
-                        <div class="field-label">Numero del jugador</div>
-                        <div class="field-value">{{ $dorsal }}</div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M12 2l7 3v6c0 5-3.5 9.7-7 11-3.5-1.3-7-6-7-11V5l7-3z"/></svg>
-                    </div>
-                    <div class="field-body">
-                        <div class="field-label">Demarcacion principal</div>
-                        <div class="field-value">{{ $primaryPosition }}</div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
-                    </div>
-                    <div class="field-body">
-                        <div class="field-label">Demarcacion secundaria</div>
-                        <div class="field-value">{{ $secondaryPosition }}</div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20M2 12h20"/></svg>
-                    </div>
-                    <div class="field-body">
-                        <div class="field-label">Club de origen</div>
-                        <div class="field-value"></div>
-                    </div>
-                </div>
-                
-                <div class="field">
-                    <div class="icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M7 2v4M17 2v4M3 10h18"/></svg>
-                    </div>
-                    <div class="field-body">
-                        <div class="field-label">Fecha de incorporacion</div>
-                        <div class="field-value"></div>
-                    </div>
-                </div>
+                <div class="card-body"></div>
             </div>
 
-            <div class="chips-row">
-                <div class="chip-group">
-                    <div class="chip-title">Lateralidad dominante</div>
-                    <div class="chips">
-                        <div class="chip {{ $footValue === \App\Models\Player::PIE_DERECHO ? 'is-active' : '' }}">Diestro</div>
-                        <div class="chip {{ $footValue === \App\Models\Player::PIE_IZQUIERDO ? 'is-active' : '' }}">Zurdo</div>
-                        <div class="chip {{ $footValue === \App\Models\Player::PIE_AMBOS ? 'is-active' : '' }}">Ambos</div>
+            <div class="card card-danger">
+                <div class="card-title">
+                    <div class="card-title-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     </div>
+                    <div class="card-title-text">Puntos debiles</div>
                 </div>
-                <div class="chip-group">
-                    <div class="chip-title">Mentalidad</div>
-                    <div class="chips">
-                        <div class="chip is-green {{ $mentalidad === 'ofensiva' ? 'is-active' : '' }}">Ofensiva</div>
-                        <div class="chip {{ $mentalidad === 'defensiva' ? 'is-active' : '' }}">Defensiva</div>
-                    </div>
-                </div>
+                <div class="card-body"></div>
             </div>
 
-            <div class="cards full-width">
-                <div class="card card-success">
-                    <div class="card-title">
-                        <span aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83V19c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-6.9z"/></svg>
-                        </span>
-                        <strong>Puntos fuertes</strong>
+            <div class="card card-warning full">
+                <div class="card-title">
+                    <div class="card-title-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                     </div>
-                    <div class="card-body"></div>
+                    <div class="card-title-text">Singularidades</div>
                 </div>
-                <div class="card card-danger">
-                    <div class="card-title">
-                        <span aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                        </span>
-                        <strong>Puntos debiles</strong>
-                    </div>
-                    <div class="card-body"></div>
-                </div>
+                <div class="card-body"></div>
             </div>
 
-            <div class="cards" style="margin-top: 12px;">
-                <div class="card card-warning full">
-                    <div class="card-title">
-                        <span aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                        </span>
-                        <strong>Singularidades</strong>
+            <div class="card card-info full">
+                <div class="card-title">
+                    <div class="card-title-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
                     </div>
-                    <div class="card-body"></div>
+                    <div class="card-title-text">Caracter</div>
                 </div>
-                <div class="card card-info full">
-                    <div class="card-title">
-                        <span aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
-                        </span>
-                        <strong>Caracter</strong>
-                    </div>
-                    <div class="card-body"></div>
-                </div>
-                <div class="card card-note full">
-                    <div class="card-title">
-                        <span aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                        </span>
-                        <strong>Observaciones</strong>
-                    </div>
-                    <div class="card-body"></div>
-                </div>
+                <div class="card-body"></div>
             </div>
+
+            <div class="card card-note full" style="margin-bottom: 0;">
+                <div class="card-title">
+                    <div class="card-title-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    </div>
+                    <div class="card-title-text">Observaciones</div>
+                </div>
+                <div class="card-body"></div>
+            </div>
+
         </div>
     </div>
 </body>
