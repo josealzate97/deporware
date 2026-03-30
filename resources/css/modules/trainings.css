@@ -1397,6 +1397,16 @@ body.theme-dark .training-team-badge i {
 	color: #bfdbfe;
 }
 
+body.theme-dark .training-coach-badge {
+	background: #1e2a3a;
+	border-color: #2e3d50;
+	color: #cbd5e1;
+}
+
+body.theme-dark .training-coach-badge i {
+	color: #93c5fd;
+}
+
 body.theme-dark .training-venue-link {
 	background: #1b2a40;
 	border-color: #34507a;

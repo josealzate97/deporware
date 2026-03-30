@@ -53,9 +53,20 @@
   border-color: #bfdbfe;
 }
 
+.info-section {
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%) !important;
+  border-color: #d4e6da !important;
+}
+
 .config-logo-panel {
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
+  border: 1px solid #d4e0f0;
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
   border-radius: 16px;
   padding: 1rem;
   min-height: 360px;
@@ -149,4 +160,68 @@
     width: 200px;
     height: 200px;
   }
+}
+
+/* ── Dark mode ─────────────────────────────────────── */
+body.theme-dark .info-section {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%) !important;
+  border-color: #2a3443 !important;
+}
+
+body.theme-dark .info-section-title {
+  color: #e2e8f0;
+}
+
+body.theme-dark .info-section .form-label {
+  color: #94a3b8;
+}
+
+body.theme-dark .config-tab {
+  background: #1e2a3a;
+  border-color: #2e3d50;
+  color: #94a3b8;
+}
+
+body.theme-dark .config-tab-icon {
+  color: #93c5fd;
+}
+
+body.theme-dark .config-tab.is-active {
+  background: #1b2a40;
+  border-color: #3b5a8a;
+  color: #9cc8ff;
+}
+
+body.theme-dark .config-logo-panel {
+  border-color: #2a3443;
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%);
+}
+
+body.theme-dark .config-logo-panel .fw-semibold {
+  color: #e2e8f0;
+}
+
+body.theme-dark .config-logo-badge {
+  background: #1b2a40;
+  border-color: #34507a;
+  color: #9cc8ff;
+}
+
+body.theme-dark .config-logo-frame {
+  background: #1a2035;
+  border-color: #2e3d6a;
+}
+
+body.theme-dark .config-logo-placeholder {
+  color: #64748b;
+}
+
+body.theme-dark .config-logo-hint {
+  color: #64748b;
 }

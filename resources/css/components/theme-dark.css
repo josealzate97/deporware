@@ -124,7 +124,11 @@ body.theme-dark .bg-soft-success {
   color: #34d399;
 }
 
-body.theme-dark .section-toolbar,
+body.theme-dark .section-toolbar {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.18) 0%, rgba(22, 163, 74, 0.14) 100%), #161b22;
+  border-color: #2a3443;
+}
+
 body.theme-dark .sales-action-card,
 body.theme-dark .user-info-section,
 body.theme-dark .info-section,
