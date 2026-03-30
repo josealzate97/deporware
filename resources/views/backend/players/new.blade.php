@@ -440,7 +440,7 @@
                                         <div class="player-step-callout-title">Siguiente paso recomendado</div>
                                         <div class="text-muted small">Continua con la ficha valorativa del jugador.</div>
                                     </div>
-                                    <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn btn-outline-primary btn-sm">
+                                    <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn btn-download-template btn-sm">
                                         Ir a ficha valorativa
                                     </a>
                                 </div>

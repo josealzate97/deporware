@@ -748,8 +748,11 @@ body.theme-dark .team-info-item {
 
 body.theme-dark .player-contact-card--modern,
 body.theme-dark .player-observation-card--editable {
-  background: linear-gradient(135deg, #172334 0%, #121c2b 100%) !important;
-  border-color: #335173 !important;
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%) !important;
+  border-color: #2a3444 !important;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.34);
 }
 
@@ -800,8 +803,11 @@ body.theme-dark .player-contact-card--editable .player-contact-icon--xl i {
 }
 
 body.theme-dark .player-step-callout {
-  border-color: #375d92;
-  background: linear-gradient(135deg, #172a44 0%, #132238 100%);
+  border-color: #2a3444;
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%);
   box-shadow: 0 12px 22px rgba(0, 0, 0, 0.28);
 }
 
@@ -906,8 +912,11 @@ body.theme-dark .match-tabs label.is-disabled {
 }
 
 body.theme-dark .match-info-item {
-  background: #171f2c;
-  border-color: #304157;
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%);
+  border-color: #2a3444;
 }
 
 body.theme-dark .match-info-label,

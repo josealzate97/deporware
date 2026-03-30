@@ -146,7 +146,10 @@
 .player-photo-panel {
   border-radius: 16px;
   border: 1px solid #e2e8f0;
-  background: #f8fafc;
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
   padding: 1rem;
   height: 100%;
   display: flex;
@@ -326,6 +329,10 @@
   min-height: 100%;
   padding: 0.95rem;
   border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
   overflow: hidden;
   min-width: 0;
@@ -780,9 +787,12 @@ body.theme-dark .player-sport-side-panel {
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
-  border: 1px solid #d7e6ff;
+  border: 1px solid #dbe7f5;
   border-radius: 12px;
-  background: linear-gradient(135deg, #f7fbff 0%, #eef6ff 100%);
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
   padding: 0.75rem 0.9rem;
 }
 
@@ -931,7 +941,10 @@ body.theme-dark .player-sport-side-panel {
 }
 
 .player-contact-card--modern {
-  background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 100%);
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%) !important;
   border: 1px solid #dbe7f5;
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
 }
@@ -1360,7 +1373,10 @@ body.theme-dark .player-sport-side-panel {
   position: relative;
   padding: 0.85rem 0.95rem;
   border-radius: 14px;
-  background: #f7fbff;
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%) !important;
   border-color: #d7e6ff;
   box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -1619,4 +1635,39 @@ body.player-lightbox-open {
 
 .player-lightbox__close:hover {
   background: rgba(15, 23, 42, 0.92);
+}
+
+/* ── Botón morado: ficha valorativa ─────────────────────────────────── */
+.btn-download-template {
+  background: linear-gradient(180deg, #f8f5ff 0%, #ede9fe 100%);
+  border: 1.5px solid #c4b5fd;
+  color: #7c3aed;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: background .25s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-download-template:hover,
+.btn-download-template:focus {
+  background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+  border-color: #a78bfa;
+  color: #5b21b6;
+  box-shadow: 0 6px 14px rgba(109, 40, 217, 0.18);
+}
+
+/* ── Gradient modo noche: foto y posición en /players/new ────────────── */
+body.theme-dark .player-photo-panel {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%);
+  border-color: #2a3444;
+}
+
+body.theme-dark .player-positions-field--featured {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+    radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+    linear-gradient(135deg, #161b22 0%, #121720 100%);
+  border-color: #2a3444;
 }
