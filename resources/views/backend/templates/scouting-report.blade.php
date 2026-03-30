@@ -295,6 +295,7 @@
             </div>
 
             <div class="info-grid">
+
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -304,6 +305,7 @@
                         <div class="field-value">{{ $fullName }}</div>
                     </div>
                 </div>
+
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
@@ -313,6 +315,7 @@
                         <div class="field-value">{{ $birthdate }}</div>
                     </div>
                 </div>
+
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><path d="M8 3v3M16 3v3"/><path d="M3 8h18"/><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M8 13h8"/></svg>
@@ -322,6 +325,7 @@
                         <div class="field-value">{{ $dorsal }}</div>
                     </div>
                 </div>
+
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><path d="M12 2l7 3v6c0 5-3.5 9.7-7 11-3.5-1.3-7-6-7-11V5l7-3z"/></svg>
@@ -331,6 +335,7 @@
                         <div class="field-value">{{ $primaryPosition }}</div>
                     </div>
                 </div>
+
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
@@ -340,6 +345,7 @@
                         <div class="field-value">{{ $secondaryPosition }}</div>
                     </div>
                 </div>
+
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20M2 12h20"/></svg>
@@ -349,6 +355,7 @@
                         <div class="field-value"></div>
                     </div>
                 </div>
+                
                 <div class="field">
                     <div class="icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M7 2v4M17 2v4M3 10h18"/></svg>
