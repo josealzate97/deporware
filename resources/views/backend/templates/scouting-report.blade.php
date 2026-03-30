@@ -16,7 +16,7 @@
             background: #f5f7fb;
         }
         .sheet {
-            max-width: 980px;
+            max-width: 794px;
             margin: 0 auto;
             background: #ffffff;
             border-radius: 14px;
