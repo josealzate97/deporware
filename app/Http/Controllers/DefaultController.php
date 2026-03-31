@@ -32,65 +32,65 @@ class DefaultController extends Controller
         $activeVenues = SportsVenue::where('status', true)->count();
 
         $scheduledMatches = MatchModel::with(['team', 'rival'])
-            ->where('match_date', '>=', $now)
-            ->orderBy('match_date')
-            ->limit(4)
-            ->get();
+        ->where('match_date', '>=', $now)
+        ->orderBy('match_date')
+        ->limit(4)
+        ->get();
 
         $upcomingTrainings = Training::with('team')
-            ->where('created_at', '>=', $now)
-            ->where('status', Training::ACTIVE)
-            ->orderBy('created_at')
-            ->limit(4)
-            ->get();
+        ->where('created_at', '>=', $now)
+        ->where('status', Training::ACTIVE)
+        ->orderBy('created_at')
+        ->limit(4)
+        ->get();
 
         $upcomingAgenda = $this->buildUpcomingAgenda($scheduledMatches, $upcomingTrainings);
 
         $recentMatches = MatchModel::with(['team', 'rival'])
-            ->orderByDesc('match_date')
-            ->limit(5)
-            ->get();
+        ->orderByDesc('match_date')
+        ->limit(5)
+        ->get();
 
         $recentTrainings = Training::with('team')
-            ->orderByDesc('created_at')
-            ->limit(5)
-            ->get();
+        ->orderByDesc('created_at')
+        ->limit(5)
+        ->get();
 
         $teamRosterLoad = Team::query()
-            ->orderBy('name')
-            ->get()
-            ->map(function (Team $team) {
-                $playerCount = PlayerRoster::where('team', $team->id)
-                    ->where('status', PlayerRoster::ACTIVE)
-                    ->count();
+        ->orderBy('name')
+        ->get()
+        ->map(function (Team $team) {
+            $playerCount = PlayerRoster::where('team', $team->id)
+                ->where('status', PlayerRoster::ACTIVE)
+                ->count();
 
-                return [
-                    'id' => $team->id,
-                    'name' => $team->name,
-                    'season' => $team->season,
-                    'player_count' => $playerCount,
-                    'status' => (int) $team->status,
-                ];
-            })
-            ->sortByDesc('player_count')
-            ->take(6)
-            ->values();
+            return [
+                'id' => $team->id,
+                'name' => $team->name,
+                'season' => $team->season,
+                'player_count' => $playerCount,
+                'status' => (int) $team->status,
+            ];
+        })
+        ->sortByDesc('player_count')
+        ->take(6)
+        ->values();
 
-        $monthlyActivity = collect(range(5, 0))
-            ->map(function (int $monthsAgo) use ($now) {
-                $date = $now->copy()->subMonths($monthsAgo)->startOfMonth();
-                $start = $date->copy()->startOfMonth();
-                $end = $date->copy()->endOfMonth();
+        $monthlyActivity = collect(range(5, 0))->map(function (int $monthsAgo) use ($now) {
 
-                return [
-                    'key' => $date->format('Y-m'),
-                    'label' => ucfirst($date->locale('es')->translatedFormat('M')),
-                    'monthLabel' => ucfirst($date->locale('es')->translatedFormat('F Y')),
-                    'matches' => MatchModel::whereBetween('match_date', [$start, $end])->count(),
-                    'trainings' => Training::whereBetween('created_at', [$start, $end])->count(),
-                ];
-            })
-            ->values();
+            $date = $now->copy()->startOfMonth()->subMonths($monthsAgo);
+            $start = $date->copy()->startOfMonth();
+            $end = $date->copy()->endOfMonth();
+
+            return [
+                'key' => $date->format('Y-m'),
+                'label' => ucfirst($date->locale('es')->translatedFormat('M')),
+                'monthLabel' => ucfirst($date->locale('es')->translatedFormat('F Y')),
+                'matches' => MatchModel::whereBetween('match_date', [$start, $end])->count(),
+                'trainings' => Training::whereBetween('created_at', [$start, $end])->count(),
+            ];
+
+        })->values();
 
         $summaryCards = [
             [
@@ -142,6 +142,7 @@ class DefaultController extends Controller
     private function buildUpcomingAgenda(Collection $matches, Collection $trainings): Collection
     {
         $matchItems = $matches->map(function (MatchModel $match) {
+
             $teamModel = $match->relationLoaded('team') ? $match->getRelation('team') : null;
             $rivalModel = $match->relationLoaded('rival') ? $match->getRelation('rival') : null;
 
@@ -154,9 +155,11 @@ class DefaultController extends Controller
                 'icon' => 'fa-solid fa-futbol',
                 'route' => route('matches.index', ['view' => 'calendar', 'month' => $match->match_date?->format('Y-m')]),
             ];
+
         });
 
         $trainingItems = $trainings->map(function (Training $training) {
+
             $teamModel = $training->relationLoaded('team') ? $training->getRelation('team') : null;
 
             return [
@@ -168,12 +171,13 @@ class DefaultController extends Controller
                 'icon' => 'fa-solid fa-dumbbell',
                 'route' => route('trainings.index', ['view' => 'calendar', 'month' => $training->created_at?->format('Y-m')]),
             ];
+
         });
 
         return $matchItems
-            ->concat($trainingItems)
-            ->sortBy('datetime')
-            ->take(6)
-            ->values();
+        ->concat($trainingItems)
+        ->sortBy('datetime')
+        ->take(6)
+        ->values();
     }
 }

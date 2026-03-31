@@ -18,6 +18,7 @@ class PlayerObservation extends Model
     public const TYPE_TACTIC = 1;
     public const TYPE_PSYCHIQUE = 2;
     public const TYPE_PSYCOLOGICAL = 3;
+    public const TYPE_TECHNICAL = 4;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -71,6 +72,7 @@ class PlayerObservation extends Model
             self::TYPE_TACTIC => 'Táctica',
             self::TYPE_PSYCHIQUE => 'Física',
             self::TYPE_PSYCOLOGICAL => 'Psicológica',
+            self::TYPE_TECHNICAL => 'Técnica',
         ];
     }
 }

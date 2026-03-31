@@ -424,7 +424,7 @@
                     <div class="card-title-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83V19c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-6.9z"/></svg>
                     </div>
-                    <div class="card-title-text">Puntos fuertes</div>
+                    <div class="card-title-text">Observacion Fisica</div>
                 </div>
                 <div class="card-body"></div>
             </div>
@@ -434,7 +434,7 @@
                     <div class="card-title-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     </div>
-                    <div class="card-title-text">Puntos debiles</div>
+                    <div class="card-title-text">Observacion Tecnica</div>
                 </div>
                 <div class="card-body"></div>
             </div>
@@ -444,7 +444,7 @@
                     <div class="card-title-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                     </div>
-                    <div class="card-title-text">Singularidades</div>
+                    <div class="card-title-text">Observacion Tactica</div>
                 </div>
                 <div class="card-body"></div>
             </div>
@@ -455,16 +455,6 @@
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
                     </div>
                     <div class="card-title-text">Caracter</div>
-                </div>
-                <div class="card-body"></div>
-            </div>
-
-            <div class="card card-note full" style="margin-bottom: 0;">
-                <div class="card-title">
-                    <div class="card-title-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    </div>
-                    <div class="card-title-text">Observaciones</div>
                 </div>
                 <div class="card-body"></div>
             </div>
