@@ -102,25 +102,27 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <a href="{{ route('configurations.rivals.edit', $rival->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn" title="Editar rival {{ $rival->name }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    @if((int) $rival->status === \App\Models\RivalTeam::ACTIVE)
-                                        <form method="POST" action="{{ route('configurations.rivals.destroy', $rival->id) }}" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-icon text-danger" title="Desactivar rival {{ $rival->name }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    @else
-                                        <form method="POST" action="{{ route('configurations.rivals.activate', $rival->id) }}" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-icon text-success" title="Activar rival {{ $rival->name }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                    @endif
+                                    <div class="config-rivals-actions">
+                                        <a href="{{ route('configurations.rivals.edit', $rival->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn config-rival-action-btn" title="Editar rival {{ $rival->name }}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        @if((int) $rival->status === \App\Models\RivalTeam::ACTIVE)
+                                            <form method="POST" action="{{ route('configurations.rivals.destroy', $rival->id) }}" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-icon config-rival-action-btn config-rival-action-danger" title="Desactivar rival {{ $rival->name }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="{{ route('configurations.rivals.activate', $rival->id) }}" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-icon config-rival-action-btn config-rival-action-success" title="Activar rival {{ $rival->name }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @empty

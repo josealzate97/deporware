@@ -101,3 +101,56 @@
   background: #eff6ff;
   border-color: #bfdbfe;
 }
+
+/* ── Dark mode ─────────────────────────────────────── */
+body.theme-dark .config-tab {
+  background: #1e2a3a;
+  border-color: #2e3d50;
+  color: #94a3b8;
+}
+
+body.theme-dark .config-tab-icon {
+  color: #93c5fd;
+}
+
+body.theme-dark .config-tab.is-active {
+  background: #1b2a40;
+  border-color: #3b5a8a;
+  color: #9cc8ff;
+}
+
+body.theme-dark .config-edit-btn {
+  background: #0f2f23 !important;
+  border-color: #1c3b2c !important;
+  color: #86efac !important;
+}
+
+body.theme-dark .config-edit-btn:hover {
+  background: #153a2b !important;
+  border-color: #2a5a3e !important;
+  color: #bbf7d0 !important;
+}
+
+body.theme-dark .config-point-action-danger {
+  background: #1e1620;
+  border-color: #3a1c28;
+  color: #fb7185;
+}
+
+body.theme-dark .config-point-action-danger:hover {
+  background: #2a1520;
+  border-color: #5a1e30;
+  color: #fda4af;
+}
+
+body.theme-dark .config-point-action-success {
+  background: #0f1e17;
+  border-color: #1a3326;
+  color: #4ade80;
+}
+
+body.theme-dark .config-point-action-success:hover {
+  background: #132b1e;
+  border-color: #1e4a35;
+  color: #86efac;
+}
