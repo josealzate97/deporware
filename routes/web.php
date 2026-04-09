@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\VenuesController;
 use App\Http\Controllers\Backend\Configurations\GeneralController as ConfigGeneralController;
 use App\Http\Controllers\Backend\Configurations\PointsController as ConfigPointsController;
 use App\Http\Controllers\Backend\Configurations\RivalsController as ConfigRivalsController;
+use App\Http\Controllers\Backend\TenantController;
 
 /*
  * ✅ Rutas para landing publica
@@ -201,6 +202,27 @@ Route::middleware('auth')->group(function () {
             
             });
         });
+
+    });
+
+    /*
+     * ✅ Zona ROOT: Gestión de Escuelas (Tenants) y cambio de contexto
+     *    Solo Root
+    */
+    Route::middleware('role:root')->group(function () {
+
+        Route::prefix('tenants')->name('tenants.')->controller(TenantController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/new', 'create')->name('new');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}', 'update')->name('update');
+            Route::post('/{id}/activate', 'activate')->name('activate');
+            Route::delete('/{id}', 'destroy')->name('destroy');
+        });
+
+        Route::post('root/switch-tenant', [DefaultController::class, 'switchTenant'])->name('root.tenant.switch');
+        Route::post('root/exit-tenant', [DefaultController::class, 'exitTenant'])->name('root.tenant.exit');
 
     });
 

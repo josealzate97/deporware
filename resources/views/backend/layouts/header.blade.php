@@ -21,7 +21,53 @@
 
         @if(Auth::check())
             @php
+                $isRoot        = (int) Auth::user()->role === \App\Models\User::ROLE_ROOT;
+                $activeTenant  = app()->bound('current_tenant') ? app('current_tenant') : null;
+            @endphp
 
+            {{-- Selector de escuela para ROOT --}}
+            @if($isRoot)
+                <div class="nav-item dropdown me-2">
+                    <button class="btn btn-sm d-flex align-items-center gap-2 {{ $activeTenant ? 'btn-primary' : 'btn-outline-secondary' }}"
+                            id="tenantSwitcherBtn" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="Cambiar escuela activa">
+                        <i class="fa-solid fa-building"></i>
+                        <span class="d-none d-md-inline">
+                            {{ $activeTenant ? $activeTenant->name : 'Vista global' }}
+                        </span>
+                        <i class="fa-solid fa-chevron-down small"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width:220px">
+                        <li><h6 class="dropdown-header">Cambiar escuela</h6></li>
+                        @foreach(\App\Models\Tenant::where('status', \App\Models\Tenant::ACTIVE)->orderBy('name')->get() as $t)
+                            <li>
+                                <form method="POST" action="{{ route('root.tenant.switch') }}">
+                                    @csrf
+                                    <input type="hidden" name="tenant_id" value="{{ $t->id }}">
+                                    <button type="submit"
+                                        class="dropdown-item d-flex align-items-center gap-2 {{ $activeTenant?->id === $t->id ? 'fw-bold text-primary' : '' }}">
+                                        <i class="fa-solid fa-circle-dot small {{ $activeTenant?->id === $t->id ? 'text-primary' : 'text-muted' }}"></i>
+                                        {{ $t->name }}
+                                    </button>
+                                </form>
+                            </li>
+                        @endforeach
+                        @if($activeTenant)
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('root.tenant.exit') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-muted d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-globe small"></i> Salir a vista global
+                                    </button>
+                                </form>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            @endif
+
+            @php
                 $firstName = trim((string) (Auth::user()->name ?? ''));
                 $lastName = trim((string) (Auth::user()->lastname ?? ''));
                 $fullName = trim($firstName . ' ' . $lastName);
@@ -50,7 +96,6 @@
                 ];
 
                 $roleName = $roleLabels[Auth::user()->role ?? null] ?? 'Sin rol';
-                
             @endphp
 
             <div class="nav-item dropdown">

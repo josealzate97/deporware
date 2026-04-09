@@ -100,15 +100,23 @@ class User extends Authenticatable {
             'players'    => ['label' => 'Jugadores',       'route' => 'players.index',    'icon' => 'fa-people-group',          'url' => 'players'],
             'matches'    => ['label' => 'Partidos',        'route' => 'matches.index',    'icon' => 'fa-futbol',                'url' => 'matches'],
             'trainings'  => ['label' => 'Entrenamientos',  'route' => 'trainings.index',  'icon' => 'fa-dumbbell',              'url' => 'trainings'],
+            'tenants'    => ['label' => 'Escuelas',        'route' => 'tenants.index',    'icon' => 'fa-building',              'url' => 'tenants'],
         ];
 
-        $visible = match ((int) $this->role) {
-            self::ROLE_ROOT          => array_keys($catalog),
-            self::ROLE_SPORT_MANAGER => ['dashboard', 'users', 'venues', 'teams', 'players', 'trainings', 'matches'],
-            self::ROLE_COORDINATOR   => ['dashboard', 'teams', 'players', 'matches', 'trainings'],
-            self::ROLE_COACH         => ['dashboard', 'teams', 'players', 'matches', 'trainings'],
-            default                  => ['dashboard'],
-        };
+        if ((int) $this->role === self::ROLE_ROOT) {
+            // ROOT con tenant activo → mismo acceso que Gerente Deportivo
+            $hasTenant = app()->bound('current_tenant');
+            $visible = $hasTenant
+                ? ['dashboard', 'users', 'venues', 'teams', 'players', 'trainings', 'matches']
+                : ['dashboard', 'tenants'];
+        } else {
+            $visible = match ((int) $this->role) {
+                self::ROLE_SPORT_MANAGER => ['dashboard', 'users', 'venues', 'teams', 'players', 'trainings', 'matches'],
+                self::ROLE_COORDINATOR   => ['dashboard', 'teams', 'players', 'matches', 'trainings'],
+                self::ROLE_COACH         => ['dashboard', 'teams', 'players', 'matches', 'trainings'],
+                default                  => ['dashboard'],
+            };
+        }
 
         return array_values(array_intersect_key($catalog, array_flip($visible)));
     }

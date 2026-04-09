@@ -3,7 +3,6 @@
 namespace App\Models\Concerns;
 
 use App\Models\Tenant;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,14 +22,8 @@ trait BelongsToTenant
         static::addGlobalScope('tenant', function (Builder $query) {
             $tenant = static::resolveTenant();
 
+            // Sin contexto de tenant (consola, seeders, ROOT global) → sin filtro
             if ($tenant === null) {
-                return; // Sin tenant en contexto (ej: consola, seeders)
-            }
-
-            // ROOT puede ver todo sin restricción
-            $user = auth()->user();
-            
-            if ($user && (int) $user->role === User::ROLE_ROOT) {
                 return;
             }
 

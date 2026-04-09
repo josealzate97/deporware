@@ -8,8 +8,10 @@ use App\Models\Player;
 use App\Models\PlayerRoster;
 use App\Models\SportsVenue;
 use App\Models\Team;
+use App\Models\Tenant;
 use App\Models\Training;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -20,6 +22,12 @@ class DefaultController extends Controller
      */
     public function dashboard()
     {
+        $user = auth()->user();
+
+        // ROOT sin tenant activo → dashboard global
+        if ((int) $user->role === User::ROLE_ROOT && !app()->bound('current_tenant')) {
+            return $this->rootGlobalDashboard();
+        }
         $now = Carbon::now();
         $monthStart = $now->copy()->startOfMonth();
         $monthEnd = $now->copy()->endOfMonth();
@@ -167,6 +175,45 @@ class DefaultController extends Controller
             'teamRosterLoad' => $teamRosterLoad,
             'monthlyActivity' => $monthlyActivity,
         ]);
+    }
+
+    private function rootGlobalDashboard()
+    {
+        $tenants       = Tenant::withCount(['users', 'teams', 'players'])->orderBy('name')->get();
+        $totalTenants  = $tenants->count();
+        $activeTenants = $tenants->where('status', Tenant::ACTIVE)->count();
+
+        // Sin scoping — ROOT ve todo
+        $totalUsers   = User::count();
+        $totalPlayers = Player::count();
+        $totalTeams   = Team::count();
+        $totalMatches = MatchModel::count();
+
+        return view('backend.home_root', compact(
+            'tenants',
+            'totalTenants',
+            'activeTenants',
+            'totalUsers',
+            'totalPlayers',
+            'totalTeams',
+            'totalMatches',
+        ));
+    }
+
+    public function switchTenant(Request $request)
+    {
+        $request->validate(['tenant_id' => 'required|uuid|exists:tenants,id']);
+
+        $request->session()->put('root_tenant_id', $request->tenant_id);
+
+        return redirect()->route('home');
+    }
+
+    public function exitTenant(Request $request)
+    {
+        $request->session()->forget('root_tenant_id');
+
+        return redirect()->route('home');
     }
 
     private function buildUpcomingAgenda(Collection $matches, Collection $trainings): Collection

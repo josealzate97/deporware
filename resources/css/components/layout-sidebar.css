@@ -154,6 +154,45 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
     margin-top: 0.75rem;
 }
 
+/* Banner de tenant activo (ROOT) */
+.sidebar-tenant-banner {
+    margin: 0 0.75rem 0.5rem;
+    padding: 0.6rem 0.85rem;
+    background: linear-gradient(135deg, #1a6fc4 0%, #0b4e91 100%);
+    border-radius: 0.5rem;
+    color: #fff;
+    font-size: 0.78rem;
+}
+
+.sidebar-tenant-banner__label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.68rem;
+    opacity: 0.8;
+}
+
+.sidebar-tenant-banner__name {
+    font-weight: 700;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-tenant-banner__exit {
+    background: none;
+    border: none;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.sidebar-tenant-banner__exit:hover {
+    color: #fff;
+}
+
 .main-content {
     width: calc(100% - var(--sidebar-width));
     min-height: 100vh;

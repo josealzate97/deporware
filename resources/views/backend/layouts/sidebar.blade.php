@@ -7,6 +7,26 @@
         </span>
     </a>
 
+    @php
+        $sidebarActiveTenant = app()->bound('current_tenant') ? app('current_tenant') : null;
+        $sidebarIsRoot = auth()->check() && (int) auth()->user()->role === \App\Models\User::ROLE_ROOT;
+    @endphp
+
+    @if($sidebarIsRoot && $sidebarActiveTenant)
+        <div class="sidebar-tenant-banner">
+            <div class="sidebar-tenant-banner__label">Administrando</div>
+            <div class="sidebar-tenant-banner__name" title="{{ $sidebarActiveTenant->name }}">
+                {{ $sidebarActiveTenant->name }}
+            </div>
+            <form method="POST" action="{{ route('root.tenant.exit') }}" class="mt-1">
+                @csrf
+                <button type="submit" class="sidebar-tenant-banner__exit">
+                    <i class="fa-solid fa-arrow-left-long me-1"></i> Vista global
+                </button>
+            </form>
+        </div>
+    @endif
+
     <ul class="sidebar-nav">
 
         @foreach(auth()->user()->menuItems() as $item)
