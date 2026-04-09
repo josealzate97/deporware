@@ -1,6 +1,7 @@
 @extends('backend.layouts.main')
 
 @php($configuration = $configuration ?? null)
+@php($tenant = $tenant ?? null)
 @php($summaryCards = $summaryCards ?? [])
 @php($upcomingAgenda = $upcomingAgenda ?? collect())
 @php($recentMatches = $recentMatches ?? collect())
@@ -41,6 +42,13 @@
                         <div class="text-muted small fw-bold">
                             {{ $configuration?->sport_label ? 'Vista rápida de ' . $configuration->sport_label . ' con la operación del club en un solo lugar' : 'Todo tu ecosistema deportivo, organizado y bajo control' }}
                         </div>
+                        @if($tenant)
+                        <div class="mt-1">
+                            <span class="badge bg-primary bg-opacity-10 text-primary fw-semibold small">
+                                <i class="fa-solid fa-building me-1"></i>{{ $tenant->name }}
+                            </span>
+                        </div>
+                        @endif
                     </div>
                 </div>
 

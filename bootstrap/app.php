@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Resolver el tenant activo a partir del usuario autenticado
+        $middleware->appendToGroup('web', \App\Http\Middleware\SetTenantContext::class);
+
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
         ]);

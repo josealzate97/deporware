@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Player extends Model
 {
-    use HasFactory;
+    use BelongsToTenant, HasFactory;
 
     public $incrementing = false;
     protected $keyType = 'string';

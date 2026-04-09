@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Team extends Model
 {
-    use HasFactory;
+    use BelongsToTenant, HasFactory;
 
     public const TYPE_COMPETITIVE = 1;
     public const TYPE_FORMATIVE = 2;

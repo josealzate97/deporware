@@ -26,6 +26,8 @@ class DefaultController extends Controller
 
         $configuration = Configuration::query()->latest('created_at')->first();
 
+        $tenant = app()->bound('current_tenant') ? app('current_tenant') : null;
+
         // Scoping: null = sin restricción (root/sport_manager), Collection = equipos visibles
         $scopedTeamIds = auth()->user()->scopedTeamIds();
         $isScoped = $scopedTeamIds !== null;
@@ -157,8 +159,7 @@ class DefaultController extends Controller
         ];
 
         return view('backend.home', [
-            'configuration' => $configuration,
-            'summaryCards' => $summaryCards,
+            'configuration' => $configuration,            'tenant'        => $tenant,            'summaryCards' => $summaryCards,
             'activeUsers' => $activeUsers,
             'upcomingAgenda' => $upcomingAgenda,
             'recentMatches' => $recentMatches,
