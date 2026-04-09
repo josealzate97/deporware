@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ManagerRoster;
+use App\Support\TenantStorage;
 use App\Models\Player;
 use App\Models\PlayerRoster;
 use App\Models\SportsVenue;
@@ -519,10 +520,10 @@ class TeamsController extends Controller
         $this->ensureStorageWritable();
 
         $disk = Storage::disk('public');
-        $newPath = "teams/{$teamId}/players/{$playerId}";
+        $newPath = TenantStorage::path("teams/{$teamId}/players/{$playerId}");
 
         if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
-            $oldPath = "teams/{$previousTeamId}/players/{$playerId}";
+            $oldPath = TenantStorage::path("teams/{$previousTeamId}/players/{$playerId}");
 
             if ($disk->exists($oldPath)) {
                 if ($disk->exists($newPath)) {
@@ -585,8 +586,8 @@ class TeamsController extends Controller
             return;
         }
 
-        $oldPrefix = "teams/{$oldTeamId}/players/{$playerId}/";
-        $newPrefix = "teams/{$newTeamId}/players/{$playerId}/";
+        $oldPrefix = TenantStorage::path("teams/{$oldTeamId}/players/{$playerId}/");
+        $newPrefix = TenantStorage::path("teams/{$newTeamId}/players/{$playerId}/");
 
         if (Str::startsWith($player->photo, $oldPrefix)) {
             $player->update([
@@ -609,7 +610,7 @@ class TeamsController extends Controller
         $this->ensureStorageWritable();
         $disk = Storage::disk('public');
 
-        foreach (["teams/{$teamId}/players", "teams/{$teamId}/matches", "teams/{$teamId}/trainings"] as $path) {
+        foreach ([TenantStorage::path("teams/{$teamId}/players"), TenantStorage::path("teams/{$teamId}/matches"), TenantStorage::path("teams/{$teamId}/trainings")] as $path) {
 
             if (!$disk->exists($path) && !$disk->makeDirectory($path)) {
 
@@ -640,7 +641,7 @@ class TeamsController extends Controller
         $this->ensureStorageWritable();
 
         $disk = Storage::disk('public');
-        $playerPath = "teams/{$teamId}/players/{$playerId}";
+        $playerPath = TenantStorage::path("teams/{$teamId}/players/{$playerId}");
 
         if (!$disk->makeDirectory($playerPath)) {
 

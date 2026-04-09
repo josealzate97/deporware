@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Player;
+use App\Support\TenantStorage;
 use App\Models\PlayerObservation;
 use App\Models\PlayerRoster;
 use App\Models\Team;
@@ -224,8 +225,8 @@ class PlayersController extends Controller
         }
 
         $allowed = collect($teamIds)->contains(function ($teamId) use ($path, $player) {
-            return Str::startsWith($path, "teams/{$teamId}/players/{$player->id}/documents/")
-                || Str::startsWith($path, "teams/{$teamId}/players/{$player->id}/reports/");
+            return Str::startsWith($path, TenantStorage::path("teams/{$teamId}/players/{$player->id}/documents/"))
+                || Str::startsWith($path, TenantStorage::path("teams/{$teamId}/players/{$player->id}/reports/"));
         });
 
         if (!$allowed) {
@@ -459,12 +460,12 @@ class PlayersController extends Controller
         $disk = Storage::disk('public');
 
         $playerId = $player->id;
-        $disk->makeDirectory("teams/{$teamId}/players");
-        $newPath = "teams/{$teamId}/players/{$playerId}";
+        $disk->makeDirectory(TenantStorage::path("teams/{$teamId}/players"));
+        $newPath = TenantStorage::path("teams/{$teamId}/players/{$playerId}");
 
         if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
 
-            $oldPath = "teams/{$previousTeamId}/players/{$playerId}";
+            $oldPath = TenantStorage::path("teams/{$previousTeamId}/players/{$playerId}");
 
             if ($disk->exists($oldPath)) {
 
@@ -610,7 +611,7 @@ class PlayersController extends Controller
 
         foreach ($teamIds as $teamId) {
             foreach (['documents', 'reports'] as $folder) {
-                $basePath = "teams/{$teamId}/players/{$player->id}/{$folder}";
+                $basePath = TenantStorage::path("teams/{$teamId}/players/{$player->id}/{$folder}");
 
                 if (!$disk->exists($basePath)) {
                     continue;
@@ -642,7 +643,7 @@ class PlayersController extends Controller
 
         $this->ensureStorageWritable();
         $disk = Storage::disk('public');
-        $folder = "teams/{$teamId}/players/{$player->id}/photos";
+        $folder = TenantStorage::path("teams/{$teamId}/players/{$player->id}/photos");
 
         if (!$disk->exists($folder) && !$disk->makeDirectory($folder)) {
             Log::error('Failed to create player photo folder.', [
@@ -675,8 +676,8 @@ class PlayersController extends Controller
             return;
         }
 
-        $oldPrefix = "teams/{$oldTeamId}/players/{$player->id}/";
-        $newPrefix = "teams/{$newTeamId}/players/{$player->id}/";
+        $oldPrefix = TenantStorage::path("teams/{$oldTeamId}/players/{$player->id}/");
+        $newPrefix = TenantStorage::path("teams/{$newTeamId}/players/{$player->id}/");
 
         if (Str::startsWith($player->photo, $oldPrefix)) {
             $player->update([
@@ -721,7 +722,7 @@ class PlayersController extends Controller
 
         foreach ($teamIds as $teamId) {
 
-            $path = "teams/{$teamId}/players/{$playerId}";
+            $path = TenantStorage::path("teams/{$teamId}/players/{$playerId}");
 
             if ($disk->exists($path) && !$disk->deleteDirectory($path)) {
 

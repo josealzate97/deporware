@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Configurations;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuration;
+use App\Support\TenantStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -77,7 +78,7 @@ class GeneralController extends Controller
                 Storage::disk('public')->delete($config->logo);
             }
 
-            $config->logo = $request->file('logo_file')->store('configurations/logo', 'public');
+            $config->logo = $request->file('logo_file')->store(TenantStorage::path('configurations/logo'), 'public');
         }
 
         $config->save();

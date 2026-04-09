@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\AttackPoint;
+use App\Support\TenantStorage;
 use App\Models\DefensivePoint;
 use App\Models\MatchFeedback;
 use App\Models\MatchModel;
@@ -477,7 +478,7 @@ class MatchesController extends Controller
     {
         $this->ensureStorageWritable();
         $disk = Storage::disk('public');
-        $basePath = "teams/{$teamId}/matches/{$matchId}";
+        $basePath = TenantStorage::path("teams/{$teamId}/matches/{$matchId}");
 
         if (!$disk->exists($basePath) && !$disk->makeDirectory($basePath)) {
 
@@ -508,7 +509,7 @@ class MatchesController extends Controller
     private function storeMatchFiles(MatchModel $match, Request $request): void
     {
         $disk = Storage::disk('public');
-        $basePath = "teams/{$match->team}/matches/{$match->id}";
+        $basePath = TenantStorage::path("teams/{$match->team}/matches/{$match->id}");
 
         if ($request->hasFile('match_file')) {
             $report = $request->file('match_file');
@@ -587,8 +588,8 @@ class MatchesController extends Controller
             return;
         }
 
-        $oldPrefix = "teams/{$previousTeamId}/matches/{$match->id}/";
-        $newPrefix = "teams/{$match->team}/matches/{$match->id}/";
+        $oldPrefix = TenantStorage::path("teams/{$previousTeamId}/matches/{$match->id}/");
+        $newPrefix = TenantStorage::path("teams/{$match->team}/matches/{$match->id}/");
 
         $updates = [];
         if (!empty($match->match_file) && Str::startsWith($match->match_file, $oldPrefix)) {
@@ -615,11 +616,11 @@ class MatchesController extends Controller
     {
         $this->ensureStorageWritable();
         $disk = Storage::disk('public');
-        $newPath = "teams/{$teamId}/matches/{$matchId}";
+        $newPath = TenantStorage::path("teams/{$teamId}/matches/{$matchId}");
 
         if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
 
-            $oldPath = "teams/{$previousTeamId}/matches/{$matchId}";
+            $oldPath = TenantStorage::path("teams/{$previousTeamId}/matches/{$matchId}");
 
             if ($disk->exists($oldPath)) {
 
@@ -701,7 +702,7 @@ class MatchesController extends Controller
 
         $this->ensureStorageWritable();
         $disk = Storage::disk('public');
-        $path = "teams/{$teamId}/matches/{$matchId}";
+        $path = TenantStorage::path("teams/{$teamId}/matches/{$matchId}");
 
         if ($disk->exists($path) && !$disk->deleteDirectory($path)) {
             

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Player;
+use App\Support\TenantStorage;
 use App\Models\PlayerRoster;
 use App\Models\SportsVenue;
 use App\Models\Team;
@@ -365,7 +366,7 @@ class TrainingsController extends Controller
         }
 
         $disk = Storage::disk('public');
-        $path = "teams/{$teamId}/trainings/{$trainingId}";
+        $path = TenantStorage::path("teams/{$teamId}/trainings/{$trainingId}");
 
         if ($disk->exists($path) && !$disk->deleteDirectory($path)) {
 
@@ -497,7 +498,7 @@ class TrainingsController extends Controller
         }
 
         $disk = Storage::disk('public');
-        $basePath = "teams/{$teamId}/trainings/{$trainingId}";
+        $basePath = TenantStorage::path("teams/{$teamId}/trainings/{$trainingId}");
 
         if (!$disk->exists($basePath) && !$disk->makeDirectory($basePath)) {
             Log::error('Failed to create training folder.', [
@@ -536,10 +537,10 @@ class TrainingsController extends Controller
         }
 
         $disk = Storage::disk('public');
-        $newPath = "teams/{$teamId}/trainings/{$trainingId}";
+        $newPath = TenantStorage::path("teams/{$teamId}/trainings/{$trainingId}");
 
         if (!empty($previousTeamId) && $previousTeamId !== $teamId) {
-            $previousPath = "teams/{$previousTeamId}/trainings/{$trainingId}";
+            $previousPath = TenantStorage::path("teams/{$previousTeamId}/trainings/{$trainingId}");
 
             if ($disk->exists($previousPath)) {
                 if ($disk->exists($newPath)) {
@@ -568,7 +569,7 @@ class TrainingsController extends Controller
         }
 
         $disk = Storage::disk('public');
-        $basePath = "teams/{$training->team}/trainings/{$training->id}/reports";
+        $basePath = TenantStorage::path("teams/{$training->team}/trainings/{$training->id}/reports");
         $extension = strtolower($document->getClientOriginalExtension());
         $suffix = $extension ? ".{$extension}" : '';
         $filename = 'documento-' . now()->format('YmdHis') . $suffix;

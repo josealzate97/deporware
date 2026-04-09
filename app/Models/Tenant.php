@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\TenantStorage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -35,6 +36,11 @@ class Tenant extends Model
             if (empty($tenant->id)) {
                 $tenant->id = (string) Str::uuid();
             }
+        });
+
+        // Al crear un tenant, generar su estructura de carpetas en storage
+        static::created(function (self $tenant): void {
+            TenantStorage::scaffold($tenant);
         });
     }
 
