@@ -2,6 +2,10 @@
 
 @section('title', 'Panel Global')
 
+@push('styles')
+    @vite(['resources/css/modules/dashboard.css'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">
@@ -24,30 +28,37 @@
         </div>
 
         {{-- Tarjetas resumen --}}
-        <div class="row g-3 mb-4">
-            <div class="col-6 col-md-3">
-                <div class="card h-100 p-3 text-center">
-                    <div class="fs-3 fw-bold text-primary">{{ $activeTenants }}</div>
-                    <div class="small text-muted mt-1">Escuelas activas</div>
-                    <div class="small text-muted">de {{ $totalTenants }} registradas</div>
+        <div class="dashboard-summary-grid mt-4 mb-4">
+            <div class="dashboard-summary-card dashboard-summary-card--purple">
+                <div class="dashboard-summary-card__icon"><i class="fa-solid fa-building"></i></div>
+                <div class="dashboard-summary-card__body">
+                    <div class="dashboard-summary-card__label">Escuelas activas</div>
+                    <div class="dashboard-summary-card__value">{{ $activeTenants }}</div>
+                    <div class="dashboard-summary-card__meta">de {{ $totalTenants }} registradas</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="card h-100 p-3 text-center">
-                    <div class="fs-3 fw-bold text-success">{{ $totalUsers }}</div>
-                    <div class="small text-muted mt-1">Usuarios totales</div>
+            <div class="dashboard-summary-card dashboard-summary-card--success">
+                <div class="dashboard-summary-card__icon"><i class="fa-solid fa-users"></i></div>
+                <div class="dashboard-summary-card__body">
+                    <div class="dashboard-summary-card__label">Usuarios totales</div>
+                    <div class="dashboard-summary-card__value">{{ $totalUsers }}</div>
+                    <div class="dashboard-summary-card__meta">en todas las escuelas</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="card h-100 p-3 text-center">
-                    <div class="fs-3 fw-bold" style="color:var(--brand-blue)">{{ $totalPlayers }}</div>
-                    <div class="small text-muted mt-1">Jugadores totales</div>
+            <div class="dashboard-summary-card dashboard-summary-card--primary">
+                <div class="dashboard-summary-card__icon"><i class="fa-solid fa-people-group"></i></div>
+                <div class="dashboard-summary-card__body">
+                    <div class="dashboard-summary-card__label">Jugadores totales</div>
+                    <div class="dashboard-summary-card__value">{{ $totalPlayers }}</div>
+                    <div class="dashboard-summary-card__meta">{{ $totalTeams }} plantillas registradas</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="card h-100 p-3 text-center">
-                    <div class="fs-3 fw-bold text-warning">{{ $totalMatches }}</div>
-                    <div class="small text-muted mt-1">Partidos registrados</div>
+            <div class="dashboard-summary-card dashboard-summary-card--warning">
+                <div class="dashboard-summary-card__icon"><i class="fa-solid fa-futbol"></i></div>
+                <div class="dashboard-summary-card__body">
+                    <div class="dashboard-summary-card__label">Partidos registrados</div>
+                    <div class="dashboard-summary-card__value">{{ $totalMatches }}</div>
+                    <div class="dashboard-summary-card__meta">en toda la plataforma</div>
                 </div>
             </div>
         </div>
@@ -90,16 +101,18 @@
                                     <form method="POST" action="{{ route('root.tenant.switch') }}" class="d-inline">
                                         @csrf
                                         <input type="hidden" name="tenant_id" value="{{ $t->id }}">
-                                        <button type="submit" class="btn btn-sm btn-outline-primary me-1" title="Administrar esta escuela">
+                                        <button type="submit" class="btn btn-sm btn-table-purple me-1" title="Acceder a esta escuela">
                                             <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                         </button>
                                     </form>
-                                    <a href="{{ route('tenants.edit', $t->id) }}" class="btn btn-sm btn-outline-secondary me-1" title="Editar">
+                                    <a href="{{ route('tenants.edit', $t->id) }}" class="btn btn-sm btn-table-green me-1" title="Editar">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form method="POST" action="{{ route('tenants.activate', $t->id) }}" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm {{ $t->status ? 'btn-outline-warning' : 'btn-outline-success' }}" title="{{ $t->status ? 'Desactivar' : 'Activar' }}">
+                                        <button type="submit"
+                                            class="btn btn-sm {{ $t->status ? 'btn-table-red' : 'btn-table-green' }}"
+                                            title="{{ $t->status ? 'Desactivar' : 'Activar' }}">
                                             <i class="fa-solid {{ $t->status ? 'fa-eye-slash' : 'fa-eye' }}"></i>
                                         </button>
                                     </form>

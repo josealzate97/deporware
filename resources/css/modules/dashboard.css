@@ -87,6 +87,7 @@
 .dashboard-summary-card--success::after { background: #16a34a; }
 .dashboard-summary-card--warning::after { background: #f59e0b; }
 .dashboard-summary-card--accent::after { background: #0f766e; }
+.dashboard-summary-card--purple::after { background: #7c3aed; }
 
 .dashboard-summary-card__icon {
   width: 46px;
@@ -114,6 +115,62 @@
 .dashboard-summary-card--accent .dashboard-summary-card__icon {
   background: #ecfeff;
   color: #0f766e;
+}
+
+.dashboard-summary-card--purple .dashboard-summary-card__icon {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+
+/* ---- Table action buttons (ROOT tenants table) ---- */
+.btn-table-purple {
+  color: #7c3aed;
+  background: #f3e8ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-table-purple:hover {
+  background: #7c3aed;
+  color: #fff;
+  border-color: #7c3aed;
+}
+
+.btn-table-green {
+  color: #15803d;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-table-green:hover {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+}
+
+.btn-table-red {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-table-red:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+/* Dropdown item escuela activa */
+.tenant-dropdown-item--active {
+  background: #f5f3ff;
+  color: #6d28d9;
+  font-weight: 700;
+}
+.tenant-dropdown-item--active:hover {
+  background: #ede9fe;
+  color: #5b21b6;
 }
 
 .dashboard-summary-card__body {
@@ -524,6 +581,11 @@ body.theme-dark .dashboard-summary-card--warning .dashboard-summary-card__icon {
 body.theme-dark .dashboard-summary-card--accent .dashboard-summary-card__icon {
   background: #102428;
   color: #67e8f9;
+}
+
+body.theme-dark .dashboard-summary-card--purple .dashboard-summary-card__icon {
+  background: #2d1454;
+  color: #c4b5fd;
 }
 
 body.theme-dark .dashboard-panel__eyebrow {

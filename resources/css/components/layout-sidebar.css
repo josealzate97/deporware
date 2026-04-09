@@ -156,19 +156,46 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
 
 /* Banner de tenant activo (ROOT) */
 .sidebar-tenant-banner {
-    margin: 0 0.75rem 0.5rem;
-    padding: 0.6rem 0.85rem;
-    background: linear-gradient(135deg, #1a6fc4 0%, #0b4e91 100%);
-    border-radius: 0.5rem;
+    margin: 0 0.75rem 0.65rem;
+    padding: 0.7rem 0.85rem;
+    background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+    border-radius: 0.75rem;
     color: #fff;
     font-size: 0.78rem;
+    box-shadow: 0 4px 14px rgba(109, 40, 217, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-tenant-banner__top {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.sidebar-tenant-banner__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.sidebar-tenant-banner__info {
+    min-width: 0;
+    flex: 1;
 }
 
 .sidebar-tenant-banner__label {
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.68rem;
-    opacity: 0.8;
+    letter-spacing: 0.07em;
+    font-size: 0.62rem;
+    color: #c4b5fd;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .sidebar-tenant-banner__name {
@@ -177,19 +204,27 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #fff;
+    line-height: 1.3;
 }
 
 .sidebar-tenant-banner__exit {
-    background: none;
-    border: none;
-    padding: 0;
-    color: rgba(255, 255, 255, 0.75);
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 0.4rem;
+    padding: 0.28rem 0.6rem;
+    color: #fca5a5;
     font-size: 0.72rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: color 0.15s;
+    transition: background 0.15s, color 0.15s;
 }
 
 .sidebar-tenant-banner__exit:hover {
+    background: rgba(239, 68, 68, 0.3);
     color: #fff;
 }
 

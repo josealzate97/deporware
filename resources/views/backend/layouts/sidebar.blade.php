@@ -14,14 +14,17 @@
 
     @if($sidebarIsRoot && $sidebarActiveTenant)
         <div class="sidebar-tenant-banner">
-            <div class="sidebar-tenant-banner__label">Administrando</div>
-            <div class="sidebar-tenant-banner__name" title="{{ $sidebarActiveTenant->name }}">
-                {{ $sidebarActiveTenant->name }}
+            <div class="sidebar-tenant-banner__top">
+                <span class="sidebar-tenant-banner__icon"><i class="fa-solid fa-building"></i></span>
+                <div class="sidebar-tenant-banner__info">
+                    <div class="sidebar-tenant-banner__label">Administrando</div>
+                    <div class="sidebar-tenant-banner__name" title="{{ $sidebarActiveTenant->name }}">{{ $sidebarActiveTenant->name }}</div>
+                </div>
             </div>
-            <form method="POST" action="{{ route('root.tenant.exit') }}" class="mt-1">
+            <form method="POST" action="{{ route('root.tenant.exit') }}" class="mt-2">
                 @csrf
                 <button type="submit" class="sidebar-tenant-banner__exit">
-                    <i class="fa-solid fa-arrow-left-long me-1"></i> Vista global
+                    <i class="fa-solid fa-right-from-bracket me-1"></i> Salir a vista global
                 </button>
             </form>
         </div>

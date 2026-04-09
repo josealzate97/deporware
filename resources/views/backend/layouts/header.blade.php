@@ -27,15 +27,18 @@
 
             {{-- Selector de escuela para ROOT --}}
             @if($isRoot)
-                <div class="nav-item dropdown me-2">
-                    <button class="btn btn-sm d-flex align-items-center gap-2 {{ $activeTenant ? 'btn-primary' : 'btn-outline-secondary' }}"
+                <div class="nav-item dropdown">
+                    <button class="tenant-switcher dropdown-toggle"
                             id="tenantSwitcherBtn" data-bs-toggle="dropdown" aria-expanded="false"
                             aria-label="Cambiar escuela activa">
-                        <i class="fa-solid fa-building"></i>
-                        <span class="d-none d-md-inline">
-                            {{ $activeTenant ? $activeTenant->name : 'Vista global' }}
+                        <span class="tenant-switcher__icon {{ $activeTenant ? 'tenant-switcher__icon--active' : '' }}">
+                            <i class="fa-solid fa-building"></i>
                         </span>
-                        <i class="fa-solid fa-chevron-down small"></i>
+                        <span class="tenant-switcher__meta">
+                            <span class="tenant-switcher__name">{{ $activeTenant ? $activeTenant->name : 'Vista global' }}</span>
+                            <span class="tenant-switcher__sub">{{ $activeTenant ? 'Escuela activa' : 'Super Admin' }}</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-down tenant-switcher__chevron"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width:220px">
                         <li><h6 class="dropdown-header">Cambiar escuela</h6></li>
@@ -45,8 +48,12 @@
                                     @csrf
                                     <input type="hidden" name="tenant_id" value="{{ $t->id }}">
                                     <button type="submit"
-                                        class="dropdown-item d-flex align-items-center gap-2 {{ $activeTenant?->id === $t->id ? 'fw-bold text-primary' : '' }}">
-                                        <i class="fa-solid fa-circle-dot small {{ $activeTenant?->id === $t->id ? 'text-primary' : 'text-muted' }}"></i>
+                                        class="dropdown-item d-flex align-items-center gap-2 {{ $activeTenant?->id === $t->id ? 'tenant-dropdown-item--active' : '' }}">
+                                        @if($activeTenant?->id === $t->id)
+                                            <i class="fa-solid fa-circle-check small" style="color:#7c3aed"></i>
+                                        @else
+                                            <i class="fa-solid fa-circle-dot small text-muted"></i>
+                                        @endif
                                         {{ $t->name }}
                                     </button>
                                 </form>
@@ -57,8 +64,8 @@
                             <li>
                                 <form method="POST" action="{{ route('root.tenant.exit') }}">
                                     @csrf
-                                    <button type="submit" class="dropdown-item text-muted d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-globe small"></i> Salir a vista global
+                                    <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-right-from-bracket small"></i> Salir a lista global
                                     </button>
                                 </form>
                             </li>
