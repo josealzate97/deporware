@@ -84,13 +84,40 @@ class User extends Authenticatable {
         return 'id';
     }
 
+    /**
+     * Ítems del menú lateral visibles para este usuario según su rol.
+     * Cada ítem: ['label', 'route', 'icon', 'url']
+     */
+    public function menuItems(): array
+    {
+        $catalog = [
+            'dashboard'  => ['label' => 'Dashboard',      'route' => 'home',             'icon' => 'fa-dashboard',             'url' => 'home'],
+            'users'      => ['label' => 'Personal',        'route' => 'users.index',      'icon' => 'fa-user',                  'url' => 'users'],
+            'venues'     => ['label' => 'Sedes',           'route' => 'venues.index',     'icon' => 'fa-building-circle-check', 'url' => 'venues'],
+            'teams'      => ['label' => 'Plantillas',      'route' => 'teams.index',      'icon' => 'fa-shield',                'url' => 'teams'],
+            'players'    => ['label' => 'Jugadores',       'route' => 'players.index',    'icon' => 'fa-people-group',          'url' => 'players'],
+            'matches'    => ['label' => 'Partidos',        'route' => 'matches.index',    'icon' => 'fa-futbol',                'url' => 'matches'],
+            'trainings'  => ['label' => 'Entrenamientos',  'route' => 'trainings.index',  'icon' => 'fa-dumbbell',              'url' => 'trainings'],
+        ];
+
+        $visible = match ((int) $this->role) {
+            self::ROLE_ROOT          => array_keys($catalog),
+            self::ROLE_SPORT_MANAGER => ['dashboard', 'users', 'venues', 'teams', 'players', 'trainings', 'matches'],
+            self::ROLE_COORDINATOR   => ['dashboard', 'teams', 'players', 'matches', 'trainings'],
+            self::ROLE_COACH         => ['dashboard', 'teams', 'players', 'matches', 'trainings'],
+            default                  => ['dashboard'],
+        };
+
+        return array_values(array_intersect_key($catalog, array_flip($visible)));
+    }
+
     // Sedes donde trabaja este usuario
     public function venues()
     {
         return $this->belongsToMany(SportsVenue::class, 'user_venue', 'user', 'venue')
-                    ->using(UserVenue::class)
-                    ->withPivot('id', 'status')
-                    ->withTimestamps();
+        ->using(UserVenue::class)
+        ->withPivot('id', 'status')
+        ->withTimestamps();
     }
 
 }

@@ -9,69 +9,16 @@
 
     <ul class="sidebar-nav">
 
+        @foreach(auth()->user()->menuItems() as $item)
         <li class="sidebar-item">
-            <a href="{{ route('home') }}" class="sidebar-link" url="home">
+            <a href="{{ route($item['route']) }}" class="sidebar-link" url="{{ $item['url'] }}">
                 <span class="sidebar-icon">
-                    <i class="fa-solid fa-dashboard"></i>
+                    <i class="fa-solid {{ $item['icon'] }}"></i>
                 </span>
-                <span>Dashboard</span>
+                <span>{{ $item['label'] }}</span>
             </a>
         </li>
-
-        <li class="sidebar-item">
-            <a href="{{ route('users.index') }}" class="sidebar-link" url="users">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-user"></i>
-                </span>
-                <span>Personal</span>
-            </a>
-        </li>
-
-
-        <li class="sidebar-item">
-            <a href="{{ route('venues.index') }}" class="sidebar-link" url="venues">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-building-circle-check"></i>
-                </span>
-                <span>Sedes</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="{{ route('teams.index') }}" class="sidebar-link" url="teams">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-shield"></i>
-                </span>
-                <span>Plantillas</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="{{ route('players.index') }}" class="sidebar-link" url="players">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-people-group"></i>
-                </span>
-                <span>Jugadores</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="{{ route('matches.index') }}" class="sidebar-link" url="matches">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-futbol"></i>
-                </span>
-                <span>Partidos</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="{{ route('trainings.index') }}" class="sidebar-link" url="trainings">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-dumbbell"></i>
-                </span>
-                <span>Entrenamientos</span>
-            </a>
-        </li>
+        @endforeach
 
     </ul>
 
