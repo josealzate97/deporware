@@ -12,6 +12,11 @@ class GeneralController extends Controller
 {
     public function index()
     {
+        // Coordinator y Coach no tienen acceso a esta sección; redirigir a Rivales
+        if (Gate::denies('config:edit-school')) {
+            return redirect()->route('configurations.rivals.index');
+        }
+
         $config = Configuration::first();
 
         if (request()->expectsJson()) {
