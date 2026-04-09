@@ -50,7 +50,14 @@ class MatchesController extends Controller
 
         $monthEnd = $monthStart->copy()->endOfMonth();
 
+        // Scoping por rol: coordinator y coach solo ven partidos de sus equipos
+        $scopedTeamIds = auth()->user()->scopedTeamIds();
+
         $matchesQuery = MatchModel::with(['team', 'rival', 'feedback', 'teamRating'])
+
+        ->when($scopedTeamIds !== null, function ($query) use ($scopedTeamIds) {
+            $query->whereIn('team', $scopedTeamIds);
+        })
 
         ->when($search, function ($query, $searchTerm) {
             $query->where('match_date', 'like', '%' . $searchTerm . '%')

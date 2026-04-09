@@ -34,7 +34,11 @@ class PlayersController extends Controller
             $position = '';
         }
 
+        // Scoping por rol: coordinator y coach solo ven sus equipos
+        $scopedTeamIds = auth()->user()->scopedTeamIds();
+
         $teamOptions = Team::query()
+            ->when($scopedTeamIds !== null, fn($q) => $q->whereIn('id', $scopedTeamIds))
             ->orderBy('name')
             ->pluck('name', 'id');
 
@@ -45,6 +49,13 @@ class PlayersController extends Controller
                     ->orderByDesc('created_at');
             },
         ]);
+
+        // Limitar jugadores a los que pertenecen a los equipos del scope
+        if ($scopedTeamIds !== null) {
+            $playersQuery->whereHas('rosters', function ($rosterQuery) use ($scopedTeamIds) {
+                $rosterQuery->whereIn('team', $scopedTeamIds);
+            });
+        }
 
         if ($search !== '') {
             $playersQuery->where(function ($query) use ($search) {
@@ -96,8 +107,11 @@ class PlayersController extends Controller
     */
     public function create()
     {
+        $scopedTeamIds = auth()->user()->scopedTeamIds();
+
         $teamOptions = Team::query()
             ->where('status', Team::ACTIVE)
+            ->when($scopedTeamIds !== null, fn($q) => $q->whereIn('id', $scopedTeamIds))
             ->orderBy('name')
             ->pluck('name', 'id');
 

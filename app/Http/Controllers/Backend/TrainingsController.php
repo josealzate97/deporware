@@ -47,6 +47,9 @@ class TrainingsController extends Controller
 
         $monthEnd = $monthStart->copy()->endOfMonth();
 
+        // Scoping por rol: coordinator y coach solo ven entrenamientos de sus equipos
+        $scopedTeamIds = auth()->user()->scopedTeamIds();
+
         $trainingsQuery = Training::with(['team', 'venue'])
             ->with(['team.managerRosters.user'])
             ->withCount([
@@ -58,6 +61,9 @@ class TrainingsController extends Controller
                         });
                 },
             ])
+            ->when($scopedTeamIds !== null, function ($query) use ($scopedTeamIds) {
+                $query->whereIn('team', $scopedTeamIds);
+            })
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($searchQuery) use ($search) {
                     $searchQuery->where('name', 'like', "%{$search}%")

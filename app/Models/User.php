@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable {
@@ -118,6 +119,46 @@ class User extends Authenticatable {
         ->using(UserVenue::class)
         ->withPivot('id', 'status')
         ->withTimestamps();
+    }
+
+    /**
+     * IDs de equipos que este usuario puede ver según su rol.
+     *
+     * - Root / Gerente Deportivo : null  → sin restricción, ver todo
+     * - Coordinador              : equipos cuyas sedes están asignadas al usuario
+     * - Entrenador               : equipos donde figura como entrenador principal o asistente
+     *
+     * @return \Illuminate\Support\Collection<int,string>|null
+     */
+    public function scopedTeamIds(): ?\Illuminate\Support\Collection
+    {
+        $role = (int) $this->role;
+
+        if (in_array($role, [self::ROLE_ROOT, self::ROLE_SPORT_MANAGER], true)) {
+            return null;
+        }
+
+        if ($role === self::ROLE_COORDINATOR) {
+            $venueIds = \DB::table('user_venue')
+                ->where('user', $this->id)
+                ->pluck('venue');
+
+            return \DB::table('team_venue')
+                ->whereIn('venue', $venueIds)
+                ->pluck('team');
+        }
+
+        if ($role === self::ROLE_COACH) {
+            return \DB::table('manager_roster')
+                ->where('user', $this->id)
+                ->whereIn('role', [
+                    ManagerRoster::ROLE_PRIMARY_COACH,
+                    ManagerRoster::ROLE_ASSISTANT_COACH,
+                ])
+                ->pluck('team');
+        }
+
+        return collect();
     }
 
 }

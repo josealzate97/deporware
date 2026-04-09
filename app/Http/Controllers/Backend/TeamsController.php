@@ -54,6 +54,12 @@ class TeamsController extends Controller
             ->orderByDesc('status')
             ->orderBy('name');
 
+        // Scoping por rol: coordinator y coach solo ven sus equipos
+        $scopedTeamIds = auth()->user()->scopedTeamIds();
+        if ($scopedTeamIds !== null) {
+            $teamsQuery->whereIn('id', $scopedTeamIds);
+        }
+
         if ($seasonFilter !== '') {
             $teamsQuery->where('season', 'like', '%' . $seasonFilter . '%');
         }
@@ -482,14 +488,26 @@ class TeamsController extends Controller
                 ->where('team', '!=', $team->id)
                 ->update(['status' => 0]);
 
-            PlayerRoster::updateOrCreate(
-                ['team' => $team->id, 'player' => $player->id],
-                [
+            $existingRoster = PlayerRoster::where('team', $team->id)
+                ->where('player', $player->id)
+                ->first();
+
+            if ($existingRoster) {
+                // Solo reactivar y actualizar posición; respetar el dorsal que ya tiene en el roster
+                $existingRoster->update([
                     'position' => $player->primary_position ?? $player->position,
-                    'dorsal' => $player->dorsal,
                     'status' => 1,
-                ]
-            );
+                ]);
+            } else {
+                // Registro nuevo: usar el dorsal del jugador como valor inicial
+                PlayerRoster::create([
+                    'team'     => $team->id,
+                    'player'   => $player->id,
+                    'position' => $player->primary_position ?? $player->position,
+                    'dorsal'   => $player->dorsal ?? 0,
+                    'status'   => 1,
+                ]);
+            }
 
             $this->syncPlayerFolderAcrossTeams($player->id, $team->id, $previousTeamId);
             

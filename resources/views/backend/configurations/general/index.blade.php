@@ -67,6 +67,7 @@
                 </div>
 
                 <div class="d-flex gap-2">
+                    @can('config:edit-school')
                     <button type="button" class="btn btn-primary config-edit-btn" x-show="!isEditing" @click="enableEdit" :disabled="isLoading">
                         <i class="fa fa-edit"></i> Editar
                     </button>
@@ -79,6 +80,7 @@
                         <span x-show="!isSaving"><i class="fa fa-save"></i> Guardar</span>
                         <span x-show="isSaving"><i class="fa fa-save"></i> Guardando...</span>
                     </button>
+                    @endcan
                 </div>
             </div>
 
