@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Configurations;
 use App\Http\Controllers\Controller;
 use App\Models\Configuration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class GeneralController extends Controller
@@ -31,6 +32,8 @@ class GeneralController extends Controller
 
     public function update(Request $request)
     {
+        Gate::authorize('config:edit-school');
+
         $config = Configuration::first();
 
         if (!$config) {
