@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="card p-4" style="max-width:560px">
+        <div class="card p-4 tenant-form-card" style="max-width:560px">
             <form method="POST" action="{{ route('tenants.update', $tenant->id) }}">
                 @csrf
                 @method('PUT')

@@ -1783,6 +1783,69 @@ body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdow
   border-color: #262b35;
 }
 
+/* Empty state del switcher sin escuelas */
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .tenant-empty-state {
+  background: linear-gradient(135deg, #1e1533 0%, #1a1230 100%) !important;
+  border: 1px solid #3b2a6e !important;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .tenant-empty-state .tenant-empty-icon {
+  background: #2d1f5e !important;
+  border-color: #4c3494 !important;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .tenant-empty-state .tenant-empty-title {
+  color: #c4b5fd !important;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .tenant-empty-state .tenant-empty-sub {
+  color: #a78bfa !important;
+  opacity: 0.75;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .tenant-empty-state .tenant-empty-btn {
+  background: #6d28d9 !important;
+  border-color: #7c3aed !important;
+  color: #fff !important;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .tenant-empty-state .tenant-empty-btn:hover {
+  background: #7c3aed !important;
+}
+
+/* Formulario crear/editar escuela */
+body.theme-dark .tenant-form-card .form-label {
+  color: #e5e7eb;
+}
+body.theme-dark .tenant-form-card .form-text {
+  color: #6b7280;
+}
+body.theme-dark .tenant-form-card .form-control,
+body.theme-dark .tenant-form-card .form-select {
+  background: #0f141b;
+  border-color: #2b313c;
+  color: #e5e7eb;
+}
+body.theme-dark .tenant-form-card .form-control:disabled,
+body.theme-dark .tenant-form-card .form-control[readonly],
+body.theme-dark .tenant-form-card code.form-control {
+  background: #131820;
+  color: #9aa4b2;
+  border-color: #2b313c;
+}
+body.theme-dark .tenant-form-card code#slugPreview,
+body.theme-dark .tenant-form-card .bg-light {
+  background: #131820 !important;
+  color: #9aa4b2 !important;
+  border-color: #2b313c !important;
+}
+body.theme-dark .tenant-form-card [style*="background:var(--surface-2"] {
+  background: #131820 !important;
+}
+body.theme-dark .tenant-form-card .btn-outline-secondary {
+  border-color: #2b313c;
+  color: #9aa4b2;
+}
+body.theme-dark .tenant-form-card .btn-outline-secondary:hover {
+  background: #1f2531;
+  color: #e5e7eb;
+}
+
 /* Table-light thead dark mode — máxima especificidad para sobreescribir Bootstrap */
 body.theme-dark .table-light,
 body.theme-dark .table-light > *,

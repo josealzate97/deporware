@@ -120,7 +120,18 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">No hay escuelas registradas aún.</td>
+                                <td colspan="7" class="py-5">
+                                    <div class="d-flex flex-column align-items-center justify-content-center gap-3 text-muted">
+                                        <i class="fa-solid fa-building fa-2x opacity-25"></i>
+                                        <div class="text-center">
+                                            <div class="fw-semibold mb-1">Aún no hay escuelas registradas</div>
+                                            <div class="small">Crea la primera escuela para comenzar a gestionar el sistema.</div>
+                                        </div>
+                                        <a href="{{ route('tenants.new') }}" class="btn btn-sm btn-success">
+                                            <i class="fa-solid fa-plus-circle me-1"></i> Crear primera escuela
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
