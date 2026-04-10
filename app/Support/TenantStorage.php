@@ -38,6 +38,7 @@ class TenantStorage
 
         $folders = [
             "{$base}/configurations/logo",
+            "{$base}/teams",
         ];
 
         foreach ($folders as $folder) {
