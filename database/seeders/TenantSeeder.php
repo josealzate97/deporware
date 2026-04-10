@@ -20,11 +20,12 @@ class TenantSeeder extends Seeder
     public function run(): void
     {
         $tenant = Tenant::firstOrCreate(
-            ['slug' => 'default'],
+            ['slug' => 'mi_escuela_001'],
             [
                 'id'     => (string) Str::uuid(),
-                'name'   => 'Escuela Principal',
-                'slug'   => 'default',
+                'number' => 1,
+                'name'   => 'Mi Escuela',
+                'slug'   => 'mi_escuela_001',
                 'status' => Tenant::ACTIVE,
             ]
         );

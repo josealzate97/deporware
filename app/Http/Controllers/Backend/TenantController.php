@@ -27,7 +27,6 @@ class TenantController extends Controller
     {
         $data = $request->validate([
             'name'   => 'required|string|max:120',
-            'slug'   => 'required|string|max:60|alpha_dash|unique:tenants,slug',
             'status' => 'required|in:0,1',
         ]);
 
@@ -49,7 +48,6 @@ class TenantController extends Controller
 
         $data = $request->validate([
             'name'   => 'required|string|max:120',
-            'slug'   => 'required|string|max:60|alpha_dash|unique:tenants,slug,' . $id,
             'status' => 'required|in:0,1',
         ]);
 

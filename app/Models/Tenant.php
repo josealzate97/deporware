@@ -16,6 +16,7 @@ class Tenant extends Model
 
     protected $fillable = [
         'id',
+        'number',
         'name',
         'slug',
         'status',
@@ -36,12 +37,33 @@ class Tenant extends Model
             if (empty($tenant->id)) {
                 $tenant->id = (string) Str::uuid();
             }
+
+            // Asignar número correlativo único
+            if (empty($tenant->number)) {
+                $tenant->number = ((int) static::max('number')) + 1;
+            }
+
+            // Auto-generar slug si no viene explícito
+            if (empty($tenant->slug)) {
+                $tenant->slug = static::generateSlug($tenant->name, $tenant->number);
+            }
         });
 
         // Al crear un tenant, generar su estructura de carpetas en storage
         static::created(function (self $tenant): void {
             TenantStorage::scaffold($tenant);
         });
+    }
+
+    /**
+     * Genera el slug único de un tenant.
+     * Formato: slugify(name) + '_' + número con cero-padding (3 dígitos)
+     * Ej: "Drogueria Luz" + 2 → "drogueria_luz_002"
+     */
+    public static function generateSlug(string $name, int $number): string
+    {
+        $base = Str::slug($name, '_');
+        return $base . '_' . str_pad((string) $number, 3, '0', STR_PAD_LEFT);
     }
 
     public function users()

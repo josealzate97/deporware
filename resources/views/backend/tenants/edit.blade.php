@@ -37,12 +37,19 @@
                     @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
+                {{-- Slug: solo lectura. Es el login identifier del tenant --}}
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Slug <span class="text-danger">*</span></label>
-                    <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror"
-                           value="{{ old('slug', $tenant->slug) }}" required>
-                    <div class="form-text">Identificador único, solo letras minúsculas, números y guiones.</div>
-                    @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <label class="form-label fw-semibold d-flex align-items-center gap-2">
+                        Slug de acceso
+                        <span class="badge bg-warning text-dark" style="font-size:0.68rem">Inmutable</span>
+                    </label>
+                    <div class="input-group">
+                        <code id="slugValue" class="form-control bg-light text-secondary" style="font-size:0.9rem">{{ $tenant->slug }}</code>
+                        <button type="button" class="btn btn-outline-secondary" onclick="navigator.clipboard.writeText('{{ $tenant->slug }}').then(() => { this.innerHTML='<i class=\'fas fa-check\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fas fa-copy\'></i>', 1500); })" title="Copiar">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="form-text">Los usuarios de esta escuela lo usan para iniciar sesión. Si necesitas cambiarlo contacta al super admin.</div>
                 </div>
 
                 <div class="mb-4">
