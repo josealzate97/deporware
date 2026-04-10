@@ -88,7 +88,7 @@
                         @forelse($tenants as $t)
                             <tr>
                                 <td class="fw-semibold">{{ $t->name }}</td>
-                                <td><code class="small">{{ $t->slug }}</code></td>
+                                <td><code class="slug-badge">{{ $t->slug }}</code></td>
                                 <td class="text-center">{{ $t->users_count }}</td>
                                 <td class="text-center">{{ $t->teams_count }}</td>
                                 <td class="text-center">{{ $t->players_count }}</td>

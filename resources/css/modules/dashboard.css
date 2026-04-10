@@ -122,46 +122,6 @@
   color: #7c3aed;
 }
 
-/* ---- Table action buttons (ROOT tenants table) ---- */
-.btn-table-purple {
-  color: #7c3aed;
-  background: #f3e8ff;
-  border: 1px solid #ddd6fe;
-  border-radius: 8px;
-  transition: background 0.15s, color 0.15s;
-}
-.btn-table-purple:hover {
-  background: #7c3aed;
-  color: #fff;
-  border-color: #7c3aed;
-}
-
-.btn-table-green {
-  color: #15803d;
-  background: #dcfce7;
-  border: 1px solid #bbf7d0;
-  border-radius: 8px;
-  transition: background 0.15s, color 0.15s;
-}
-.btn-table-green:hover {
-  background: #16a34a;
-  color: #fff;
-  border-color: #16a34a;
-}
-
-.btn-table-red {
-  color: #dc2626;
-  background: #fee2e2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  transition: background 0.15s, color 0.15s;
-}
-.btn-table-red:hover {
-  background: #dc2626;
-  color: #fff;
-  border-color: #dc2626;
-}
-
 /* Dropdown item escuela activa */
 .tenant-dropdown-item--active {
   background: #f5f3ff;

@@ -1087,3 +1087,53 @@ main[role="main"] .btn .fa-brands {
 @media (min-width: 1200px) and (max-width: 2255px) {
 
 }
+
+/* ---- Table action buttons (reutilizables en todo el app) ---- */
+.btn-table-purple {
+  color: #7c3aed;
+  background: #f3e8ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-table-purple:hover {
+  background: #7c3aed;
+  color: #fff;
+  border-color: #7c3aed;
+}
+
+.btn-table-green {
+  color: #15803d;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-table-green:hover {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+}
+
+.btn-table-red {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-table-red:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+/* Slug identifier badge (tenant login identifier) */
+.slug-badge {
+  font-size: 0.82rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  background: #f3e8ff;
+  color: #7c3aed;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}

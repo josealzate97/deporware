@@ -47,16 +47,16 @@
 
     <ul class="sidebar-nav sidebar-bottom">
 
+        @if(!(isset($sidebarIsRoot) && $sidebarIsRoot && !$sidebarActiveTenant))
         <li class="sidebar-item">
-
             <a href="{{ route('configurations.index') }}" class="sidebar-link" url="configurations">
                 <span class="sidebar-icon">
                     <i class="fa-solid fa-cog"></i>
                 </span>
                 <span>Configuración</span>
             </a>
-
         </li>
+        @endif
 
         <li class="sidebar-item">
 

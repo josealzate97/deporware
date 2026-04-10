@@ -1691,3 +1691,139 @@ body.theme-dark main[role="main"] .fa-duotone,
 body.theme-dark main[role="main"] .fa-brands {
   color: #83a3ff !important;
 }
+
+/* =====================================================
+   DARK MODE — nuevos componentes
+   ===================================================== */
+
+/* Toggle: fondo naranja tenue cuando dark mode está activo */
+body.theme-dark .theme-toggle-lg .form-check-input {
+  background-color: #7c3aed;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25), inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+
+/* Tenant switcher pill */
+body.theme-dark .tenant-switcher {
+  background: #1e1630;
+  border-color: #3b2a6e;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  color: #c4b5fd;
+}
+body.theme-dark .tenant-switcher:hover,
+body.theme-dark .tenant-switcher:focus {
+  background: #261a42;
+  color: #ddd6fe;
+}
+body.theme-dark .tenant-switcher__icon {
+  background: #2d1a54;
+  color: #c4b5fd;
+}
+body.theme-dark .tenant-switcher__icon--active {
+  background: #7c3aed;
+  color: #ffffff;
+}
+body.theme-dark .tenant-switcher__name {
+  color: #ddd6fe;
+}
+body.theme-dark .tenant-switcher__sub {
+  color: #a78bfa;
+}
+body.theme-dark .tenant-switcher .dropdown-menu {
+  background: #14171d;
+  border-color: #262b35;
+}
+/* El dropdown es sibling del botón, dentro del .nav-item.dropdown */
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu {
+  background: #14171d;
+  border-color: #262b35;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.5);
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-header {
+  color: #6b7280;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-item {
+  color: #d1d5db;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-item:hover,
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-item:focus {
+  background: #1f2531;
+  color: #ffffff;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-item.text-danger {
+  color: #fca5a5 !important;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-item.text-danger:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5 !important;
+}
+body.theme-dark .nav-item.dropdown:has(.tenant-switcher) .dropdown-menu .dropdown-divider {
+  border-color: #262b35;
+}
+
+/* Table-light thead dark mode — máxima especificidad para sobreescribir Bootstrap */
+body.theme-dark .table-light,
+body.theme-dark .table-light > *,
+body.theme-dark .table-light > * > tr,
+body.theme-dark .table-light > * > tr > *,
+body.theme-dark .table > thead.table-light > tr > th,
+body.theme-dark thead.table-light th {
+  background-color: #1a1f27 !important;
+  color: #9aa4b2 !important;
+  border-color: #262b35 !important;
+  --bs-table-bg: #1a1f27;
+  --bs-table-color: #9aa4b2;
+  --bs-table-border-color: #262b35;
+}
+
+/* btn-table-* dark mode */
+body.theme-dark .btn-table-purple {
+  background: #2d1a54;
+  color: #c4b5fd;
+  border-color: #4c2a8a;
+}
+body.theme-dark .btn-table-purple:hover {
+  background: #7c3aed;
+  color: #fff;
+  border-color: #7c3aed;
+}
+
+body.theme-dark .btn-table-green {
+  background: #0d2318;
+  color: #6ee7b7;
+  border-color: #14532d;
+}
+body.theme-dark .btn-table-green:hover {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+}
+
+body.theme-dark .btn-table-red {
+  background: #2d0e0e;
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+body.theme-dark .btn-table-red:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+
+/* Slug badge púrpura en tabla dark mode */
+body.theme-dark .slug-badge {
+  background: #2d1a54;
+  color: #c4b5fd;
+}
+
+/* Dropdown del tenant switcher dark mode */
+body.theme-dark .tenant-dropdown-item--active {
+  background: #1e1630;
+  color: #c4b5fd;
+}
+body.theme-dark .tenant-dropdown-item--active:hover {
+  background: #261a42;
+  color: #ddd6fe;
+}
+
+/* Sidebar tenant banner ya tiene fondo purple, se mantiene bien */
