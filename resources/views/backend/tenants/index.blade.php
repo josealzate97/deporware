@@ -45,9 +45,40 @@
         </div>
 
         <div class="card p-0 overflow-hidden section-card">
+
+            {{-- Meta --}}
+            <div class="section-results-meta">
+                <span class="fw-bold">Resultados</span>
+                <span class="text-muted">
+                    @if($tenants->total() > 0)
+                        Mostrando {{ $tenants->firstItem() }}-{{ $tenants->lastItem() }} de {{ $tenants->total() }}
+                    @else
+                        Mostrando 0-0 de 0
+                    @endif
+                </span>
+            </div>
+
+            {{-- Toolbar --}}
+            <form method="GET" action="{{ route('tenants.index') }}" class="section-toolbar">
+                <div class="section-search">
+                    <i class="fas fa-search"></i>
+                    <label class="visually-hidden" for="tenantsSearch">Buscar escuela</label>
+                    <input type="search" id="tenantsSearch" name="search"
+                           class="form-control form-control-sm"
+                           placeholder="Buscar por nombre o slug…"
+                           value="{{ $search }}" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-sm section-filter-btn">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+                <a href="{{ route('tenants.index') }}" class="btn btn-sm section-clear-btn">
+                    <i class="fas fa-rotate-left"></i> Limpiar
+                </a>
+            </form>
+
             <div class="table-responsive">
-                <table class="table table-hover mb-0 align-middle">
-                    <thead class="table-light">
+                <table class="table table-borderless align-middle section-table">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
@@ -68,11 +99,17 @@
                                 <td>
                                     <code class="slug-badge">{{ $t->slug }}</code>
                                 </td>
-                                <td class="text-center">{{ $t->users_count }}</td>
-                                <td class="text-center">{{ $t->teams_count }}</td>
-                                <td class="text-center">{{ $t->players_count }}</td>
                                 <td class="text-center">
-                                    <span class="badge rounded-pill {{ $t->status === \App\Models\Tenant::ACTIVE ? 'bg-success' : 'bg-secondary' }}">
+                                    <span class="meta-badge">{{ $t->users_count }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="meta-badge">{{ $t->teams_count }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="meta-badge">{{ $t->players_count }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="status-pill {{ $t->status === \App\Models\Tenant::ACTIVE ? 'status-pill-success' : 'status-pill-muted' }}">
                                         {{ $t->status === \App\Models\Tenant::ACTIVE ? 'Activa' : 'Inactiva' }}
                                     </span>
                                 </td>
@@ -110,13 +147,23 @@
                             <tr>
                                 <td colspan="9" class="text-center text-muted py-5">
                                     <i class="fa-solid fa-building fa-2x mb-3 d-block opacity-25"></i>
-                                    No hay escuelas registradas.
+                                    @if($search)
+                                        No se encontraron escuelas para "<strong>{{ $search }}</strong>".
+                                    @else
+                                        No hay escuelas registradas.
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
+
+            @include('backend.components.pagination', [
+                'paginator' => $tenants,
+                'ariaLabel' => 'Paginador de escuelas',
+            ])
+
         </div>
 
     </div>

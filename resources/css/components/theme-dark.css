@@ -185,6 +185,28 @@ body.theme-dark .table tbody tr {
   background: #14171d;
 }
 
+/* Bootstrap 5: sobreescribir --bs-table-bg en todas las tablas */
+body.theme-dark .table {
+  --bs-table-bg: #14171d;
+  --bs-table-color: #e5e7eb;
+  --bs-table-border-color: #1f2329;
+  --bs-table-hover-bg: #1b212b;
+  --bs-table-hover-color: #e5e7eb;
+  --bs-table-striped-bg: #161b22;
+  --bs-table-striped-color: #e5e7eb;
+  color: #e5e7eb;
+}
+
+body.theme-dark .table > :not(caption) > * > * {
+  background-color: var(--bs-table-bg) !important;
+  color: var(--bs-table-color);
+  border-color: var(--bs-table-border-color);
+}
+
+body.theme-dark .table > tbody > tr:hover > * {
+  --bs-table-bg: #1b212b;
+}
+
 body.theme-dark .table-striped > tbody > tr:nth-of-type(odd) {
   --bs-table-accent-bg: #161b22;
   color: #e5e7eb;

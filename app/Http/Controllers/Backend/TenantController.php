@@ -9,13 +9,20 @@ use Illuminate\Support\Str;
 
 class TenantController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tenants = Tenant::withCount(['users', 'teams', 'players'])
-            ->orderByDesc('created_at')
-            ->get();
+        $search = $request->input('search', '');
 
-        return view('backend.tenants.index', compact('tenants'));
+        $tenants = Tenant::withCount(['users', 'teams', 'players'])
+            ->when($search, fn ($q) => $q->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%");
+            }))
+            ->orderBy('number')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('backend.tenants.index', compact('tenants', 'search'));
     }
 
     public function create()
