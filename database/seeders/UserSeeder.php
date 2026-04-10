@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'id'         => (string) Str::uuid(),
-                'tenant_id'  => $tenantId,
+                'tenant_id'  => null,          // ROOT no pertenece a ninguna escuela
                 'name'       => 'Super',
                 'email'      => 'root@deporware.com',
                 'username'   => 'superadmin',
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'id'         => (string) Str::uuid(),
-                'tenant_id'  => $tenantId,
+                'tenant_id'  => $tenantId,     // Pertenece a la escuela de ejemplo
                 'name'       => 'Gerente Deportivo',
                 'email'      => 'gerente@deporware.com',
                 'username'   => 'gerente',
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'id'         => (string) Str::uuid(),
-                'tenant_id'  => $tenantId,
+                'tenant_id'  => $tenantId,     // Pertenece a la escuela de ejemplo
                 'name'       => 'Entrenador',
                 'email'      => 'staff@deporware.com',
                 'username'   => 'staff',

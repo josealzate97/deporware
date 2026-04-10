@@ -3,73 +3,83 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Controlador para la autenticación de usuarios.
- * 
- * @author Jose Alzate
- * @date 13 de julio de 2025
-*/
+ *
+ * Flujo multi-tenant:
+ *  - Sin slug  → login de ROOT (role = ROLE_ROOT)
+ *  - Con slug  → busca tenant activo por slug, luego autentica con tenant_id
+ */
 class AuthController extends Controller {
-    
-    /**
-     * Muestra el formulario de inicio de sesión.
-     * 
-     * @return \Illuminate\View\View
-     * Retorna la vista `backend.auth.login` para que el usuario ingrese sus credenciales.
-    */
+
     public function showLoginForm() {
         return view('backend.auth.login');
     }
 
-    /**
-     * Autentica al usuario con las credenciales proporcionadas.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * Objeto de la solicitud HTTP que contiene los datos enviados por el cliente.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
-     * Redirige al usuario a la página principal (`home`) si las credenciales son correctas.
-     * Si las credenciales son incorrectas, retorna al formulario de login con un mensaje de error.
-    */
     public function login(Request $request) {
-        
-        $credentials = $request->only('username', 'password');
 
-        // Intentar autenticar al usuario
+        $request->validate([
+            'username' => 'required|string|max:50',
+            'password' => 'required|string',
+            'slug'     => 'nullable|string|max:60',
+        ]);
+
+        $slug     = trim((string) $request->input('slug', ''));
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        if ($slug === '') {
+            // ── Login ROOT ──────────────────────────────────────────────────
+            // Solo usuarios con role ROOT pueden ingresar sin escuela
+            $credentials = [
+                'username' => $username,
+                'password' => $password,
+                'role'     => User::ROLE_ROOT,
+            ];
+        } else {
+            // ── Login con escuela ────────────────────────────────────────────
+            $tenant = Tenant::where('slug', $slug)
+                ->where('status', Tenant::ACTIVE)
+                ->first();
+
+            if (! $tenant) {
+                return back()
+                    ->withErrors(['slug' => 'Escuela no encontrada o inactiva.'])
+                    ->withInput($request->only('username', 'slug'));
+            }
+
+            $credentials = [
+                'username'  => $username,
+                'password'  => $password,
+                'tenant_id' => $tenant->id,
+            ];
+        }
+
         if (Auth::attempt($credentials)) {
-            
-            // Verificar si el usuario está activo
-            if (Auth::user()->status == \App\Models\User::ACTIVE) {
+
+            if (Auth::user()->status === User::ACTIVE) {
+                $request->session()->regenerate();
                 return redirect()->intended(route('home'));
             }
 
-            // Cerrar sesión si el usuario está inactivo
             Auth::logout();
-
             return back()->withErrors([
-                'username' => 'Usuario inactivo en el sistema',
-            ]);
-            
+                'username' => 'Tu usuario está inactivo. Contacta al administrador.',
+            ])->withInput($request->only('username', 'slug'));
         }
 
         return back()->withErrors([
-            'username' => 'Usuario o contraseña incorrectos',
-        ]);
+            'username' => 'Usuario o contraseña incorrectos.',
+        ])->withInput($request->only('username', 'slug'));
     }
 
-    /**
-     * Cierra la sesión del usuario autenticado.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
-     * Redirige al usuario al formulario de inicio de sesión después de cerrar la sesión.
-    */
     public function logout() {
-
         Auth::logout();
         return redirect()->route('login');
-
     }
 }

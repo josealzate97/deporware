@@ -55,10 +55,29 @@
                     @csrf
 
                     <div class="login-field">
+                        <label for="slug" class="form-label d-flex align-items-center justify-content-between">
+                            <span>Escuela</span>
+                            <span class="badge bg-light text-muted fw-normal" style="font-size:0.7rem">Opcional para Super Admin</span>
+                        </label>
+                        <div class="input-icon">
+                            <i class="fas fa-building"></i>
+                            <input type="text" class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
+                                   id="slug" name="slug"
+                                   placeholder="slug-de-tu-escuela"
+                                   value="{{ old('slug') }}"
+                                   autocomplete="off"
+                                   aria-label="Slug de la escuela">
+                        </div>
+                        @error('slug')
+                            <div class="small text-danger mt-1"><i class="fas fa-circle-exclamation me-1"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="login-field">
                         <label for="username" class="form-label">Usuario</label>
                         <div class="input-icon">
                             <i class="fas fa-user"></i>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu usuario" required aria-label="Usuario">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu usuario" value="{{ old('username') }}" required aria-label="Usuario">
                         </div>
                     </div>
 
