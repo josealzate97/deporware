@@ -124,7 +124,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item text-dark" href="{{ route('users.info', ['id' => Auth::user()->id]) }}">
+                        <a class="dropdown-item text-dark" href="{{ route('profile') }}">
                             <i class="fa-solid fa-user color-primary"></i>&nbsp;&nbsp;
                             Mi Perfil
                         </a>

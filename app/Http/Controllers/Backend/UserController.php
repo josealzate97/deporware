@@ -89,6 +89,14 @@ class UserController extends Controller {
      * @return \Illuminate\View\View
      * Retorna la vista `backend.users.info` con los datos del usuario y los roles disponibles.
     */
+    public function profile()
+    {
+        $user = User::withoutGlobalScope('tenant')->with('venues')->findOrFail(Auth::id());
+        $roles = User::roleOptions();
+        $venues = SportsVenue::orderBy('name')->get();
+        return view('backend.users.info', compact('user', 'roles', 'venues'));
+    }
+
     public function info($id) {   
 
         // Informacion del usuario

@@ -145,13 +145,15 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="text-center text-muted py-5">
-                                    <i class="fa-solid fa-building fa-2x mb-3 d-block opacity-25"></i>
-                                    @if($search)
-                                        No se encontraron escuelas para "<strong>{{ $search }}</strong>".
-                                    @else
-                                        No hay escuelas registradas.
-                                    @endif
+                                <td colspan="9" class="py-5">
+                                    <div class="d-flex flex-column align-items-center justify-content-center gap-2 text-muted">
+                                        <i class="fa-solid fa-building fa-2x opacity-25"></i>
+                                        @if($search)
+                                            <span>No se encontraron escuelas para "<strong>{{ $search }}</strong>".</span>
+                                        @else
+                                            <span>No hay escuelas registradas.</span>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforelse

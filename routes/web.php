@@ -51,6 +51,11 @@ Route::middleware('auth')->group(function () {
     ->name('home');
 
     /*
+     * ✅ Perfil propio — accesible para cualquier usuario autenticado
+    */
+    Route::get('profile', [UserController::class, 'profile'])->name('profile');
+
+    /*
      * ✅ Zona Admin: Usuarios (Personal) y Sedes
      *    Solo Root y Gerente Deportivo
     */
