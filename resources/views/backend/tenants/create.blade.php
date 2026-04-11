@@ -2,6 +2,10 @@
 
 @section('title', 'Nueva Escuela')
 
+@push('scripts')
+    @vite(['resources/js/modules/tenants.js'])
+@endpush
+
 @section('content')
 
     <div class="container-fluid p-4">
@@ -38,36 +42,35 @@
                     @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                {{-- Preview del slug (solo informativo, se genera en el servidor) --}}
+                {{-- Slug editable solo en creación --}}
                 <div class="mb-3">
-                    <label class="form-label fw-semibold text-muted">Slug generado</label>
-                    <div class="d-flex align-items-center gap-2">
-                        <code id="slugPreview" class="px-3 py-2 rounded bg-light border text-secondary flex-grow-1" style="font-size:0.88rem">
-                            se generará al guardar…
-                        </code>
-                        <span class="badge bg-light text-muted border" style="font-size:0.7rem;white-space:nowrap">Auto · inmutable</span>
+                    <label class="form-label fw-semibold" for="tenantSlug">
+                        Slug de acceso
+                        <span class="badge bg-warning text-dark ms-1" style="font-size:0.68rem">Solo letras, números y _</span>
+                    </label>
+                    <div class="input-group">
+                        <input type="text" name="slug" id="tenantSlug"
+                               class="form-control font-monospace @error('slug') is-invalid @enderror"
+                               value="{{ old('slug') }}"
+                               placeholder="se completará automáticamente…"
+                               maxlength="75"
+                               autocomplete="off"
+                               spellcheck="false">
+                        <button type="button" class="btn btn-outline-secondary" id="slugResetBtn" title="Volver a generar desde el nombre">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                        @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
-                    <div class="form-text">Es el identificador de acceso de los usuarios de esta escuela. No se puede cambiar después.</div>
+                    <div class="form-text">
+                        Slug final:
+                        <code id="slugFinalPreview" class="text-primary">…</code>
+                        <span class="text-muted">(número consecutivo asignado al guardar)</span>
+                    </div>
+                    <div class="form-text mt-1">
+                        <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i>
+                        <strong>No se podrá cambiar después de crearla.</strong>
+                    </div>
                 </div>
-
-                @push('scripts')
-                <script>
-                    (function () {
-                        const inp  = document.getElementById('tenantName');
-                        const prev = document.getElementById('slugPreview');
-                        function toSlug(str) {
-                            return str.toLowerCase()
-                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                                .replace(/[^a-z0-9]+/g, '_')
-                                .replace(/^_+|_+$/g, '');
-                        }
-                        inp.addEventListener('input', function () {
-                            const base = toSlug(this.value.trim());
-                            prev.textContent = base ? base + '_XXX' : 'se generará al guardar…';
-                        });
-                    })();
-                </script>
-                @endpush
 
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Estado</label>

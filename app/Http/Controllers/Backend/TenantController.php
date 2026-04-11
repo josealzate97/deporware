@@ -34,7 +34,10 @@ class TenantController extends Controller
     {
         $data = $request->validate([
             'name'   => 'required|string|max:120',
+            'slug'   => ['required', 'string', 'max:75', 'regex:/^[a-z0-9_]+$/'],
             'status' => 'required|in:0,1',
+        ], [
+            'slug.regex' => 'El slug solo puede contener letras minúsculas, números y guiones bajos (_).',
         ]);
 
         Tenant::create($data);

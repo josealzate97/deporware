@@ -43,10 +43,12 @@ class Tenant extends Model
                 $tenant->number = ((int) static::max('number')) + 1;
             }
 
-            // Auto-generar slug si no viene explícito
-            if (empty($tenant->slug)) {
-                $tenant->slug = static::generateSlug($tenant->name, $tenant->number);
-            }
+            // Auto-generar slug base si no viene explícito; siempre añadir el sufijo numérico.
+            $slugBase = empty($tenant->slug)
+                ? Str::slug($tenant->name, '_')
+                : $tenant->slug;
+
+            $tenant->slug = $slugBase . '_' . str_pad((string) $tenant->number, 3, '0', STR_PAD_LEFT);
         });
 
         // Al crear un tenant, generar su estructura de carpetas en storage
