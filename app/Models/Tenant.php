@@ -14,20 +14,32 @@ class Tenant extends Model
     public $incrementing = false;
     protected $keyType   = 'string';
 
+    public const TYPE_ESCUELA = 1;
+    public const TYPE_CLUB    = 2;
+    public const TYPE_LIGA    = 3;
+
+    public static array $installationTypes = [
+        self::TYPE_ESCUELA => 'Escuela',
+        self::TYPE_CLUB    => 'Club',
+        self::TYPE_LIGA    => 'Liga',
+    ];
+
     protected $fillable = [
         'id',
         'number',
         'name',
         'slug',
         'status',
+        'installation_type',
     ];
 
     protected function casts(): array
     {
         return [
-            'status'     => 'integer',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
+            'status'            => 'integer',
+            'installation_type' => 'integer',
+            'created_at'        => 'datetime',
+            'updated_at'        => 'datetime',
         ];
     }
 

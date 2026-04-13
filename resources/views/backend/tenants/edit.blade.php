@@ -40,7 +40,7 @@
                 {{-- Slug: solo lectura. Es el login identifier del tenant --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold d-flex align-items-center gap-2">
-                        Slug de acceso
+                        Identificador de acceso
                         <span class="badge bg-warning text-dark" style="font-size:0.68rem">Inmutable</span>
                     </label>
                     <div class="input-group">
@@ -50,6 +50,16 @@
                         </button>
                     </div>
                     <div class="form-text">Los usuarios de esta escuela lo usan para iniciar sesión. Si necesitas cambiarlo contacta al super admin.</div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Tipo de instalación <span class="text-danger">*</span></label>
+                    <select name="installation_type" class="form-select @error('installation_type') is-invalid @enderror">
+                        <option value="1" {{ (int) old('installation_type', $tenant->installation_type) === 1 ? 'selected' : '' }}>Escuela</option>
+                        <option value="2" {{ (int) old('installation_type', $tenant->installation_type) === 2 ? 'selected' : '' }}>Club</option>
+                        <option value="3" {{ (int) old('installation_type', $tenant->installation_type) === 3 ? 'selected' : '' }}>Liga</option>
+                    </select>
+                    @error('installation_type')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="mb-4">

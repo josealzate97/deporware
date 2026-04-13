@@ -76,7 +76,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
-                            <th>Slug</th>
+                            <th>Identificador</th>
                             <th class="text-center">Usuarios</th>
                             <th class="text-center">Plantillas</th>
                             <th class="text-center">Jugadores</th>

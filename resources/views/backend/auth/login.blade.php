@@ -55,15 +55,12 @@
                     @csrf
 
                     <div class="login-field">
-                        <label for="slug" class="form-label d-flex align-items-center justify-content-between">
-                            <span>Escuela</span>
-                            <span class="badge bg-light text-muted fw-normal" style="font-size:0.7rem">Opcional para Super Admin</span>
-                        </label>
+                        <label for="slug" class="form-label">Escuela</label>
                         <div class="input-icon">
                             <i class="fas fa-building"></i>
                             <input type="text" class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}"
                                    id="slug" name="slug"
-                                   placeholder="slug-de-tu-escuela"
+                                   placeholder="Identificador de tu escuela"
                                    value="{{ old('slug') }}"
                                    autocomplete="off"
                                    aria-label="Slug de la escuela">

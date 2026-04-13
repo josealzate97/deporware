@@ -45,7 +45,7 @@
                 {{-- Slug editable solo en creación --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold" for="tenantSlug">
-                        Slug de acceso
+                        Identificador de acceso
                         <span class="badge bg-warning text-dark ms-1" style="font-size:0.68rem">Solo letras, números y _</span>
                     </label>
                     <div class="input-group">
@@ -70,6 +70,16 @@
                         <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i>
                         <strong>No se podrá cambiar después de crearla.</strong>
                     </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Tipo de instalación <span class="text-danger">*</span></label>
+                    <select name="installation_type" class="form-select @error('installation_type') is-invalid @enderror">
+                        <option value="1" {{ old('installation_type', '1') == '1' ? 'selected' : '' }}>Escuela</option>
+                        <option value="2" {{ old('installation_type') == '2' ? 'selected' : '' }}>Club</option>
+                        <option value="3" {{ old('installation_type') == '3' ? 'selected' : '' }}>Liga</option>
+                    </select>
+                    @error('installation_type')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="mb-4">

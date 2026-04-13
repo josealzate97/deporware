@@ -33,9 +33,10 @@ class TenantController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'   => 'required|string|max:120',
-            'slug'   => ['required', 'string', 'max:75', 'regex:/^[a-z0-9_]+$/'],
-            'status' => 'required|in:0,1',
+            'name'              => 'required|string|max:120',
+            'slug'              => ['required', 'string', 'max:75', 'regex:/^[a-z0-9_]+$/'],
+            'status'            => 'required|in:0,1',
+            'installation_type' => 'required|in:1,2,3',
         ], [
             'slug.regex' => 'El slug solo puede contener letras minúsculas, números y guiones bajos (_).',
         ]);
@@ -57,8 +58,9 @@ class TenantController extends Controller
         $tenant = Tenant::findOrFail($id);
 
         $data = $request->validate([
-            'name'   => 'required|string|max:120',
-            'status' => 'required|in:0,1',
+            'name'              => 'required|string|max:120',
+            'status'            => 'required|in:0,1',
+            'installation_type' => 'required|in:1,2,3',
         ]);
 
         $tenant->update($data);
