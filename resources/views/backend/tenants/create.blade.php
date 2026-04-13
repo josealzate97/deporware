@@ -90,7 +90,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="fa-solid fa-check me-2"></i> Crear Escuela
                     </button>
-                    <a href="{{ route('tenants.index') }}" class="btn btn-danger px-4">Cancelar</a>
+                    <a href="{{ route('tenants.index') }}" class="btn btn-danger px-4"><i class="fa-solid fa-xmark me-2"></i>Cancelar</a>
                 </div>
             </form>
         </div>

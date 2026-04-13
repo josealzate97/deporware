@@ -15,7 +15,7 @@
         @endpush
 
         <div class="card p-4 section-hero surface-gradient-day mb-4">
-            <div class="d-flex align-items-start gap-3">
+            <div class="d-flex align-items-center gap-4">
                 <div class="section-hero-icon dashboard-hero-icon">
                     <i class="fas fa-globe"></i>
                 </div>
@@ -64,14 +64,20 @@
         </div>
 
         {{-- Lista de escuelas --}}
-        <div class="card p-0 overflow-hidden">
+        <div class="card p-3 my-3 overflow-hidden">
+
             <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
-                <h6 class="fw-bold mb-0"><i class="fa-solid fa-building me-2 text-muted"></i>Escuelas</h6>
+                
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-building me-2 text-muted"></i>Escuelas</h3>
+                
                 <a href="{{ route('tenants.new') }}" class="btn btn-sm btn-success">
                     <i class="fa-solid fa-plus-circle me-1"></i> Nueva Escuela
                 </a>
+
             </div>
-            <div class="table-responsive">
+
+            <div class="table-responsive mt-2">
+                
                 <table class="table table-hover mb-0 align-middle">
                     <thead class="table-light">
                         <tr>
@@ -88,7 +94,7 @@
                         @forelse($tenants as $t)
                             <tr>
                                 <td class="fw-semibold">{{ $t->name }}</td>
-                                <td><code class="slug-badge">{{ $t->slug }}</code></td>
+                                <td><code class="slug-badge fw-bold">{{ $t->slug }}</code></td>
                                 <td class="text-center">{{ $t->users_count }}</td>
                                 <td class="text-center">{{ $t->teams_count }}</td>
                                 <td class="text-center">{{ $t->players_count }}</td>

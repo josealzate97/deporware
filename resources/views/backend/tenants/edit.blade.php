@@ -44,12 +44,12 @@
                         <span class="badge bg-warning text-dark" style="font-size:0.68rem">Inmutable</span>
                     </label>
                     <div class="input-group">
-                        <code id="slugValue" class="form-control font-monospace border-warning-subtle bg-warning-subtle text-warning-emphasis fw-semibold" style="font-size:0.9rem">{{ $tenant->slug }}</code>
-                        <button type="button" class="btn btn-outline-warning" onclick="navigator.clipboard.writeText('{{ $tenant->slug }}').then(() => { this.innerHTML='<i class=\'fas fa-check\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fas fa-copy\'></i>', 1500); })" title="Copiar">
+                        <code id="slugValue" class="form-control font-monospace fw-semibold" style="font-size:0.9rem; background:#f5f0ff; border-color:#c4b0f8; color:#4c2a92;">{{ $tenant->slug }}</code>
+                        <button type="button" class="btn btn-outline-primary" onclick="navigator.clipboard.writeText('{{ $tenant->slug }}').then(() => { this.innerHTML='<i class=\'fas fa-check\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fas fa-copy\'></i>', 1500); })" title="Copiar">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
-                    <div class="form-text">Los usuarios de esta escuela lo usan para iniciar sesión. Si necesitas cambiarlo contacta al super admin.</div>
+                    <div class="mt-2 p-2 rounded small" style="background:#f5f0ff; border:1px solid #c4b0f8; color:#4c2a92;"><i class="fa-solid fa-circle-info me-1"></i>Los usuarios de esta escuela lo usan para iniciar sesión. Si necesitas cambiarlo contacta al super admin.</div>
                 </div>
 
                 <div class="mb-4">
@@ -80,7 +80,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-check me-2"></i> Guardar cambios
                     </button>
-                    <a href="{{ route('tenants.index') }}" class="btn btn-danger px-4">Cancelar</a>
+                    <a href="{{ route('tenants.index') }}" class="btn btn-danger px-4"><i class="fa-solid fa-xmark me-2"></i>Cancelar</a>
                 </div>
             </form>
         </div>
