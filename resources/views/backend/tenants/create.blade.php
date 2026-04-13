@@ -61,14 +61,9 @@
                         </button>
                         @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
-                    <div class="form-text">
-                        Slug final:
-                        <code id="slugFinalPreview" class="text-primary">…</code>
-                        <span class="text-muted">(número consecutivo asignado al guardar)</span>
-                    </div>
-                    <div class="form-text mt-1">
-                        <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i>
-                        <strong>No se podrá cambiar después de crearla.</strong>
+                    <div class="mt-2 p-2 rounded border border-warning-subtle bg-warning-subtle text-warning-emphasis small">
+                        <div>Identificador final: <code id="slugFinalPreview" class="fw-bold">…</code> <span class="text-muted">(número consecutivo asignado al guardar)</span></div>
+                        <div class="mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i><strong>No se podrá cambiar después de crearla.</strong></div>
                     </div>
                 </div>
 
@@ -91,11 +86,11 @@
                     @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 justify-content-center mt-2">
                     <button type="submit" class="btn btn-success">
                         <i class="fa-solid fa-check me-2"></i> Crear Escuela
                     </button>
-                    <a href="{{ route('tenants.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                    <a href="{{ route('tenants.index') }}" class="btn btn-danger px-4">Cancelar</a>
                 </div>
             </form>
         </div>

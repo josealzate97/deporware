@@ -44,8 +44,8 @@
                         <span class="badge bg-warning text-dark" style="font-size:0.68rem">Inmutable</span>
                     </label>
                     <div class="input-group">
-                        <code id="slugValue" class="form-control bg-light text-secondary" style="font-size:0.9rem">{{ $tenant->slug }}</code>
-                        <button type="button" class="btn btn-outline-secondary" onclick="navigator.clipboard.writeText('{{ $tenant->slug }}').then(() => { this.innerHTML='<i class=\'fas fa-check\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fas fa-copy\'></i>', 1500); })" title="Copiar">
+                        <code id="slugValue" class="form-control font-monospace border-warning-subtle bg-warning-subtle text-warning-emphasis fw-semibold" style="font-size:0.9rem">{{ $tenant->slug }}</code>
+                        <button type="button" class="btn btn-outline-warning" onclick="navigator.clipboard.writeText('{{ $tenant->slug }}').then(() => { this.innerHTML='<i class=\'fas fa-check\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fas fa-copy\'></i>', 1500); })" title="Copiar">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
@@ -76,11 +76,11 @@
                     <div class="small text-muted mt-1"><span class="fw-semibold">Creada:</span> {{ $tenant->created_at->format('d/m/Y H:i') }}</div>
                 </div>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 justify-content-center mt-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-check me-2"></i> Guardar cambios
                     </button>
-                    <a href="{{ route('tenants.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                    <a href="{{ route('tenants.index') }}" class="btn btn-danger px-4">Cancelar</a>
                 </div>
             </form>
         </div>
