@@ -127,7 +127,12 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center text-muted py-4">No hay rivales registrados.</td>
+                                <td colspan="3" class="config-rivals-empty-cell">
+                                    <div class="config-rivals-empty-state">
+                                        <span><i class="fa-solid fa-circle-exclamation config-rivals-empty-state__icon" aria-hidden="true"></i>No hay rivales registrados.</span>
+                                        <a href="{{ route('configurations.rivals.create') }}" class="config-rivals-empty-state__cta">Crear rival</a>
+                                    </div>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>

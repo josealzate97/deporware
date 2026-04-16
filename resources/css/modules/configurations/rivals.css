@@ -102,6 +102,48 @@
   color: #166534;
 }
 
+.config-rivals-empty-cell {
+  padding: 1rem 0.75rem !important;
+}
+
+.config-rivals-empty-state {
+  border: 1px dashed #fecaca;
+  border-radius: 14px;
+  background: #fef2f2;
+  color: #991b1b;
+  text-align: center;
+  font-weight: 700;
+  padding: 0.9rem 1rem;
+}
+
+.config-rivals-empty-state__icon {
+  color: #dc2626;
+  margin-right: 0.28rem;
+}
+
+.config-rivals-empty-state__cta {
+  display: flex;
+  width: fit-content;
+  margin: 0.48rem auto 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #86efac;
+  background: #f0fdf4;
+  color: #15803d;
+  border-radius: 999px;
+  padding: 0.22rem 0.72rem;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.76rem;
+  transition: all 0.18s ease;
+}
+
+.config-rivals-empty-state__cta:hover {
+  border-color: #4ade80;
+  background: #dcfce7;
+  color: #166534;
+}
+
 /* ── Dark mode ─────────────────────────────────────── */
 body.theme-dark .config-tab {
   background: #1e2a3a;
@@ -153,4 +195,26 @@ body.theme-dark .config-rival-action-success:hover {
   background: #132b1e;
   border-color: #1e4a35;
   color: #86efac;
+}
+
+body.theme-dark .config-rivals-empty-state {
+  background: #2a1717;
+  border-color: #7f1d1d;
+  color: #fecaca;
+}
+
+body.theme-dark .config-rivals-empty-state__icon {
+  color: #fca5a5;
+}
+
+body.theme-dark .config-rivals-empty-state__cta {
+  background: #13231a;
+  border-color: #166534;
+  color: #bbf7d0;
+}
+
+body.theme-dark .config-rivals-empty-state__cta:hover {
+  background: #163222;
+  border-color: #22c55e;
+  color: #dcfce7;
 }
