@@ -128,7 +128,11 @@
                                     <div class="dashboard-list-item__pill">{{ $match->final_score ?: 'Pendiente' }}</div>
                                 </a>
                             @empty
-                                <div class="dashboard-empty-state">Aún no hay partidos registrados.</div>
+                                <div class="dashboard-empty-state dashboard-empty-state--warning">
+                                    <i class="fa-solid fa-circle-exclamation dashboard-empty-state__icon" aria-hidden="true"></i>
+                                    <span>No hay partidos registrados.</span>
+                                    <a href="{{ route('matches.new') }}" class="dashboard-empty-state__cta">Crear partido</a>
+                                </div>
                             @endforelse
                         </div>
                     </div>
@@ -159,7 +163,11 @@
                                     <div class="dashboard-list-item__pill">{{ $training->duration ? $training->duration . ' min' : '-' }}</div>
                                 </a>
                             @empty
-                                <div class="dashboard-empty-state">Aún no hay entrenamientos registrados.</div>
+                                <div class="dashboard-empty-state dashboard-empty-state--warning">
+                                    <i class="fa-solid fa-circle-exclamation dashboard-empty-state__icon" aria-hidden="true"></i>
+                                    <span>No hay entrenamientos registrados.</span>
+                                    <a href="{{ route('trainings.new') }}" class="dashboard-empty-state__cta">Crear entrenamiento</a>
+                                </div>
                             @endforelse
                         </div>
                     </div>
@@ -189,7 +197,14 @@
                                 <div class="dashboard-agenda-item__badge">{{ $item['badge'] }}</div>
                             </a>
                         @empty
-                            <div class="dashboard-empty-state">No hay eventos próximos en agenda.</div>
+                            <div class="dashboard-empty-state dashboard-empty-state--warning">
+                                <i class="fa-solid fa-calendar-xmark dashboard-empty-state__icon" aria-hidden="true"></i>
+                                <span>No hay eventos próximos en agenda.</span>
+                                <div class="dashboard-empty-state__actions">
+                                    <a href="{{ route('matches.new') }}" class="dashboard-empty-state__cta">Crear partido</a>
+                                    <a href="{{ route('trainings.new') }}" class="dashboard-empty-state__cta">Crear entrenamiento</a>
+                                </div>
+                            </div>
                         @endforelse
                     </div>
                 </div>
@@ -217,7 +232,11 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="dashboard-empty-state">No hay equipos con plantillas activas.</div>
+                            <div class="dashboard-empty-state dashboard-empty-state--warning">
+                                <i class="fa-solid fa-users-slash dashboard-empty-state__icon" aria-hidden="true"></i>
+                                <span>No hay equipos con plantillas activas.</span>
+                                <a href="{{ route('teams.new') }}" class="dashboard-empty-state__cta">Crear equipo</a>
+                            </div>
                         @endforelse
                     </div>
                 </div>
