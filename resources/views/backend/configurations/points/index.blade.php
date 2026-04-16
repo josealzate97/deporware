@@ -137,7 +137,12 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="3" class="text-center text-muted py-3">Sin puntos registrados.</td>
+                                            <td colspan="3" class="config-points-empty-cell">
+                                                <div class="config-points-empty-state">
+                                                    <span><i class="fa-solid fa-circle-exclamation config-points-empty-state__icon" aria-hidden="true"></i>Sin puntos fuertes registrados.</span>
+                                                    <a href="{{ route('configurations.points.attack.create') }}" class="config-points-empty-state__cta">Crear punto fuerte</a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -244,7 +249,12 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="3" class="text-center text-muted py-3">Sin puntos registrados.</td>
+                                            <td colspan="3" class="config-points-empty-cell">
+                                                <div class="config-points-empty-state">
+                                                    <span><i class="fa-solid fa-circle-exclamation config-points-empty-state__icon" aria-hidden="true"></i>Sin puntos débiles registrados.</span>
+                                                    <a href="{{ route('configurations.points.defensive.create') }}" class="config-points-empty-state__cta">Crear punto débil</a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
