@@ -243,7 +243,14 @@ class PlayersController extends Controller
 
     public function downloadScoutingReport($id)
     {
-        $player = Player::findOrFail($id);
+        $player = Player::with([
+            'observations' => function ($query) {
+                $query
+                    ->where('status', PlayerObservation::ACTIVE)
+                    ->latest('created_at');
+            },
+            'observations.author',
+        ])->findOrFail($id);
 
         $defensivePositions = [
             Player::POSICION_ARQUERO,

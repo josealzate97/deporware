@@ -111,7 +111,13 @@
             background: #dbeafe;
             border: 1px solid #c7ddfb;
             text-align: center;
-            padding-top: 7px;
+            padding: 6px;
+        }
+        .icon-img {
+            width: 16px;
+            height: 16px;
+            display: block;
+            margin: 0 auto;
         }
         .field-body-cell {
             vertical-align: top;
@@ -226,6 +232,18 @@
             color: #6b7280;
             min-height: 48px;
         }
+        .observation-list {
+            margin: 0;
+            padding-left: 16px;
+        }
+        .observation-list li {
+            margin-bottom: 4px;
+            line-height: 1.35;
+        }
+        .observation-empty {
+            color: #94a3b8;
+            font-style: italic;
+        }
         .card.full .card-body {
             min-height: 58px;
         }
@@ -258,6 +276,38 @@
     $mentalidad = $player
         ? (in_array($primaryPositionValue, $defensivePositions, true) ? 'defensiva' : 'ofensiva')
         : null;
+    $iconBasePath = public_path('images/templates');
+    $iconAsset = static fn (string $icon): string => 'file://' . $iconBasePath . '/' . $icon . '.svg';
+    $infoIcons = [
+        'full_name' => $iconAsset('user'),
+        'birthdate' => $iconAsset('calendar'),
+        'dorsal' => $iconAsset('shirt-number'),
+        'primary_position' => $iconAsset('shield'),
+        'secondary_position' => $iconAsset('list'),
+        'origin_club' => $iconAsset('globe'),
+        'join_date' => $iconAsset('calendar-check'),
+    ];
+    $groupedObservationNotes = [
+        \App\Models\PlayerObservation::TYPE_PSYCHIQUE => [],
+        \App\Models\PlayerObservation::TYPE_TECHNICAL => [],
+        \App\Models\PlayerObservation::TYPE_TACTIC => [],
+        \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => [],
+    ];
+
+    foreach (($player?->observations ?? collect()) as $observation) {
+        $type = (int) ($observation->type ?? 0);
+        $note = trim((string) ($observation->notes ?? ''));
+        if ($note === '') {
+            continue;
+        }
+
+        if (array_key_exists($type, $groupedObservationNotes)) {
+            $groupedObservationNotes[$type][] = $note;
+            continue;
+        }
+
+        $groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL][] = $note;
+    }
 @endphp
     <div class="sheet">
         <div class="watermark" aria-hidden="true"></div>
@@ -282,7 +332,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                    <img src="{{ $infoIcons['full_name'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -297,7 +347,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M20 3h-1V1h-2v2H7V1H5v2H4C2.9 3 2 3.9 2 5v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13zM8 13h2v-2H8v2zm4 0h2v-2h-2v2zm4 0h2v-2h-2v2zm-8 4h2v-2H8v2zm4 0h2v-2h-2v2z"/></svg>
+                                    <img src="{{ $infoIcons['birthdate'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -314,7 +364,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2V6h2v8zm0 4h-2v-2h2v2z"/></svg>
+                                    <img src="{{ $infoIcons['dorsal'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -329,7 +379,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                                    <img src="{{ $infoIcons['primary_position'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -346,7 +396,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                                    <img src="{{ $infoIcons['secondary_position'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -361,7 +411,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+                                    <img src="{{ $infoIcons['origin_club'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -378,7 +428,7 @@
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
                                 <div class="icon">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#0b4e91" d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5C3.89 3 3.01 3.9 3.01 5L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                                    <img src="{{ $infoIcons['join_date'] }}" alt="" class="icon-img">
                                 </div>
                             </td>
                             <td class="field-body-cell">
@@ -426,7 +476,17 @@
                     </div>
                     <div class="card-title-text">Observacion Fisica</div>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCHIQUE]))
+                        <ul class="observation-list">
+                            @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCHIQUE] as $note)
+                                <li>{{ $note }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div class="observation-empty">Sin observaciones registradas.</div>
+                    @endif
+                </div>
             </div>
 
             <div class="card card-danger">
@@ -436,7 +496,17 @@
                     </div>
                     <div class="card-title-text">Observacion Tecnica</div>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TECHNICAL]))
+                        <ul class="observation-list">
+                            @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TECHNICAL] as $note)
+                                <li>{{ $note }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div class="observation-empty">Sin observaciones registradas.</div>
+                    @endif
+                </div>
             </div>
 
             <div class="card card-warning full">
@@ -444,9 +514,19 @@
                     <div class="card-title-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                     </div>
-                    <div class="card-title-text">Observacion Tactica</div>
+                    <div class="card-title-text">Observacion Tactica & Conceptual</div>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TACTIC]))
+                        <ul class="observation-list">
+                            @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TACTIC] as $note)
+                                <li>{{ $note }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div class="observation-empty">Sin observaciones registradas.</div>
+                    @endif
+                </div>
             </div>
 
             <div class="card card-info full">
@@ -454,9 +534,19 @@
                     <div class="card-title-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
                     </div>
-                    <div class="card-title-text">Caracter</div>
+                    <div class="card-title-text">Observacion Aptitudinal</div>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL]))
+                        <ul class="observation-list">
+                            @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL] as $note)
+                                <li>{{ $note }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div class="observation-empty">Sin observaciones registradas.</div>
+                    @endif
+                </div>
             </div>
 
         </div>
