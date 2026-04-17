@@ -204,16 +204,12 @@
         }
         .card-title-icon {
             width: 22px;
-            height: 22px;
-            border-radius: 7px;
-            text-align: center;
             vertical-align: middle;
-            background: #1b77d3;
-            padding: 4px;
+            padding-right: 2px;
         }
         .card-title-icon img {
-            width: 14px;
-            height: 14px;
+            width: 20px;
+            height: 20px;
             display: block;
         }
         .card-title-text {
@@ -318,10 +314,10 @@
         \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => [],
     ];
     $observationIcons = [
-        \App\Models\PlayerObservation::TYPE_PSYCHIQUE => $iconAsset('observation-physical-white'),
-        \App\Models\PlayerObservation::TYPE_TECHNICAL => $iconAsset('observation-technical-white'),
-        \App\Models\PlayerObservation::TYPE_TACTIC => $iconAsset('observation-tactical-white'),
-        \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => $iconAsset('observation-aptitudinal-white'),
+        \App\Models\PlayerObservation::TYPE_PSYCHIQUE => $iconAsset('observation-physical-blue'),
+        \App\Models\PlayerObservation::TYPE_TECHNICAL => $iconAsset('observation-technical-blue'),
+        \App\Models\PlayerObservation::TYPE_TACTIC => $iconAsset('observation-tactical-blue'),
+        \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => $iconAsset('observation-aptitudinal-blue'),
     ];
 
     foreach (($player?->observations ?? collect()) as $observation) {
