@@ -104,21 +104,19 @@
             vertical-align: middle;
             padding-right: 10px;
         }
-        .icon {
+        .icon-table {
             width: 30px;
             height: 30px;
-            border-radius: 8px;
-            background: #dbeafe;
-            border: 1px solid #c7ddfb;
+            border-collapse: separate;
+        }
+        .icon-td {
             text-align: center;
-            line-height: 30px;
+            vertical-align: middle;
         }
         .icon-img {
             width: 16px;
             height: 16px;
-            display: inline-block;
-            margin: 0;
-            vertical-align: middle;
+            display: inline;
         }
         .field-body-cell {
             vertical-align: top;
@@ -198,7 +196,6 @@
             margin-bottom: 12px;
         }
         .card-title {
-            display: table;
             width: auto;
             border-collapse: separate;
             border-spacing: 8px 0;
@@ -206,29 +203,25 @@
             font-weight: 700;
         }
         .card-title-icon {
-            display: table-cell;
             width: 22px;
             height: 22px;
             border-radius: 7px;
             text-align: center;
             vertical-align: middle;
-            color: #ffffff;
-            padding: 0;
-            line-height: 22px;
+            background: #1b77d3;
+            padding: 4px;
         }
-        .card-title-icon svg {
-            width: 13px;
-            height: 13px;
-            display: inline-block;
-            margin: 0;
-            vertical-align: middle;
+        .card-title-icon img {
+            width: 14px;
+            height: 14px;
+            display: block;
         }
         .card-title-text {
-            display: table-cell;
             vertical-align: middle;
             font-size: 13px;
             font-weight: 700;
             color: #0f172a;
+            padding-left: 4px;
         }
         .card-body {
             font-size: 12px;
@@ -245,24 +238,32 @@
             line-height: 1.35;
         }
         .observation-item {
-            display: table;
             width: 100%;
             border-collapse: collapse;
         }
         .observation-item-icon-cell {
-            display: table-cell;
-            width: 18px;
+            width: 24px;
             vertical-align: top;
             padding-right: 6px;
-            padding-top: 1px;
+            padding-top: 0;
         }
-        .observation-item-icon {
-            width: 13px;
-            height: 13px;
-            display: block;
+        .obs-icon-table {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            border-collapse: separate;
         }
+        .obs-icon-td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .obs-icon-img {
+            width: 12px;
+            height: 12px;
+            display: inline;
+        }
+
         .observation-item-text {
-            display: table-cell;
             vertical-align: top;
             font-weight: 700;
             color: #334155;
@@ -274,11 +275,7 @@
         .card.full .card-body {
             min-height: 58px;
         }
-        .card-success .card-title-icon { background: #16a34a; }
-        .card-danger  .card-title-icon { background: #ef4444; }
-        .card-warning .card-title-icon { background: #f59e0b; }
-        .card-info    .card-title-icon { background: #6366f1; }
-        .card-note    .card-title-icon { background: #fbbf24; }
+
     </style>
 </head>
 <body>
@@ -321,10 +318,10 @@
         \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => [],
     ];
     $observationIcons = [
-        \App\Models\PlayerObservation::TYPE_PSYCHIQUE => $iconAsset('observation-physical'),
-        \App\Models\PlayerObservation::TYPE_TECHNICAL => $iconAsset('observation-technical'),
-        \App\Models\PlayerObservation::TYPE_TACTIC => $iconAsset('observation-tactical'),
-        \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => $iconAsset('observation-aptitudinal'),
+        \App\Models\PlayerObservation::TYPE_PSYCHIQUE => $iconAsset('observation-physical-white'),
+        \App\Models\PlayerObservation::TYPE_TECHNICAL => $iconAsset('observation-technical-white'),
+        \App\Models\PlayerObservation::TYPE_TACTIC => $iconAsset('observation-tactical-white'),
+        \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => $iconAsset('observation-aptitudinal-white'),
     ];
 
     foreach (($player?->observations ?? collect()) as $observation) {
@@ -364,9 +361,9 @@
                     <td class="info-td info-td-left">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['full_name'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -379,9 +376,9 @@
                     <td class="info-td info-td-right">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['birthdate'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -396,9 +393,9 @@
                     <td class="info-td info-td-left">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['dorsal'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -411,9 +408,9 @@
                     <td class="info-td info-td-right">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['primary_position'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -428,9 +425,9 @@
                     <td class="info-td info-td-left">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['secondary_position'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -443,9 +440,9 @@
                     <td class="info-td info-td-right">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['origin_club'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -460,9 +457,9 @@
                     <td class="info-td info-td-left">
                         <table class="field" cellspacing="0" cellpadding="0"><tr>
                             <td class="field-icon-cell">
-                                <div class="icon">
+                                <table class="icon-table" cellspacing="0" cellpadding="0"><tr><td class="icon-td">
                                     <img src="{{ $infoIcons['join_date'] }}" alt="" class="icon-img">
-                                </div>
+                                </td></tr></table>
                             </td>
                             <td class="field-body-cell">
                                 <div class="field-body">
@@ -503,24 +500,17 @@
 
             {{-- ── Cards ── --}}
             <div class="card card-success">
-                <div class="card-title">
-                    <div class="card-title-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83V19c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-6.9z"/></svg>
-                    </div>
-                    <div class="card-title-text">Observacion Fisica</div>
-                </div>
+                <table class="card-title" cellspacing="0" cellpadding="0"><tr>
+                    <td class="card-title-icon" aria-hidden="true">
+                        <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_PSYCHIQUE] }}" alt="">
+                    </td>
+                    <td class="card-title-text">Observacion Fisica</td>
+                </tr></table>
                 <div class="card-body">
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCHIQUE]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCHIQUE] as $note)
-                                <li>
-                                    <div class="observation-item">
-                                        <span class="observation-item-icon-cell">
-                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_PSYCHIQUE] }}" alt="" class="observation-item-icon">
-                                        </span>
-                                        <span class="observation-item-text">{{ $note }}</span>
-                                    </div>
-                                </li>
+                                <li class="observation-item-text">{{ $note }}</li>
                             @endforeach
                         </ul>
                     @else
@@ -530,24 +520,17 @@
             </div>
 
             <div class="card card-danger">
-                <div class="card-title">
-                    <div class="card-title-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                    </div>
-                    <div class="card-title-text">Observacion Tecnica</div>
-                </div>
+                <table class="card-title" cellspacing="0" cellpadding="0"><tr>
+                    <td class="card-title-icon" aria-hidden="true">
+                        <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_TECHNICAL] }}" alt="">
+                    </td>
+                    <td class="card-title-text">Observacion Tecnica</td>
+                </tr></table>
                 <div class="card-body">
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TECHNICAL]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TECHNICAL] as $note)
-                                <li>
-                                    <div class="observation-item">
-                                        <span class="observation-item-icon-cell">
-                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_TECHNICAL] }}" alt="" class="observation-item-icon">
-                                        </span>
-                                        <span class="observation-item-text">{{ $note }}</span>
-                                    </div>
-                                </li>
+                                <li class="observation-item-text">{{ $note }}</li>
                             @endforeach
                         </ul>
                     @else
@@ -557,24 +540,17 @@
             </div>
 
             <div class="card card-warning full">
-                <div class="card-title">
-                    <div class="card-title-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    </div>
-                    <div class="card-title-text">Observacion Tactica & Conceptual</div>
-                </div>
+                <table class="card-title" cellspacing="0" cellpadding="0"><tr>
+                    <td class="card-title-icon" aria-hidden="true">
+                        <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_TACTIC] }}" alt="">
+                    </td>
+                    <td class="card-title-text">Observacion Tactica & Conceptual</td>
+                </tr></table>
                 <div class="card-body">
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TACTIC]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TACTIC] as $note)
-                                <li>
-                                    <div class="observation-item">
-                                        <span class="observation-item-icon-cell">
-                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_TACTIC] }}" alt="" class="observation-item-icon">
-                                        </span>
-                                        <span class="observation-item-text">{{ $note }}</span>
-                                    </div>
-                                </li>
+                                <li class="observation-item-text">{{ $note }}</li>
                             @endforeach
                         </ul>
                     @else
@@ -584,24 +560,17 @@
             </div>
 
             <div class="card card-info full">
-                <div class="card-title">
-                    <div class="card-title-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
-                    </div>
-                    <div class="card-title-text">Observacion Aptitudinal</div>
-                </div>
+                <table class="card-title" cellspacing="0" cellpadding="0"><tr>
+                    <td class="card-title-icon" aria-hidden="true">
+                        <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL] }}" alt="">
+                    </td>
+                    <td class="card-title-text">Observacion Aptitudinal</td>
+                </tr></table>
                 <div class="card-body">
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL] as $note)
-                                <li>
-                                    <div class="observation-item">
-                                        <span class="observation-item-icon-cell">
-                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL] }}" alt="" class="observation-item-icon">
-                                        </span>
-                                        <span class="observation-item-text">{{ $note }}</span>
-                                    </div>
-                                </li>
+                                <li class="observation-item-text">{{ $note }}</li>
                             @endforeach
                         </ul>
                     @else
