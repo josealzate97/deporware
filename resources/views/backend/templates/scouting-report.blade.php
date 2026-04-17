@@ -111,13 +111,14 @@
             background: #dbeafe;
             border: 1px solid #c7ddfb;
             text-align: center;
-            padding: 6px;
+            line-height: 30px;
         }
         .icon-img {
             width: 16px;
             height: 16px;
-            display: block;
-            margin: 0 auto;
+            display: inline-block;
+            margin: 0;
+            vertical-align: middle;
         }
         .field-body-cell {
             vertical-align: top;
@@ -212,13 +213,15 @@
             text-align: center;
             vertical-align: middle;
             color: #ffffff;
-            padding: 4px;
+            padding: 0;
+            line-height: 22px;
         }
         .card-title-icon svg {
             width: 13px;
             height: 13px;
-            display: block;
-            margin: 0 auto;
+            display: inline-block;
+            margin: 0;
+            vertical-align: middle;
         }
         .card-title-text {
             display: table-cell;
@@ -234,11 +237,35 @@
         }
         .observation-list {
             margin: 0;
-            padding-left: 16px;
+            padding-left: 0;
+            list-style: none;
         }
         .observation-list li {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             line-height: 1.35;
+        }
+        .observation-item {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .observation-item-icon-cell {
+            display: table-cell;
+            width: 18px;
+            vertical-align: top;
+            padding-right: 6px;
+            padding-top: 1px;
+        }
+        .observation-item-icon {
+            width: 13px;
+            height: 13px;
+            display: block;
+        }
+        .observation-item-text {
+            display: table-cell;
+            vertical-align: top;
+            font-weight: 700;
+            color: #334155;
         }
         .observation-empty {
             color: #94a3b8;
@@ -292,6 +319,12 @@
         \App\Models\PlayerObservation::TYPE_TECHNICAL => [],
         \App\Models\PlayerObservation::TYPE_TACTIC => [],
         \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => [],
+    ];
+    $observationIcons = [
+        \App\Models\PlayerObservation::TYPE_PSYCHIQUE => $iconAsset('observation-physical'),
+        \App\Models\PlayerObservation::TYPE_TECHNICAL => $iconAsset('observation-technical'),
+        \App\Models\PlayerObservation::TYPE_TACTIC => $iconAsset('observation-tactical'),
+        \App\Models\PlayerObservation::TYPE_PSYCOLOGICAL => $iconAsset('observation-aptitudinal'),
     ];
 
     foreach (($player?->observations ?? collect()) as $observation) {
@@ -480,7 +513,14 @@
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCHIQUE]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCHIQUE] as $note)
-                                <li>{{ $note }}</li>
+                                <li>
+                                    <div class="observation-item">
+                                        <span class="observation-item-icon-cell">
+                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_PSYCHIQUE] }}" alt="" class="observation-item-icon">
+                                        </span>
+                                        <span class="observation-item-text">{{ $note }}</span>
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @else
@@ -500,7 +540,14 @@
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TECHNICAL]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TECHNICAL] as $note)
-                                <li>{{ $note }}</li>
+                                <li>
+                                    <div class="observation-item">
+                                        <span class="observation-item-icon-cell">
+                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_TECHNICAL] }}" alt="" class="observation-item-icon">
+                                        </span>
+                                        <span class="observation-item-text">{{ $note }}</span>
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @else
@@ -520,7 +567,14 @@
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TACTIC]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_TACTIC] as $note)
-                                <li>{{ $note }}</li>
+                                <li>
+                                    <div class="observation-item">
+                                        <span class="observation-item-icon-cell">
+                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_TACTIC] }}" alt="" class="observation-item-icon">
+                                        </span>
+                                        <span class="observation-item-text">{{ $note }}</span>
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @else
@@ -540,7 +594,14 @@
                     @if(!empty($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL]))
                         <ul class="observation-list">
                             @foreach($groupedObservationNotes[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL] as $note)
-                                <li>{{ $note }}</li>
+                                <li>
+                                    <div class="observation-item">
+                                        <span class="observation-item-icon-cell">
+                                            <img src="{{ $observationIcons[\App\Models\PlayerObservation::TYPE_PSYCOLOGICAL] }}" alt="" class="observation-item-icon">
+                                        </span>
+                                        <span class="observation-item-text">{{ $note }}</span>
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     @else
