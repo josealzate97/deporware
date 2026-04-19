@@ -53,6 +53,7 @@
                 'password' => $user->password,
                 'showPassword' => false,
                 'email' => $user->email,
+                'birthday' => $user->birthday?->format('Y-m-d') ?? '',
                 'hired_date' => $user->hired_date?->format('Y-m-d') ?? '',
                 'id' => $user->id,
                 'status' => $user->status,
@@ -113,17 +114,22 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Nombre completo <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" x-model="form.name" :required="editMode" :disabled="!editMode">
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" x-model="form.username" :required="editMode" :disabled="!editMode">
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <label class="form-label fw-bold">Fecha de cumpleaños</label>
+                                    <input type="date" class="form-control" x-model="form.birthday" :disabled="!editMode">
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Fecha de contrato <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" x-model="form.hired_date" :required="editMode" :disabled="!editMode">
                                 </div>
@@ -141,56 +147,67 @@
                                 Contacto y acceso
                             </div>
 
-                            <div class="row g-3 mt-1">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mask-phone" x-model="form.phone" :required="editMode" :disabled="!editMode">
-                                </div>
+                            <div class="row g-4 mt-1">
+                                <div class="col-12 col-lg-6">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control mask-phone" x-model="form.phone" :required="editMode" :disabled="!editMode">
+                                        </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" x-model="form.email" :required="editMode" :disabled="!editMode">
-                                </div>
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" x-model="form.email" :required="editMode" :disabled="!editMode">
+                                        </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
-                                    <select class="form-select" x-model="form.role" :required="editMode" :disabled="!editMode">
-                                        @foreach($roles as $key => $label)
-                                            <option value="{{ $key }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
-                                    <label class="form-label fw-bold">Nueva Contraseña <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="user-new-password" x-model="form.new_password" @blur="validatePassword" :disabled="!editMode">
-                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password" aria-label="Mostrar u ocultar contraseña" :disabled="!editMode">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
+                                            <select class="form-select" x-model="form.role" :required="editMode" :disabled="!editMode">
+                                                @foreach($roles as $key => $label)
+                                                    <option value="{{ $key }}">{{ $label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-text">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
-                                    <small class="text-danger" id="user-new-password-message"></small>
-                                    <ul class="password-checklist mt-2" id="user-new-password-checklist">
-                                        <li data-rule="length">Mínimo 8 caracteres</li>
-                                        <li data-rule="letter">Al menos una letra</li>
-                                        <li data-rule="number">Al menos un número</li>
-                                        <li data-rule="special">Al menos un carácter especial</li>
-                                    </ul>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
-                                    <label class="form-label fw-bold">Confirmar contraseña</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="user-new-password-confirm" x-model="confirmNewPassword" @blur="validatePassword" :disabled="!editMode">
-                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password-confirm" aria-label="Mostrar u ocultar confirmación de contraseña" :disabled="!editMode">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
+                                <div class="col-12 col-lg-6" x-show="editMode">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Nueva Contraseña <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="user-new-password" x-model="form.new_password" @blur="validatePassword" :disabled="!editMode">
+                                                <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password" aria-label="Mostrar u ocultar contraseña" :disabled="!editMode">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </div>
+                                            <small class="text-danger" id="user-new-password-message"></small>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Confirmar contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="user-new-password-confirm" x-model="confirmNewPassword" @blur="validatePassword" :disabled="!editMode">
+                                                <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-new-password-confirm" aria-label="Mostrar u ocultar confirmación de contraseña" :disabled="!editMode">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </div>
+                                            <small class="text-danger" id="user-new-password-confirm-message"></small>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-text">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
+                                            <ul class="password-checklist mt-2" id="user-new-password-checklist">
+                                                <li data-rule="length">Mínimo 8 caracteres</li>
+                                                <li data-rule="letter">Al menos una letra</li>
+                                                <li data-rule="number">Al menos un número</li>
+                                                <li data-rule="special">Al menos un carácter especial</li>
+                                            </ul>
+                                            <ul class="password-checklist mt-2" id="user-new-password-confirm-checklist">
+                                                <li data-rule="match">Las contraseñas coinciden</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <small class="text-danger" id="user-new-password-confirm-message"></small>
-                                    <ul class="password-checklist mt-2" id="user-new-password-confirm-checklist">
-                                        <li data-rule="match">Las contraseñas coinciden</li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>

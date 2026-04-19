@@ -34,6 +34,7 @@ class User extends Authenticatable {
         'phone',
         'username',
         'role',
+        'birthday',
         'hired_date',
         'password',
         'status',
@@ -64,6 +65,7 @@ class User extends Authenticatable {
     protected function casts(): array {
         return [
             'password' => 'hashed',
+            'birthday' => 'date',
             'hired_date' => 'date',
             'status' => 'integer',
         ];

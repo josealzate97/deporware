@@ -47,7 +47,7 @@ class TeamsController extends Controller
         }
 
         $teamsQuery = Team::query()
-            ->with(['managerRosters.user'])
+            ->with(['managerRosters.user', 'venues'])
             ->withCount(['playerRosters as players_count' => function ($query) {
                 $query->where('status', 1);
             }])

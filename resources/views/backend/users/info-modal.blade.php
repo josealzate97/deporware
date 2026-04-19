@@ -66,6 +66,14 @@
 
                             <div class="user-info-item user-profile-inline-card">
                                 <div class="user-info-label">
+                                    <i class="fa-solid fa-cake-candles text-primary me-2"></i>
+                                    Fecha de cumpleaños
+                                </div>
+                                <div class="user-info-value">{{ $user->birthday?->format('Y-m-d') ?? '-' }}</div>
+                            </div>
+
+                            <div class="user-info-item user-profile-inline-card">
+                                <div class="user-info-label">
                                     <i class="fa-solid fa-calendar-days text-primary me-2"></i>
                                     Fecha de contrato
                                 </div>

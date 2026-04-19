@@ -150,8 +150,16 @@
                     </thead>
                     <tbody>
                         @forelse ($teams as $team)
+                            @php($teamVenue = $team->venues->first())
                             <tr data-id="{{ $team->id }}" data-status="{{ $team->status ? '1' : '0' }}">
-                                <td class="fw-semibold">{{ $team->name }}</td>
+                                <td>
+                                    <div class="fw-semibold">{{ $team->name }}</div>
+                                    @if($teamVenue)
+                                        <span class="meta-badge" style="background:#eaf3ff;color:#1d4ed8;border-color:#bfdbfe;">
+                                            <i class="fa-solid fa-location-dot me-1"></i>{{ $teamVenue->name }}
+                                        </span>
+                                    @endif
+                                </td>
                                 <td>{{ $team->season }}</td>
                                 <td>{{ $team->year }}</td>
                                 @php($primaryCoachRoster = $team->managerRosters->firstWhere('role', \App\Models\ManagerRoster::ROLE_PRIMARY_COACH))

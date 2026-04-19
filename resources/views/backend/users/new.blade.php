@@ -65,17 +65,22 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Nombre completo <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="user-name" name="name" value="{{ old('name') }}" required>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="user-username" name="username" value="{{ old('username') }}" required>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <label class="form-label fw-bold">Fecha de cumpleaños</label>
+                                    <input type="date" class="form-control" name="birthday" value="{{ old('birthday') }}">
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Fecha de contrato <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="hired_date" value="{{ old('hired_date') }}" required>
                                 </div>
@@ -93,58 +98,68 @@
                                 Contacto y acceso
                             </div>
 
-                            <div class="row g-3 mt-1">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone') }}" required>
-                                </div>
+                            <div class="row g-4 mt-1">
+                                <div class="col-12 col-lg-6">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control mask-phone" name="phone" value="{{ old('phone') }}" required>
+                                        </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-                                </div>
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                        </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="role" x-model="role" required>
-                                        @foreach($roles as $key => $label)
-                                            <option value="{{ $key }}" {{ old('role') == $key ? 'selected' : '' }}>{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Contraseña <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="user-password" name="password" required>
-                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password" aria-label="Mostrar u ocultar contraseña">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Rol <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="role" x-model="role" required>
+                                                @foreach($roles as $key => $label)
+                                                    <option value="{{ $key }}" {{ old('role') == $key ? 'selected' : '' }}>{{ $label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-text surface-gradient-day">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
-                                    <small class="text-danger" id="user-password-message"></small>
-                                    <ul class="password-checklist surface-gradient-day mt-2" id="user-password-checklist">
-                                        <li data-rule="length">Mínimo 8 caracteres</li>
-                                        <li data-rule="letter">Al menos una letra</li>
-                                        <li data-rule="number">Al menos un número</li>
-                                        <li data-rule="special">Al menos un carácter especial</li>
-                                    </ul>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Confirmar contraseña</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="user-password-confirm" name="password_confirmation" required>
-                                        <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password-confirm" aria-label="Mostrar u ocultar confirmación de contraseña">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
+                                <div class="col-12 col-lg-6">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Contraseña <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="user-password" name="password" required>
+                                                <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password" aria-label="Mostrar u ocultar contraseña">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </div>
+                                            <small class="text-danger" id="user-password-message"></small>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">Confirmar contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="user-password-confirm" name="password_confirmation" required>
+                                                <button class="btn btn-outline-secondary" type="button" data-password-toggle data-target="user-password-confirm" aria-label="Mostrar u ocultar confirmación de contraseña">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </div>
+                                            <small class="text-danger" id="user-password-confirm-message"></small>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-text surface-gradient-day">Mínimo 8 caracteres, una letra, un número y un carácter especial.</div>
+                                            <ul class="password-checklist surface-gradient-day mt-2" id="user-password-checklist">
+                                                <li data-rule="length">Mínimo 8 caracteres</li>
+                                                <li data-rule="letter">Al menos una letra</li>
+                                                <li data-rule="number">Al menos un número</li>
+                                                <li data-rule="special">Al menos un carácter especial</li>
+                                            </ul>
+                                            <ul class="password-checklist surface-gradient-day mt-2" id="user-password-confirm-checklist">
+                                                <li data-rule="match">Las contraseñas coinciden</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <small class="text-danger" id="user-password-confirm-message"></small>
-                                    <ul class="password-checklist surface-gradient-day mt-2" id="user-password-confirm-checklist">
-                                        <li data-rule="match">Las contraseñas coinciden</li>
-                                    </ul>
                                 </div>
-
                             </div>
 
                         </div>
