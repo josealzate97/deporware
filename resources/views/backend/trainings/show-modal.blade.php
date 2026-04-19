@@ -25,6 +25,7 @@
 @php($selectedCoach = $primaryCoachRoster ?: $assistantCoachRoster)
 @php($coachName = $selectedCoach?->getRelationValue('user')?->name)
 @php($venueModel = $training->getRelationValue('venue'))
+@php($observations = $training->getRelationValue('observations') ?? collect())
 
 <div class="card p-3 section-card">
     <div class="match-tabs">
@@ -50,6 +51,12 @@
         <label for="training-tab-documents">
             <i class="fa-solid fa-folder-open match-tab-label-icon"></i>
             Documentos
+        </label>
+
+        <input type="radio" id="training-tab-observations" name="training-tabs">
+        <label for="training-tab-observations">
+            <i class="fa-solid fa-note-sticky match-tab-label-icon"></i>
+            Observaciones
         </label>
 
         <div class="match-tab-panels w-100 mt-3">
@@ -169,6 +176,27 @@
                     </div>
                 @else
                     <div class="text-muted">No hay documento cargado.</div>
+                @endif
+            </div>
+
+            <div class="match-tab-panel" data-panel="training-observations">
+                @if($observations->isEmpty())
+                    <div class="text-muted">No hay observaciones registradas para este entrenamiento.</div>
+                @else
+                    <div class="d-flex flex-column gap-3">
+                        @foreach($observations as $observation)
+                            <div class="match-info-item">
+                                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                                    <div class="match-info-label">
+                                        <i class="fa-solid fa-user-pen match-info-label-icon"></i>
+                                        {{ $observation->author?->name ?? 'Coordinador' }}
+                                    </div>
+                                    <span class="match-info-sub">{{ $observation->updated_at?->format('d/m/Y H:i') ?? '-' }}</span>
+                                </div>
+                                <div class="match-info-sub mt-2">{{ $observation->note }}</div>
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </div>

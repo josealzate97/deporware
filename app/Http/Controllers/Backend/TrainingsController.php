@@ -10,9 +10,12 @@ use App\Models\SportsVenue;
 use App\Models\Team;
 use App\Models\Training;
 use App\Models\TrainingAttendance;
+use App\Models\TrainingObservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -51,8 +54,9 @@ class TrainingsController extends Controller
         // Scoping por rol: coordinator y coach solo ven entrenamientos de sus equipos
         $scopedTeamIds = auth()->user()->scopedTeamIds();
 
-        $trainingsQuery = Training::with(['team', 'venue'])
+        $trainingsQuery = $this->accessibleTrainingsQuery(['team', 'venue'])
             ->with(['team.managerRosters.user'])
+            ->withCount('observations')
             ->withCount([
                 'attendance',
                 'teamRosters as called_up_count' => function ($query) {
@@ -62,9 +66,6 @@ class TrainingsController extends Controller
                         });
                 },
             ])
-            ->when($scopedTeamIds !== null, function ($query) use ($scopedTeamIds) {
-                $query->whereIn('team', $scopedTeamIds);
-            })
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($searchQuery) use ($search) {
                     $searchQuery->where('name', 'like', "%{$search}%")
@@ -109,6 +110,9 @@ class TrainingsController extends Controller
                 'statusCode' => (int) $training->status,
                 'status' => (int) $training->status === Training::ACTIVE ? 'Activo' : 'Inactivo',
                 'duration' => $this->formatDurationLabel($training->duration),
+                'observationsCount' => (int) ($training->observations_count ?? 0),
+                'editUrl' => route('trainings.edit', $training->id),
+                'observationsUrl' => route('trainings.edit', ['id' => $training->id]) . '#training-observations',
             ];
         })->filter(fn ($item) => !empty($item['date']))->values();
 
@@ -123,6 +127,7 @@ class TrainingsController extends Controller
             'calendarMonth' => $monthStart->format('Y-m'),
             'calendarMonthLabel' => ucfirst($monthStart->locale('es')->isoFormat('MMMM [de] YYYY')),
             'calendarTrainingsData' => $calendarTrainingsData,
+            'isCoordinator' => (int) auth()->user()?->role === User::ROLE_COORDINATOR,
         ]);
     }
 
@@ -208,7 +213,7 @@ class TrainingsController extends Controller
         $modal = request('modal');
 
         if ($modal === 'attendance') {
-            $training = Training::with(['team.playerRosters.player', 'attendance.player.activeRoster'])->findOrFail($id);
+            $training = $this->accessibleTrainingsQuery(['team.playerRosters.player', 'attendance.player.activeRoster'])->findOrFail($id);
             $activeRosters = $training->activeTeamRosters();
             $absentRosters = $training->absentPlayerRosters();
 
@@ -219,7 +224,12 @@ class TrainingsController extends Controller
             ]);
         }
 
-        $training = Training::with(['team.managerRosters.user', 'venue', 'attendance.player.activeRoster'])->findOrFail($id);
+        $training = $this->accessibleTrainingsQuery([
+            'team.managerRosters.user',
+            'venue',
+            'attendance.player.activeRoster',
+            'observations.author',
+        ])->findOrFail($id);
 
         if (request()->boolean('modal')) {
             return view('backend.trainings.show-modal', [
@@ -232,7 +242,7 @@ class TrainingsController extends Controller
 
     public function viewDocument($id)
     {
-        $training = Training::findOrFail($id);
+        $training = $this->accessibleTrainingsQuery()->findOrFail($id);
 
         if (empty($training->document) || !Storage::disk('public')->exists($training->document)) {
             abort(404);
@@ -243,7 +253,7 @@ class TrainingsController extends Controller
 
     public function downloadDocument($id)
     {
-        $training = Training::findOrFail($id);
+        $training = $this->accessibleTrainingsQuery()->findOrFail($id);
 
         if (empty($training->document) || !Storage::disk('public')->exists($training->document)) {
             abort(404);
@@ -260,9 +270,11 @@ class TrainingsController extends Controller
     */
     public function edit($id)
     {
-        $training = Training::with('attendance')->findOrFail($id);
+        $training = $this->accessibleTrainingsQuery(['attendance', 'observations.author'])->findOrFail($id);
+        $selectedObservationId = (string) request()->query('observation', '');
+        $selectedObservation = $training->observations->firstWhere('id', $selectedObservationId);
 
-        return view('backend.trainings.new', $this->buildFormViewData($training));
+        return view('backend.trainings.new', $this->buildFormViewData($training, $selectedObservation));
     }
 
     /**
@@ -274,7 +286,7 @@ class TrainingsController extends Controller
     */
     public function update(Request $request, $id)
     {
-        $training = Training::with('attendance')->findOrFail($id);
+        $training = $this->accessibleTrainingsQuery(['attendance'])->findOrFail($id);
         $validated = $this->validateTraining($request);
         $scheduledAt = Carbon::parse($validated['training_date']);
         $selectedAttendance = $this->sanitizeAttendancePlayers(
@@ -329,11 +341,42 @@ class TrainingsController extends Controller
     */
     public function destroy($id)
     {
-        $training = Training::findOrFail($id);
+        $training = $this->accessibleTrainingsQuery()->findOrFail($id);
         $this->removeTrainingStorage($training->id, $training->team);
         $training->update(['status' => Training::INACTIVE]);
 
         return redirect()->route('trainings.index');
+    }
+
+    public function storeObservation(Request $request, string $id)
+    {
+        $training = $this->accessibleTrainingsQuery()->findOrFail($id);
+        $validated = $request->validate([
+            'note' => ['required', 'string'],
+        ]);
+
+        $training->observations()->create([
+            'user_id' => Auth::id(),
+            'note' => $validated['note'],
+        ]);
+
+        return redirect()->to(route('trainings.edit', $training->id) . '#training-observations');
+    }
+
+    public function updateObservation(Request $request, string $id, string $observationId)
+    {
+        $training = $this->accessibleTrainingsQuery(['observations'])->findOrFail($id);
+        $observation = $training->observations()->findOrFail($observationId);
+        $validated = $request->validate([
+            'note' => ['required', 'string'],
+        ]);
+
+        $observation->update([
+            'user_id' => Auth::id(),
+            'note' => $validated['note'],
+        ]);
+
+        return redirect()->to(route('trainings.edit', $training->id) . '#training-observations');
     }
 
     /**
@@ -403,7 +446,7 @@ class TrainingsController extends Controller
         ]);
     }
 
-    private function buildFormViewData(?Training $training = null): array
+    private function buildFormViewData(?Training $training = null, ?TrainingObservation $selectedObservation = null): array
     {
         return [
             'isEdit' => $training !== null,
@@ -413,7 +456,22 @@ class TrainingsController extends Controller
             'statusOptions' => Training::statusOptions(),
             'playersByTeam' => $this->getPlayersByTeam(),
             'selectedAttendance' => $training?->attendance?->pluck('player')->values()->all() ?? [],
+            'trainingObservations' => $training?->observations ?? collect(),
+            'selectedObservation' => $selectedObservation,
+            'isCoordinator' => (int) auth()->user()?->role === User::ROLE_COORDINATOR,
         ];
+    }
+
+    private function accessibleTrainingsQuery(array $with = [])
+    {
+        $query = Training::query()->with($with);
+        $scopedTeamIds = auth()->user()?->scopedTeamIds();
+
+        if ($scopedTeamIds !== null) {
+            $query->whereIn('team', $scopedTeamIds);
+        }
+
+        return $query;
     }
 
     private function getPlayersByTeam(): array

@@ -1,4 +1,4 @@
-<div class="trainings-calendar" data-trainings-calendar data-month="{{ $calendarMonth }}" data-events='@json($calendarTrainingsData)'>
+<div class="trainings-calendar" data-trainings-calendar data-month="{{ $calendarMonth }}" data-is-coordinator="{{ ($isCoordinator ?? false) ? '1' : '0' }}" data-events='@json($calendarTrainingsData)'>
     <div class="trainings-calendar-toolbar">
         <button type="button" class="btn btn-sm trainings-calendar-nav-btn" data-calendar-nav="prev" aria-label="Mes anterior">
             <i class="fa-solid fa-chevron-left"></i>

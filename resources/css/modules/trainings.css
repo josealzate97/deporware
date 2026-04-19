@@ -937,7 +937,8 @@
 #training-tab-info:checked + label,
 #training-tab-goals:checked + label,
 #training-tab-attendance:checked + label,
-#training-tab-documents:checked + label {
+#training-tab-documents:checked + label,
+#training-tab-observations:checked + label {
 	color: #1d4ed8;
 	background: #eff6ff;
 	border-color: #bfdbfe;
@@ -951,7 +952,8 @@
 #training-tab-info:checked ~ .match-tab-panels [data-panel="training-info"],
 #training-tab-goals:checked ~ .match-tab-panels [data-panel="training-goals"],
 #training-tab-attendance:checked ~ .match-tab-panels [data-panel="training-attendance"],
-#training-tab-documents:checked ~ .match-tab-panels [data-panel="training-documents"] {
+#training-tab-documents:checked ~ .match-tab-panels [data-panel="training-documents"],
+#training-tab-observations:checked ~ .match-tab-panels [data-panel="training-observations"] {
 	display: block;
 }
 
@@ -1002,7 +1004,8 @@ body.theme-dark .match-tabs label {
 body.theme-dark #training-tab-info:checked + label,
 body.theme-dark #training-tab-goals:checked + label,
 body.theme-dark #training-tab-attendance:checked + label,
-body.theme-dark #training-tab-documents:checked + label {
+body.theme-dark #training-tab-documents:checked + label,
+body.theme-dark #training-tab-observations:checked + label {
 	background: #1e293b;
 	border-color: #334155;
 	color: #e2e8f0;
@@ -1518,4 +1521,66 @@ body.theme-dark .match-tab-panel .training-attendance-card {
 body.theme-dark .match-tab-panel .training-attendance-card:hover {
 	border-color: #3b82f6;
 	box-shadow: 0 14px 28px rgba(30, 64, 175, 0.25);
+}
+
+.training-observation-form-card,
+.training-observation-card,
+.training-observation-empty {
+	border: 1px solid #dbe7f5;
+	border-radius: 16px;
+	background:
+		radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+		radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+		linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+	box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+	padding: 1rem;
+}
+
+.training-observation-author {
+	font-weight: 800;
+	color: #0f172a;
+}
+
+.training-observation-date {
+	font-size: 0.84rem;
+	color: #64748b;
+}
+
+.training-observation-note {
+	white-space: pre-wrap;
+	line-height: 1.65;
+	color: #334155;
+}
+
+.training-observation-empty {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: #64748b;
+}
+
+.training-observation-empty i {
+	font-size: 1.1rem;
+	color: #1d4ed8;
+}
+
+body.theme-dark .training-observation-form-card,
+body.theme-dark .training-observation-card,
+body.theme-dark .training-observation-empty {
+	background:
+		radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 32%),
+		radial-gradient(circle at left center, rgba(96, 165, 250, 0.12), transparent 28%),
+		linear-gradient(135deg, #161b22 0%, #121720 100%);
+	border-color: #2a3444;
+	box-shadow: 0 18px 34px rgba(2, 6, 23, 0.36);
+}
+
+body.theme-dark .training-observation-author {
+	color: #e2e8f0;
+}
+
+body.theme-dark .training-observation-date,
+body.theme-dark .training-observation-empty,
+body.theme-dark .training-observation-note {
+	color: #cbd5e1;
 }

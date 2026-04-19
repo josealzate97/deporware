@@ -122,6 +122,12 @@ class Training extends Model
         return $this->hasMany(TrainingAttendance::class, 'training');
     }
 
+    public function observations()
+    {
+        return $this->hasMany(TrainingObservation::class, 'training_id')
+            ->latest('created_at');
+    }
+
     public function teamRosters()
     {
         return $this->hasMany(PlayerRoster::class, 'team', 'team');

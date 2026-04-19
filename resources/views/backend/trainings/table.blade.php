@@ -89,6 +89,12 @@
                                 aria-label="Ver información de {{ $training->name }}" title="Ver información">
                                 <i class="fas fa-circle-info"></i>
                             </button>
+                            @if($isCoordinator ?? false)
+                                <a href="{{ route('trainings.edit', $training->id) }}#training-observations" class="btn btn-icon training-action-btn training-action-btn-info"
+                                    aria-label="Observaciones de {{ $training->name }}" title="Observaciones">
+                                    <i class="fa-solid fa-note-sticky"></i>
+                                </a>
+                            @endif
                             <a href="{{ route('trainings.edit', $training->id) }}" class="btn btn-icon training-action-btn training-action-btn-edit"
                                 aria-label="Editar {{ $training->name }}" title="Editar">
                                 <i class="fa-solid fa-pen"></i>

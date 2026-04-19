@@ -11,6 +11,7 @@
 @endpush
 
 @section('content')
+    @php($isCoordinator = $isCoordinator ?? ((int) auth()->user()?->role === \App\Models\User::ROLE_COORDINATOR))
 
     <div class="container-fluid p-4">
 
@@ -118,9 +119,9 @@
                 </div>
 
                 @if(($activeView ?? 'list') === 'calendar')
-                    @include('backend.trainings.calendar')
+                    @include('backend.trainings.calendar', ['isCoordinator' => $isCoordinator])
                 @else
-                    @include('backend.trainings.table')
+                    @include('backend.trainings.table', ['isCoordinator' => $isCoordinator])
                 @endif
             </div>
 

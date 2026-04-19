@@ -69,6 +69,7 @@ const initTrainingsCalendar = () => {
     const dayTitleEl = root.querySelector('[data-calendar-day-title]');
     const eventsEl = root.querySelector('[data-calendar-events]');
     const navButtons = root.querySelectorAll('[data-calendar-nav]');
+    const isCoordinator = root.dataset.isCoordinator === '1';
 
     if (!grid || !titleEl || !dayTitleEl || !eventsEl) return;
 
@@ -112,6 +113,17 @@ const initTrainingsCalendar = () => {
                         <span><i class="fa-solid fa-users me-1"></i>${event.team || '-'}</span>
                         <span><i class="fa-solid fa-clock me-1"></i>${event.time || '-'}</span>
                         <span><i class="fa-regular fa-hourglass-half me-1"></i>${event.duration || '-'}</span>
+                        <span><i class="fa-solid fa-note-sticky me-1"></i>${event.observationsCount || 0} observaciones</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+                        <a class="btn btn-sm training-attendance-open-btn" href="${event.editUrl || '#'}">
+                            <i class="fa-solid fa-pen me-1"></i>Editar
+                        </a>
+                        ${isCoordinator ? `
+                            <a class="btn btn-sm training-attendance-open-btn" href="${event.observationsUrl || event.editUrl || '#'}">
+                                <i class="fa-solid fa-note-sticky me-1"></i>Observaciones
+                            </a>
+                        ` : ''}
                     </div>
                 </div>
                 <div>

@@ -20,6 +20,9 @@
 @php($existingDocumentPath = $hasExistingDocument ? $training->document : '')
 @php($existingDocumentExtension = $existingDocumentPath ? strtoupper(pathinfo($existingDocumentPath, PATHINFO_EXTENSION)) : '')
 @php($existingDocumentIsPdf = strtolower(pathinfo($existingDocumentPath, PATHINFO_EXTENSION)) === 'pdf')
+@php($trainingObservations = $trainingObservations ?? collect())
+@php($selectedObservation = $selectedObservation ?? null)
+@php($isCoordinator = $isCoordinator ?? ((int) auth()->user()?->role === \App\Models\User::ROLE_COORDINATOR))
 
 @section('title', $isEdit ? 'Editar Entrenamiento' : 'Nuevo Entrenamiento')
 
@@ -63,6 +66,11 @@
                 </div>
 
                 <div class="section-hero-actions mt-2 mt-lg-0 d-flex gap-2">
+                    @if($isEdit && $isCoordinator)
+                        <a href="#training-observations" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-note-sticky me-2"></i> Observaciones
+                        </a>
+                    @endif
                     <a id="btn-download-training-template"
                        href="{{ asset('docs/plantilla-entrenamientos.xlsx') }}"
                        download
@@ -425,6 +433,99 @@
                 </div>
             </form>
         </div>
+
+        @if($isEdit)
+            <div class="card p-4 mt-4 section-card" id="training-observations">
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3 mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Observaciones del entrenamiento</h3>
+                        <div class="text-muted small fw-bold">Seguimiento cualitativo registrado por coordinación.</div>
+                    </div>
+
+                    @if($isCoordinator)
+                        <a href="{{ route('trainings.edit', $training->id) }}#training-observations" class="btn btn-primary">
+                            <i class="fa-solid fa-plus-circle me-2"></i>Nueva observación
+                        </a>
+                    @endif
+                </div>
+
+                <div class="row g-4">
+                    @if($isCoordinator)
+                        <div class="col-12 col-lg-5">
+                            <div class="training-observation-form-card">
+                                <div class="training-side-panel-title">
+                                    {{ $selectedObservation ? 'Editar observación' : 'Crear observación' }}
+                                </div>
+                                <p class="training-side-panel-subtitle mb-0">
+                                    {{ $selectedObservation ? 'Actualiza la nota seleccionada.' : 'Registra una observación sobre este entrenamiento.' }}
+                                </p>
+
+                                <form method="POST" action="{{ $selectedObservation ? route('trainings.observations.update', [$training->id, $selectedObservation->id]) : route('trainings.observations.store', $training->id) }}" class="mt-3">
+                                    @csrf
+                                    @if($selectedObservation)
+                                        @method('PUT')
+                                    @endif
+
+                                    <label class="form-label fw-semibold" for="training-observation-note">Observación <span class="text-danger">*</span></label>
+                                    <textarea
+                                        id="training-observation-note"
+                                        name="note"
+                                        rows="6"
+                                        class="form-control @error('note') is-invalid @enderror"
+                                        required>{{ old('note', $selectedObservation?->note ?? '') }}</textarea>
+                                    @error('note')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+
+                                    <div class="d-flex justify-content-end gap-2 mt-3">
+                                        @if($selectedObservation)
+                                            <a href="{{ route('trainings.edit', $training->id) }}#training-observations" class="btn btn-danger btn-action">
+                                                <i class="fa-solid fa-xmark me-2"></i>Cancelar
+                                            </a>
+                                        @endif
+                                        <button type="submit" class="btn btn-success btn-action">
+                                            <i class="fa-solid fa-floppy-disk me-2"></i>{{ $selectedObservation ? 'Actualizar' : 'Guardar' }}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="col-12 {{ $isCoordinator ? 'col-lg-7' : '' }}">
+                        <div class="d-flex flex-column gap-3">
+                            @forelse($trainingObservations as $observation)
+                                <div class="training-observation-card">
+                                    <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+                                        <div>
+                                            <div class="training-observation-author">
+                                                <i class="fa-solid fa-user-pen me-2"></i>{{ $observation->author?->name ?? 'Coordinador' }}
+                                            </div>
+                                            <div class="training-observation-date">
+                                                {{ $observation->updated_at?->format('d/m/Y H:i') ?? '-' }}
+                                            </div>
+                                        </div>
+
+                                        @if($isCoordinator)
+                                            <a href="{{ route('trainings.edit', ['id' => $training->id, 'observation' => $observation->id]) }}#training-observations" class="btn btn-sm training-action-btn training-action-btn-edit">
+                                                <i class="fa-solid fa-pen me-1"></i>Editar
+                                            </a>
+                                        @endif
+                                    </div>
+
+                                    <div class="training-observation-note mt-3">{{ $observation->note }}</div>
+                                </div>
+                            @empty
+                                <div class="training-observation-empty">
+                                    <i class="fa-solid fa-note-sticky"></i>
+                                    No hay observaciones registradas para este entrenamiento.
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
     </div>
 
