@@ -9,7 +9,7 @@
         <meta name="description" content="@yield('meta_description', 'deporware: acceso seguro al panel de inventario, ventas y reportes.')">
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/branding/tab_icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/branding/tab_icon.png') }}">
 
         <title>@yield('title', 'Deporware')</title>
 

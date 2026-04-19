@@ -142,8 +142,8 @@
                                 <span class="player-sport-metric-label">Pierna hábil</span>
                                 @php($isLeftFoot = (int) $player->foot === \App\Models\Player::PIE_IZQUIERDO || (int) $player->foot === \App\Models\Player::PIE_AMBOS)
                                 @php($isRightFoot = (int) $player->foot === \App\Models\Player::PIE_DERECHO || (int) $player->foot === \App\Models\Player::PIE_AMBOS)
-                                @php($leftFootAsset = Vite::asset('resources/images/foots/' . ($isLeftFoot ? 'left_active.png' : 'left.png')))
-                                @php($rightFootAsset = Vite::asset('resources/images/foots/' . ($isRightFoot ? 'right_active.png' : 'right.png')))
+                                @php($leftFootAsset = asset('images/foots/' . ($isLeftFoot ? 'left_active.png' : 'left.png')))
+                                @php($rightFootAsset = asset('images/foots/' . ($isRightFoot ? 'right_active.png' : 'right.png')))
                                 <div class="player-foot-selector" aria-label="Pierna hábil {{ $footOptions[$player->foot] ?? '-' }}">
                                     <span class="player-foot-item {{ $isLeftFoot ? 'is-active' : '' }}" title="Izquierda">
                                         <img src="{{ $leftFootAsset }}" alt="Pie izquierdo" class="player-foot-icon" loading="lazy">

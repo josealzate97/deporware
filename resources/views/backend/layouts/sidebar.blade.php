@@ -3,7 +3,7 @@
 
     <a href="{{ route('home') }}" class="sidebar-brand d-flex">
         <span class="sidebar-title">
-            <img src="{{ Vite::asset('resources/images/branding/logo_half.png') }}" alt="Logo deporware" class="sidebar-logo">
+            <img src="{{ asset('images/branding/logo_half.png') }}" alt="Logo deporware" class="sidebar-logo">
         </span>
     </a>
 

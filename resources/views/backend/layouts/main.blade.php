@@ -15,7 +15,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&display=swap" rel="stylesheet">
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{{ Vite::asset('resources/images/branding/tab_icon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/branding/tab_icon.png') }}">
 
         <!-- Vite Assets -->
         @vite([
