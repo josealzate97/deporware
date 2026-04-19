@@ -16,15 +16,16 @@
 .matches-view-tab {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.3rem;
+	gap: 0.42rem;
 	border: 1px solid #bfdbfe;
-	border-radius: 8px;
-	padding: 0.42rem 1rem;
-	font-size: 0.9rem;
+	border-radius: 12px;
+	padding: 0.66rem 1.08rem;
+	font-size: 0.96rem;
 	font-weight: 700;
 	text-decoration: none;
 	color: #1d4ed8;
 	background: #eff6ff;
+	line-height: 1.2;
 }
 
 .matches-view-tab.is-active {
@@ -913,20 +914,21 @@
 .match-tabs label {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.35rem;
-	padding: 0.45rem 0.85rem;
-	border-radius: 10px;
+	gap: 0.45rem;
+	padding: 0.66rem 1.04rem;
+	border-radius: 12px;
 	border: 1px solid #e2e8f0;
 	background: #f8fafc;
 	color: #64748b;
 	font-weight: 700;
-	font-size: 0.88rem;
+	font-size: 0.95rem;
+	line-height: 1.2;
 	cursor: pointer;
 }
 
 .match-tab-label-icon {
 	color: #1d4ed8;
-	font-size: 0.8rem;
+	font-size: 0.92rem;
 }
 
 .match-tabs label.is-disabled {

@@ -3,6 +3,8 @@
         \App\Models\ManagerRoster::ROLE_PRIMARY_COACH => 'Entrenador principal',
         \App\Models\ManagerRoster::ROLE_ASSISTANT_COACH => 'Entrenador asistente',
     ];
+    $birthday = $user->birthday;
+    $birthdayAge = $birthday?->age;
 @endphp
 
 <div class="show-modal-mint">
@@ -64,20 +66,31 @@
                                 </div>
                             </div>
 
-                            <div class="user-info-item user-profile-inline-card">
-                                <div class="user-info-label">
-                                    <i class="fa-solid fa-cake-candles text-primary me-2"></i>
-                                    Fecha de cumpleaños
+                            <div class="user-info-item user-profile-inline-card user-profile-dates-card">
+                                <div class="user-profile-date-row">
+                                    <div class="user-info-label mb-0">
+                                        <i class="fa-solid fa-cake-candles text-primary me-2"></i>
+                                        Fecha de cumpleaños
+                                    </div>
+                                    <div class="user-profile-date-main">
+                                        <span class="user-info-value">{{ $birthday?->format('Y-m-d') ?? '-' }}</span>
+                                        @if($birthdayAge !== null)
+                                            <span class="meta-badge user-age-badge">{{ $birthdayAge }} años</span>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="user-info-value">{{ $user->birthday?->format('Y-m-d') ?? '-' }}</div>
-                            </div>
 
-                            <div class="user-info-item user-profile-inline-card">
-                                <div class="user-info-label">
-                                    <i class="fa-solid fa-calendar-days text-primary me-2"></i>
-                                    Fecha de contrato
+                                <div class="user-profile-date-divider"></div>
+
+                                <div class="user-profile-date-row">
+                                    <div class="user-info-label mb-0">
+                                        <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                                        Fecha de contrato
+                                    </div>
+                                    <div class="user-profile-date-main">
+                                        <span class="user-info-value">{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</span>
+                                    </div>
                                 </div>
-                                <div class="user-info-value">{{ $user->hired_date?->format('Y-m-d') ?? '-' }}</div>
                             </div>
 
                             <div class="user-info-item user-profile-inline-card">

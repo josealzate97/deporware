@@ -10,17 +10,19 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 8px 14px;
-    border-radius: 8px;
+    padding: 0.7rem 1.1rem;
+    border-radius: 12px;
     color: #6c757d;
     text-decoration: none;
     font-weight: 600;
     background: #f8f9fa;
+    font-size: 0.98rem;
+    line-height: 1.2;
 }
 
 .teams-tab-icon {
     color: #1d4ed8;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
 }
 
 .teams-tab.is-active {
@@ -238,12 +240,17 @@ label.team-player-card {
 }
 
 .team-modal-tab {
-    padding: 0.5rem 0.9rem;
-    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.68rem 1.08rem;
+    border-radius: 12px;
     border: 1px solid #e6e8ec;
     background: #f8f9fa;
     color: #6c757d;
     font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.2;
     cursor: pointer;
 }
 
