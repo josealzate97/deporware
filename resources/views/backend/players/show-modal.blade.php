@@ -45,8 +45,8 @@
                             @endif
                         </div>
                         @if($playerPhotoUrl)
-                        <a href="{{ route('players.scouting-report', $player->id) }}" class="btn-download-player" target="_blank">
-                            <i class="fa-solid fa-download"></i> <span>Descargar</span>
+                        <a href="{{ route('players.photo.download', $player->id) }}" class="btn-download-player">
+                            <span>Descargar</span>
                         </a>
                         @endif
                     </div>

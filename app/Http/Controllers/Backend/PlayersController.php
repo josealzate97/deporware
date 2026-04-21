@@ -241,6 +241,35 @@ class PlayersController extends Controller
         return response()->download(storage_path('app/public/' . $path), basename($path));
     }
 
+    public function downloadPhoto($id)
+    {
+        $player = Player::findOrFail($id);
+
+        if (empty($player->photo)) {
+            abort(404);
+        }
+
+        $disk = Storage::disk('public');
+
+        if (!$disk->exists($player->photo)) {
+            abort(404);
+        }
+
+        $teamIds = $this->getPlayerTeamIds($player->id);
+        $allowed = collect($teamIds)->contains(function ($teamId) use ($player) {
+            return Str::startsWith($player->photo, TenantStorage::path("teams/{$teamId}/players/{$player->id}/photos/"));
+        });
+
+        if (!$allowed) {
+            abort(403);
+        }
+
+        $extension = pathinfo($player->photo, PATHINFO_EXTENSION);
+        $filename = Str::slug(trim(($player->name ?? '') . ' ' . ($player->lastname ?? ''))) . '.' . $extension;
+
+        return response()->download(storage_path('app/public/' . $player->photo), $filename);
+    }
+
     public function downloadScoutingReport($id)
     {
         $player = Player::with([
