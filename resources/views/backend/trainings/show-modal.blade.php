@@ -164,7 +164,7 @@
             <div class="match-tab-panel" data-panel="training-documents">
                 @if($documentUrl)
                     <div class="match-info-item">
-                        <div class="match-info-label"><i class="fa-solid fa-file-lines match-info-label-icon"></i>Documento del entrenamiento</div>
+                        <div class="match-info-label" style="font-size:1rem;font-weight:700;"><i class="fa-solid fa-file-lines match-info-label-icon"></i>Documento del entrenamiento</div>
                         <div class="d-flex align-items-center gap-2 flex-wrap mt-2">
                             <a href="{{ route('trainings.view.document', $training->id) }}" target="_blank" rel="noopener" class="btn btn-sm match-file-action-btn">
                                 <i class="fa-solid fa-eye me-1"></i> Visualizar
@@ -181,7 +181,11 @@
 
             <div class="match-tab-panel" data-panel="training-observations">
                 @if($observations->isEmpty())
-                    <div class="text-muted">No hay observaciones registradas para este entrenamiento.</div>
+                    <div class="d-flex flex-column align-items-center justify-content-center gap-2 py-4 text-muted">
+                        <i class="fa-regular fa-note-sticky" style="font-size:2rem;opacity:.4;"></i>
+                        <span class="fw-semibold">Sin observaciones</span>
+                        <span class="small">Aún no se han registrado observaciones para este entrenamiento.</span>
+                    </div>
                 @else
                     <div class="d-flex flex-column gap-3">
                         @foreach($observations as $observation)

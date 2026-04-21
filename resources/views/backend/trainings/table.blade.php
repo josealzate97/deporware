@@ -90,7 +90,7 @@
                                 <i class="fas fa-circle-info"></i>
                             </button>
                             @if($isCoordinator ?? false)
-                                <a href="{{ route('trainings.edit', $training->id) }}#training-observations" class="btn btn-icon training-action-btn training-action-btn-info"
+                                <a href="{{ route('trainings.edit', $training->id) }}#training-observations" class="btn btn-icon training-action-btn training-action-btn-warning"
                                     aria-label="Observaciones de {{ $training->name }}" title="Observaciones">
                                     <i class="fa-solid fa-note-sticky"></i>
                                 </a>

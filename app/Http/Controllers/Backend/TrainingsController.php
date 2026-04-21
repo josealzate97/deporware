@@ -127,7 +127,7 @@ class TrainingsController extends Controller
             'calendarMonth' => $monthStart->format('Y-m'),
             'calendarMonthLabel' => ucfirst($monthStart->locale('es')->isoFormat('MMMM [de] YYYY')),
             'calendarTrainingsData' => $calendarTrainingsData,
-            'isCoordinator' => (int) auth()->user()?->role === User::ROLE_COORDINATOR,
+            'isCoordinator' => in_array((int) auth()->user()?->role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER, User::ROLE_COORDINATOR]),
         ]);
     }
 
@@ -458,7 +458,7 @@ class TrainingsController extends Controller
             'selectedAttendance' => $training?->attendance?->pluck('player')->values()->all() ?? [],
             'trainingObservations' => $training?->observations ?? collect(),
             'selectedObservation' => $selectedObservation,
-            'isCoordinator' => (int) auth()->user()?->role === User::ROLE_COORDINATOR,
+            'isCoordinator' => in_array((int) auth()->user()?->role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER, User::ROLE_COORDINATOR]),
         ];
     }
 

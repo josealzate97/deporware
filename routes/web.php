@@ -163,8 +163,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/download/document', 'downloadDocument')->name('download.document');
             Route::put('/{id}', 'update')->name('update');
             Route::delete('/{id}', 'destroy')->name('destroy');
-            Route::post('/{id}/observations', 'storeObservation')->middleware('role:coordinator')->name('observations.store');
-            Route::put('/{id}/observations/{observationId}', 'updateObservation')->middleware('role:coordinator')->name('observations.update');
+            Route::post('/{id}/observations', 'storeObservation')->middleware('role:root,sport_manager,coordinator')->name('observations.store');
+            Route::put('/{id}/observations/{observationId}', 'updateObservation')->middleware('role:root,sport_manager,coordinator')->name('observations.update');
 
         });
 
