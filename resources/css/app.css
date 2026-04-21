@@ -875,6 +875,18 @@ main[role="main"] .btn .fa-brands {
   color: #166534;
 }
 
+.btn-icon-warning {
+  background: #fefce8;
+  border-color: #fde047;
+  color: #a16207;
+}
+
+.btn-icon-warning:hover {
+  background: #fef08a;
+  border-color: #facc15;
+  color: #854d0e;
+}
+
 .btn-icon-locked {
   width: 26px;
   height: 26px;

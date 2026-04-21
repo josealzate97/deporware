@@ -190,7 +190,7 @@
                                         aria-label="Editar jugador {{ $player->name }} {{ $player->lastname }}" title="Editar jugador {{ $player->name }} {{ $player->lastname }}">
                                         <i class="fas fa-edit mt-1"></i>
                                     </a>
-                                    <button type="button" class="btn btn-icon text-warning"
+                                    <button type="button" class="btn btn-icon btn-icon-warning"
                                         @click="openObservation('{{ $player->id }}', @js($player->name . ' ' . $player->lastname))"
                                         aria-label="Agregar observación a {{ $player->name }} {{ $player->lastname }}" title="Agregar observación">
                                         <i class="fas fa-note-sticky"></i>

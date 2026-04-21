@@ -65,15 +65,12 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        <div class="training-attendance-stack">
-                            <span class="training-attendance-ratio">{{ $attendanceCount }}/{{ $calledUpCount }}</span>
-                            <button type="button" class="btn btn-sm training-attendance-open-btn"
-                                @click="openModal('{{ route('trainings.show', $training->id) }}?modal=attendance')"
-                                aria-label="Ver asistentes de {{ $training->name }}">
-                                <i class="fa-solid fa-user-check me-1"></i>
-                                Ver más
-                            </button>
-                        </div>
+                        <button type="button" class="btn training-attendance-btn"
+                            @click="openModal('{{ route('trainings.show', $training->id) }}?modal=attendance')"
+                            aria-label="Ver asistentes de {{ $training->name }}">
+                            <i class="fa-solid fa-user-check"></i>
+                            <span class="training-attendance-ratio-inline">{{ $attendanceCount }}/{{ $calledUpCount }}</span>
+                        </button>
                     </td>
                     <td>
                         @if($training->status == \App\Models\Training::ACTIVE)
