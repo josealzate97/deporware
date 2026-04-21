@@ -221,6 +221,40 @@
   border: 1px solid #e2e8f0;
 }
 
+.player-photo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.btn-download-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #fff !important;
+  background: #7c3aed;
+  border-radius: 8px;
+  padding: 0.22rem 0.7rem;
+  text-decoration: none;
+  transition: background 0.18s;
+  white-space: nowrap;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-download-player:hover {
+  background: #6d28d9;
+  color: #fff !important;
+}
+
+.btn-download-player i,
+.btn-download-player span {
+  color: #fff !important;
+}
+
 .player-profile-photo {
   width: 110px;
   height: 110px;

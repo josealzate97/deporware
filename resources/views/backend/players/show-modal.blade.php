@@ -34,17 +34,24 @@
 
             <div class="player-tab-panel" data-panel="general">
                 <div class="player-profile-header mb-3">
-                    <div class="player-profile-photo">
+                    <div class="player-photo-wrapper">
+                        <div class="player-profile-photo">
+                            @if($playerPhotoUrl)
+                                <img src="{{ $playerPhotoUrl }}" alt="Foto del jugador" class="player-photo-img is-visible player-lightbox-trigger" data-lightbox-src="{{ $playerPhotoUrl }}" data-lightbox-alt="Foto del jugador" title="Click para ampliar">
+                            @else
+                                <div class="player-photo-placeholder">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                            @endif
+                        </div>
                         @if($playerPhotoUrl)
-                            <img src="{{ $playerPhotoUrl }}" alt="Foto del jugador" class="player-photo-img is-visible player-lightbox-trigger" data-lightbox-src="{{ $playerPhotoUrl }}" data-lightbox-alt="Foto del jugador" title="Click para ampliar">
-                        @else
-                            <div class="player-photo-placeholder">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
+                        <a href="{{ route('players.scouting-report', $player->id) }}" class="btn-download-player" target="_blank">
+                            <i class="fa-solid fa-download"></i> <span>Descargar</span>
+                        </a>
                         @endif
                     </div>
                     <div class="player-profile-details">
-                        <div class="player-profile-meta">
+                        <div class="player-profile-meta" style="margin-top:0.6rem;">
                             <div class="player-profile-name">{{ $player->name }} {{ $player->lastname }}</div>
                             <div class="player-profile-sub">
                                 NIT: <span class="player-badge-slate">{{ $player->nit ?? '-' }}</span>
