@@ -507,7 +507,7 @@
                                         </div>
 
                                         @if($isCoordinator)
-                                            <a href="{{ route('trainings.edit', ['id' => $training->id, 'observation' => $observation->id]) }}#training-observations" class="btn btn-sm training-action-btn training-action-btn-edit">
+                                            <a href="{{ route('trainings.edit', ['id' => $training->id, 'observation' => $observation->id]) }}#training-observations" class="btn btn-sm btn-warning">
                                                 <i class="fa-solid fa-pen me-1"></i>Editar
                                             </a>
                                         @endif
