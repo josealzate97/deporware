@@ -87,10 +87,11 @@
                                 <i class="fas fa-circle-info"></i>
                             </button>
                             @if($isCoordinator ?? false)
-                                <a href="{{ route('trainings.edit', $training->id) }}#training-observations" class="btn btn-icon training-action-btn training-action-btn-warning"
+                                <button type="button" class="btn btn-icon training-action-btn training-action-btn-warning"
+                                    @click="openModal('{{ route('trainings.show', $training->id) }}?modal=observations')"
                                     aria-label="Observaciones de {{ $training->name }}" title="Observaciones">
                                     <i class="fa-solid fa-note-sticky"></i>
-                                </a>
+                                </button>
                             @endif
                             <a href="{{ route('trainings.edit', $training->id) }}" class="btn btn-icon training-action-btn training-action-btn-edit"
                                 aria-label="Editar {{ $training->name }}" title="Editar">

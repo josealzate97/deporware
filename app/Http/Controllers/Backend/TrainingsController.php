@@ -224,6 +224,21 @@ class TrainingsController extends Controller
             ]);
         }
 
+        if ($modal === 'observations') {
+            $training = $this->accessibleTrainingsQuery(['observations.author'])->findOrFail($id);
+            $selectedObservationId = request()->input('observation');
+            $selectedObservation = $selectedObservationId
+                ? $training->observations->firstWhere('id', $selectedObservationId)
+                : null;
+
+            return view('backend.trainings.observations-modal', [
+                'training' => $training,
+                'trainingObservations' => $training->observations,
+                'selectedObservation' => $selectedObservation,
+                'isCoordinator' => in_array((int) auth()->user()?->role, [User::ROLE_ROOT, User::ROLE_SPORT_MANAGER, User::ROLE_COORDINATOR]),
+            ]);
+        }
+
         $training = $this->accessibleTrainingsQuery([
             'team.managerRosters.user',
             'venue',
@@ -360,6 +375,10 @@ class TrainingsController extends Controller
             'note' => $validated['note'],
         ]);
 
+        if ($request->input('_from') === 'modal') {
+            return redirect()->route('trainings.index');
+        }
+
         return redirect()->to(route('trainings.edit', $training->id) . '#training-observations');
     }
 
@@ -375,6 +394,10 @@ class TrainingsController extends Controller
             'user_id' => Auth::id(),
             'note' => $validated['note'],
         ]);
+
+        if ($request->input('_from') === 'modal') {
+            return redirect()->route('trainings.index');
+        }
 
         return redirect()->to(route('trainings.edit', $training->id) . '#training-observations');
     }

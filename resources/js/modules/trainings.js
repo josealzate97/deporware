@@ -3,6 +3,11 @@ document.addEventListener('alpine:init', () => {
         open: false,
         title: 'Detalle',
         content: '',
+        init() {
+            window.addEventListener('open-info-modal', (e) => {
+                this.openModal(e.detail.url);
+            });
+        },
         async openModal(url) {
             this.open = true;
             this.content = '<div class="text-muted">Cargando...</div>';
@@ -23,6 +28,10 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 });
+
+window._openObservationsModal = (url) => {
+    window.dispatchEvent(new CustomEvent('open-info-modal', { detail: { url } }));
+};
 
 const pad2 = (value) => String(value).padStart(2, '0');
 const toKey = (date) => `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
