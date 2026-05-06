@@ -27,7 +27,7 @@
             @include('backend.components.breadcrumb')
         @endpush
 
-        <div class="card p-4 section-hero dashboard-hero surface-gradient-day">
+        <div class="card p-4 section-hero dashboard-hero dashboard-hero--main surface-gradient-day">
             <div class="d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between gap-4">
                 <div class="d-flex align-items-center gap-4">
                     <div class="section-hero-icon dashboard-hero-icon">

@@ -526,6 +526,12 @@
   }
 }
 
+@media (max-width: 991.98px) {
+  .dashboard-hero--main .dashboard-hero-side {
+    display: none;
+  }
+}
+
 @media (max-width: 767.98px) {
   .dashboard-summary-grid {
     grid-template-columns: 1fr;

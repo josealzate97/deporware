@@ -431,6 +431,52 @@
 }
 
 @media (max-width: 992px) {
+  .info-panel .show-modal-mint .user-modal-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .info-panel .show-modal-mint .user-modal-tabs .team-modal-tab {
+    width: 100%;
+    min-height: 42px;
+    justify-content: flex-start;
+    padding: 0.56rem 0.72rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .info-panel .show-modal-mint [data-panel="user-info"] .section-card {
+    padding: 0.85rem !important;
+  }
+
+  .info-panel .show-modal-mint .user-profile-header {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    padding: 0.75rem;
+  }
+
+  .info-panel .show-modal-mint .user-profile-photo {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto;
+    border-radius: 14px;
+  }
+
+  .info-panel .show-modal-mint .user-profile-details {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .info-panel .show-modal-mint .user-profile-name {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .info-panel .show-modal-mint .user-info-item {
+    padding: 0.68rem 0.75rem;
+  }
+
   .user-info-actions {
     width: 100%;
     display: grid !important;
@@ -448,6 +494,18 @@
 }
 
 @media (max-width: 575.98px) {
+  .info-panel .show-modal-mint .user-modal-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .info-panel .show-modal-mint .user-modal-tabs .team-modal-tab {
+    font-size: 0.83rem;
+  }
+
+  .info-panel .show-modal-mint [data-panel="user-info"] .section-card {
+    padding: 0.75rem !important;
+  }
+
   .user-profile-header {
     grid-template-columns: 1fr;
   }
