@@ -14,17 +14,17 @@
             @include('backend.components.breadcrumb')
         @endpush
 
-        <div class="card p-4 section-hero surface-gradient-day mb-4">
-            <div class="d-flex align-items-center gap-4">
-                <div class="section-hero-icon dashboard-hero-icon">
-                    <i class="fas fa-globe"></i>
+        <div class="card p-4 section-hero surface-gradient-day dashboard-hero mb-4">
+            <div class="dashboard-hero-head">
+                <div class="dashboard-hero-title-wrap">
+                    <div class="section-hero-icon dashboard-hero-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h2 class="fw-bold mb-0">Panel Global</h2>
                 </div>
-                <div>
-                    <div class="dashboard-eyebrow">Super Admin</div>
-                    <h2 class="fw-bold mb-1">Panel Global</h2>
-                    <div class="text-muted small fw-bold">Vista general de todas las escuelas registradas en el sistema</div>
-                </div>
+                <div class="dashboard-eyebrow mb-0">Super Admin</div>
             </div>
+            <div class="dashboard-hero-description text-muted small fw-bold">Vista general de todas las escuelas registradas en el sistema</div>
         </div>
 
         {{-- Tarjetas resumen --}}

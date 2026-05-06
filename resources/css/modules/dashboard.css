@@ -3,6 +3,25 @@
   overflow: hidden;
 }
 
+.dashboard-hero-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.dashboard-hero-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.dashboard-hero-description {
+  margin: 0;
+}
+
 .dashboard-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -510,6 +529,27 @@
 @media (max-width: 767.98px) {
   .dashboard-summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-hero-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .dashboard-hero-title-wrap {
+    gap: 0.75rem;
+  }
+
+  .dashboard-hero-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    font-size: 1.7rem;
+  }
+
+  .dashboard-hero-title-wrap h2 {
+    font-size: 1.7rem;
   }
 
   .dashboard-hero-side {
