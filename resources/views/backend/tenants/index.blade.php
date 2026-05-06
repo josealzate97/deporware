@@ -65,7 +65,7 @@
                     <label class="visually-hidden" for="tenantsSearch">Buscar escuela</label>
                     <input type="search" id="tenantsSearch" name="search"
                            class="form-control form-control-sm"
-                           placeholder="Buscar por nombre o slug…"
+                              placeholder="Buscar por identificador"
                            value="{{ $search }}" autocomplete="off">
                 </div>
                 <button type="submit" class="btn btn-sm section-filter-btn">

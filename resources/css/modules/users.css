@@ -431,6 +431,17 @@
 }
 
 @media (max-width: 992px) {
+  .user-info-actions {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem !important;
+  }
+
+  .user-info-actions .btn {
+    width: 100%;
+  }
+
   .user-profile-details {
     grid-template-columns: 1fr;
   }
@@ -460,6 +471,10 @@
 
   .user-info-header .btn-outline-primary {
     width: 100%;
+  }
+
+  .user-info-actions {
+    grid-template-columns: 1fr;
   }
 
 }

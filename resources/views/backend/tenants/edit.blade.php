@@ -13,7 +13,7 @@
             ])
         @endpush
 
-        <div class="card p-4 section-hero mb-4">
+        <div class="card p-4 section-hero tenant-form-hero mb-4">
             <div class="d-flex align-items-center gap-3">
                 <div class="section-hero-icon">
                     <i class="fa-solid fa-pen-to-square"></i>
@@ -76,7 +76,7 @@
                     <div class="small text-muted mt-1"><span class="fw-semibold">Creada:</span> {{ $tenant->created_at->format('d/m/Y H:i') }}</div>
                 </div>
 
-                <div class="d-flex gap-2 justify-content-center mt-2">
+                <div class="d-flex gap-2 justify-content-center mt-2 tenant-form-actions">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-check me-2"></i> Guardar cambios
                     </button>

@@ -74,7 +74,7 @@
 
                 @if(Auth::check() && in_array(Auth::user()->role, 
                 [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 user-info-actions">
                         <button type="button" class="btn btn-primary" x-show="!editMode" @click="enableEdit" :disabled="isSaving">
                             <i class="fa fa-edit"></i> Editar
                         </button>

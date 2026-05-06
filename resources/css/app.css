@@ -1151,3 +1151,55 @@ main[role="main"] .btn .fa-brands {
   color: #742def;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
+
+@media (max-width: 991.98px) {
+  .section-toolbar .section-search,
+  .section-toolbar .section-search input {
+    width: 100%;
+  }
+
+  .tenant-form-hero {
+    padding: 1rem !important;
+  }
+
+  .tenant-form-hero > .d-flex {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  .tenant-form-hero h2 {
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .tenant-form-hero .text-muted.small {
+    font-size: 0.82rem !important;
+    line-height: 1.35;
+  }
+
+  .tenant-form-hero .section-hero-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    font-size: 16px;
+  }
+
+  .tenant-form-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 0.65rem !important;
+  }
+
+  .tenant-form-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .tenant-form-actions {
+    grid-template-columns: 1fr;
+  }
+}

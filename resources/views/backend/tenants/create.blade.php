@@ -17,7 +17,7 @@
             ])
         @endpush
 
-        <div class="card p-4 section-hero mb-4">
+        <div class="card p-4 section-hero tenant-form-hero mb-4">
             <div class="d-flex align-items-center gap-3">
                 <div class="section-hero-icon">
                     <i class="fa-solid fa-building"></i>
@@ -86,7 +86,7 @@
                     @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="d-flex gap-2 justify-content-center mt-2">
+                <div class="d-flex gap-2 justify-content-center mt-2 tenant-form-actions">
                     <button type="submit" class="btn btn-success">
                         <i class="fa-solid fa-check me-2"></i> Crear Escuela
                     </button>
