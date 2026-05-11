@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte 01 - Arquitectura y Patrones</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1a2433;
+      --muted: #5a6b84;
+      --accent: #0f4c81;
+      --accent-soft: #e6f0fa;
+      --ok: #1d7a46;
+      --warn: #8a6400;
+      --border: #d8e1ec;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: linear-gradient(140deg, #edf3fb 0%, #f7fbff 45%, #eef6f2 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 32px auto;
+      padding: 0 20px 30px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #0f4c81 0%, #1e6ba8 55%, #2f7d73 100%);
+      color: #fff;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(18, 52, 88, 0.2);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 6px 0;
+      opacity: 0.95;
+    }
+
+    .card {
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      color: #15324e;
+    }
+
+    h3 {
+      margin: 16px 0 8px;
+      font-size: 17px;
+      color: #1f4163;
+    }
+
+    .muted { color: var(--muted); }
+
+    ul { margin: 8px 0 0 20px; }
+    li { margin: 6px 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    th {
+      text-align: left;
+      background: var(--accent-soft);
+      color: #0d3559;
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    .ok { background: #e6f5eb; color: var(--ok); }
+    .warn { background: #fff4dd; color: var(--warn); }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0 auto; padding: 0; }
+      .hero { box-shadow: none; }
+      .card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>Reporte 01: Estado Arquitectura y Patrones de Diseno</h1>
+      <p><strong>Proyecto:</strong> deporware (Laravel 12)</p>
+      <p><strong>Fecha:</strong> 11 de mayo de 2026</p>
+      <p><strong>Objetivo:</strong> identificar arquitectura actual, patrones aplicados y oportunidades de mejora.</p>
+    </section>
+
+    <section class="card">
+      <h2>1) Arquitectura actual identificada</h2>
+      <p class="muted">Conclusión: la aplicacion implementa una arquitectura monolitica web basada en Laravel, con estilo MVC + capas de soporte (middleware, policies/gates, models/ORM, vistas Blade) y enfoque multi-tenant por contexto.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Estado actual</th>
+            <th>Nivel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tipo de despliegue</td>
+            <td>Monolito Laravel en contenedores (PHP-FPM + Nginx + MySQL + Vite para desarrollo).</td>
+            <td><span class="pill ok">Adecuado</span></td>
+          </tr>
+          <tr>
+            <td>Arquitectura de aplicacion</td>
+            <td>MVC (Controllers, Models Eloquent, Views Blade), con middleware para autenticacion, rol y contexto tenant.</td>
+            <td><span class="pill ok">Adecuado</span></td>
+          </tr>
+          <tr>
+            <td>Multi-tenancy</td>
+            <td>Aislamiento logico por tenant mediante middleware + trait con global scope + helper de storage tenant.</td>
+            <td><span class="pill ok">Fuerte</span></td>
+          </tr>
+          <tr>
+            <td>Capa de dominio/servicios</td>
+            <td>La logica vive mayormente en controllers y modelos; carpeta Repositories existe pero vacia.</td>
+            <td><span class="pill warn">A mejorar</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>2) Patrones de diseno detectados</h2>
+
+      <h3>Patrones presentes</h3>
+      <ul>
+        <li><strong>MVC:</strong> rutas -> controladores -> modelos/vistas, tipico en Laravel.</li>
+        <li><strong>Front Controller:</strong> enrutamiento centralizado por framework.</li>
+        <li><strong>Middleware Chain (Pipeline):</strong> autenticacion, validacion de rol y seteo de tenant en cadena.</li>
+        <li><strong>Active Record (Eloquent):</strong> modelos con relaciones y consultas embebidas.</li>
+        <li><strong>Global Scope:</strong> trait para filtrar datos por tenant de forma transversal.</li>
+        <li><strong>Strategy via Driver Configuration:</strong> cache/queue/session por drivers configurables.</li>
+        <li><strong>View Composer:</strong> inyeccion transversal de configuracion de UI en vistas.</li>
+        <li><strong>RBAC basico:</strong> roles y gates para control de autorizacion.</li>
+      </ul>
+
+      <h3>Patrones parcialmente aplicados o ausentes</h3>
+      <ul>
+        <li><strong>Repository Pattern:</strong> no implementado aun (directorio preparado).</li>
+        <li><strong>Service Layer / Use Cases:</strong> no estandarizado; hay casos con alta logica en controller.</li>
+        <li><strong>CQRS / Event-driven:</strong> no evidencias claras en el estado actual.</li>
+        <li><strong>Hexagonal/Clean Architecture:</strong> no aplicado formalmente.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>3) Diagnostico de calidad arquitectonica</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Criterio</th>
+            <th>Evaluacion</th>
+            <th>Observacion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Separacion de responsabilidades</td>
+            <td>Media</td>
+            <td>Base MVC correcta, pero controladores con mucha carga en algunos modulos.</td>
+          </tr>
+          <tr>
+            <td>Escalabilidad de codigo</td>
+            <td>Media</td>
+            <td>Falta capa de servicios/repositorios para crecer sin duplicidad.</td>
+          </tr>
+          <tr>
+            <td>Consistencia multi-tenant</td>
+            <td>Alta</td>
+            <td>Buena estandarizacion de tenant en query y storage.</td>
+          </tr>
+          <tr>
+            <td>Mantenibilidad</td>
+            <td>Media</td>
+            <td>El crecimiento funcional podria aumentar deuda tecnica si no se modulariza.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4) Recomendaciones (priorizadas)</h2>
+      <h3>Corto plazo (2 a 4 semanas)</h3>
+      <ul>
+        <li>Definir una capa de <strong>Application Services</strong> para casos de uso complejos (ejemplo: generacion de reportes, carga masiva, reglas de negocio).</li>
+        <li>Extraer consultas complejas repetidas a <strong>Query Objects</strong> o Repositories por modulo.</li>
+        <li>Estandarizar validaciones con <strong>Form Requests</strong> en todos los endpoints de escritura.</li>
+      </ul>
+
+      <h3>Mediano plazo (1 a 2 meses)</h3>
+      <ul>
+        <li>Incorporar <strong>eventos y listeners</strong> para procesos secundarios (notificaciones, auditoria, post-procesamiento).</li>
+        <li>Aplicar <strong>policies</strong> por recurso para complementar gates por rol.</li>
+        <li>Definir contrato de repositorio en modulos de mayor crecimiento (Players, Teams, Matches, Trainings).</li>
+      </ul>
+
+      <h3>Largo plazo (3+ meses)</h3>
+      <ul>
+        <li>Evaluar modularizacion interna por bounded contexts.</li>
+        <li>Preparar estrategia para extraer servicios solo si hay necesidad real de desacoplar el monolito.</li>
+      </ul>
+    </section>
+
+    <p class="footer">deporware - Evaluacion arquitectonica interna</p>
+  </main>
+</body>
+</html>
