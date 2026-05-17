@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Configuration;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,10 +35,13 @@ class AppServiceProvider extends ServiceProvider
             $currency = session('config_currency');
 
             if (!$country || !$currency) {
-
-                $config = Configuration::first();
-                $country = $country ?: $config?->country;
-                $currency = $currency ?: $config?->currency;
+                try {
+                    $config = Configuration::first();
+                    $country = $country ?: $config?->country;
+                    $currency = $currency ?: $config?->currency;
+                } catch (QueryException $e) {
+                    // Evita un 500 en cascada si la BD no esta disponible.
+                }
             }
 
             $view->with('uiCountry', $country);

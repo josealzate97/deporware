@@ -16,6 +16,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Forzar PHP-FPM a escuchar por IPv4 para que Nginx pueda conectar por la red de Docker.
+RUN sed -ri 's!^listen = .*!listen = 0.0.0.0:9000!' /usr/local/etc/php-fpm.d/docker.conf
+
 # Crear directorio de trabajo
 WORKDIR /var/www
 
