@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    const mobileTableMq = window.matchMedia('(max-width: 991.98px)');
+    const mobileTableMq = window.matchMedia('(max-width: 1199.98px)');
     const responsiveTables = Array.from(document.querySelectorAll('.responsive-stack-table'));
 
     const clearTableSlider = (container) => {

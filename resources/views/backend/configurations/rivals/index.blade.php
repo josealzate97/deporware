@@ -81,7 +81,7 @@
                 </a>
             </form>
 
-            <div class="table-responsive">
+            <div class="table-responsive responsive-stack-table">
                 <table class="table table-borderless align-middle section-table">
                     <thead>
                         <tr>
@@ -93,15 +93,15 @@
                     <tbody>
                         @forelse($rivals as $rival)
                             <tr>
-                                <td class="fw-semibold">{{ $rival->name }}</td>
-                                <td>
+                                <td class="fw-semibold" data-label="Rival">{{ $rival->name }}</td>
+                                <td data-label="Estado">
                                     @if((int) $rival->status === \App\Models\RivalTeam::ACTIVE)
                                         <span class="status-pill status-pill-success">Activo</span>
                                     @else
                                         <span class="status-pill status-pill-muted">Inactivo</span>
                                     @endif
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end" data-label="Acciones">
                                     <div class="config-rivals-actions">
                                         <a href="{{ route('configurations.rivals.edit', $rival->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn config-rival-action-btn" title="Editar rival {{ $rival->name }}">
                                             <i class="fas fa-edit"></i>

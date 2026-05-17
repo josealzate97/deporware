@@ -91,7 +91,7 @@
                             </a>
                         </form>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive responsive-stack-table">
                             <table class="table table-borderless align-middle section-table mb-0">
                                 <thead>
                                     <tr>
@@ -103,15 +103,15 @@
                                 <tbody>
                                     @forelse($attackPoints as $point)
                                         <tr>
-                                            <td>{{ $point->name }}</td>
-                                            <td>
+                                            <td data-label="Punto">{{ $point->name }}</td>
+                                            <td data-label="Estado">
                                                 @if((int) $point->status === \App\Models\AttackPoint::ACTIVE)
                                                     <span class="status-pill status-pill-success">Activo</span>
                                                 @else
                                                     <span class="status-pill status-pill-muted">Inactivo</span>
                                                 @endif
                                             </td>
-                                            <td class="text-end">
+                                            <td class="text-end" data-label="Acciones">
                                                 <div class="config-points-actions">
                                                     <a href="{{ route('configurations.points.attack.edit', $point->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn config-point-action-btn" title="Editar punto">
                                                         <i class="fas fa-edit"></i>
@@ -203,7 +203,7 @@
                             </a>
                         </form>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive responsive-stack-table">
                             <table class="table table-borderless align-middle section-table mb-0">
                                 <thead>
                                     <tr>
@@ -215,15 +215,15 @@
                                 <tbody>
                                     @forelse($defensivePoints as $point)
                                         <tr>
-                                            <td>{{ $point->name }}</td>
-                                            <td>
+                                            <td data-label="Punto">{{ $point->name }}</td>
+                                            <td data-label="Estado">
                                                 @if((int) $point->status === \App\Models\DefensivePoint::ACTIVE)
                                                     <span class="status-pill status-pill-success">Activo</span>
                                                 @else
                                                     <span class="status-pill status-pill-muted">Inactivo</span>
                                                 @endif
                                             </td>
-                                            <td class="text-end">
+                                            <td class="text-end" data-label="Acciones">
                                                 <div class="config-points-actions">
                                                     <a href="{{ route('configurations.points.defensive.edit', $point->id) }}" class="btn btn-icon btn-icon-edit config-edit-btn config-point-action-btn" title="Editar punto">
                                                         <i class="fas fa-edit"></i>
