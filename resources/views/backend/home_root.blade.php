@@ -76,9 +76,9 @@
 
             </div>
 
-            <div class="table-responsive mt-2">
+            <div class="table-responsive mt-2 responsive-stack-table">
                 
-                <table class="table table-hover mb-0 align-middle">
+                <table class="table table-hover mb-0 align-middle section-table">
                     <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
@@ -93,17 +93,17 @@
                     <tbody>
                         @forelse($tenants as $t)
                             <tr>
-                                <td class="fw-semibold">{{ $t->name }}</td>
-                                <td><code class="slug-badge fw-bold">{{ $t->slug }}</code></td>
-                                <td class="text-center">{{ $t->users_count }}</td>
-                                <td class="text-center">{{ $t->teams_count }}</td>
-                                <td class="text-center">{{ $t->players_count }}</td>
-                                <td class="text-center">
+                                <td class="fw-semibold" data-label="Nombre">{{ $t->name }}</td>
+                                <td data-label="Identificador"><code class="slug-badge fw-bold">{{ $t->slug }}</code></td>
+                                <td class="text-center" data-label="Usuarios">{{ $t->users_count }}</td>
+                                <td class="text-center" data-label="Plantillas">{{ $t->teams_count }}</td>
+                                <td class="text-center" data-label="Jugadores">{{ $t->players_count }}</td>
+                                <td class="text-center" data-label="Estado">
                                     <span class="badge {{ $t->status === \App\Models\Tenant::ACTIVE ? 'bg-success' : 'bg-secondary' }}">
                                         {{ $t->status === \App\Models\Tenant::ACTIVE ? 'Activa' : 'Inactiva' }}
                                     </span>
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end" data-label="Acciones">
                                     <form method="POST" action="{{ route('root.tenant.switch') }}" class="d-inline">
                                         @csrf
                                         <input type="hidden" name="tenant_id" value="{{ $t->id }}">

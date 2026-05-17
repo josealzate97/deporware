@@ -85,7 +85,7 @@
             </form>
             
             <!-- Tabla de Usuarios -->
-            <div class="table-responsive">
+            <div class="table-responsive responsive-stack-table">
 
                 <table class="table table-borderless align-middle section-table">
 
@@ -105,18 +105,18 @@
                         @forelse($users as $user)
 
                             <tr data-id="{{ $user->id }}" data-role="{{ $user->role }}">
-                                <td>
+                                <td data-label="Usuario">
                                     <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
                                     <div class="mt-1">
                                         <span class="meta-badge">{{ $user->username }}</span>
                                     </div>
                                 </td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td class="text-center">
+                                <td data-label="Email">{{ $user->email }}</td>
+                                <td data-label="Teléfono">{{ $user->phone }}</td>
+                                <td class="text-center" data-label="Rol">
                                     {{ $user->role_label }}
                                 </td>
-                                <td>
+                                <td data-label="Estado">
                                     @if($user->status == \App\Models\User::ACTIVE)
                                         <span class="status-pill status-pill-success">Activo</span>
                                     @else
@@ -124,7 +124,7 @@
                                     @endif
                                 </td>
 
-                                <td class="text-end">
+                                <td class="text-end" data-label="Acciones">
 
                                     @if(Auth::check() && in_array(Auth::user()->role, 
                                     [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))

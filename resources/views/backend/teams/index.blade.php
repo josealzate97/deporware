@@ -135,7 +135,7 @@
                 </a>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive responsive-stack-table">
                 <table class="table table-borderless align-middle section-table">
                     <thead>
                         <tr>
@@ -152,7 +152,7 @@
                         @forelse ($teams as $team)
                             @php($teamVenue = $team->venues->first())
                             <tr data-id="{{ $team->id }}" data-status="{{ $team->status ? '1' : '0' }}">
-                                <td>
+                                <td data-label="Nombre">
                                     <div class="fw-semibold">{{ $team->name }}</div>
                                     @if($teamVenue)
                                         <span class="meta-badge" style="background:#eaf3ff;color:#1d4ed8;border-color:#bfdbfe;">
@@ -160,26 +160,26 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td>{{ $team->season }}</td>
-                                <td>{{ $team->year }}</td>
+                                <td data-label="Temporada">{{ $team->season }}</td>
+                                <td data-label="Año">{{ $team->year }}</td>
                                 @php($primaryCoachRoster = $team->managerRosters->firstWhere('role', \App\Models\ManagerRoster::ROLE_PRIMARY_COACH))
                                 @php($primaryCoachUser = $primaryCoachRoster ? $primaryCoachRoster->getRelation('user') : null)
-                                <td>
+                                <td data-label="Entrenador">
                                     {{ $primaryCoachUser
                                         ? $primaryCoachUser->name . ' ' . $primaryCoachUser->lastname
                                         : '-' }}
                                 </td>
-                                <td>
+                                <td data-label="Jugadores">
                                     <span class="meta-badge">{{ $team->players_count ?? 0 }}</span>
                                 </td>
-                                <td>
+                                <td data-label="Estado">
                                     @if($team->status)
                                         <span class="status-pill status-pill-success">Activa</span>
                                     @else
                                         <span class="status-pill status-pill-muted">Inactiva</span>
                                     @endif
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end" data-label="Acciones">
                                     <button type="button" class="btn btn-icon text-primary"
                                         @click="openModal('{{ route('teams.show', $team->id) }}?modal=1')"
                                         aria-label="Ver información de {{ $team->name }}" title="Ver información">

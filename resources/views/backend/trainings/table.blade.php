@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive responsive-stack-table">
     <table class="table table-borderless align-middle section-table">
         <thead>
             <tr>
@@ -24,7 +24,7 @@
                 @php($selectedCoach = $coachRoster ?: $assistantCoachRoster)
                 @php($coachName = $selectedCoach?->getRelationValue('user')?->name)
                 <tr data-id="{{ $training->id }}">
-                    <td>
+                    <td data-label="Entrenamiento">
                         <div class="training-main-cell">
                             <div class="training-main-name">{{ $training->name }}</div>
                             <div class="training-main-meta">
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td data-label="Entrenador">
                         @if(!empty($coachName))
                             <span class="training-coach-badge">
                                 <i class="fa-solid fa-user-tie"></i>
@@ -49,8 +49,8 @@
                             -
                         @endif
                     </td>
-                    <td>{{ $training->duration_label ?? '-' }}</td>
-                    <td class="text-center">
+                    <td data-label="Duración">{{ $training->duration_label ?? '-' }}</td>
+                    <td class="text-center" data-label="Sede">
                         @if($venueModel)
                             <button type="button" class="btn btn-sm training-venue-link"
                                 @click="openModal('{{ route('venues.show', $venueModel->id) }}?modal=1')"
@@ -64,7 +64,7 @@
                             -
                         @endif
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" data-label="Asistentes">
                         <button type="button" class="btn training-attendance-btn"
                             @click="openModal('{{ route('trainings.show', $training->id) }}?modal=attendance')"
                             aria-label="Ver asistentes de {{ $training->name }}">
@@ -72,14 +72,14 @@
                             <span class="training-attendance-ratio-inline">{{ $attendanceCount }}/{{ $calledUpCount }}</span>
                         </button>
                     </td>
-                    <td>
+                    <td data-label="Estado">
                         @if($training->status == \App\Models\Training::ACTIVE)
                             <span class="status-pill status-pill-success">Activo</span>
                         @else
                             <span class="status-pill status-pill-muted">Inactivo</span>
                         @endif
                     </td>
-                    <td class="text-end">
+                    <td class="text-end" data-label="Acciones">
                         <div class="d-inline-flex align-items-center gap-1 training-actions-group">
                             <button type="button" class="btn btn-icon training-action-btn training-action-btn-info"
                                 @click="openModal('{{ route('trainings.show', $training->id) }}?modal=1')"

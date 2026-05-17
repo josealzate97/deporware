@@ -89,7 +89,7 @@
                 </a>
             </form>
 
-            <div class="table-responsive">
+            <div class="table-responsive responsive-stack-table">
 
                 <table class="table table-borderless align-middle section-table">
 
@@ -106,21 +106,21 @@
 
                         @forelse($venues as $venue)
                             <tr data-id="{{ $venue->id }}" data-status="{{ $venue->status ? '1' : '0' }}">
-                                <td>
+                                <td data-label="Sede">
                                     <div class="fw-bold">{{ $venue->name }}</div>
                                     <div class="mt-1">
                                         <span class="meta-badge">{{ $venue->city }}</span>
                                     </div>
                                 </td>
-                                <td>{{ $venue->address }}</td>
-                                <td>
+                                <td data-label="Dirección">{{ $venue->address }}</td>
+                                <td data-label="Estado">
                                     @if($venue->status)
                                         <span class="status-pill status-pill-success">Activa</span>
                                     @else
                                         <span class="status-pill status-pill-muted">Inactiva</span>
                                     @endif
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end" data-label="Acciones">
                                     <button type="button" class="btn btn-icon text-primary"
                                         @click="openModal('{{ route('venues.show', $venue->id) }}?modal=1')"
                                         aria-label="Ver información de {{ $venue->name }}" title="Ver información">

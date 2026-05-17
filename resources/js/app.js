@@ -141,6 +141,74 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    const mobileTableMq = window.matchMedia('(max-width: 991.98px)');
+    const responsiveTables = Array.from(document.querySelectorAll('.responsive-stack-table'));
+
+    const clearTableSlider = (container) => {
+        const tbody = container.querySelector('tbody');
+        if (!tbody) return;
+        tbody.classList.remove('responsive-cards-track');
+        tbody.querySelectorAll(':scope > tr').forEach((row) => {
+            row.classList.remove('responsive-cards-slide');
+        });
+        const dots = container.querySelector('.responsive-cards-dots');
+        if (dots) dots.remove();
+        delete container.dataset.mobileCardSlides;
+        container.classList.remove('has-mobile-slider');
+    };
+
+    const activateTableSlider = (container) => {
+        const tbody = container.querySelector('tbody');
+        if (!tbody) return;
+
+        const rows = Array.from(tbody.querySelectorAll(':scope > tr')).filter((row) => !row.querySelector('td[colspan]'));
+        if (!rows.length) return;
+
+        tbody.classList.add('responsive-cards-track');
+        rows.forEach((row) => row.classList.add('responsive-cards-slide'));
+        container.dataset.mobileCardSlides = String(rows.length);
+
+        if (rows.length <= 1) return;
+
+        container.classList.add('has-mobile-slider');
+        const dots = document.createElement('div');
+        dots.className = 'responsive-cards-dots';
+
+        const setActiveDot = () => {
+            const rowWidth = rows[0].getBoundingClientRect().width || 1;
+            const index = Math.max(0, Math.min(rows.length - 1, Math.round(tbody.scrollLeft / rowWidth)));
+            dots.querySelectorAll('.responsive-cards-dot').forEach((dot, i) => {
+                dot.classList.toggle('is-active', i === index);
+            });
+        };
+
+        rows.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = `responsive-cards-dot${index === 0 ? ' is-active' : ''}`;
+            dot.setAttribute('aria-label', `Ir a tarjeta ${index + 1}`);
+            dot.addEventListener('click', () => {
+                rows[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            });
+            dots.appendChild(dot);
+        });
+
+        tbody.addEventListener('scroll', setActiveDot, { passive: true });
+        container.appendChild(dots);
+    };
+
+    const syncResponsiveTables = () => {
+        responsiveTables.forEach((container) => {
+            clearTableSlider(container);
+            if (mobileTableMq.matches) {
+                activateTableSlider(container);
+            }
+        });
+    };
+
+    syncResponsiveTables();
+    mobileTableMq.addEventListener('change', syncResponsiveTables);
+
 });
 
 /**

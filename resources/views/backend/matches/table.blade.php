@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive responsive-stack-table">
     <table class="table table-borderless align-middle section-table">
         <thead>
             <tr>
@@ -14,7 +14,7 @@
         <tbody>
             @forelse($matches as $match)
                 <tr data-id="{{ $match->id }}">
-                    <td>
+                    <td data-label="Fecha">
                         <div class="fw-semibold">{{ $match->match_date?->format('Y-m-d') ?? '-' }}</div>
                         <div class="text-muted small fw-semibold">{{ $match->match_date?->format('H:i') ?? '-' }}</div>
                     </td>
@@ -22,15 +22,15 @@
                     @php($rivalModel = $match->relationLoaded('rival') ? $match->getRelation('rival') : null)
                     @php($feedbackModel = $match->relationLoaded('feedback') ? $match->getRelation('feedback') : null)
                     @php($ratingModel = $match->relationLoaded('teamRating') ? $match->getRelation('teamRating') : null)
-                    <td>
+                    <td data-label="Partido">
                         <div class="fw-semibold">{{ $teamModel?->name ?? ($match->team ? 'Sin equipo vinculado' : '-') }}</div>
                         <div class="text-muted small fw-semibold">vs {{ $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : '-') }}</div>
                     </td>
-                    <td>
+                    <td data-label="Detalle">
                         <div><span class="meta-badge">{{ $sideOptions[$match->side] ?? '-' }}</span></div>
                         <div class="text-muted small fw-semibold mt-1">{{ $match->match_round ?: '-' }}</div>
                     </td>
-                    <td>
+                    <td data-label="Resultado">
                         @if($match->match_status === \App\Models\MatchModel::STATUS_SCHEDULED)
                             <span class="match-result-pill match-result-pill-pending">Pendiente</span>
                         @else
@@ -47,13 +47,13 @@
                             <div class="text-muted small mt-1">Marcador: <span class="fw-bold">{{ $match->final_score ?: '-' }}</span></div>
                         @endif
                     </td>
-                    <td>
+                    <td data-label="Estado">
                         @php($statusLabel = $statusOptions[$match->match_status] ?? 'Sin estado')
                         <span class="status-pill {{ $match->match_status === \App\Models\MatchModel::STATUS_COMPLETED ? 'status-pill-success' : 'status-pill-muted' }}">
                             {{ $statusLabel }}
                         </span>
                     </td>
-                    <td>
+                    <td data-label="Valoraciones">
                         <div class="d-flex flex-wrap gap-1">
                             @if($feedbackModel)
                                 <span class="meta-badge">Técnica</span>
@@ -68,7 +68,7 @@
                             @endif
                         </div>
                     </td>
-                    <td class="text-end">
+                    <td class="text-end" data-label="Acciones">
                         <button type="button" class="btn btn-icon text-primary"
                             @click="openModal('{{ route('matches.show', $match->id) }}?modal=1')"
                             aria-label="Ver información del partido" title="Ver información">

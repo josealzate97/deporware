@@ -76,7 +76,7 @@
                 </a>
             </form>
 
-            <div class="table-responsive">
+            <div class="table-responsive responsive-stack-table">
                 <table class="table table-borderless align-middle section-table">
                     <thead>
                         <tr>
@@ -94,27 +94,27 @@
                     <tbody>
                         @forelse($tenants as $t)
                             <tr>
-                                <td class="text-muted small">{{ $t->number }}</td>
-                                <td class="fw-semibold">{{ $t->name }}</td>
-                                <td>
+                                <td class="text-muted small" data-label="#">{{ $t->number }}</td>
+                                <td class="fw-semibold" data-label="Nombre">{{ $t->name }}</td>
+                                <td data-label="Identificador">
                                     <code class="slug-badge">{{ $t->slug }}</code>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" data-label="Usuarios">
                                     <span class="meta-badge">{{ $t->users_count }}</span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" data-label="Plantillas">
                                     <span class="meta-badge">{{ $t->teams_count }}</span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" data-label="Jugadores">
                                     <span class="meta-badge">{{ $t->players_count }}</span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" data-label="Estado">
                                     <span class="status-pill {{ $t->status === \App\Models\Tenant::ACTIVE ? 'status-pill-success' : 'status-pill-muted' }}">
                                         {{ $t->status === \App\Models\Tenant::ACTIVE ? 'Activa' : 'Inactiva' }}
                                     </span>
                                 </td>
-                                <td class="text-center small text-muted">{{ $t->created_at->format('d/m/Y') }}</td>
-                                <td class="text-end">
+                                <td class="text-center small text-muted" data-label="Creada">{{ $t->created_at->format('d/m/Y') }}</td>
+                                <td class="text-end" data-label="Acciones">
                                     <form method="POST" action="{{ route('root.tenant.switch') }}" class="d-inline">
                                         @csrf
                                         <input type="hidden" name="tenant_id" value="{{ $t->id }}">

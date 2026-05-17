@@ -102,7 +102,7 @@
                     </form>
                 </div>
                 <div>
-                    <div class="table-responsive">
+                    <div class="table-responsive responsive-stack-table">
                         <table class="table table-borderless align-middle section-table">
                         <thead>
                             <tr>
@@ -117,7 +117,7 @@
                         <tbody>
                             @forelse($players as $player)
                                 <tr data-id="{{ $player->id }}">
-                                    <td>
+                                    <td data-label="Jugador">
                                         <div class="fw-bold">{{ $player->name }} {{ $player->lastname }}</div>
                                         <div class="players-index-badges mt-1">
                                             <span class="player-badge-slate">
@@ -128,7 +128,7 @@
                                             </span>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td data-label="Posición">
                                         @php
                                             $positionLabels = $player->position_labels;
                                             $primaryPositionLabel = $positionLabels[0] ?? null;
@@ -145,7 +145,7 @@
                                             -
                                         @endif
                                     </td>
-                                    <td>
+                                    <td data-label="Equipo">
                                         @php
                                             $roster = $player->rosters->first();
                                             $teamName = null;
@@ -164,7 +164,7 @@
                                             -
                                         @endif
                                     </td>
-                                    <td>
+                                    <td data-label="Edad - Año">
                                         @if($player->birthdate)
                                             <span class="player-badge-violet">
                                                 {{ $player->birthdate->format('Y') }} - {{ \Carbon\Carbon::parse($player->birthdate)->age }} años
@@ -173,14 +173,14 @@
                                             -
                                         @endif
                                     </td>
-                                    <td>
+                                    <td data-label="Estado">
                                         @if($player->status == \App\Models\Player::ACTIVE)
                                             <span class="status-pill status-pill-success">Activo</span>
                                         @else
                                             <span class="status-pill status-pill-muted">Inactivo</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-end" data-label="Acciones">
                                         <button type="button" class="btn btn-icon text-primary"
                                             @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
                                             aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">

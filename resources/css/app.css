@@ -467,6 +467,121 @@ textarea.form-control {
   color: #2f3a4a;
 }
 
+@media (max-width: 991.98px) {
+  .responsive-stack-table.table-responsive {
+    overflow: hidden;
+  }
+
+  .responsive-stack-table .section-table,
+  .responsive-stack-table table {
+    border-collapse: separate;
+    border-spacing: 0 0.8rem;
+  }
+
+  .responsive-stack-table .section-table thead,
+  .responsive-stack-table table thead {
+    display: none;
+  }
+
+  .responsive-stack-table .section-table tbody,
+  .responsive-stack-table .section-table tr,
+  .responsive-stack-table .section-table td,
+  .responsive-stack-table table tbody,
+  .responsive-stack-table table tr,
+  .responsive-stack-table table td {
+    display: block;
+    width: 100%;
+  }
+
+  .responsive-stack-table .section-table tbody tr,
+  .responsive-stack-table table tbody tr {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 0.35rem 0.1rem;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  }
+
+  .responsive-stack-table .responsive-cards-track {
+    display: flex !important;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.2rem 0.1rem 0.45rem;
+    scrollbar-width: none;
+  }
+
+  .responsive-stack-table .responsive-cards-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .responsive-stack-table .responsive-cards-slide {
+    width: 100% !important;
+    flex: 0 0 92%;
+    scroll-snap-align: start;
+  }
+
+  .responsive-stack-table:not(.has-mobile-slider) .responsive-cards-track {
+    display: block !important;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .responsive-stack-table:not(.has-mobile-slider) .responsive-cards-slide {
+    flex: none;
+    width: 100% !important;
+  }
+
+  .responsive-stack-table .section-table tbody td,
+  .responsive-stack-table table tbody td {
+    border-bottom: 1px dashed #edf0f3;
+    padding: 0.72rem 1rem;
+    text-align: left !important;
+  }
+
+  .responsive-stack-table .section-table tbody td:not([colspan])::before,
+  .responsive-stack-table table tbody td:not([colspan])::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.28rem;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .responsive-stack-table .section-table tbody td:last-child,
+  .responsive-stack-table table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .responsive-cards-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    margin: 0.25rem 0 0.8rem;
+  }
+
+  .responsive-cards-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 0;
+    background: #cbd5e1;
+    padding: 0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .responsive-cards-dot.is-active {
+    background: #2563eb;
+    transform: scale(1.15);
+  }
+}
+
 .section-avatar {
   width: 34px;
   height: 34px;
