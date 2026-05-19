@@ -66,14 +66,6 @@
                                 <span class="match-results-badge">Sin resultados</span>
                             @endif
                         </span>
-                        <div class="matches-view-switch" role="tablist" aria-label="Cambiar vista de partidos">
-                            <a href="{{ route('matches.index', array_merge($matchesBaseQuery, ['view' => 'list'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'list' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'list' ? 'true' : 'false' }}">
-                                <i class="fa-solid fa-table-list me-1"></i> Listado
-                            </a>
-                            <a href="{{ route('matches.index', array_merge($matchesBaseQuery, ['view' => 'calendar'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'calendar' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'calendar' ? 'true' : 'false' }}">
-                                <i class="fa-regular fa-calendar me-1"></i> Calendario
-                            </a>
-                        </div>
                     </div>
 
                     <form class="section-toolbar players-filters matches-filters" method="GET" action="{{ route('matches.index') }}">
@@ -141,6 +133,18 @@
                             <i class="fas fa-rotate-left"></i> Limpiar
                         </a>
                     </form>
+
+                    <div class="matches-view-mode-block" role="region" aria-label="Modos de visualización de partidos">
+                        <div class="matches-view-mode-title">Modo de vista</div>
+                        <div class="matches-view-switch matches-view-switch--modes" role="tablist" aria-label="Cambiar vista de partidos">
+                            <a href="{{ route('matches.index', array_merge($matchesBaseQuery, ['view' => 'list'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'list' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'list' ? 'true' : 'false' }}">
+                                <i class="fa-solid fa-table-list me-1"></i> Listado
+                            </a>
+                            <a href="{{ route('matches.index', array_merge($matchesBaseQuery, ['view' => 'calendar'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'calendar' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'calendar' ? 'true' : 'false' }}">
+                                <i class="fa-regular fa-calendar me-1"></i> Calendario
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 @if(($activeView ?? 'list') === 'calendar')

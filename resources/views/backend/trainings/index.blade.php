@@ -56,19 +56,12 @@
                 @php($trainingsBaseQuery = request()->except('page'))
                 <div class="players-toolbar">
                     <div class="section-results-meta trainings-results-meta">
+                        @php($trainingsBaseQuery = request()->except('page'))
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <span class="fw-bold">Resultados</span>
                             <span class="text-muted">
                                 Mostrando {{ $trainingsTotal > 0 ? 1 : 0 }}-{{ $trainingsTotal }} de {{ $trainingsTotal }}
                             </span>
-                        </div>
-                        <div class="matches-view-switch" role="tablist" aria-label="Cambiar vista de entrenamientos">
-                            <a href="{{ route('trainings.index', array_merge($trainingsBaseQuery, ['view' => 'list'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'list' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'list' ? 'true' : 'false' }}">
-                                <i class="fa-solid fa-table-list me-1"></i> Listado
-                            </a>
-                            <a href="{{ route('trainings.index', array_merge($trainingsBaseQuery, ['view' => 'calendar'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'calendar' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'calendar' ? 'true' : 'false' }}">
-                                <i class="fa-regular fa-calendar me-1"></i> Calendario
-                            </a>
                         </div>
                     </div>
 
@@ -116,6 +109,18 @@
                             <i class="fas fa-rotate-left"></i> Limpiar
                         </a>
                     </form>
+
+                    <div class="matches-view-mode-block" role="region" aria-label="Modos de visualización de entrenamientos">
+                        <div class="matches-view-mode-title">Modo de vista</div>
+                        <div class="matches-view-switch matches-view-switch--modes" role="tablist" aria-label="Cambiar vista de entrenamientos">
+                            <a href="{{ route('trainings.index', array_merge($trainingsBaseQuery, ['view' => 'list'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'list' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'list' ? 'true' : 'false' }}">
+                                <i class="fa-solid fa-table-list me-1"></i> Listado
+                            </a>
+                            <a href="{{ route('trainings.index', array_merge($trainingsBaseQuery, ['view' => 'calendar'])) }}" class="matches-view-tab {{ ($activeView ?? 'list') === 'calendar' ? 'is-active' : '' }}" role="tab" aria-selected="{{ ($activeView ?? 'list') === 'calendar' ? 'true' : 'false' }}">
+                                <i class="fa-regular fa-calendar me-1"></i> Calendario
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 @if(($activeView ?? 'list') === 'calendar')

@@ -70,6 +70,30 @@
   margin-left: auto;
 }
 
+.matches-view-mode-block {
+  margin: 0.2rem 1.25rem 1rem;
+  padding: 0.75rem;
+  border: 1px solid #cfe3d8;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f7fcf9 0%, #eef8f2 100%);
+}
+
+.matches-view-mode-title {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #14532d;
+  margin-bottom: 0.5rem;
+}
+
+.matches-view-switch--modes {
+  margin-left: 0;
+  width: 100%;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
 .matches-view-tab {
   display: inline-flex;
   align-items: center;
@@ -96,6 +120,43 @@
   color: #1e40af;
   background: #e0edff;
   border-color: #93c5fd;
+}
+
+.matches-list-empty {
+  margin: 1rem 1.1rem 1.2rem;
+  border: 1px solid #dbe7f5;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
+    radial-gradient(circle at left center, rgba(37, 99, 235, 0.12), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.55rem;
+  padding: 1rem;
+}
+
+.matches-list-empty i {
+  font-size: 1.5rem;
+  color: #1d4ed8;
+}
+
+.matches-list-empty-title {
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.matches-list-empty-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.matches-list-empty-cta {
+  margin-top: 0.2rem;
 }
 
 .matches-calendar {
@@ -482,6 +543,41 @@
 @media (max-width: 768px) {
   .matches-calendar-events {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .container-fluid > .section-hero > .d-flex {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 0.9rem !important;
+  }
+
+  .container-fluid > .section-hero > .d-flex > .d-flex {
+    width: 100%;
+  }
+
+  .container-fluid > .section-hero .section-hero-actions {
+    width: 100%;
+    margin-top: 0 !important;
+    margin-left: 0;
+  }
+
+  .container-fluid > .section-hero .section-hero-actions .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .matches-view-switch--modes {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .matches-view-switch--modes .matches-view-tab {
+    width: 40%;
+    min-width: 146px;
+    justify-content: center;
   }
 }
 

@@ -226,10 +226,19 @@
                             @php($observationAuthor = trim((string) ($observation->author?->name ?? '')))
                             @php($observationTimestamp = $observation->updated_at ?? $observation->created_at)
                             @php($observationDate = $observationTimestamp ? \Illuminate\Support\Str::ucfirst($observationTimestamp->locale('es')->isoFormat('D [de] MMMM [de] YYYY')) : '-')
+                            @php($observationTypeLabel = $observationTypes[$observation->type] ?? 'Sin tipo')
+                            @php($observationTypeLower = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($observationTypeLabel)))
+                            @php($observationTypeIcon = match (true) {
+                                str_contains($observationTypeLower, 'fis') => 'fa-solid fa-bolt',
+                                str_contains($observationTypeLower, 'tact') => 'fa-solid fa-chess-knight',
+                                str_contains($observationTypeLower, 'tecn') => 'fa-solid fa-futbol',
+                                str_contains($observationTypeLower, 'psic') => 'fa-solid fa-brain',
+                                default => 'fa-solid fa-clipboard-check',
+                            })
                             <div class="col-12 col-lg-6">
                                 <div class="team-info-item player-observation-card surface-gradient-day">
                                     <div class="row g-0 player-observation-content">
-                                        <div class="col-12 fw-semibold mb-1">{{ $observationTypes[$observation->type] ?? 'Sin tipo' }}</div>
+                                        <div class="col-12 fw-semibold mb-1"><i class="{{ $observationTypeIcon }} observation-type-icon me-2" aria-hidden="true"></i>{{ $observationTypeLabel }}</div>
                                         <div class="col-12 text-muted small player-observation-notes mb-2">{{ \Illuminate\Support\Str::limit($observation->notes ?? '-', 100, '...') }}</div>
                                         <div class="col-12">
                                             <div class="d-flex justify-content-between align-items-center player-observation-meta">

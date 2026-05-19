@@ -1,3 +1,4 @@
+@if($matches->count() > 0)
 <div class="table-responsive responsive-stack-table">
     <table class="table table-borderless align-middle section-table">
         <thead>
@@ -12,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($matches as $match)
+            @foreach($matches as $match)
                 <tr data-id="{{ $match->id }}">
                     <td data-label="Fecha">
                         <div class="fw-semibold">{{ $match->match_date?->format('Y-m-d') ?? '-' }}</div>
@@ -80,11 +81,7 @@
                         </a>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">No hay partidos registrados.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -92,3 +89,13 @@
     'paginator' => $matches,
     'ariaLabel' => 'Paginador de partidos',
 ])
+@else
+<div class="matches-list-empty" role="status" aria-live="polite">
+    <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
+    <div class="matches-list-empty-title">No hay partidos registrados.</div>
+    <div class="matches-list-empty-subtitle">Comienza creando tu primer partido para verlo en el listado.</div>
+    <a href="{{ route('matches.new') }}" class="btn btn-success matches-list-empty-cta">
+        <i class="fa-solid fa-plus-circle me-2"></i> Crear Partido
+    </a>
+</div>
+@endif

@@ -379,7 +379,7 @@
 
                                 <div class="row g-2">
                                     @foreach($player->contacts as $listedContact)
-                                        <div class="col-12 col-lg-4">
+                                        <div class="col-12 col-lg-6">
                                             <div class="player-contact-card player-contact-card--modern player-contact-card--editable h-100">
                                                 <div class="player-contact-edit-layout">
                                                     <div class="contact-actions contact-actions--left">
@@ -555,12 +555,21 @@
                         @else
                             <div class="row g-2 mt-2">
                                 @foreach($player->observations as $listedObservation)
+                                    @php($listedObservationTypeLabel = $observationTypes[$listedObservation->type] ?? 'Sin tipo')
+                                    @php($listedObservationTypeLower = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::ascii($listedObservationTypeLabel)))
+                                    @php($listedObservationTypeIcon = match (true) {
+                                        str_contains($listedObservationTypeLower, 'fis') => 'fa-solid fa-bolt',
+                                        str_contains($listedObservationTypeLower, 'tact') => 'fa-solid fa-chess-knight',
+                                        str_contains($listedObservationTypeLower, 'tecn') => 'fa-solid fa-futbol',
+                                        str_contains($listedObservationTypeLower, 'psic') => 'fa-solid fa-brain',
+                                        default => 'fa-solid fa-clipboard-check',
+                                    })
                                     <div class="col-12 col-lg-4">
                                         <div class="team-info-item h-100 player-observation-card player-observation-card--editable">
                                             <div class="player-observation-layout">
                                                 <div class="player-observation-content">
                                                     <div class="row g-0">
-                                                        <div class="col-12 fw-semibold mb-1">{{ $observationTypes[$listedObservation->type] ?? 'Sin tipo' }}</div>
+                                                        <div class="col-12 fw-semibold mb-1"><i class="{{ $listedObservationTypeIcon }} observation-type-icon me-2" aria-hidden="true"></i>{{ $listedObservationTypeLabel }}</div>
                                                         <div class="col-12 text-muted small player-observation-notes mb-2">{{ \Illuminate\Support\Str::limit($listedObservation->notes ?? '-', 100, '...') }}</div>
                                                         <div class="col-12">
                                                             <div class="d-flex justify-content-between align-items-center player-observation-meta">

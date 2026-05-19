@@ -1,3 +1,4 @@
+@if($trainings->count() > 0)
 <div class="table-responsive responsive-stack-table">
     <table class="table table-borderless align-middle section-table">
         <thead>
@@ -12,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($trainings as $training)
+            @foreach($trainings as $training)
                 @php($attendanceCount = (int) ($training->attendance_count ?? 0))
                 @php($calledUpCount = (int) ($training->called_up_count ?? 0))
                 @php($teamName = $training->getRelationValue('team')?->name ?? 'Sin equipo')
@@ -109,11 +110,17 @@
                         </div>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">No hay entrenamientos registrados.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
+@else
+<div class="trainings-list-empty" role="status" aria-live="polite">
+    <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
+    <div class="trainings-list-empty-title">No hay entrenamientos registrados.</div>
+    <div class="trainings-list-empty-subtitle">Crea un entrenamiento para comenzar a gestionar tus sesiones.</div>
+    <a href="{{ route('trainings.new') }}" class="btn btn-success trainings-list-empty-cta">
+        <i class="fa-solid fa-plus-circle me-2"></i> Crear Entrenamiento
+    </a>
+</div>
+@endif
