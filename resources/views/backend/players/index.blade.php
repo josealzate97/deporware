@@ -102,7 +102,7 @@
                     </form>
                 </div>
                 <div>
-                    <div class="table-responsive responsive-stack-table">
+                    <div class="table-responsive responsive-stack-table players-card-table">
                         <table class="table table-borderless align-middle section-table">
                         <thead>
                             <tr>
@@ -180,7 +180,7 @@
                                             <span class="status-pill status-pill-muted">Inactivo</span>
                                         @endif
                                     </td>
-                                    <td class="text-end" data-label="Acciones">
+                                    <td class="text-end players-card-actions" data-label="Acciones">
                                         <button type="button" class="btn btn-icon text-primary"
                                             @click="openModal('{{ route('players.show', $player->id) }}?modal=1')"
                                             aria-label="Ver información de {{ $player->name }} {{ $player->lastname }}" title="Ver información">
@@ -277,8 +277,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-4 text-end">
-                                <button type="submit" class="btn btn-success px-4 fw-bold">
+                            <div class="mt-4 text-end players-observation-actions">
+                                <button type="submit" class="btn btn-success px-4 fw-bold players-observation-save-btn">
                                     <i class="fa fa-save me-2"></i>
                                     Guardar observación
                                 </button>

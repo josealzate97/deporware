@@ -236,8 +236,8 @@
                     </div>
                 </div>
 
-                <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success">
+                <div class="mt-4 text-end teams-form-actions">
+                    <button type="submit" class="btn btn-success teams-submit-btn">
                         <i class="fa fa-save"></i> {{ $isEdit ? 'Guardar Cambios' : 'Crear Plantilla' }}
                     </button>
                 </div>

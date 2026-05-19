@@ -1,17 +1,18 @@
-<div class="section-hero mb-3 bg-light-accent">
-    <div class="d-flex align-items-start gap-3">
-        <div class="section-hero-icon">
-            <i class="fa-solid fa-people-group"></i>
-        </div>
-        <div>
-            <h3 class="fw-bold mb-1">Información del Jugador</h3>
-            <div class="text-muted small fw-bold">Consulta los datos principales del jugador</div>
+<div class="player-show-modal">
+    <div class="section-hero mb-3 bg-light-accent">
+        <div class="d-flex align-items-start gap-3">
+            <div class="section-hero-icon">
+                <i class="fa-solid fa-people-group"></i>
+            </div>
+            <div>
+                <h3 class="fw-bold mb-1">Información del Jugador</h3>
+                <div class="text-muted small fw-bold">Consulta los datos principales del jugador</div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="card p-3 section-card">
-    <div class="player-tabs">
+    <div class="card p-3 section-card">
+        <div class="player-tabs">
         <input type="radio" id="player-tab-general" name="player-tabs" checked>
         <label for="player-tab-general"><i class="fa-solid fa-circle-info player-tab-label-icon"></i>General</label>
 
@@ -277,3 +278,4 @@
         </div>
     </div>
 </div>
+    </div>

@@ -60,7 +60,7 @@
 
         </div>
 
-                <div class="card p-4 mt-4 section-card">
+                <div class="card p-4 mt-4 section-card players-form-card">
             <div class="players-wizard-tabs mb-4">
                 <a class="players-tab {{ $activeStep === 'player' ? 'is-active' : '' }}"
                    href="{{ $isEdit ? route('players.edit', ['id' => $player->id, 'step' => 'player']) : route('players.new') }}">
@@ -346,14 +346,14 @@
 
                     </div>
 
-                    <div class="mt-4 text-end">
+                    <div class="mt-4 text-end players-form-actions">
                         @if($isEdit)
                             <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
                                 <i class="fa-solid fa-times me-2"></i>
                                 Cancelar
                             </a>
                         @endif
-                        <button type="submit" class="btn btn-success px-4 fw-bold">
+                        <button type="submit" class="btn btn-success px-4 fw-bold players-save-btn">
                             <i class="fa fa-save me-2"></i>
                             {{ $isEdit ? 'Guardar y continuar' : 'Guardar jugador' }}
                         </button>
@@ -521,12 +521,12 @@
                             </div>
                         </div>
 
-                        <div class="mt-4 text-end">
+                        <div class="mt-4 text-end players-form-actions">
                             <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'contacts']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
                                 <i class="fa-solid fa-times me-2"></i>
                                 Cancelar
                             </a>
-                            <button type="submit" class="btn btn-success px-4 fw-bold">
+                            <button type="submit" class="btn btn-success px-4 fw-bold players-save-btn">
                                 <i class="fa fa-save me-2"></i>
                                 {{ $contact ? 'Actualizar contacto' : 'Guardar contacto' }}
                             </button>
@@ -659,12 +659,12 @@
                             </div>
                         </div>
 
-                        <div class="mt-4 text-end">
+                        <div class="mt-4 text-end players-form-actions">
                             <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'observations']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
                                 <i class="fa-solid fa-times me-2"></i>
                                 Cancelar
                             </a>
-                            <button type="submit" class="btn btn-success px-4 fw-bold">
+                            <button type="submit" class="btn btn-success px-4 fw-bold players-save-btn">
                                 <i class="fa fa-save me-2"></i>
                                 {{ $observation ? 'Actualizar observación' : 'Guardar observación' }}
                             </button>
