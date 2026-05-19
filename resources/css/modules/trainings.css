@@ -1314,26 +1314,60 @@
 	cursor: not-allowed;
 }
 
+.training-show-modal .match-tabs {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.52rem;
+}
+
+.training-show-modal .training-modal-content-card {
+	grid-column: 1 / -1;
+	margin-top: 0.15rem;
+}
+
+.info-panel.modal-theme-mint .training-show-modal .match-tabs label {
+	background: #ffffff;
+	border-color: #dbe4f0;
+	color: #334155;
+}
+
+.info-panel.modal-theme-mint .training-show-modal .match-tabs label:hover {
+	background: #f8fbff;
+	border-color: #b9cae0;
+	color: #1e3a8a;
+}
+
 #training-tab-info:checked + label,
 #training-tab-goals:checked + label,
 #training-tab-attendance:checked + label,
 #training-tab-documents:checked + label,
 #training-tab-observations:checked + label {
-	color: #1d4ed8;
-	background: #eff6ff;
-	border-color: #bfdbfe;
-	box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+	color: #166534;
+	background: #ecfdf3;
+	border-color: #86efac;
+	box-shadow: 0 6px 14px rgba(22, 163, 74, 0.14);
+}
+
+.info-panel.modal-theme-mint .training-show-modal #training-tab-info:checked + label,
+.info-panel.modal-theme-mint .training-show-modal #training-tab-goals:checked + label,
+.info-panel.modal-theme-mint .training-show-modal #training-tab-attendance:checked + label,
+.info-panel.modal-theme-mint .training-show-modal #training-tab-documents:checked + label,
+.info-panel.modal-theme-mint .training-show-modal #training-tab-observations:checked + label {
+	background: #ecfdf3;
+	border-color: #86efac;
+	color: #166534;
+	box-shadow: 0 8px 16px rgba(22, 163, 74, 0.16);
 }
 
 .match-tab-panels .match-tab-panel {
 	display: none;
 }
 
-#training-tab-info:checked ~ .match-tab-panels [data-panel="training-info"],
-#training-tab-goals:checked ~ .match-tab-panels [data-panel="training-goals"],
-#training-tab-attendance:checked ~ .match-tab-panels [data-panel="training-attendance"],
-#training-tab-documents:checked ~ .match-tab-panels [data-panel="training-documents"],
-#training-tab-observations:checked ~ .match-tab-panels [data-panel="training-observations"] {
+#training-tab-info:checked ~ .training-modal-content-card .match-tab-panels [data-panel="training-info"],
+#training-tab-goals:checked ~ .training-modal-content-card .match-tab-panels [data-panel="training-goals"],
+#training-tab-attendance:checked ~ .training-modal-content-card .match-tab-panels [data-panel="training-attendance"],
+#training-tab-documents:checked ~ .training-modal-content-card .match-tab-panels [data-panel="training-documents"],
+#training-tab-observations:checked ~ .training-modal-content-card .match-tab-panels [data-panel="training-observations"] {
 	display: block;
 }
 

@@ -67,6 +67,18 @@
   cursor: pointer;
 }
 
+.info-panel.modal-theme-mint .player-show-modal .player-tabs label {
+  background: #ffffff;
+  border-color: #dbe4f0;
+  color: #334155;
+}
+
+.info-panel.modal-theme-mint .player-show-modal .player-tabs label:hover {
+  background: #f8fbff;
+  border-color: #b9cae0;
+  color: #1e3a8a;
+}
+
 .info-panel .player-show-modal .section-hero > .d-flex {
   justify-content: flex-start !important;
   align-items: center !important;
@@ -87,6 +99,11 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.55rem;
+}
+
+.info-panel .player-show-modal .player-modal-content-card {
+  grid-column: 1 / -1;
+  margin-top: 0.15rem;
 }
 
 .info-panel .player-show-modal .player-tabs > label {
@@ -121,20 +138,27 @@
 }
 
 .player-tabs input[type="radio"]:checked + label {
-  color: #1d4ed8;
-  background: #eff6ff;
-  border-color: #bfdbfe;
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+  color: #166534;
+  background: #ecfdf3;
+  border-color: #86efac;
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.14);
+}
+
+.info-panel.modal-theme-mint .player-show-modal .player-tabs input[type="radio"]:checked + label {
+  background: #ecfdf3;
+  border-color: #86efac;
+  color: #166534;
+  box-shadow: 0 8px 16px rgba(22, 163, 74, 0.16);
 }
 
 .player-tab-panels .player-tab-panel {
   display: none;
 }
 
-#player-tab-general:checked ~ .player-tab-panels [data-panel="general"],
-#player-tab-documents:checked ~ .player-tab-panels [data-panel="documents"],
-#player-tab-contacts:checked ~ .player-tab-panels [data-panel="contacts"],
-#player-tab-observations:checked ~ .player-tab-panels [data-panel="observations"] {
+#player-tab-general:checked ~ .player-modal-content-card .player-tab-panels [data-panel="general"],
+#player-tab-documents:checked ~ .player-modal-content-card .player-tab-panels [data-panel="documents"],
+#player-tab-contacts:checked ~ .player-modal-content-card .player-tab-panels [data-panel="contacts"],
+#player-tab-observations:checked ~ .player-modal-content-card .player-tab-panels [data-panel="observations"] {
   display: block;
 }
 

@@ -1,15 +1,4 @@
 <div class="show-modal-mint">
-    <div class="section-hero mb-3">
-        <div class="d-flex align-items-start gap-3">
-            <div class="section-hero-icon">
-                <i class="fa-solid fa-building-circle-check"></i>
-            </div>
-            <div>
-                <h3 class="fw-bold mb-1">Información de la Sede</h3>
-                <div class="text-muted small fw-bold">Consulta los detalles y estado de la sede</div>
-            </div>
-        </div>
-    </div>
 
     <div class="card p-3 section-card">
         <div class="entity-info-grid">

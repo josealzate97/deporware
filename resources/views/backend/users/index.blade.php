@@ -193,7 +193,7 @@
         </div>
 
         <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
-            <div class="info-panel" :class="open ? 'is-open' : ''" x-show="open" x-transition>
+            <div class="info-panel users-info-panel" :class="open ? 'is-open' : ''" x-show="open" x-transition>
                 <div class="info-header">
                     <div class="user-modal-header-copy">
                         <div class="user-modal-header-title">DETALLE DEL USUARIO</div>

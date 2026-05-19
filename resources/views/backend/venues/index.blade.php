@@ -173,9 +173,12 @@
         </div>
 
         <div class="info-overlay" x-show="open" x-transition.opacity x-cloak @click.self="closeModal">
-            <div class="info-panel" :class="open ? 'is-open' : ''" x-show="open" x-transition>
+            <div class="info-panel modal-theme-mint" :class="open ? 'is-open' : ''" x-show="open" x-transition>
                 <div class="info-header">
-                    <span x-text="title"></span>
+                    <div class="modal-theme-header-copy">
+                        <div class="modal-theme-header-title">DETALLE DE LA SEDE</div>
+                        <div class="modal-theme-header-subtitle">Información general, ubicación y equipos asociados</div>
+                    </div>
                     <button type="button" class="info-close" @click="closeModal">&times;</button>
                 </div>
                 <div class="info-body" x-html="content"></div>

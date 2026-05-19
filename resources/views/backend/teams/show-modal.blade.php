@@ -6,17 +6,6 @@
 @php($latestTrainings = $team->trainings->take(10))
 
 <div class="show-modal-mint">
-    <div class="section-hero mb-3">
-        <div class="d-flex align-items-start gap-3">
-            <div class="section-hero-icon">
-                <i class="fa-solid fa-shield"></i>
-            </div>
-            <div>
-                <h3 class="fw-bold mb-1">Información de la Plantilla</h3>
-                <div class="text-muted small fw-bold">Consulta el detalle general de la plantilla</div>
-            </div>
-        </div>
-    </div>
 
     <div class="team-modal-tabs">
         <input type="radio" id="team-tab-info" name="team-tab" checked>
@@ -246,4 +235,5 @@
             </div>
         </div>
     </div>
+    
 </div>
