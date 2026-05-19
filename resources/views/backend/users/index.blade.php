@@ -85,7 +85,7 @@
             </form>
             
             <!-- Tabla de Usuarios -->
-            <div class="table-responsive responsive-stack-table">
+            <div class="table-responsive responsive-stack-table users-card-table">
 
                 <table class="table table-borderless align-middle section-table">
 
@@ -105,18 +105,25 @@
                         @forelse($users as $user)
 
                             <tr data-id="{{ $user->id }}" data-role="{{ $user->role }}">
-                                <td data-label="Usuario">
-                                    <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
-                                    <div class="mt-1">
-                                        <span class="meta-badge">{{ $user->username }}</span>
+                                <td class="users-card-cell users-card-cell--title" data-label="Usuario">
+                                    <div class="user-list-profile">
+                                        <div class="user-list-avatar" aria-hidden="true">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <div class="user-list-identity">
+                                            <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
+                                            <div class="mt-1">
+                                                <span class="meta-badge">{{ $user->username }}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
-                                <td data-label="Email">{{ $user->email }}</td>
-                                <td data-label="Teléfono">{{ $user->phone }}</td>
-                                <td class="text-center" data-label="Rol">
+                                <td class="users-card-cell users-card-cell--half" data-label="Email">{{ $user->email }}</td>
+                                <td class="users-card-cell users-card-cell--half" data-label="Teléfono">{{ $user->phone }}</td>
+                                <td class="text-center users-card-cell users-card-cell--half" data-label="Rol">
                                     {{ $user->role_label }}
                                 </td>
-                                <td data-label="Estado">
+                                <td class="users-card-cell users-card-cell--half" data-label="Estado">
                                     @if($user->status == \App\Models\User::ACTIVE)
                                         <span class="status-pill status-pill-success">Activo</span>
                                     @else
@@ -124,7 +131,7 @@
                                     @endif
                                 </td>
 
-                                <td class="text-end" data-label="Acciones">
+                                <td class="text-end users-card-actions" data-label="Acciones">
 
                                     @if(Auth::check() && in_array(Auth::user()->role, 
                                     [\App\Models\User::ROLE_ROOT, \App\Models\User::ROLE_SPORT_MANAGER, \App\Models\User::ROLE_COACH], true))

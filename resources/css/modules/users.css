@@ -65,6 +65,43 @@
   border-color: var(--brand-green);
 }
 
+.users-card-actions {
+  white-space: nowrap;
+}
+
+.users-card-cell {
+  overflow-wrap: anywhere;
+}
+
+.user-list-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.user-list-avatar {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 14px;
+  border: 1px solid #d7e6ff;
+  background: linear-gradient(135deg, #eef6ff 0%, #e7f8ee 100%);
+  color: #1e3a8a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+.user-list-avatar i {
+  font-size: 1.22rem;
+}
+
+.user-list-identity {
+  min-width: 0;
+}
+
 .venue-switch {
   display: flex;
   align-items: center;
@@ -545,6 +582,128 @@
   }
 }
 
+@media (max-width: 1199.98px) {
+  .users-card-table {
+    padding: 0 0.75rem;
+  }
+
+  .users-card-table .section-table,
+  .users-card-table table {
+    border-spacing: 0 0.9rem;
+  }
+
+  .users-card-table .section-table tbody tr,
+  .users-card-table table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding: 0.35rem;
+    border: 1px solid #cfd9e7;
+    outline: 1px solid rgba(148, 163, 184, 0.24);
+    outline-offset: -2px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
+    overflow: hidden;
+  }
+
+  .users-card-table .section-table tbody td,
+  .users-card-table table tbody td {
+    min-width: 0;
+    padding: 0.62rem 0.85rem;
+    border-bottom: 1px dashed #e4eaf2;
+  }
+
+  .users-card-table .section-table tbody td::before,
+  .users-card-table table tbody td::before {
+    margin-bottom: 0.22rem;
+  }
+
+  .users-card-cell--title,
+  .users-card-actions {
+    grid-column: 1 / -1;
+  }
+
+  .users-card-cell--half {
+    grid-column: span 1;
+  }
+
+  .users-card-cell--title .fw-bold {
+    color: #0f172a;
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .users-card-cell--title {
+    padding-top: 0.78rem !important;
+    padding-bottom: 0.78rem !important;
+  }
+
+  .users-card-table .user-list-avatar {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+    border-radius: 17px;
+  }
+
+  .users-card-table .user-list-avatar i {
+    font-size: 1.55rem;
+  }
+
+  .users-card-actions {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 0 !important;
+  }
+
+  .users-card-actions::before {
+    width: 100%;
+    text-align: center;
+  }
+
+  .users-card-actions .btn-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 12px;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+  }
+}
+
+@media (max-width: 799.98px) {
+  .container-fluid > .section-hero > .d-flex {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 0.9rem !important;
+  }
+
+  .container-fluid > .section-hero > .d-flex > .d-flex {
+    width: 100%;
+  }
+
+  .container-fluid > .section-hero .section-hero-actions {
+    width: 100%;
+    margin-top: 0 !important;
+    margin-left: 0;
+  }
+
+  .container-fluid > .section-hero .section-hero-actions .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
 @media (max-width: 767.98px) {
   .info-panel .show-modal-mint .user-profile-header {
     grid-template-columns: 1fr;
@@ -562,6 +721,18 @@
 
   .info-panel .show-modal-mint .user-profile-inline-card {
     width: 100%;
+  }
+
+  .user-info-card > .d-flex:first-child {
+    align-items: stretch !important;
+  }
+
+  .user-info-card > .d-flex:first-child > div:first-child {
+    width: 100%;
+  }
+
+  .user-info-actions {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -624,6 +795,25 @@
 
   .user-info-actions {
     grid-template-columns: 1fr;
+  }
+
+  .users-card-table {
+    padding: 0 0.55rem;
+  }
+
+  .users-card-table .section-table tbody tr,
+  .users-card-table table tbody tr {
+    grid-template-columns: 1fr 1fr;
+    padding: 0.3rem;
+  }
+
+  .users-card-table .section-table tbody td,
+  .users-card-table table tbody td {
+    padding: 0.58rem 0.72rem;
+  }
+
+  .users-card-cell--half {
+    grid-column: span 1;
   }
 
 }

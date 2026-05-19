@@ -89,7 +89,7 @@
                 </a>
             </form>
 
-            <div class="table-responsive responsive-stack-table">
+            <div class="table-responsive responsive-stack-table venues-card-table">
 
                 <table class="table table-borderless align-middle section-table">
 
@@ -120,7 +120,7 @@
                                         <span class="status-pill status-pill-muted">Inactiva</span>
                                     @endif
                                 </td>
-                                <td class="text-end" data-label="Acciones">
+                                <td class="text-end venues-card-actions" data-label="Acciones">
                                     <button type="button" class="btn btn-icon text-primary"
                                         @click="openModal('{{ route('venues.show', $venue->id) }}?modal=1')"
                                         aria-label="Ver información de {{ $venue->name }}" title="Ver información">
