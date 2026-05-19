@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="section-hero-actions mt-2 mt-lg-0 d-flex gap-2">
+                <div class="section-hero-actions match-new-hero-actions mt-2 mt-lg-0 d-flex gap-2">
                     <a id="btn-download-match-template"
                        href="{{ asset('docs/plantilla-partido.docx') }}"
                        download
@@ -146,7 +146,7 @@
                             </div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-12 col-lg-7">
+                                <div class="col-12 col-lg-7 match-main-fields-col">
                                     <div class="row g-3">
                                 @php($matchDateValue = old('match_date', $match?->match_date?->format('Y-m-d H:i') ?? ''))
                                 @php($matchDateDate = $matchDateValue ? \Carbon\Carbon::parse($matchDateValue)->format('Y-m-d') : '')
@@ -281,7 +281,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-5 match-files-col">
                                     <div class="match-file-panel">
                                         <div class="match-file-panel-header">
                                             <div>

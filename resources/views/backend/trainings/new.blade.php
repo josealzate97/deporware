@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                <div class="section-hero-actions mt-2 mt-lg-0 d-flex gap-2">
+                <div class="section-hero-actions training-new-hero-actions mt-2 mt-lg-0 d-flex gap-2">
                     @if($isEdit && $isCoordinator)
                         <a href="#training-observations" class="btn btn-outline-primary">
                             <i class="fa-solid fa-note-sticky me-2"></i> Observaciones
@@ -114,7 +114,7 @@
                 @endif
 
                 <div class="row g-4">
-                    <div class="col-12 col-lg-7">
+                    <div class="col-12 col-lg-7 training-main-fields-col">
                         <div class="info-section">
                             <div class="info-section-title">
                                 <i class="fa-solid fa-circle-info me-2 text-primary"></i>
@@ -301,7 +301,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-5">
+                    <div class="col-12 col-lg-5 training-side-col">
                         <div class="training-side-panel">
                             <div class="training-side-panel-item surface-gradient-day">
                                 <div class="training-side-panel-header">
