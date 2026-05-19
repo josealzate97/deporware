@@ -1467,39 +1467,63 @@ body.theme-dark .match-info-sub {
 .training-form-actions {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+	gap: 0.8rem !important;
+	flex-wrap: wrap;
 }
 
-@media (min-width: 992px) {
+.training-form-actions .btn-action {
+	min-height: 54px;
+	border-radius: 14px;
+	padding: 0.78rem 1.35rem;
+	font-size: 1.02rem;
+	font-weight: 800;
+	width: 40%;
+	min-width: 320px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
 	.training-form-actions {
-		justify-content: center !important;
-		gap: 0.85rem !important;
+		justify-content: center;
+		gap: 0.75rem !important;
 	}
 
 	.training-form-actions .btn-action {
-		min-width: 230px;
-		min-height: 50px;
-		padding: 0.76rem 1.65rem;
-		font-size: 1rem;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
+		width: calc(50% - 0.38rem);
+		min-width: 0;
+		min-height: 52px;
+		font-size: 0.99rem;
 	}
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
 	.training-form-actions {
-		display: flex !important;
 		flex-direction: column;
 		align-items: stretch;
 		justify-content: flex-start;
-		gap: 0.65rem !important;
+		gap: 0.62rem !important;
 	}
 
 	.training-form-actions .btn-action {
 		width: 100%;
 		max-width: 100%;
 		min-width: 0;
-		text-align: center;
+		min-height: 50px;
+		font-size: 0.98rem;
+	}
+}
+
+@media (max-width: 991.98px) {
+	.training-observation-save-btn {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		min-height: 50px;
 	}
 }
 

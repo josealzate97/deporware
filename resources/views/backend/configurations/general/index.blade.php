@@ -66,17 +66,17 @@
                     <p class="text-muted mb-0">Edita la informacion base, localizacion y preferencias.</p>
                 </div>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 config-general-actions">
                     @can('config:edit-school')
-                    <button type="button" class="btn btn-primary config-edit-btn" x-show="!isEditing" @click="enableEdit" :disabled="isLoading">
+                    <button type="button" class="btn btn-primary config-edit-btn config-general-edit-btn" x-show="!isEditing" @click="enableEdit" :disabled="isLoading">
                         <i class="fa fa-edit"></i> Editar
                     </button>
 
-                    <button type="button" class="btn btn-danger" x-show="isEditing" @click="cancelEdit" :disabled="isSaving">
+                    <button type="button" class="btn btn-danger config-general-cancel-btn" x-show="isEditing" @click="cancelEdit" :disabled="isSaving">
                         <i class="fa fa-trash"></i> Cancelar
                     </button>
 
-                    <button type="button" class="btn btn-success" x-show="isEditing" @click="save" :disabled="isSaving">
+                    <button type="button" class="btn btn-success config-general-save-btn" x-show="isEditing" @click="save" :disabled="isSaving">
                         <span x-show="!isSaving"><i class="fa fa-save"></i> Guardar</span>
                         <span x-show="isSaving"><i class="fa fa-save"></i> Guardando...</span>
                     </button>

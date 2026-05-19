@@ -66,11 +66,6 @@
                 </div>
 
                 <div class="section-hero-actions training-new-hero-actions mt-2 mt-lg-0 d-flex gap-2">
-                    @if($isEdit && $isCoordinator)
-                        <a href="#training-observations" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-note-sticky me-2"></i> Observaciones
-                        </a>
-                    @endif
                     <a id="btn-download-training-template"
                        href="{{ asset('docs/plantilla-entrenamientos.xlsx') }}"
                        download
@@ -447,6 +442,7 @@
                             <i class="fa-solid fa-plus-circle me-2"></i>Nueva observación
                         </a>
                     @endif
+
                 </div>
 
                 <div class="row g-4">
@@ -483,7 +479,7 @@
                                                 <i class="fa-solid fa-xmark me-2"></i>Cancelar
                                             </a>
                                         @endif
-                                        <button type="submit" class="btn btn-success btn-action">
+                                        <button type="submit" class="btn btn-success btn-action {{ $selectedObservation ? '' : 'training-observation-save-btn' }}">
                                             <i class="fa-solid fa-floppy-disk me-2"></i>{{ $selectedObservation ? 'Actualizar' : 'Guardar' }}
                                         </button>
                                     </div>

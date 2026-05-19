@@ -346,7 +346,7 @@
 
                     </div>
 
-                    <div class="mt-4 text-end players-form-actions">
+                    <div class="mt-4 text-end players-form-actions players-primary-form-actions">
                         @if($isEdit)
                             <a href="{{ route('players.edit', ['id' => $player->id, 'step' => 'player']) }}" class="btn player-btn-cancel px-4 fw-bold me-2">
                                 <i class="fa-solid fa-times me-2"></i>

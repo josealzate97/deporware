@@ -954,56 +954,54 @@ body.theme-dark .match-file-panel .upload-control {
 .match-form-actions {
   margin-top: 1rem;
   margin-bottom: 1rem;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem !important;
+  flex-wrap: wrap;
 }
 
-@media (min-width: 992px) {
-  .match-form-actions {
-    justify-content: center !important;
-    gap: 0.85rem !important;
-  }
+.match-form-actions .btn-action {
+  min-height: 54px;
+  border-radius: 14px;
+  padding: 0.78rem 1.35rem;
+  font-size: 1.02rem;
+  font-weight: 800;
+  width: 40%;
+  min-width: 320px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .match-form-actions .btn-action {
-    min-width: 230px;
-    min-height: 50px;
-    padding: 0.76rem 1.65rem;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .match-form-actions {
     justify-content: center;
-  }
-}
-
-@media (max-width: 991.98px) {
-  .match-form-actions {
-    display: flex !important;
-    justify-content: flex-end;
-    align-items: stretch;
-    flex-wrap: wrap;
-    gap: 0.65rem !important;
+    gap: 0.75rem !important;
   }
 
-  .match-form-actions.is-edit .btn-action {
-    flex: 0 0 calc(50% - 0.325rem);
-    max-width: calc(50% - 0.325rem);
-    min-width: 0;
-    width: calc(50% - 0.325rem);
-    text-align: center;
-  }
-
-  .match-form-actions.is-create .btn-action {
-    flex: 0 0 100%;
-    max-width: 100%;
-    min-width: 0;
-    width: 100%;
-    text-align: center;
-  }
-}
-
-@media (max-width: 575.98px) {
   .match-form-actions .btn-action {
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
+    width: calc(50% - 0.38rem);
+    min-width: 0;
+    min-height: 52px;
+    font-size: 0.99rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .match-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.62rem !important;
+  }
+
+  .match-form-actions .btn-action {
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    min-height: 50px;
+    font-size: 0.98rem;
   }
 }
 

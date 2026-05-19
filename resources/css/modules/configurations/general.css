@@ -54,6 +54,58 @@
   border-color: #bfdbfe;
 }
 
+@media (max-width: 991.98px) {
+  .config-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .config-tab {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    justify-content: center;
+    text-align: center;
+    padding: 0.62rem 0.78rem;
+  }
+
+  .config-general-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .config-general-actions .config-general-edit-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .config-general-actions .config-general-cancel-btn,
+  .config-general-actions .config-general-save-btn {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .config-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .config-tab {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .config-general-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
 .info-section {
   background:
     radial-gradient(circle at top right, rgba(22, 163, 74, 0.14), transparent 32%),
