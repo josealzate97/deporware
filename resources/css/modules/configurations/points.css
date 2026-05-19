@@ -37,8 +37,9 @@
 }
 
 .btn.btn-icon.config-edit-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
 }
 
 .btn.btn-icon.config-edit-btn i {
@@ -58,8 +59,9 @@
 }
 
 .btn.btn-icon.config-point-action-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -73,15 +75,15 @@
 }
 
 .config-point-action-danger {
-  background: #f1f5f9;
-  border-color: #dbe7f5;
-  color: #e11d48;
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
 }
 
 .config-point-action-danger:hover {
   background: #fee2e2;
-  border-color: #fecaca;
-  color: #be123c;
+  border-color: #fca5a5;
+  color: #991b1b;
 }
 
 .config-point-action-success {

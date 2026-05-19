@@ -552,6 +552,142 @@
 	color: #991b1b;
 }
 
+@media (max-width: 1199.98px) {
+	.trainings-card-table {
+		padding: 0 0.75rem;
+	}
+
+	.trainings-card-table .section-table,
+	.trainings-card-table table {
+		border-spacing: 0 0.9rem;
+	}
+
+	.trainings-card-table .section-table tbody tr,
+	.trainings-card-table table tbody tr {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0;
+		padding: 0.34rem;
+		border-color: #cfd9e7;
+		outline: 1px solid rgba(148, 163, 184, 0.24);
+		outline-offset: -2px;
+		border-radius: 16px;
+		box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
+		overflow: hidden;
+	}
+
+	.trainings-card-table .section-table tbody td,
+	.trainings-card-table table tbody td {
+		min-width: 0;
+		padding: 0.58rem 0.78rem;
+		border-bottom: 1px dashed #e4eaf2;
+	}
+
+	.trainings-card-table .section-table tbody td::before,
+	.trainings-card-table table tbody td::before {
+		margin-bottom: 0.18rem;
+		font-size: 0.62rem;
+	}
+
+	.trainings-card-table .section-table tbody td[data-label="Entrenamiento"],
+	.trainings-card-table .section-table tbody td[data-label="Acciones"],
+	.trainings-card-table table tbody td[data-label="Entrenamiento"],
+	.trainings-card-table table tbody td[data-label="Acciones"] {
+		grid-column: 1 / -1;
+	}
+
+	.trainings-card-table .training-main-cell {
+		min-width: 0;
+	}
+
+	.trainings-card-table .training-main-name {
+		font-size: 1.02rem;
+		line-height: 1.24;
+	}
+
+	.trainings-card-table .training-main-meta {
+		gap: 0.22rem;
+		margin-top: 0.24rem;
+	}
+
+	.trainings-card-table .training-team-badge,
+	.trainings-card-table .training-main-date,
+	.trainings-card-table .training-coach-badge,
+	.trainings-card-table .training-attendance-btn,
+	.trainings-card-table .training-venue-link {
+		font-size: 0.74rem;
+		padding: 0.14rem 0.48rem;
+	}
+
+	.trainings-card-table td[data-label="Sede"],
+	.trainings-card-table td[data-label="Asistentes"] {
+		text-align: left !important;
+	}
+
+	.trainings-card-table td[data-label="Sede"] .training-venue-link,
+	.trainings-card-table td[data-label="Asistentes"] .training-attendance-btn {
+		max-width: 100%;
+		width: 100%;
+		justify-content: center;
+	}
+
+	.trainings-card-actions {
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		padding-top: 0.72rem !important;
+		padding-bottom: 0.72rem !important;
+		border-bottom: 0 !important;
+		text-align: center !important;
+	}
+
+	.trainings-card-actions::before {
+		width: 100%;
+		text-align: center;
+	}
+
+	.trainings-card-actions .training-actions-group {
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.62rem !important;
+		width: 100%;
+	}
+
+	.trainings-card-actions .training-actions-group .training-action-btn {
+		width: 46px;
+		height: 46px;
+		min-width: 46px;
+		border-radius: 12px;
+		margin: 0 !important;
+		box-shadow: 0 6px 14px rgba(15, 23, 42, 0.1);
+	}
+
+	.trainings-card-actions .training-actions-group .training-action-btn i {
+		font-size: 1.08rem;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.trainings-card-table {
+		padding: 0 0.55rem;
+	}
+
+	.trainings-card-table .section-table tbody tr,
+	.trainings-card-table table tbody tr {
+		grid-template-columns: 1fr;
+		padding: 0.3rem;
+	}
+
+	.trainings-card-table .section-table tbody td,
+	.trainings-card-table table tbody td {
+		padding: 0.55rem 0.7rem;
+	}
+}
+
 [x-cloak] {
 	display: none !important;
 }

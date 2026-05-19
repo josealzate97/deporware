@@ -37,8 +37,9 @@
 }
 
 .btn.btn-icon.config-edit-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
 }
 
 .btn.btn-icon.config-edit-btn i {

@@ -90,11 +90,11 @@
   }
 
   .venues-card-actions .btn-icon {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
     border-radius: 12px;
-    font-size: 1rem;
+    font-size: 1.08rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;

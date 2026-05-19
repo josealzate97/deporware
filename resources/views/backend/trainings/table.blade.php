@@ -1,5 +1,5 @@
 @if($trainings->count() > 0)
-<div class="table-responsive responsive-stack-table">
+<div class="table-responsive responsive-stack-table trainings-card-table">
     <table class="table table-borderless align-middle section-table">
         <thead>
             <tr>
@@ -80,7 +80,7 @@
                             <span class="status-pill status-pill-muted">Inactivo</span>
                         @endif
                     </td>
-                    <td class="text-end" data-label="Acciones">
+                    <td class="text-end trainings-card-actions" data-label="Acciones">
                         <div class="d-inline-flex align-items-center gap-1 training-actions-group">
                             <button type="button" class="btn btn-icon training-action-btn training-action-btn-info"
                                 @click="openModal('{{ route('trainings.show', $training->id) }}?modal=1')"

@@ -559,6 +559,39 @@ textarea.form-control {
     border-bottom: 0;
   }
 
+  .responsive-stack-table .section-table tbody td[data-label="Acciones"],
+  .responsive-stack-table table tbody td[data-label="Acciones"] {
+    text-align: center !important;
+    padding-top: 0.78rem;
+    padding-bottom: 0.78rem;
+  }
+
+  .responsive-stack-table .section-table tbody td[data-label="Acciones"]::before,
+  .responsive-stack-table table tbody td[data-label="Acciones"]::before {
+    width: 100%;
+    text-align: center;
+  }
+
+  .responsive-stack-table .section-table tbody td[data-label="Acciones"] form,
+  .responsive-stack-table table tbody td[data-label="Acciones"] form {
+    display: inline-flex !important;
+  }
+
+  .responsive-stack-table .section-table tbody td[data-label="Acciones"] .btn-icon,
+  .responsive-stack-table table tbody td[data-label="Acciones"] .btn-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 12px;
+    margin: 0 0.2rem !important;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.1);
+  }
+
+  .responsive-stack-table .section-table tbody td[data-label="Acciones"] .btn-icon i,
+  .responsive-stack-table table tbody td[data-label="Acciones"] .btn-icon i {
+    font-size: 1.08rem;
+  }
+
   .tenant-card-table .section-table tbody tr {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1006,55 +1039,206 @@ main[role="main"] .btn .fa-brands {
 }
 
 .btn-icon {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
   padding: 0;
-  border-radius: 8px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border: 1px solid transparent;
   color: #64748b;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-icon i {
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 .btn-icon:hover {
   background: #e2e8f0;
+  border-color: transparent;
   color: #334155;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.14);
+}
+
+.btn-icon:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+}
+
+.btn-icon.text-primary {
+  background: #eff6ff;
+  border-color: transparent;
+  color: #1d4ed8 !important;
+}
+
+.btn-icon.text-primary:hover {
+  background: #dbeafe;
+  border-color: transparent;
+  color: #1e40af !important;
 }
 
 .btn-icon-edit {
   background: #ecfdf3;
-  border-color: #c6f6d5;
-  color: #15803d;
+  border-color: transparent;
+  color: #15803d !important;
 }
 
 .btn-icon-edit:hover {
-  background: #d1fae5;
-  color: #166534;
+  background: #dcfce7;
+  border-color: transparent;
+  color: #166534 !important;
+}
+
+.btn-icon.text-success {
+  background: #ecfdf3;
+  border-color: transparent;
+  color: #15803d !important;
+}
+
+.btn-icon.text-success:hover {
+  background: #dcfce7;
+  border-color: transparent;
+  color: #166534 !important;
 }
 
 .btn-icon-warning {
   background: #fefce8;
-  border-color: #fde047;
-  color: #a16207;
+  border-color: transparent;
+  color: #a16207 !important;
 }
 
 .btn-icon-warning:hover {
   background: #fef08a;
-  border-color: #facc15;
-  color: #854d0e;
+  border-color: transparent;
+  color: #854d0e !important;
+}
+
+.btn-icon.text-danger {
+  background: #fef2f2;
+  border-color: transparent;
+  color: #b91c1c !important;
+}
+
+.btn-icon.text-danger:hover {
+  background: #fee2e2;
+  border-color: transparent;
+  color: #991b1b !important;
 }
 
 .btn-icon-locked {
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 9px;
   background: #fef3c7;
-  border-color: #fde68a;
-  color: #b45309;
-  font-size: 0.75rem;
+  border-color: transparent;
+  color: #b45309 !important;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
 }
 
 .btn-icon-locked i {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon,
+table tbody td[data-label="Acciones"] .btn-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon i,
+table tbody td[data-label="Acciones"] .btn-icon i {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.text-primary,
+table tbody td[data-label="Acciones"] .btn-icon.text-primary {
+  background: #eff6ff;
+  border-color: transparent;
+  color: #1d4ed8 !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.text-primary:hover,
+table tbody td[data-label="Acciones"] .btn-icon.text-primary:hover {
+  background: #dbeafe;
+  border-color: transparent;
+  color: #1e40af !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.btn-icon-edit,
+.section-table tbody td[data-label="Acciones"] .btn-icon.text-success,
+table tbody td[data-label="Acciones"] .btn-icon.btn-icon-edit,
+table tbody td[data-label="Acciones"] .btn-icon.text-success {
+  background: #ecfdf3;
+  border-color: transparent;
+  color: #15803d !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.btn-icon-edit:hover,
+.section-table tbody td[data-label="Acciones"] .btn-icon.text-success:hover,
+table tbody td[data-label="Acciones"] .btn-icon.btn-icon-edit:hover,
+table tbody td[data-label="Acciones"] .btn-icon.text-success:hover {
+  background: #dcfce7;
+  border-color: transparent;
+  color: #166534 !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.btn-icon-warning,
+table tbody td[data-label="Acciones"] .btn-icon.btn-icon-warning {
+  background: #fefce8;
+  border-color: transparent;
+  color: #a16207 !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.btn-icon-warning:hover,
+table tbody td[data-label="Acciones"] .btn-icon.btn-icon-warning:hover {
+  background: #fef08a;
+  border-color: transparent;
+  color: #854d0e !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.text-danger,
+table tbody td[data-label="Acciones"] .btn-icon.text-danger {
+  background: #fef2f2;
+  border-color: transparent;
+  color: #b91c1c !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.text-danger:hover,
+table tbody td[data-label="Acciones"] .btn-icon.text-danger:hover {
+  background: #fee2e2;
+  border-color: transparent;
+  color: #991b1b !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.btn-icon-locked,
+table tbody td[data-label="Acciones"] .btn-icon.btn-icon-locked {
+  background: #fef3c7;
+  border-color: transparent;
+  color: #b45309 !important;
+}
+
+.section-table tbody td[data-label="Acciones"] .btn-icon.btn-icon-locked:hover,
+table tbody td[data-label="Acciones"] .btn-icon.btn-icon-locked:hover {
+  background: #fde68a;
+  border-color: transparent;
+  color: #92400e !important;
 }
 
 .section-footer {
