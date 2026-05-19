@@ -176,6 +176,14 @@
   font-weight: 600;
 }
 
+.dashboard-schools-header .btn {
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.72rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
 .dashboard-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.9fr);
@@ -535,6 +543,16 @@
 @media (max-width: 767.98px) {
   .dashboard-summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-schools-header {
+    align-items: stretch !important;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .dashboard-schools-header .btn {
+    width: 100%;
   }
 
   .dashboard-hero-head {

@@ -76,7 +76,7 @@
                 </a>
             </form>
 
-            <div class="table-responsive responsive-stack-table">
+            <div class="table-responsive responsive-stack-table tenant-card-table">
                 <table class="table table-borderless align-middle section-table">
                     <thead>
                         <tr>
@@ -94,21 +94,21 @@
                     <tbody>
                         @forelse($tenants as $t)
                             <tr>
-                                <td class="text-muted small" data-label="#">{{ $t->number }}</td>
-                                <td class="fw-semibold" data-label="Nombre">{{ $t->name }}</td>
+                                <td class="text-muted small tenant-card-cell--mobile-hidden" data-label="#">{{ $t->number }}</td>
+                                <td class="fw-semibold tenant-card-cell--title" data-label="Nombre">{{ $t->name }}</td>
                                 <td data-label="Identificador">
                                     <code class="slug-badge">{{ $t->slug }}</code>
                                 </td>
-                                <td class="text-center" data-label="Usuarios">
+                                <td class="text-center tenant-card-cell--half" data-label="Usuarios">
                                     <span class="meta-badge">{{ $t->users_count }}</span>
                                 </td>
-                                <td class="text-center" data-label="Plantillas">
+                                <td class="text-center tenant-card-cell--half" data-label="Plantillas">
                                     <span class="meta-badge">{{ $t->teams_count }}</span>
                                 </td>
-                                <td class="text-center" data-label="Jugadores">
+                                <td class="text-center tenant-card-cell--half" data-label="Jugadores">
                                     <span class="meta-badge">{{ $t->players_count }}</span>
                                 </td>
-                                <td class="text-center" data-label="Estado">
+                                <td class="text-center tenant-card-cell--half" data-label="Estado">
                                     <span class="status-pill {{ $t->status === \App\Models\Tenant::ACTIVE ? 'status-pill-success' : 'status-pill-muted' }}">
                                         {{ $t->status === \App\Models\Tenant::ACTIVE ? 'Activa' : 'Inactiva' }}
                                     </span>

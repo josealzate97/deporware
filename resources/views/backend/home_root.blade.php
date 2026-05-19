@@ -66,7 +66,7 @@
         {{-- Lista de escuelas --}}
         <div class="card p-3 my-3 overflow-hidden">
 
-            <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+            <div class="p-3 border-bottom d-flex align-items-center justify-content-between dashboard-schools-header">
                 
                 <h3 class="fw-bold mb-0"><i class="fa-solid fa-building me-2 text-muted"></i>Escuelas</h3>
                 
@@ -76,9 +76,9 @@
 
             </div>
 
-            <div class="table-responsive mt-2 responsive-stack-table">
+            <div class="table-responsive mt-2 responsive-stack-table tenant-card-table">
                 
-                <table class="table table-hover mb-0 align-middle section-table">
+                <table class="table mb-0 align-middle section-table">
                     <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
@@ -93,13 +93,19 @@
                     <tbody>
                         @forelse($tenants as $t)
                             <tr>
-                                <td class="fw-semibold" data-label="Nombre">{{ $t->name }}</td>
+                                <td class="fw-semibold tenant-card-cell--title" data-label="Nombre">{{ $t->name }}</td>
                                 <td data-label="Identificador"><code class="slug-badge fw-bold">{{ $t->slug }}</code></td>
-                                <td class="text-center" data-label="Usuarios">{{ $t->users_count }}</td>
-                                <td class="text-center" data-label="Plantillas">{{ $t->teams_count }}</td>
-                                <td class="text-center" data-label="Jugadores">{{ $t->players_count }}</td>
-                                <td class="text-center" data-label="Estado">
-                                    <span class="badge {{ $t->status === \App\Models\Tenant::ACTIVE ? 'bg-success' : 'bg-secondary' }}">
+                                <td class="text-center tenant-card-cell--half" data-label="Usuarios">
+                                    <span class="meta-badge">{{ $t->users_count }}</span>
+                                </td>
+                                <td class="text-center tenant-card-cell--half" data-label="Plantillas">
+                                    <span class="meta-badge">{{ $t->teams_count }}</span>
+                                </td>
+                                <td class="text-center tenant-card-cell--half" data-label="Jugadores">
+                                    <span class="meta-badge">{{ $t->players_count }}</span>
+                                </td>
+                                <td class="text-center tenant-card-cell--half" data-label="Estado">
+                                    <span class="status-pill {{ $t->status === \App\Models\Tenant::ACTIVE ? 'status-pill-success' : 'status-pill-muted' }}">
                                         {{ $t->status === \App\Models\Tenant::ACTIVE ? 'Activa' : 'Inactiva' }}
                                     </span>
                                 </td>

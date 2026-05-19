@@ -559,6 +559,46 @@ textarea.form-control {
     border-bottom: 0;
   }
 
+  .tenant-card-table .section-table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tenant-card-table .section-table tbody td {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  .tenant-card-table .section-table tbody td.tenant-card-cell--mobile-hidden {
+    display: none;
+  }
+
+  .tenant-card-table .section-table tbody td.tenant-card-cell--title {
+    font-size: 1rem;
+  }
+
+  .tenant-card-table .section-table tbody td.tenant-card-cell--half {
+    grid-column: span 1;
+  }
+
+  .tenant-card-table .section-table tbody td[data-label="Acciones"] {
+    text-align: center !important;
+  }
+
+  .tenant-card-table .section-table tbody td[data-label="Acciones"] form {
+    display: inline-flex !important;
+  }
+
+  .tenant-card-table .section-table tbody td[data-label="Acciones"] .btn {
+    align-items: center;
+    display: inline-flex;
+    height: 2.35rem;
+    justify-content: center;
+    margin: 0 0.15rem !important;
+    min-width: 2.35rem;
+    padding: 0.5rem 0.68rem;
+  }
+
   .responsive-cards-dots {
     display: flex;
     align-items: center;
