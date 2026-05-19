@@ -140,6 +140,127 @@
   color: #166534;
 }
 
+.config-point-submit-wrap {
+  text-align: center !important;
+}
+
+.config-point-submit-btn {
+  min-height: 48px;
+  font-weight: 800;
+  padding: 0.72rem 1.3rem;
+}
+
+@media (min-width: 992px) {
+  .config-point-submit-btn {
+    width: 40%;
+    min-width: 320px;
+    min-height: 54px;
+    border-radius: 14px;
+    font-size: 1.02rem;
+    padding: 0.8rem 1.45rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .config-point-submit-btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 50px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .config-points-card-table {
+    padding: 0 0.15rem;
+  }
+
+  .config-points-card-table .section-table tbody tr,
+  .config-points-card-table table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0.38rem 0.32rem;
+    border-radius: 16px;
+  }
+
+  .config-points-card-table .section-table tbody td,
+  .config-points-card-table table tbody td {
+    grid-column: 1 / -1;
+    min-width: 0;
+    padding: 0.62rem 0.78rem;
+    border-bottom: 1px dashed #e7edf5;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Punto"],
+  .config-points-card-table table tbody td[data-label="Punto"] {
+    font-size: 1.01rem;
+    font-weight: 800;
+    color: #0f172a;
+    padding-bottom: 0.5rem;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Punto"]::before,
+  .config-points-card-table table tbody td[data-label="Punto"]::before {
+    margin-bottom: 0.22rem;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Estado"],
+  .config-points-card-table table tbody td[data-label="Estado"] {
+    grid-column: span 1;
+    border-bottom: 0;
+    padding-bottom: 0.7rem;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Acciones"],
+  .config-points-card-table table tbody td[data-label="Acciones"] {
+    grid-column: span 1;
+    border-bottom: 0;
+    padding-top: 0.4rem;
+    padding-bottom: 0.58rem;
+    text-align: center !important;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Acciones"]::before,
+  .config-points-card-table table tbody td[data-label="Acciones"]::before {
+    margin-bottom: 0.22rem;
+  }
+
+  .config-points-card-table .config-points-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 0.42rem;
+  }
+
+  .config-points-card-table .btn.btn-icon.config-point-action-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.1);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .config-points-card-table .section-table tbody tr,
+  .config-points-card-table table tbody tr {
+    grid-template-columns: 1fr;
+    padding: 0.3rem;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Estado"],
+  .config-points-card-table .section-table tbody td[data-label="Acciones"],
+  .config-points-card-table table tbody td[data-label="Estado"],
+  .config-points-card-table table tbody td[data-label="Acciones"] {
+    grid-column: 1 / -1;
+  }
+
+  .config-points-card-table .section-table tbody td[data-label="Acciones"],
+  .config-points-card-table table tbody td[data-label="Acciones"] {
+    padding-top: 0.62rem;
+    padding-bottom: 0.72rem;
+  }
+}
+
 .config-tab.is-active {
   color: #1d4ed8;
   background: #eff6ff;

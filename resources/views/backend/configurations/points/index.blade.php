@@ -91,7 +91,7 @@
                             </a>
                         </form>
 
-                        <div class="table-responsive responsive-stack-table">
+                        <div class="table-responsive responsive-stack-table config-points-card-table">
                             <table class="table table-borderless align-middle section-table mb-0">
                                 <thead>
                                     <tr>
@@ -203,7 +203,7 @@
                             </a>
                         </form>
 
-                        <div class="table-responsive responsive-stack-table">
+                        <div class="table-responsive responsive-stack-table config-points-card-table">
                             <table class="table table-borderless align-middle section-table mb-0">
                                 <thead>
                                     <tr>

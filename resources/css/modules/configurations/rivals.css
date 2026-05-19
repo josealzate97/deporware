@@ -146,6 +146,40 @@
   color: #166534;
 }
 
+.config-rival-submit-btn {
+  min-height: 48px;
+  font-weight: 800;
+  padding: 0.72rem 1.3rem;
+}
+
+.config-rival-submit-wrap {
+  text-align: center !important;
+}
+
+@media (min-width: 992px) {
+  .config-rival-submit-btn {
+    width: 40%;
+    min-width: 320px;
+    min-height: 54px;
+    border-radius: 14px;
+    font-size: 1.02rem;
+    padding: 0.8rem 1.45rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .config-rival-submit-wrap {
+    text-align: center !important;
+  }
+
+  .config-rival-submit-btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 50px;
+  }
+}
+
 @media (max-width: 991.98px) {
   .config-tabs {
     display: grid;

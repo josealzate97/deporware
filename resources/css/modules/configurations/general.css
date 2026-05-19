@@ -36,6 +36,23 @@
   color: #14532d !important;
 }
 
+.config-general-actions .config-general-edit-btn {
+  background: #fef08a !important;
+  border-color: #facc15 !important;
+  color: #854d0e !important;
+  font-weight: 800;
+  min-height: 52px;
+  border-radius: 14px;
+  padding: 0.76rem 1.35rem;
+  font-size: 1.03rem;
+}
+
+.config-general-actions .config-general-edit-btn:hover {
+  background: #fde047 !important;
+  border-color: #eab308 !important;
+  color: #713f12 !important;
+}
+
 .btn.btn-icon.config-edit-btn {
   width: 34px;
   height: 34px;
@@ -52,6 +69,23 @@
   color: #1d4ed8;
   background: #eff6ff;
   border-color: #bfdbfe;
+}
+
+@media (min-width: 992px) {
+  .config-general-actions .config-general-edit-btn {
+    min-width: 260px;
+    min-height: 54px;
+  }
+
+  .config-general-actions .config-general-cancel-btn,
+  .config-general-actions .config-general-save-btn {
+    min-width: 220px;
+    min-height: 52px;
+    border-radius: 14px;
+    font-size: 1.02rem;
+    font-weight: 800;
+    padding: 0.76rem 1.35rem;
+  }
 }
 
 @media (max-width: 991.98px) {

@@ -87,8 +87,8 @@
                     </div>
                 </div>
 
-                <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success">
+                <div class="mt-4 text-end config-point-submit-wrap">
+                    <button type="submit" class="btn btn-success config-point-submit-btn">
                         <i class="fa fa-save"></i> {{ $isEdit ? 'Guardar Cambios' : 'Crear Punto' }}
                     </button>
                 </div>
