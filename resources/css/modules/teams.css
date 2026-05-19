@@ -347,6 +347,42 @@ label.team-player-card {
     box-shadow: 0 8px 16px rgba(15, 23, 42, 0.04);
 }
 
+.info-panel .show-modal-mint .team-summary-shell {
+    border: 1px solid #d9e4f2;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.05);
+    padding: 0.95rem;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 0.8rem;
+}
+
+.info-panel .show-modal-mint .team-summary-main {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 0.75rem 0.8rem;
+}
+
+.info-panel .show-modal-mint .team-summary-name {
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.info-panel .show-modal-mint .team-summary-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+}
+
+.info-panel .show-modal-mint .team-summary-metric {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 0.72rem 0.78rem;
+}
+
 .info-panel .show-modal-mint .entity-info-value,
 .info-panel .show-modal-mint .team-info-item .fw-semibold,
 .info-panel .show-modal-mint .team-player-name {
@@ -489,6 +525,10 @@ label.team-player-card {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .info-panel .show-modal-mint .team-summary-shell {
+        grid-template-columns: 1fr;
+    }
+
     .info-panel .show-modal-mint .entity-info-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -531,6 +571,10 @@ label.team-player-card {
     }
 
     .info-panel .show-modal-mint .entity-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-panel .show-modal-mint .team-summary-metrics {
         grid-template-columns: 1fr;
     }
 

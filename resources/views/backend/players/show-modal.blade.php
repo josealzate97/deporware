@@ -64,7 +64,7 @@
                                 Email: <span class="player-badge-violet">{{ $player->email ?? '-' }}</span>
                             </div>
                         </div>
-                        <div class="player-info-item player-weight-inline-card surface-gradient-day">
+                        <div class="player-info-item player-weight-inline-card">
                             <div class="player-info-label">
                                 <i class="fa-solid fa-weight-scale text-primary me-2"></i>
                                 Peso
@@ -73,7 +73,7 @@
                                 <span class="player-badge-blue">{{ $player->weight ?? '-' }} kg</span>
                             </div>
                         </div>
-                        <div class="player-info-item player-birth-inline-card surface-gradient-day">
+                        <div class="player-info-item player-birth-inline-card">
                             <div class="player-info-label">
                                 <i class="fa-solid fa-cake-candles text-primary me-2"></i>
                                 Nacimiento

@@ -37,8 +37,8 @@
 
         <div class="match-tab-panels w-100 mt-3">
             <div class="match-tab-panel" data-panel="info">
-                <div class="match-info-grid">
-                    <div class="match-info-item">
+                <div class="match-info-grid match-info-grid-core">
+                    <div class="match-info-item match-info-item-basic">
                         <div class="match-info-label"><i class="fa-solid fa-calendar-days match-info-label-icon"></i>Fecha y hora</div>
                         <div class="match-info-value">{{ $match->match_date?->format('Y-m-d H:i') ?? '-' }}</div>
                         <div class="match-info-inline-badges mt-2">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="match-info-item">
+                    <div class="match-info-item match-info-item-basic">
                         <div class="match-info-label"><i class="fa-solid fa-shield-halved match-info-label-icon"></i>Equipo</div>
                         <div class="match-info-value">{{ $teamModel?->name ?? '-' }}</div>
                         <div class="match-info-inline-badges mt-2">
@@ -59,17 +59,17 @@
                         </div>
                     </div>
 
-                    <div class="match-info-item">
+                    <div class="match-info-item match-info-item-basic">
                         <div class="match-info-label"><i class="fa-solid fa-user-group match-info-label-icon"></i>Rival</div>
                         <div class="match-info-value">{{ $rivalModel?->name ?? '-' }}</div>
                     </div>
 
-                    <div class="match-info-item">
+                    <div class="match-info-item match-info-item-basic">
                         <div class="match-info-label"><i class="fa-solid fa-house match-info-label-icon"></i>Local / Visitante</div>
                         <div class="match-info-value">{{ $sideOptions[$match->side] ?? '-' }}</div>
                     </div>
 
-                    <div class="match-info-item">
+                    <div class="match-info-item match-info-item-basic">
                         <div class="match-info-label"><i class="fa-solid fa-chart-line match-info-label-icon"></i>Resultado</div>
                         <div class="match-info-value">{{ $isScheduled ? 'Pendiente' : ($resultOptions[$match->match_result] ?? '-') }}</div>
                         <div class="match-info-inline-badges mt-2">
@@ -77,19 +77,19 @@
                         </div>
                     </div>
 
-                    <div class="match-info-item match-info-item-venue">
+                    <div class="match-info-item match-info-item-basic match-info-item-venue">
                         <div class="match-info-label"><i class="fa-solid fa-location-dot match-info-label-icon"></i>Sede</div>
                         <div class="match-info-value">{{ $venueModel?->name ?? '-' }}</div>
                         <div class="match-info-sub">Locación: {{ $match->location ?: '-' }}</div>
                     </div>
                 </div>
 
-                <div class="match-info-item mt-3">
+                <div class="match-info-item match-info-item-accent mt-3">
                     <div class="match-info-label"><i class="fa-solid fa-note-sticky match-info-label-icon"></i>Notas del partido</div>
                     <div class="match-info-sub">{{ $match->match_notes ?: 'Sin notas registradas.' }}</div>
                 </div>
 
-                <div class="match-info-item mt-3">
+                <div class="match-info-item match-info-item-accent mt-3">
                     <div class="match-info-label"><i class="fa-solid fa-file-lines match-info-label-icon"></i>Ficha del partido</div>
                     @if($hasMatchReport)
                         <div class="d-flex align-items-center gap-2 flex-wrap mt-2">

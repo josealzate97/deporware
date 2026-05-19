@@ -34,36 +34,40 @@
         <div class="team-modal-panels">
             <div class="team-modal-panel" data-panel="info">
                 <div class="card p-3 section-card">
-                    <div class="entity-info-grid">
-                        <div class="entity-info-item">
-                            <div class="entity-info-label">
+                    <div class="team-summary-shell">
+                        <div class="team-summary-main">
+                            <div class="entity-info-label mb-1">
                                 <i class="fa-solid fa-shield text-primary me-2"></i>
                                 Nombre
                             </div>
-                            <div class="entity-info-value">{{ $team->name }}</div>
-                            <div class="entity-info-sub">
+                            <div class="entity-info-value team-summary-name">{{ $team->name }}</div>
+                            <div class="entity-info-sub mt-2">
                                 <span class="meta-badge">{{ $typeLabel }}</span>
                             </div>
                         </div>
-                        <div class="entity-info-item">
-                            <div class="entity-info-label">
-                                <i class="fa-solid fa-calendar-days text-primary me-2"></i>
-                                Temporada
+
+                        <div class="team-summary-metrics">
+                            <div class="team-summary-metric">
+                                <div class="entity-info-label mb-1">
+                                    <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                                    Temporada
+                                </div>
+                                <div class="entity-info-value">{{ $team->season }}</div>
                             </div>
-                            <div class="entity-info-value">{{ $team->season }}</div>
-                        </div>
-                        <div class="entity-info-item">
-                            <div class="entity-info-label">
-                                <i class="fa-solid fa-calendar-check text-primary me-2"></i>
-                                Año
-                            </div>
-                            <div class="entity-info-value">{{ $team->year }}</div>
-                            <div class="entity-info-sub">
-                                @if($team->status)
-                                    <span class="status-pill status-pill-success">Activa</span>
-                                @else
-                                    <span class="status-pill status-pill-muted">Inactiva</span>
-                                @endif
+
+                            <div class="team-summary-metric">
+                                <div class="entity-info-label mb-1">
+                                    <i class="fa-solid fa-calendar-check text-primary me-2"></i>
+                                    Año
+                                </div>
+                                <div class="entity-info-value">{{ $team->year }}</div>
+                                <div class="entity-info-sub mt-2">
+                                    @if($team->status)
+                                        <span class="status-pill status-pill-success">Activa</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactiva</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,9 +1,10 @@
+<div class="training-observations-modal">
 <div class="section-hero mb-3">
-    <div class="d-flex align-items-start gap-3">
+    <div class="d-flex align-items-start gap-3 training-observations-hero-inline">
         <div class="section-hero-icon">
             <i class="fa-solid fa-note-sticky"></i>
         </div>
-        <div>
+        <div class="training-observations-hero-copy">
             <h3 class="fw-bold mb-1">Observaciones del entrenamiento</h3>
             <div class="text-muted small fw-bold">{{ $training->name }}</div>
         </div>
@@ -49,7 +50,7 @@
                 <div class="d-flex justify-content-end gap-2 mt-3">
                     @if($selectedObservation)
                         <button type="button" class="btn btn-danger btn-action"
-                            onclick="window._openObservationsModal('{{ route('trainings.show', $training->id) }}?modal=observations')">
+                            onclick="window._openObservationsModal(`{{ route('trainings.show', $training->id) }}?modal=observations`)">
                             <i class="fa-solid fa-xmark me-2"></i>Cancelar
                         </button>
                     @endif
@@ -79,7 +80,7 @@
                     @if($isCoordinator)
                         <button type="button"
                             class="btn btn-sm btn-warning"
-                            onclick="window._openObservationsModal('{{ route('trainings.show', $training->id) }}?modal=observations&observation={{ $observation->id }}')">
+                            onclick="window._openObservationsModal(`{{ route('trainings.show', $training->id) }}?modal=observations&observation={{ $observation->id }}`)">
                             <i class="fa-solid fa-pen me-1"></i>Editar
                         </button>
                     @endif
@@ -95,4 +96,5 @@
         @endforelse
     </div>
 
+</div>
 </div>

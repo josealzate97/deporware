@@ -1,9 +1,10 @@
+<div class="training-show-modal">
 <div class="section-hero mb-3">
-    <div class="d-flex align-items-start gap-3">
+    <div class="d-flex align-items-start gap-3 training-modal-hero-inline">
         <div class="section-hero-icon">
             <i class="fas fa-dumbbell"></i>
         </div>
-        <div>
+        <div class="training-modal-hero-copy">
             <h3 class="fw-bold mb-1">Información del Entrenamiento</h3>
             <div class="text-muted small fw-bold">Consulta el detalle general de la sesión</div>
         </div>
@@ -205,4 +206,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
