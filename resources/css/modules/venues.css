@@ -48,6 +48,34 @@
   font-size: 0.9rem;
 }
 
+.venue-submit-wrap {
+  margin-top: 1.2rem !important;
+}
+
+.venue-submit-btn {
+  min-height: 54px;
+  border-radius: 14px;
+  padding: 0.82rem 1.9rem;
+  font-size: 1.02rem;
+  font-weight: 800;
+  width: 40%;
+  min-width: 320px;
+}
+
+@media (max-width: 991.98px) {
+  .venue-submit-wrap {
+    text-align: center !important;
+  }
+
+  .venue-submit-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    padding: 0.74rem 1.2rem;
+    font-size: 0.98rem;
+  }
+}
+
 @media (max-width: 1199.98px) {
   .venues-card-table {
     padding: 0 0.75rem;

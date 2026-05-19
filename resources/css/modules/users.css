@@ -65,12 +65,57 @@
   border-color: var(--brand-green);
 }
 
+.user-new-submit-wrap {
+  margin-top: 1.25rem !important;
+}
+
+.user-new-submit-btn {
+  min-height: 54px;
+  border-radius: 14px;
+  padding: 0.82rem 1.9rem !important;
+  font-size: 1.02rem;
+  width: 40%;
+  min-width: 320px;
+}
+
+@media (max-width: 991.98px) {
+  .user-new-submit-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    padding: 0.74rem 1.2rem !important;
+    font-size: 0.98rem;
+  }
+}
+
 .users-card-actions {
   white-space: nowrap;
 }
 
 .users-card-cell {
   overflow-wrap: anywhere;
+}
+
+.user-modal-header-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.user-modal-header-title {
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  color: #1f2937;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.user-modal-header-subtitle {
+  margin-top: 0.16rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+  line-height: 1.25;
 }
 
 .user-list-profile {
@@ -308,6 +353,71 @@
   gap: 0.45rem;
 }
 
+.info-panel .show-modal-mint.user-modal-v2 .user-modal-compact-header {
+  padding: 0.1rem 0.05rem;
+}
+
+.info-panel .show-modal-mint.user-modal-v2 .user-modal-compact-title {
+  font-size: 1.72rem;
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #1f2937;
+}
+
+.info-panel .show-modal-mint.user-modal-v2 .user-modal-compact-subtitle {
+  margin-top: 0.18rem;
+  color: #64748b;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.48rem;
+  border: 1px solid #c7d6e8;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f8fbff 0%, #f1f6ff 100%);
+  margin-bottom: 0.85rem;
+}
+
+.info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs .team-modal-tab {
+  flex: 1 1 180px;
+  min-height: 42px;
+  justify-content: center;
+  border-radius: 9px;
+  background: transparent;
+  border-color: transparent;
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0.58rem 0.9rem;
+}
+
+.info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs .team-modal-tab:hover {
+  background: #eef2ff;
+  border-color: #dbe4f0;
+  color: #1e3a8a;
+}
+
+.info-panel .show-modal-mint.user-modal-v2 #user-tab-info:checked + .team-modal-tab,
+.info-panel .show-modal-mint.user-modal-v2 #user-tab-venues:checked + .team-modal-tab,
+.info-panel .show-modal-mint.user-modal-v2 #user-tab-teams:checked + .team-modal-tab,
+.info-panel .show-modal-mint.user-modal-v2 #user-tab-matches:checked + .team-modal-tab,
+.info-panel .show-modal-mint.user-modal-v2 #user-tab-trainings:checked + .team-modal-tab {
+  background: #ffffff;
+  border-color: #9cb4d4;
+  color: #1e3a8a;
+  box-shadow: 0 8px 16px rgba(30, 58, 138, 0.14);
+}
+
+.info-panel .show-modal-mint.user-modal-v2 .team-modal-panels {
+  margin-top: 0.15rem;
+}
+
 #user-tab-info:checked + .team-modal-tab,
 #user-tab-venues:checked + .team-modal-tab,
 #user-tab-teams:checked + .team-modal-tab,
@@ -325,6 +435,43 @@
 #user-tab-matches:checked ~ .team-modal-panels [data-panel="user-matches"],
 #user-tab-trainings:checked ~ .team-modal-panels [data-panel="user-trainings"] {
   display: block;
+}
+
+@media (max-width: 992px) {
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-compact-title {
+    font-size: 1.35rem;
+  }
+
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs .team-modal-tab {
+    min-height: 42px;
+    justify-content: flex-start;
+    font-size: 0.86rem;
+    padding: 0.56rem 0.72rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-compact-title {
+    font-size: 1.08rem;
+  }
+
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-compact-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .info-panel .show-modal-mint.user-modal-v2 .user-modal-tabs .team-modal-tab {
+    font-size: 0.83rem;
+  }
 }
 
 @media (max-width: 1200px) {

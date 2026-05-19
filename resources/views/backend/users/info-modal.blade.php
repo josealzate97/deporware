@@ -7,22 +7,11 @@
     $birthdayAge = $birthday?->age;
 @endphp
 
-<div class="show-modal-mint">
-    <div class="section-hero mb-3">
-        <div class="d-flex align-items-start gap-3">
-            <div class="section-hero-icon">
-                <i class="fa-solid fa-user"></i>
-            </div>
-            <div>
-                <h3 class="fw-bold mb-1">Información del Usuario</h3>
-                <div class="text-muted small fw-bold">Consulta los datos principales del personal</div>
-            </div>
-        </div>
-    </div>
+<div class="show-modal-mint user-modal-v2">
 
     <div class="team-modal-tabs user-modal-tabs">
         <input type="radio" id="user-tab-info" name="user-tab" checked>
-        <label class="team-modal-tab" for="user-tab-info"><i class="fa-solid fa-circle-info user-tab-label-icon"></i>Información general</label>
+        <label class="team-modal-tab" for="user-tab-info"><i class="fa-solid fa-circle-info user-tab-label-icon"></i>General</label>
 
         @if($showVenueTab)
             <input type="radio" id="user-tab-venues" name="user-tab">

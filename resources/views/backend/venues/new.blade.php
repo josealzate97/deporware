@@ -95,8 +95,8 @@
                     </div>
                 </div>
 
-                <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-success">
+                <div class="mt-4 text-end venue-submit-wrap">
+                    <button type="submit" class="btn btn-success venue-submit-btn">
                         <i class="fa fa-save"></i> {{ $isEdit ? 'Guardar Cambios' : 'Crear Sede' }}
                     </button>
                 </div>

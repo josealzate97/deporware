@@ -201,8 +201,8 @@
 
                 </div>
 
-                <div class="my-4 text-center">
-                    <button type="submit" class="btn btn-success btn-lg px-5 fw-bold">
+                <div class="my-4 text-center user-new-submit-wrap">
+                    <button type="submit" class="btn btn-success btn-lg px-5 fw-bold user-new-submit-btn">
                         <i class="fa fa-save"></i>&nbsp;
                         Guardar Usuario
                     </button>
