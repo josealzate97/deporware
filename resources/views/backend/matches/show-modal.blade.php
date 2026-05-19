@@ -11,12 +11,13 @@
 @php($isScheduled = (int) $match->match_status === \App\Models\MatchModel::STATUS_SCHEDULED)
 @php($hasMatchReport = !empty($match->match_file))
 
+<div class="match-show-modal">
 <div class="section-hero mb-3">
-    <div class="d-flex align-items-start gap-3">
+    <div class="d-flex align-items-start gap-3 match-modal-hero-inline">
         <div class="section-hero-icon">
             <i class="fa-solid fa-futbol"></i>
         </div>
-        <div>
+        <div class="match-modal-hero-copy">
             <h3 class="fw-bold mb-1">Información del Partido</h3>
             <div class="text-muted small fw-bold">Consulta el resumen general y valoraciones del encuentro</div>
         </div>
@@ -192,4 +193,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

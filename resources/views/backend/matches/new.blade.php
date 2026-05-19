@@ -577,7 +577,7 @@
 
                     </div>
 
-                    <div class="col-12 d-flex justify-content-end gap-2">
+                    <div class="col-12 d-flex justify-content-end gap-2 match-form-actions {{ $isEdit ? 'is-edit' : 'is-create' }}">
 
                         <a href="{{ route('matches.index') }}" class="btn btn-danger btn-action">
                             <i class="fa-solid fa-xmark me-2"></i>Cancelar

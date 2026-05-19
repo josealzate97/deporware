@@ -1,5 +1,5 @@
 @if($matches->count() > 0)
-<div class="table-responsive responsive-stack-table">
+<div class="table-responsive responsive-stack-table matches-card-table">
     <table class="table table-borderless align-middle section-table">
         <thead>
             <tr>
@@ -28,8 +28,10 @@
                         <div class="text-muted small fw-semibold">vs {{ $rivalModel?->name ?? ($match->rival ? 'Sin rival vinculado' : '-') }}</div>
                     </td>
                     <td data-label="Detalle">
-                        <div><span class="meta-badge">{{ $sideOptions[$match->side] ?? '-' }}</span></div>
-                        <div class="text-muted small fw-semibold mt-1">{{ $match->match_round ?: '-' }}</div>
+                        <div class="matches-card-inline-badges">
+                            <span class="meta-badge">{{ $sideOptions[$match->side] ?? '-' }}</span>
+                            <span class="meta-badge text-muted">J{{ $match->match_round ?: '-' }}</span>
+                        </div>
                     </td>
                     <td data-label="Resultado">
                         @if($match->match_status === \App\Models\MatchModel::STATUS_SCHEDULED)
@@ -42,10 +44,10 @@
                                 \App\Models\MatchModel::RESULT_LOSS => 'match-result-pill-loss',
                                 default => 'match-result-pill-draw',
                             })
-                            <div>
+                            <div class="matches-card-result-inline">
                                 <span class="match-result-pill {{ $resultPillClass }}">{{ $resultLabel }}</span>
+                                <span class="meta-badge match-score-badge">{{ $match->final_score ?: '-' }}</span>
                             </div>
-                            <div class="text-muted small mt-1">Marcador: <span class="fw-bold">{{ $match->final_score ?: '-' }}</span></div>
                         @endif
                     </td>
                     <td data-label="Estado">
@@ -69,7 +71,7 @@
                             @endif
                         </div>
                     </td>
-                    <td class="text-end" data-label="Acciones">
+                    <td class="text-end matches-card-actions" data-label="Acciones">
                         <button type="button" class="btn btn-icon text-primary"
                             @click="openModal('{{ route('matches.show', $match->id) }}?modal=1')"
                             aria-label="Ver información del partido" title="Ver información">
@@ -77,7 +79,7 @@
                         </button>
                         <a href="{{ route('matches.edit', $match->id) }}" class="btn btn-icon btn-icon-edit"
                             aria-label="Editar partido" title="Editar partido">
-                            <i class="fas fa-edit mt-1"></i>
+                            <i class="fas fa-edit"></i>
                         </a>
                     </td>
                 </tr>

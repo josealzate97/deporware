@@ -422,7 +422,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                    <div class="col-12 d-flex justify-content-end gap-2 mt-4 training-form-actions {{ $isEdit ? 'is-edit' : 'is-create' }}">
                         <a href="{{ route('trainings.index') }}" class="btn btn-danger btn-action">
                             <i class="fa-solid fa-xmark me-2"></i>Cancelar
                         </a>
