@@ -18,6 +18,7 @@
 <div class="card p-3 section-card training-attendance-modal-card">
 
     @if($isCoordinator)
+    
         <div class="training-observation-form-card mb-4">
             <div class="training-side-panel-title">
                 {{ $selectedObservation ? 'Editar observación' : 'Nueva observación' }}
