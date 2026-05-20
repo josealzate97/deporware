@@ -109,17 +109,17 @@
 }
 
 .config-rivals-empty-state {
-  border: 1px dashed #fecaca;
+  border: 1px dashed #f4d5db;
   border-radius: 14px;
-  background: #fef2f2;
-  color: #991b1b;
+  background: linear-gradient(180deg, #fffafb 0%, #fff6f8 100%);
+  color: #c06a74;
   text-align: center;
   font-weight: 700;
   padding: 0.9rem 1rem;
 }
 
 .config-rivals-empty-state__icon {
-  color: #dc2626;
+  color: #cc7d88;
   margin-right: 0.28rem;
 }
 
@@ -262,13 +262,13 @@ body.theme-dark .config-rival-action-success:hover {
 }
 
 body.theme-dark .config-rivals-empty-state {
-  background: #2a1717;
-  border-color: #7f1d1d;
-  color: #fecaca;
+  background: #251a1d;
+  border-color: #5f2e38;
+  color: #f8cfd7;
 }
 
 body.theme-dark .config-rivals-empty-state__icon {
-  color: #fca5a5;
+  color: #f2a9b6;
 }
 
 body.theme-dark .config-rivals-empty-state__cta {

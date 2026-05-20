@@ -172,17 +172,17 @@
   padding: 1rem 1.25rem;
   min-height: 92px;
   border-radius: 12px;
-  border: 1px solid #f4c7cf;
-  background: linear-gradient(180deg, #fff8f9 0%, #fff1f3 100%);
-  box-shadow: 0 8px 18px rgba(127, 29, 29, 0.06);
-  color: #b4535b !important;
+  border: 1px solid #f7d9de;
+  background: linear-gradient(180deg, #fffafb 0%, #fff6f8 100%);
+  box-shadow: 0 6px 14px rgba(127, 29, 29, 0.04);
+  color: #c06a74 !important;
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.45;
 }
 
 .player-empty-state i {
-  color: #d66a75;
+  color: #cc7d88;
   font-size: 1.05rem;
 }
 

@@ -125,7 +125,11 @@
 
                 <div class="match-tab-panel" data-panel="training-attendance">
                     @if(($training->attendance ?? collect())->isEmpty())
-                        <div class="text-muted">No hay jugadores registrados en la asistencia de este entrenamiento.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-user-check"></i></span>
+                            <div class="modal-empty-state-title">Sin asistencias</div>
+                            <div class="modal-empty-state-text">No hay jugadores registrados en la asistencia de este entrenamiento.</div>
+                        </div>
                     @else
                         <div class="row g-3">
                             @foreach($training->attendance as $attendance)
@@ -166,16 +170,20 @@
                             </div>
                         </div>
                     @else
-                        <div class="text-muted">No hay documento cargado.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-folder-open"></i></span>
+                            <div class="modal-empty-state-title">Sin documentos</div>
+                            <div class="modal-empty-state-text">No hay documento cargado para este entrenamiento.</div>
+                        </div>
                     @endif
                 </div>
 
                 <div class="match-tab-panel" data-panel="training-observations">
                     @if($observations->isEmpty())
-                        <div class="d-flex flex-column align-items-center justify-content-center gap-2 py-4 text-muted">
-                            <i class="fa-regular fa-note-sticky" style="font-size:2rem;opacity:.4;"></i>
-                            <span class="fw-semibold">Sin observaciones</span>
-                            <span class="small">Aún no se han registrado observaciones para este entrenamiento.</span>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-regular fa-note-sticky"></i></span>
+                            <div class="modal-empty-state-title">Sin observaciones</div>
+                            <div class="modal-empty-state-text">Aún no se han registrado observaciones para este entrenamiento.</div>
                         </div>
                     @else
                         <div class="d-flex flex-column gap-3">

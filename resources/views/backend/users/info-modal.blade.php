@@ -161,7 +161,11 @@
                             <span class="meta-badge">{{ $venues->count() }} sede{{ $venues->count() === 1 ? '' : 's' }}</span>
                         </div>
                         @if($venues->isEmpty())
-                            <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>Sin sedes asociadas.</div>
+                            <div class="modal-empty-state">
+                                <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-map-location-dot"></i></span>
+                                <div class="modal-empty-state-title">Sin sedes asociadas</div>
+                                <div class="modal-empty-state-text">Este usuario no tiene sedes asociadas actualmente.</div>
+                            </div>
                         @else
                             <div class="row g-2 mt-2">
                                 @foreach($venues as $venue)
@@ -191,7 +195,11 @@
                             <span class="meta-badge">{{ $teamAssignments->count() }} equipo{{ $teamAssignments->count() === 1 ? '' : 's' }}</span>
                         </div>
                         @if($teamAssignments->isEmpty())
-                            <div class="empty-state-soft"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Sin equipos asociados.</div>
+                            <div class="modal-empty-state">
+                                <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span>
+                                <div class="modal-empty-state-title">Sin equipos asociados</div>
+                                <div class="modal-empty-state-text">Este usuario no tiene equipos asignados por el momento.</div>
+                            </div>
                         @else
                             <div class="row g-2 mt-2">
                                 @foreach($teamAssignments as $assignment)
@@ -222,7 +230,11 @@
                         </div>
 
                         @if($userMatches->isEmpty())
-                            <div class="empty-state-soft"><i class="fa-solid fa-futbol" aria-hidden="true"></i>Sin partidos asociados.</div>
+                            <div class="modal-empty-state">
+                                <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-futbol"></i></span>
+                                <div class="modal-empty-state-title">Sin partidos asociados</div>
+                                <div class="modal-empty-state-text">No hay partidos vinculados a este usuario.</div>
+                            </div>
                         @else
                             <div class="row g-2">
                                 @foreach($userMatches as $match)
@@ -284,7 +296,11 @@
                         </div>
 
                         @if($userTrainings->isEmpty())
-                            <div class="empty-state-soft"><i class="fa-solid fa-dumbbell" aria-hidden="true"></i>Sin entrenamientos asociados.</div>
+                            <div class="modal-empty-state">
+                                <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-dumbbell"></i></span>
+                                <div class="modal-empty-state-title">Sin entrenamientos asociados</div>
+                                <div class="modal-empty-state-text">No hay entrenamientos vinculados a este usuario.</div>
+                            </div>
                         @else
                             <div class="row g-2">
                                 @foreach($userTrainings as $training)

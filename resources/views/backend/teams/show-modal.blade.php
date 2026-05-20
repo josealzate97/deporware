@@ -68,7 +68,11 @@
                         <span class="meta-badge">{{ $team->venues->count() }} sede{{ $team->venues->count() === 1 ? '' : 's' }}</span>
                     </div>
                     @if($team->venues->isEmpty())
-                        <div class="empty-state-soft"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>Sin sedes asociadas.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-map-location-dot"></i></span>
+                            <div class="modal-empty-state-title">Sin sedes asociadas</div>
+                            <div class="modal-empty-state-text">Esta plantilla no tiene sedes vinculadas por ahora.</div>
+                        </div>
                     @else
                         <div class="row g-2 mt-2">
                             @foreach($team->venues as $venue)
@@ -94,7 +98,11 @@
                         <span class="meta-badge">{{ $coachCount }} entrenador{{ $coachCount === 1 ? '' : 'es' }}</span>
                     </div>
                     @if(!$primaryCoach && !$assistantCoach)
-                        <div class="empty-state-soft"><i class="fa-solid fa-user-slash" aria-hidden="true"></i>Sin entrenadores asignados.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-user-slash"></i></span>
+                            <div class="modal-empty-state-title">Sin entrenadores</div>
+                            <div class="modal-empty-state-text">No hay entrenadores asignados a esta plantilla.</div>
+                        </div>
                     @else
                         <div class="row g-2 mt-2">
                             @if($primaryCoach)
@@ -135,7 +143,11 @@
                 </div>
 
                 @if($activePlayers->isEmpty())
-                    <div class="empty-state-soft"><i class="fa-solid fa-users-slash" aria-hidden="true"></i>No hay jugadores asignados.</div>
+                    <div class="modal-empty-state">
+                        <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-users-slash"></i></span>
+                        <div class="modal-empty-state-title">Sin jugadores</div>
+                        <div class="modal-empty-state-text">No hay jugadores asignados actualmente a esta plantilla.</div>
+                    </div>
                 @else
                     <div class="row g-2">
                         @foreach($activePlayers as $roster)
@@ -167,7 +179,11 @@
                     </div>
 
                     @if($latestMatches->isEmpty())
-                        <div class="empty-state-soft"><i class="fa-solid fa-futbol" aria-hidden="true"></i>Sin partidos registrados.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-futbol"></i></span>
+                            <div class="modal-empty-state-title">Sin partidos</div>
+                            <div class="modal-empty-state-text">Aún no hay partidos registrados para esta plantilla.</div>
+                        </div>
                     @else
                         <div class="row g-2">
                             @foreach($latestMatches as $match)
@@ -212,7 +228,11 @@
                     </div>
 
                     @if($latestTrainings->isEmpty())
-                        <div class="empty-state-soft"><i class="fa-solid fa-dumbbell" aria-hidden="true"></i>Sin entrenamientos registrados.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-dumbbell"></i></span>
+                            <div class="modal-empty-state-title">Sin entrenamientos</div>
+                            <div class="modal-empty-state-text">Aún no hay entrenamientos registrados para esta plantilla.</div>
+                        </div>
                     @else
                         <div class="row g-2">
                             @foreach($latestTrainings as $training)

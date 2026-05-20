@@ -97,9 +97,17 @@
 
                 <div class="match-tab-panel" data-panel="technical">
                     @if($isScheduled)
-                        <div class="text-muted">Este partido está agendado. La valoración técnica se habilita al completarlo.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span>
+                            <div class="modal-empty-state-title">Valoración técnica pendiente</div>
+                            <div class="modal-empty-state-text">Este partido está agendado. La valoración técnica se habilita al completarlo.</div>
+                        </div>
                     @elseif(!$feedback)
-                        <div class="text-muted">Sin valoración técnica registrada.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
+                            <div class="modal-empty-state-title">Sin valoración técnica</div>
+                            <div class="modal-empty-state-text">Aún no hay una valoración técnica registrada para este partido.</div>
+                        </div>
                     @else
                         <div class="match-info-grid">
                             <div class="match-info-item">
@@ -140,9 +148,17 @@
 
                 <div class="match-tab-panel" data-panel="aptitudinal">
                     @if($isScheduled)
-                        <div class="text-muted">Este partido está agendado. La valoración aptitudinal se habilita al completarlo.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span>
+                            <div class="modal-empty-state-title">Valoración aptitudinal pendiente</div>
+                            <div class="modal-empty-state-text">Este partido está agendado. La valoración aptitudinal se habilita al completarlo.</div>
+                        </div>
                     @elseif(!$teamRating)
-                        <div class="text-muted">Sin valoración aptitudinal registrada.</div>
+                        <div class="modal-empty-state">
+                            <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-brain"></i></span>
+                            <div class="modal-empty-state-title">Sin valoración aptitudinal</div>
+                            <div class="modal-empty-state-text">Aún no hay una valoración aptitudinal registrada para este partido.</div>
+                        </div>
                     @else
                         <div class="match-info-grid">
                             <div class="match-info-item">

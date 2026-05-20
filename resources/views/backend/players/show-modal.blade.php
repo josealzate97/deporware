@@ -166,7 +166,11 @@
 
             <div class="player-tab-panel" data-panel="contacts">
                 @if($player->contacts->isEmpty())
-                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin contactos registrados.</div>
+                    <div class="modal-empty-state">
+                        <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-address-book"></i></span>
+                        <div class="modal-empty-state-title">Sin contactos</div>
+                        <div class="modal-empty-state-text">Aún no hay contactos registrados para este jugador.</div>
+                    </div>
                 @else
                     <div class="row g-2" style="margin-top: 1.5rem;">
                         @foreach($player->contacts as $contact)
@@ -208,7 +212,11 @@
                     </a>
                 </div>
                 @if($player->observations->isEmpty())
-                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin ficha valorativa registrada.</div>
+                    <div class="modal-empty-state">
+                        <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
+                        <div class="modal-empty-state-title">Sin ficha valorativa</div>
+                        <div class="modal-empty-state-text">Aún no se ha registrado la ficha valorativa de este jugador.</div>
+                    </div>
                 @else
                     <div class="row g-2">
                         @foreach($player->observations as $observation)
@@ -251,7 +259,11 @@
 
             <div class="player-tab-panel" data-panel="documents">
                 @if(empty($playerDocuments ?? []))
-                    <div class="text-muted player-empty-state"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Sin documentos disponibles.</div>
+                    <div class="modal-empty-state">
+                        <span class="modal-empty-state-icon" aria-hidden="true"><i class="fa-solid fa-folder-open"></i></span>
+                        <div class="modal-empty-state-title">Sin documentos</div>
+                        <div class="modal-empty-state-text">No hay documentos disponibles para este jugador.</div>
+                    </div>
                 @else
                     <div class="player-reports-list">
                         @foreach($playerDocuments as $report)
